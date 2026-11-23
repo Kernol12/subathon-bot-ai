@@ -43,9 +43,16 @@ class RecoveryMissing final : public std::logic_error {
     using std::logic_error::logic_error;
 };
 
-ReplacementRecoveryPage stranded_replacements(const SqliteWorkSession &, const MilestoneTrackKey &,
-                                              const std::optional<QByteArray> &, std::size_t) {
-    throw RecoveryMissing("Recovery: page bounded stranded replacement attempts from v21 history");
+ReplacementRecoveryPage stranded_replacements(const SqliteWorkSession &session,
+                                              const MilestoneTrackKey &track,
+                                              const std::optional<QByteArray> &after,
+                                              std::size_t limit) {
+    auto page = stranded_replacement_attempts(session, track, after, limit);
+    ReplacementRecoveryPage result{{}, std::move(page.next_after)};
+    for (auto &attempt : page.attempts)
+        result.attempts.push_back({std::move(attempt.target), std::move(attempt.version),
+                                   attempt.sending_revision});
+    return result;
 }
 
 template <class Body> void check(Body body) {

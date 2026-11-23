@@ -7,6 +7,67 @@
 #include <set>
 
 namespace subathon::server::milestone_interruption {
+namespace {
+
+bool acknowledged(const SqliteWorkResult &work) {
+    return work.transaction == TransactionOutcome::committed && work.error == WorkError::none &&
+           work.value.has_value();
+}
+
+std::optional<ReplacementJob> acknowledged_claim(const SqliteWorkResult &work,
+                                                 std::optional<Disposition> disposition,
+                                                 std::optional<ReplacementJob> &owned) {
+    if (acknowledged(work) && disposition == Disposition::committed)
+        return std::exchange(owned, {});
+    return {};
+}
+
+} // namespace
+
+void adopt_milestone_stop_completion(MilestoneTimeline &timeline, std::chrono::milliseconds now,
+                                     const Command &command, MilestoneStopCompletionSource source,
+                                     const SqliteWorkResult &work,
+                                     const std::optional<Decision> &published) {
+    const auto *stop = std::get_if<StopIntent>(&command.intent);
+    if (!stop || !detail::valid(command.track, stop->target) || !detail::ref(command.operation) ||
+        (stop->choice && *stop->choice != QueueChoice::hold &&
+         *stop->choice != QueueChoice::continue_queue))
+        return;
+    const auto normal = acknowledged(work) && published.has_value();
+    const auto from_readback = source == MilestoneStopCompletionSource::readback;
+    if (normal && (published->disposition == Disposition::committed ||
+                   (from_readback && published->disposition == Disposition::replay))) {
+        std::optional<ScopedCause> hold;
+        if (!published->added_causes.empty())
+            hold = ScopedCause{command.track, published->added_causes.front()};
+        adopt_milestone_timeline_update(
+            timeline, now, AcknowledgedStop{stop->target, command.operation, hold, source});
+        return;
+    }
+    const auto unresolved = !normal && (work.transaction == TransactionOutcome::outcome_unknown ||
+                                        work.transaction == TransactionOutcome::committed);
+    const auto absent = normal && from_readback && published->disposition == Disposition::refused;
+    timeline.observe_stop_completion(now, detail::timeline_target(stop->target),
+                                     command.operation.toStdString(), unresolved, absent);
+}
+
+void adopt_ordered_milestone_selection(MilestoneTimeline &timeline, std::chrono::milliseconds now,
+                                       MilestoneQueueAdoption adoption,
+                                       const OccurrenceSelection &selected,
+                                       const std::vector<CommittedMilestoneGroup> &pending) {
+    if (adoption == MilestoneQueueAdoption::cold)
+        timeline.restore_committed(pending);
+    if (selected.stop.isEmpty())
+        return;
+    std::vector<MilestoneTimelineCause> holds;
+    holds.reserve(selected.interruption_holds.size());
+    for (const auto &hold : selected.interruption_holds)
+        holds.push_back({selected.target.track, hold.toStdString()});
+    timeline.adopt_ordered_stop(
+        now, detail::timeline_target(selected.target), selected.stop.toStdString(),
+        !selected.skipped && !selected.independent_holds.empty(), std::move(holds));
+}
+
 namespace detail {
 
 bool valid(const MilestoneTrackKey &track, const Occurrence &o) {
@@ -666,6 +727,7 @@ class ReplacePreview {
     QByteArray intent;
     QByteArray definition;
     std::vector<Version> versions;
+    MilestoneEditActor actor;
 };
 
 namespace {
@@ -733,15 +795,61 @@ AuthorizedCapture old_capture(const SqliteWorkSession &s, CommandAuthority &auth
     return result;
 }
 
-std::optional<ReplacePreview> select_replacement(const SqliteWorkSession &s,
-                                                 CommandAuthority &authority, const Command &cmd,
-                                                 const CommandAuthority::Facts &facts,
-                                                 const AdmissionProfile *profile) {
+struct VerifiedOriginalFormat {
+    OriginalMilestoneAutomation key;
+    std::string format;
+};
+
+std::optional<VerifiedOriginalFormat> original_format(const SqliteWorkSession &s,
+                                                      const Occurrence &target, const Origin &key,
+                                                      qint64 ordinal) {
+    if (key.kind == 2) {
+        const auto &edit = std::get<MilestoneEditKey>(target.origin);
+        auto args = scope(target.track);
+        args.append({key.operation, key.occurrence, ordinal});
+        const auto rows = s.execute(
+            {"SELECT j.job_format FROM main.subathon_milestone_edit_jobs j "
+             "JOIN main.subathon_milestone_edit_captures c USING(occurrence_ref,action_ordinal) "
+             "JOIN main.subathon_milestone_edit_actions a USING(occurrence_ref,action_ordinal) "
+             "WHERE j.installation_ref=? AND j.track_ref=? AND j.edit_ref=? AND j.occurrence_ref=? "
+             "AND j.action_ordinal=? AND a.action_ref=c.action_ref AND a.version_ref=c.version_ref "
+             "AND j.job_format=? LIMIT 2",
+             args + QList<QVariant>{blob(delivery_job_format)}});
+        if (const auto *row = unique(rows))
+            return VerifiedOriginalFormat{MilestoneEditJobKey{edit, target.occurrence, ordinal},
+                                          reference(row->front())};
+    } else {
+        const auto rows = s.execute(
+            {"SELECT a.job_ref,j.format_ref FROM main.subathon_milestone_actions a "
+             "JOIN main.subathon_delivery_captures c USING(operation_scope,operation_ref,job_ref) "
+             "JOIN main.subathon_app_jobs j USING(operation_scope,operation_ref,job_ref) "
+             "WHERE a.operation_scope=? AND a.operation_ref=? AND a.occurrence_ref=? "
+             "AND a.action_ordinal=? AND a.action_ref=c.action_ref AND "
+             "a.version_ref=c.action_version_ref AND j.group_ref=a.occurrence_ref "
+             "AND j.format_ref=? LIMIT 2",
+             {key.scope, key.operation, key.occurrence, ordinal, blob(delivery_job_format)}});
+        if (const auto *row = unique(rows))
+            return VerifiedOriginalFormat{
+                DeliveryJobKey{std::get<ApplicationOperationKey>(target.origin),
+                               reference((*row)[0])},
+                reference((*row)[1])};
+    }
+    return {};
+}
+
+std::optional<ReplacePreview>
+select_replacement(const SqliteWorkSession &s, CommandAuthority &authority, const Command &cmd,
+                   const CommandAuthority::Facts &facts, const AdmissionProfile *profile,
+                   MilestoneReplacementDisclosure *disclosure = nullptr,
+                   const MilestoneReplacementProfile *qualification = nullptr) {
     const auto &want = std::get<ReplaceIntent>(cmd.intent);
     const auto key = origin(want.target, profile);
     const auto current = target(s, want.target, key);
     if (!current)
         return {};
+    if (disclosure)
+        if (const auto *app = std::get_if<ApplicationOperationKey>(&want.target.origin))
+            milestone_sql::verify_partitioned_origin(s, *app);
     auto out = intent_prefix(cmd);
     target_fields(out, want.target);
     out.reference(facts.grant_revision);
@@ -749,6 +857,8 @@ std::optional<ReplacePreview> select_replacement(const SqliteWorkSession &s,
     out.reference(facts.capability_revision);
     out.reference(current->prefix);
     out.tag(current->released ? 1 : 0);
+    if (disclosure)
+        disclosure->released = current->released;
     // Recover exact active cause identities only when the counted metadata
     // admits a nonempty hold closure.
     if (!current->deferred && current->reviews == 0) {
@@ -764,12 +874,14 @@ std::optional<ReplacePreview> select_replacement(const SqliteWorkSession &s,
             // Active decisions are immutable until their one-way resolution.
             out.text(h.source_ref);
         }
+        if (disclosure)
+            disclosure->holds = holds;
     }
     auto patch = want.patch;
     std::ranges::sort(patch, {}, &Replacement::ordinal);
     if (facts.captures.size() > member_limit)
         return {};
-    ReplacePreview result{{}, current->definition, {}};
+    ReplacePreview result{{}, current->definition, {}, cmd.actor};
     out.count(qsizetype(patch.size()));
     for (const auto &p : patch) {
         const auto selected = slot(s, want.target, key, p.ordinal);
@@ -803,6 +915,24 @@ std::optional<ReplacePreview> select_replacement(const SqliteWorkSession &s,
         out.number(selected->revision.isNull() ? 0 : integer(selected->revision));
         capture(out, before);
         capture(out, *after);
+        if (disclosure) {
+            std::string format;
+            std::optional<DeliverySenderSelection> mode;
+            if (p.action.kind == MilestoneActionKind::automation) {
+                const auto original = original_format(s, want.target, key, p.ordinal);
+                if (!original ||
+                    !qualification->compatible(facts, p, original->key, original->format)
+                         .value_or(false))
+                    return {};
+                mode = qualification->sender_selection(facts, p);
+                if (mode != DeliverySenderSelection::configured_default &&
+                    mode != DeliverySenderSelection::explicit_identity)
+                    return {};
+                format = original->format;
+            }
+            disclosure->ordered.push_back(
+                {p.ordinal, selected->version, std::move(before), *after, std::move(format), mode});
+        }
         result.versions.push_back({selected->version, &*after});
     }
     result.intent = std::move(out.data);
@@ -1046,14 +1176,30 @@ Decision stop(const SqliteWorkSession &s, const Command &cmd, const CommandAutho
 }
 } // namespace
 
-Preview preview_replace(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
-                        const AdmissionProfile *profile) {
+namespace {
+Disposition admission(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
+                      const std::optional<CommandAuthority::Facts> &facts,
+                      bool classify_unavailable) {
+    if (!facts)
+        return classify_unavailable && !owner.denies_actor(s, cmd) ? Disposition::unavailable
+                                                                   : Disposition::denied;
+    if (!facts->can_command || !facts->can_disclose)
+        return Disposition::denied;
+    if (!ref(facts->grant_revision) || !ref(facts->configuration_revision) ||
+        !ref(facts->capability_revision) || !ref(facts->decision))
+        return classify_unavailable ? Disposition::unavailable : Disposition::denied;
+    return Disposition::committed;
+}
+
+Preview preview_replacement(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
+                            const AdmissionProfile *profile, bool classify_unavailable) {
     if (!valid_command(cmd) || command_kind(cmd) != Kind::replace)
         return Disposition::refused;
     return guarded(s, [&]() -> Preview {
-        const auto facts = access(s, owner, cmd);
-        if (!facts)
-            return Disposition::denied;
+        const auto facts = owner.select(s, cmd);
+        const auto gate = admission(s, owner, cmd, facts, classify_unavailable);
+        if (gate != Disposition::committed)
+            return gate;
         require_catalog(s);
         if (const auto saved = journal(s, owner, cmd, *facts, true))
             return saved->disposition;
@@ -1067,14 +1213,20 @@ Preview preview_replace(const SqliteWorkSession &s, CommandAuthority &owner, con
     });
 }
 
-Decision stage_command(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
-                       const ReplacePreview *preview, const AdmissionProfile *profile) {
+Decision stage(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
+               const ReplacePreview *preview, const AdmissionProfile *profile,
+               bool classify_unavailable) {
     if (!valid_command(cmd))
         return answer(Disposition::refused);
     return guarded(s, [&] {
-        const auto facts = access(s, owner, cmd);
-        if (!facts)
+        const auto facts = owner.select(s, cmd);
+        if (classify_unavailable && preview &&
+            (preview->actor.actor_ref != cmd.actor.actor_ref ||
+             preview->actor.session_lineage != cmd.actor.session_lineage))
             return answer(Disposition::denied);
+        const auto gate = admission(s, owner, cmd, facts, classify_unavailable);
+        if (gate != Disposition::committed)
+            return answer(gate);
         require_catalog(s);
         if (const auto saved = journal(s, owner, cmd, *facts, false))
             return *saved;
@@ -1094,6 +1246,56 @@ Decision stage_command(const SqliteWorkSession &s, CommandAuthority &owner, cons
         }
         corrupt();
     });
+}
+} // namespace
+
+Preview preview_replace(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
+                        const AdmissionProfile *profile) {
+    return preview_replacement(s, owner, cmd, profile, false);
+}
+
+Preview preview_milestone_replacement(const SqliteWorkSession &s, CommandAuthority &owner,
+                                      const Command &cmd) {
+    return preview_replacement(s, owner, cmd, nullptr, true);
+}
+
+MilestoneReplacementDisclosureReply
+preview_milestone_replacement_disclosure(const SqliteWorkSession &s, CommandAuthority &owner,
+                                         const MilestoneReplacementProfile &profile,
+                                         const Command &cmd) {
+    if (!valid_command(cmd) || command_kind(cmd) != Kind::replace)
+        return Disposition::refused;
+    return guarded(s, [&]() -> MilestoneReplacementDisclosureReply {
+        const auto facts = owner.select(s, cmd);
+        const auto gate = admission(s, owner, cmd, facts, true);
+        if (gate != Disposition::committed)
+            return gate;
+        if (!profile.compatible || !profile.sender_selection)
+            return Disposition::unavailable;
+        require_catalog(s);
+        if (const auto saved = journal(s, owner, cmd, *facts, true))
+            return saved->disposition;
+        MilestoneReplacementDisclosure view{
+            std::get<ReplaceIntent>(cmd.intent).target, false, {}, {}, {}};
+        auto selected = select_replacement(s, owner, cmd, *facts, nullptr, &view, &profile);
+        if (!selected)
+            return Disposition::refused;
+        selected->versions.clear();
+        view.confirmation = std::make_shared<const ReplacePreview>(std::move(*selected));
+        return view;
+    });
+}
+
+Decision stage_command(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
+                       const ReplacePreview *preview, const AdmissionProfile *profile) {
+    return stage(s, owner, cmd, preview, profile, false);
+}
+
+Decision confirm_milestone_replacement(const SqliteWorkSession &s, CommandAuthority &owner,
+                                       const Command &cmd, const ReplacePreview &preview) {
+    if (command_kind(cmd) != Kind::replace)
+        return answer(Disposition::refused);
+    return stage(s, owner, cmd, &preview, nullptr, true);
 }
 
 Decision read_command(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
@@ -1269,6 +1471,167 @@ std::optional<Slot> eligible_job(const SqliteWorkSession &s, const Occurrence &o
 }
 } // namespace
 
+StrandedReplacementPage stranded_replacement_attempts(const SqliteWorkSession &s,
+                                                      const MilestoneTrackKey &track,
+                                                      const std::optional<QByteArray> &after,
+                                                      std::size_t limit) {
+    if (!milestone_sql::bounded_ref(track.installation_ref) ||
+        !milestone_sql::bounded_ref(track.track_ref) || (after && !ref(*after)) || limit == 0 ||
+        limit > stranded_delivery_page_limit)
+        throw std::invalid_argument("Invalid stranded replacement page");
+    return guarded(s, [&] {
+        require_catalog(s);
+        auto args = scope(track);
+        QString page =
+            "WITH page AS MATERIALIZED (SELECT origin_kind,origin_scope,origin_ref,occurrence,"
+            "ordinal,version,kind,installation,track FROM main.subathon_milestone_slot_versions "
+            "WHERE installation=? AND track=?";
+        if (after) {
+            page += " AND version>?";
+            args.append(*after);
+        }
+        page += " ORDER BY version LIMIT ?) ";
+        args.append(qint64(limit));
+        // Price the complete bounded projection before fetching any BLOB
+        // values. Both statements observe the same writer transaction.
+        const auto lengths = s.execute(
+            {page + "SELECT CASE WHEN typeof(origin_scope)='blob' THEN length(origin_scope) END,"
+                    "CASE WHEN typeof(origin_ref)='blob' THEN length(origin_ref) END,"
+                    "CASE WHEN typeof(occurrence)='blob' THEN length(occurrence) END,"
+                    "CASE WHEN typeof(version)='blob' THEN length(version) END FROM page",
+             args});
+        qsizetype charge = 9 * 8 * lengths.size();
+        for (const auto &row : lengths) {
+            for (const auto &value : row) {
+                const auto size = integer(value);
+                if (size < 1 || size > 4096)
+                    corrupt();
+                charge += size;
+            }
+        }
+        s.preflight_result(lengths.size(), charge);
+        const auto rows = s.execute(
+            {page + "SELECT p.origin_kind,p.origin_scope,p.origin_ref,p.occurrence,p.ordinal,"
+                    "p.version,p.kind,a.revision,a.state FROM page p "
+                    "LEFT JOIN main.subathon_milestone_slot_attempts a "
+                    "ON (a.installation,a.track,a.version)=(p.installation,p.track,p.version) "
+                    "AND a.revision=(SELECT max(last.revision) "
+                    "FROM main.subathon_milestone_slot_attempts last "
+                    "WHERE (last.installation,last.track,last.version)="
+                    "(p.installation,p.track,p.version)) ORDER BY p.version",
+             args});
+        if (rows.size() != lengths.size())
+            corrupt();
+        StrandedReplacementPage result;
+        for (const auto &row : rows) {
+            const auto origin_kind = integer(row[0]);
+            const auto origin_scope = reference(row[1]);
+            const auto origin_ref = reference(row[2]);
+            const MilestoneOccurrenceKey occurrence{reference(row[3])};
+            const auto ordinal = integer(row[4]);
+            const auto version = verified_ref(row[5]);
+            const auto kind = integer(row[6]);
+            if ((origin_kind != 1 && origin_kind != 2) || ordinal < 1 || (kind != 1 && kind != 2))
+                corrupt();
+            if (kind == 2) {
+                if (!row[7].isNull() || !row[8].isNull())
+                    corrupt();
+                continue;
+            }
+            const auto revision = integer(row[7]);
+            const auto state =
+                milestone_edit_sql::enumeration(row[8], DeliveryJobState::outcome_unknown);
+            if (revision < 1 || (revision == 1 && state != DeliveryJobState::queued))
+                corrupt();
+            if (state != DeliveryJobState::sending)
+                continue;
+            if (revision < 2 || (origin_kind == 2 && origin_scope != track.track_ref))
+                corrupt();
+            Occurrence target{track, occurrence, ApplicationOperationKey{origin_scope, origin_ref}};
+            if (origin_kind == 2)
+                target.origin = MilestoneEditKey{track, origin_ref};
+            const auto original = origin(target, nullptr);
+            const auto originals = s.execute(
+                {origin_kind == 1
+                     ? "SELECT 1 FROM main.subathon_milestone_groups WHERE operation_scope=? "
+                       "AND operation_ref=? AND occurrence_ref=? LIMIT 2"
+                     : "SELECT 1 FROM main.subathon_milestone_edit_occurrences WHERE track_ref=? "
+                       "AND edit_ref=? AND occurrence_ref=? AND installation_ref=? LIMIT 2",
+                 origin_kind == 1
+                     ? QList<QVariant>{original.scope, original.operation, original.occurrence}
+                     : QList<QVariant>{original.scope, original.operation, original.occurrence,
+                                       blob(track.installation_ref)}});
+            if (!unique(originals))
+                corrupt();
+            result.attempts.push_back({std::move(target), {ordinal, version}, revision});
+        }
+        if (std::size_t(rows.size()) == limit)
+            result.next_after = verified_ref(rows.back()[5]);
+        return result;
+    });
+}
+
+std::optional<EffectiveMilestoneRelease>
+select_effective_milestone_release(SqliteWriter &writer, const CommittedMilestoneGroup &cached,
+                                   const Occurrence &occurrence) {
+    const auto cached_edit =
+        cached.edit_membership ? std::optional{cached.edit_membership->origin} : std::nullopt;
+    const auto exact = detail::timeline_target(occurrence);
+    if (!valid(occurrence.track, occurrence) || cached.occurrence != occurrence.occurrence ||
+        exact.edit != cached_edit ||
+        (cached.application_origin && cached.application_origin != exact.application))
+        return {};
+    std::optional<EffectiveMilestoneRelease> result;
+    const auto work = writer.run_idle_owner_work([&](auto ctx) -> QVariant {
+        const auto s = ctx.begin();
+        require_catalog(s);
+        const auto key = origin(occurrence, nullptr);
+        const auto current = target(s, occurrence, key);
+        if (current) {
+            if (const auto *app = std::get_if<ApplicationOperationKey>(&occurrence.origin))
+                milestone_sql::verify_partitioned_origin(s, *app);
+            const auto count = slot_count(s, key);
+            if (count != std::ssize(cached.actions))
+                corrupt();
+            result.emplace(EffectiveMilestoneRelease{cached, {}, {}});
+            for (qint64 ordinal = 1; ordinal <= count; ++ordinal) {
+                const auto selected = slot(s, occurrence, key, ordinal);
+                auto &action = result->group.actions[std::size_t(ordinal - 1)];
+                if (!selected || selected->kind != action.kind)
+                    corrupt();
+                const SelectedVersion version{ordinal, selected->version};
+                result->versions.push_back(version);
+                if (selected->version.isEmpty())
+                    continue;
+                auto args = key.at(occurrence.track);
+                args.append({ordinal, selected->version});
+                const auto rows = s.execute(
+                    {"SELECT action_ref,action_version FROM main.subathon_milestone_slot_versions "
+                     "WHERE installation=? AND track=? AND origin_kind=? AND origin_scope=? "
+                     "AND origin_ref=? AND occurrence=? AND ordinal=? AND version=? LIMIT 2",
+                     args});
+                const auto *definition = unique(rows);
+                if (!definition)
+                    corrupt();
+                action = {selected->kind, reference((*definition)[0]), reference((*definition)[1])};
+                if (selected->kind == MilestoneActionKind::automation)
+                    result->replacement_jobs.push_back(
+                        replacement_job(s, occurrence, version, *selected));
+            }
+        }
+        s.commit();
+        return result.has_value();
+    });
+    return acknowledged(work) ? result : std::nullopt;
+}
+
+void publish_acknowledged_replacement_claim(const SqliteWorkResult &work, Disposition disposition,
+                                            std::optional<ReplacementJob> owned,
+                                            std::vector<ReplacementJob> &dispatch) {
+    if (auto job = acknowledged_claim(work, disposition, owned))
+        dispatch.push_back(std::move(*job));
+}
+
 std::optional<ReplacementAttempt> lookup_replacement_attempt(const SqliteWorkSession &s,
                                                              const Occurrence &o,
                                                              const SelectedVersion &version,
@@ -1324,6 +1687,55 @@ Disposition claim_replacement(const SqliteWorkSession &s, const Occurrence &o,
         append_attempt(s, o, version, revision, DeliveryJobState::sending);
         return Disposition::committed;
     });
+}
+
+StorageError dispatch_replacement_job(SqliteWriter &writer, Occurrence occurrence,
+                                      SelectedVersion version, qint64 revision,
+                                      std::shared_ptr<ReplacementDispatchAuthority> authority,
+                                      std::shared_ptr<ReplacementDeliveryAdapter> adapter,
+                                      ReplacementDispatchCallback completed) {
+    if (!authority || !adapter || !completed || !valid_version(occurrence, version, revision) ||
+        revision == std::numeric_limits<qint64>::max())
+        return StorageError::invalid_work;
+    struct Claim final : ReplacementDispatchAuthority {
+        explicit Claim(std::shared_ptr<ReplacementDispatchAuthority> owner)
+            : authority(std::move(owner)) {}
+
+        bool allows(const ReplacementJob &job) override {
+            if (!authority->allows(job))
+                return false;
+            owned = job;
+            return true;
+        }
+
+        std::shared_ptr<ReplacementDispatchAuthority> authority;
+        std::optional<ReplacementJob> owned;
+        std::optional<Disposition> provisional;
+    };
+    auto claim = std::make_shared<Claim>(std::move(authority));
+    return writer.enqueue_work(
+        [claim, occurrence = std::move(occurrence), version = std::move(version),
+         revision](auto context) -> QVariant {
+            const auto session = context.begin();
+            claim->provisional = claim_replacement(session, occurrence, version, revision, *claim);
+            session.commit();
+            return 1;
+        },
+        [claim, adapter = std::move(adapter), completed = std::move(completed),
+         revision](SqliteWorkResult work) {
+            ReplacementDispatchCompletion result{std::move(work), {}};
+            if (acknowledged(result.work)) {
+                result.disposition = claim->provisional;
+                if (auto job = acknowledged_claim(result.work, result.disposition, claim->owned)) {
+                    try {
+                        adapter->start(std::move(*job), revision + 1);
+                    } catch (...) {
+                        result.adapter_threw = true;
+                    }
+                }
+            }
+            completed(std::move(result));
+        });
 }
 
 Disposition retry_replacement(const SqliteWorkSession &s, const Occurrence &o,

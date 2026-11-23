@@ -179,11 +179,11 @@ OrderedSelection read_ordered(RefundFixture &f, bool edit_origin, Authority &own
 }
 
 enum class QueueAdoption { warm, cold };
-void apply_ordered_selection(MilestoneTimeline &, std::chrono::milliseconds, QueueAdoption adoption,
-                             const OrderedSelection &) {
-    throw milestone_006_stage1::TimelineUpdateMissing(
-        adoption == QueueAdoption::cold ? "S6: restore exact stopped and held ordered head"
-                                        : "S6: reconcile committed exact stopped and held head");
+void apply_ordered_selection(MilestoneTimeline &timeline, std::chrono::milliseconds now,
+                             QueueAdoption adoption, const OrderedSelection &selection) {
+    adopt_ordered_milestone_selection(timeline, now,
+                                     static_cast<MilestoneQueueAdoption>(adoption),
+                                     selection.stopped, selection.pending);
 }
 
 struct OriginalDispatch final : DeliveryDispatchAuthority, DeliveryAdapter {

@@ -123,9 +123,34 @@ struct DisclosedPreview {
 
 using DisclosureReply = std::variant<Disposition, DisclosedPreview>;
 
-DisclosureReply preview_disclosure(const SqliteWorkSession &, CommandAuthority &, CaptureProfile &,
-                                   const Command &) {
-    throw OwnerEntryMissing("R7: produce authorized ordered replacement disclosure");
+DisclosureReply preview_disclosure(const SqliteWorkSession &session, CommandAuthority &owner,
+                                   CaptureProfile &profile, const Command &command) {
+    auto reply = preview_milestone_replacement_disclosure(
+        session, owner,
+        {[&](const auto &facts, const auto &slot, const auto &original, auto format) {
+             const auto *key = std::get_if<DeliveryJobKey>(&original);
+             return key ? profile.compatible(facts, slot, *key, format) : std::nullopt;
+         },
+         [&](const auto &facts, const auto &slot) { return profile.sender_selection(facts, slot); }},
+        command);
+    if (const auto *status = std::get_if<Disposition>(&reply))
+        return *status;
+    auto &view = std::get<MilestoneReplacementDisclosure>(reply);
+    DisclosedPreview projected{std::move(view.target), view.released, std::move(view.holds), {},
+                               std::move(view.confirmation)};
+    for (auto &slot : view.ordered) {
+        const auto capture = [&](AuthorizedCapture &value) -> CaptureView {
+            if (value.bonus_ms)
+                return BonusView{std::move(value.selection.action), *value.bonus_ms};
+            return AutomationView{std::move(value.selection.action), slot.inherited_format,
+                                  std::move(value.payload), std::move(value.route),
+                                  std::move(value.qualified_sender)};
+        };
+        projected.ordered.push_back({{slot.ordinal, std::move(slot.selected_version)},
+                                     capture(slot.old_capture), capture(slot.new_capture),
+                                     slot.proposed_sender_selection});
+    }
+    return projected;
 }
 
 // Only definition identity and ordered targets are published in v21. The
@@ -202,9 +227,23 @@ struct PublicationAuthority final : DefinitionAuthority, CurrentConfiguration {
     }
 };
 
-Disposition publish_definitions(const SqliteWorkSession &, DefinitionAuthority &,
-                                const DefinitionEdit &) {
-    throw OwnerEntryMissing("R1: publish ordinary milestone definitions under current authority");
+Disposition publish_definitions(const SqliteWorkSession &session, DefinitionAuthority &owner,
+                                const DefinitionEdit &request) {
+    return publish_milestone_definitions(
+        session,
+        [&](const auto &s, const MilestoneDefinitionEdit &value)
+            -> std::optional<MilestoneDefinitionAdmission> {
+            const auto result = owner.admit(
+                s, {value.track, value.actor, value.operation, value.expected_revision,
+                    value.proposed_configuration});
+            if (!result)
+                return std::nullopt;
+            return MilestoneDefinitionAdmission{
+                {result->binding.track, result->binding.revision, result->binding.configuration},
+                result->targets};
+        },
+        {request.track, request.actor, request.operation, request.expected_revision,
+         request.proposed_configuration});
 }
 
 struct ScoreCrossing {

@@ -65,12 +65,19 @@ struct MilestoneEditMembership {
     std::vector<MilestoneEditJobKey> jobs;
 };
 
+struct MilestoneApplicationOrigin {
+    std::string scope;
+    std::string operation;
+    bool operator==(const MilestoneApplicationOrigin &) const = default;
+};
+
 struct CommittedMilestoneGroup {
     core::MilestoneCompletion achievement;
     std::vector<MilestoneAction> actions;
     MilestoneTimingOverride timing;
     std::optional<MilestoneOccurrenceKey> occurrence{};
     std::optional<MilestoneEditMembership> edit_membership{};
+    std::optional<MilestoneApplicationOrigin> application_origin{};
 };
 
 struct ActiveMilestonePresentation {
@@ -82,6 +89,20 @@ struct ActiveMilestonePresentation {
 };
 
 enum class MilestoneHeadDisposition { ready, held, skipped };
+
+struct MilestoneTimelineOccurrence {
+    MilestoneTrackKey track;
+    MilestoneOccurrenceKey occurrence;
+    std::optional<MilestoneEditKey> edit;
+    std::optional<MilestoneApplicationOrigin> application;
+    bool operator==(const MilestoneTimelineOccurrence &) const = default;
+};
+
+struct MilestoneTimelineCause {
+    MilestoneTrackKey track;
+    std::string reference;
+    bool operator==(const MilestoneTimelineCause &) const = default;
+};
 
 class MilestoneGroupRelease {
   public:
@@ -130,6 +151,20 @@ class MilestoneTimeline final {
     // advancing it. The first eligible owner turn starts at elapsed zero.
     void restore_committed(std::vector<CommittedMilestoneGroup> groups);
     void advance(std::chrono::milliseconds now);
+
+    // Adopt acknowledged writer facts on the serial owner thread. None of
+    // these entries walks the queue. Operation references are scoped by track.
+    void adopt_stop(std::chrono::milliseconds now, const MilestoneTimelineOccurrence &target,
+                    const std::string &operation, std::optional<MilestoneTimelineCause> hold);
+    void observe_stop_completion(std::chrono::milliseconds now,
+                                 const MilestoneTimelineOccurrence &target,
+                                 const std::string &operation, bool uncertain, bool reconciled);
+    void adopt_resume(std::chrono::milliseconds now,
+                      const std::vector<MilestoneTimelineCause> &resolved);
+    void adopt_ordered_stop(std::chrono::milliseconds now,
+                            const MilestoneTimelineOccurrence &target, const std::string &operation,
+                            bool independently_held,
+                            std::vector<MilestoneTimelineCause> active_holds);
 
     // Manual pause and an optionally linked countdown pause gate new starts.
     // Active presentation and gap time keep running. Subject to holds, the

@@ -37,15 +37,19 @@ class TimelineUpdateMissing final : public std::logic_error {
     using std::logic_error::logic_error;
 };
 
-inline void apply_owner_update(MilestoneTimeline &, std::chrono::milliseconds,
+inline void apply_owner_update(MilestoneTimeline &timeline, std::chrono::milliseconds now,
                                const OwnerUpdate &update) {
-    if (const auto *stop = std::get_if<CommittedStop>(&update)) {
-        if (stop->proof == StopProof::normal_readback)
-            throw TimelineUpdateMissing("T1: apply normally acknowledged exact Stop readback");
-        throw TimelineUpdateMissing("S2-S5/S8: apply normally acknowledged exact Stop");
-    }
-    if (std::holds_alternative<UncertainStop>(update))
-        throw TimelineUpdateMissing("T1: fence scheduling after uncertain Stop completion");
-    throw TimelineUpdateMissing("S5: apply exact committed Queue Resume");
+    adopt_milestone_timeline_update(
+        timeline, now, std::visit([](const auto &fact) -> TimelineUpdate {
+            using Fact = std::decay_t<decltype(fact)>;
+            if constexpr (std::is_same_v<Fact, CommittedStop>)
+                return AcknowledgedStop{fact.intent.target, fact.operation, fact.added_hold,
+                                        static_cast<MilestoneStopCompletionSource>(fact.proof),
+                                        fact.presentation};
+            else if constexpr (std::is_same_v<Fact, UncertainStop>)
+                return PendingStopReadback{fact.target, fact.operation};
+            else
+                return AcknowledgedResume{fact.resolved};
+        }, update));
 }
 } // namespace milestone_006_stage1

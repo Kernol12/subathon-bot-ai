@@ -16,4 +16,32 @@ class PlaybackStopAdapter {
     virtual void request_stop(PlaybackHandoff handoff) = 0;
 };
 
+enum class MilestonePlaybackTurn { handoff, cold_restore, late_activation };
+
+struct MilestonePlaybackCompletion {
+    SqliteWorkResult work;
+    std::optional<Disposition> disposition;
+    std::optional<QByteArray> intent;
+    bool adapter_threw{false};
+};
+
+// Called on the serial owner. Late activation only records the exact instance.
+// Cold readback never calls the adapter. A handoff uses a separate acknowledged
+// writer turn and calls the adapter only after the session has been revoked.
+MilestonePlaybackCompletion process_milestone_playback_turn(SqliteWriter &, MilestonePlaybackTurn,
+                                                            const PlaybackHandoff &,
+                                                            PlaybackAuthority &,
+                                                            PlaybackStopAdapter &);
+
+struct RestoredMilestoneQueue {
+    std::vector<ScopedCause> holds;
+    std::vector<SelectedVersion> selected;
+    std::optional<ActiveMilestonePresentation> presentation;
+    std::optional<PlaybackOutcome> prior_handoff;
+};
+
+std::optional<RestoredMilestoneQueue>
+restore_interrupted_milestone_queue(SqliteWriter &, CommandAuthority &, const Command &stop,
+                                    const Command &next, const PlaybackHandoff &);
+
 } // namespace subathon::server::milestone_interruption

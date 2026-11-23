@@ -86,9 +86,10 @@ struct StopAdapter final : PlaybackStopAdapter, PlaybackAuthority {
     }
 };
 
-void handoff_playback(SqliteWriter &, const PlaybackHandoff &, PlaybackAuthority &,
-                      PlaybackStopAdapter &) {
-    throw std::logic_error("S1: hand off the exact acknowledged application playback intent");
+void handoff_playback(SqliteWriter &writer, const PlaybackHandoff &handoff,
+                      PlaybackAuthority &authority, PlaybackStopAdapter &adapter) {
+    process_milestone_playback_turn(writer, MilestonePlaybackTurn::handoff, handoff, authority,
+                                    adapter);
 }
 
 bool refused_preview(ApplicationFixture &f, Authority &owner, const Command &cmd) {

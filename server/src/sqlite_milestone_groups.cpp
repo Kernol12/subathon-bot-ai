@@ -658,6 +658,9 @@ std::vector<CapturedMilestoneGroup> SqliteMilestoneGroupStore::pending() const {
                                             {timing(row[7], 1), timing(row[8], 0)},
                                             MilestoneOccurrenceKey{reference(row[1])}},
                                            {}};
+            if (review_catalog)
+                capture.group.application_origin =
+                    MilestoneApplicationOrigin{reference(row[9]), reference(row[10])};
             for (; action != actions.cend() && integer((*action)[0]) == order; ++action) {
                 const auto &cells = *action;
                 const auto ordinal = integer(cells[1]);

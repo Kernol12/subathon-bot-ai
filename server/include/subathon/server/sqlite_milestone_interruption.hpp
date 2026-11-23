@@ -110,6 +110,9 @@ class CommandAuthority {
     };
     virtual ~CommandAuthority() = default;
     virtual std::optional<Facts> select(const SqliteWorkSession &, const Command &) = 0;
+    // Where actor/session mismatch is known, report denial even when select()
+    // cannot return command facts. Unknown identity evidence stays unavailable.
+    virtual bool denies_actor(const SqliteWorkSession &, const Command &) { return false; }
     // The owner may qualify a retained decision beyond the current scoped grant.
     virtual bool discloses_retained(const SqliteWorkSession &, const Command &, const Facts &facts,
                                     const QByteArray &retained_decision) {
@@ -148,6 +151,66 @@ using Preview = std::variant<Disposition, std::shared_ptr<const ReplacePreview>>
 
 Preview preview_replace(const SqliteWorkSession &, CommandAuthority &, const Command &,
                         const AdmissionProfile * = nullptr);
+Preview preview_milestone_replacement(const SqliteWorkSession &, CommandAuthority &,
+                                      const Command &);
+Decision confirm_milestone_replacement(const SqliteWorkSession &, CommandAuthority &,
+                                       const Command &, const ReplacePreview &);
+
+using OriginalMilestoneAutomation = std::variant<DeliveryJobKey, MilestoneEditJobKey>;
+struct MilestoneReplacementProfile {
+    // The authority's revisions must change whenever compatibility or
+    // sender-selection mode changes, including a return to an old value.
+    std::function<std::optional<bool>(const CommandAuthority::Facts &, const Replacement &,
+                                      const OriginalMilestoneAutomation &, std::string_view)>
+        compatible;
+    std::function<std::optional<DeliverySenderSelection>(const CommandAuthority::Facts &,
+                                                         const Replacement &)>
+        sender_selection;
+};
+struct MilestoneSlotDisclosure {
+    qint64 ordinal;
+    QByteArray selected_version;
+    AuthorizedCapture old_capture;
+    AuthorizedCapture new_capture;
+    std::string inherited_format;
+    std::optional<DeliverySenderSelection> proposed_sender_selection;
+};
+struct MilestoneReplacementDisclosure {
+    Occurrence target;
+    bool released;
+    std::vector<MilestoneHoldKey> holds;
+    std::vector<MilestoneSlotDisclosure> ordered;
+    std::shared_ptr<const ReplacePreview> confirmation;
+};
+using MilestoneReplacementDisclosureReply =
+    std::variant<Disposition, MilestoneReplacementDisclosure>;
+
+MilestoneReplacementDisclosureReply
+preview_milestone_replacement_disclosure(const SqliteWorkSession &, CommandAuthority &,
+                                         const MilestoneReplacementProfile &, const Command &);
+
+struct MilestoneDefinitionEdit {
+    MilestoneTrackKey track;
+    MilestoneEditActor actor;
+    QByteArray operation;
+    std::string expected_revision;
+    std::string proposed_configuration;
+};
+struct MilestoneDefinitionBinding {
+    MilestoneTrackKey track;
+    std::string revision;
+    std::string configuration;
+};
+struct MilestoneDefinitionAdmission {
+    MilestoneDefinitionBinding binding;
+    std::vector<core::MilestoneTarget> targets;
+};
+using MilestoneDefinitionAuthority = std::function<std::optional<MilestoneDefinitionAdmission>(
+    const SqliteWorkSession &, const MilestoneDefinitionEdit &)>;
+
+Disposition publish_milestone_definitions(const SqliteWorkSession &,
+                                          const MilestoneDefinitionAuthority &,
+                                          const MilestoneDefinitionEdit &);
 
 // An unused Replace key requires a current preview. A committed key uses the
 // journal's bound preview after authority and exact typed target/patch checks.
@@ -169,6 +232,74 @@ struct OccurrenceSelection {
     std::vector<QByteArray> interruption_holds;
 };
 
+enum class MilestoneStopCompletionSource { command, readback };
+enum class MilestoneQueueAdoption { warm, cold };
+struct AcknowledgedStop {
+    Occurrence target;
+    QByteArray operation;
+    std::optional<ScopedCause> hold;
+    MilestoneStopCompletionSource source{MilestoneStopCompletionSource::command};
+    std::optional<PresentationObservation> presentation{};
+};
+struct PendingStopReadback {
+    Occurrence target;
+    QByteArray operation;
+};
+struct AcknowledgedResume {
+    std::vector<ScopedCause> resolved;
+};
+using TimelineUpdate = std::variant<AcknowledgedStop, PendingStopReadback, AcknowledgedResume>;
+
+namespace detail {
+inline MilestoneTimelineOccurrence timeline_target(const Occurrence &target) {
+    if (const auto *edit = std::get_if<MilestoneEditKey>(&target.origin))
+        return {target.track, target.occurrence, *edit, {}};
+    const auto &application = std::get<ApplicationOperationKey>(target.origin);
+    return {target.track,
+            target.occurrence,
+            {},
+            MilestoneApplicationOrigin{application.operation_scope, application.operation_ref}};
+}
+
+inline MilestoneTimelineCause timeline_cause(const ScopedCause &cause) {
+    return {cause.track, cause.ref.toStdString()};
+}
+
+} // namespace detail
+
+inline void adopt_milestone_timeline_update(MilestoneTimeline &timeline,
+                                            std::chrono::milliseconds now,
+                                            const TimelineUpdate &update) {
+    if (const auto *stop = std::get_if<AcknowledgedStop>(&update)) {
+        const auto target = detail::timeline_target(stop->target);
+        if (stop->source != MilestoneStopCompletionSource::command &&
+            stop->source != MilestoneStopCompletionSource::readback)
+            return;
+        if (stop->presentation && detail::timeline_target(stop->presentation->target) != target)
+            return;
+        timeline.adopt_stop(now, target, stop->operation.toStdString(),
+                            stop->hold ? std::optional{detail::timeline_cause(*stop->hold)}
+                                       : std::nullopt);
+    } else if (const auto *pending = std::get_if<PendingStopReadback>(&update)) {
+        timeline.observe_stop_completion(now, detail::timeline_target(pending->target),
+                                         pending->operation.toStdString(), true, false);
+    } else {
+        const auto &resume = std::get<AcknowledgedResume>(update);
+        std::vector<MilestoneTimelineCause> resolved;
+        resolved.reserve(resume.resolved.size());
+        for (const auto &cause : resume.resolved)
+            resolved.push_back(detail::timeline_cause(cause));
+        timeline.adopt_resume(now, resolved);
+    }
+}
+
+void adopt_milestone_stop_completion(MilestoneTimeline &, std::chrono::milliseconds,
+                                     const Command &, MilestoneStopCompletionSource,
+                                     const SqliteWorkResult &, const std::optional<Decision> &);
+void adopt_ordered_milestone_selection(MilestoneTimeline &, std::chrono::milliseconds,
+                                       MilestoneQueueAdoption, const OccurrenceSelection &,
+                                       const std::vector<CommittedMilestoneGroup> &pending);
+
 std::optional<OccurrenceSelection> read_occurrence_selection(const SqliteWorkSession &,
                                                              CommandAuthority &,
                                                              const Command &stop_selector);
@@ -185,6 +316,12 @@ class PlaybackAuthority {
   public:
     virtual ~PlaybackAuthority() = default;
     virtual bool proves_current(const SqliteWorkSession &, const LatePlayback &) = 0;
+    // Missing current proof does not establish obsolescence. An owning port
+    // may separately attest that the exact old instance has ended or changed.
+    virtual std::optional<QByteArray> proves_obsolete(const SqliteWorkSession &,
+                                                      const LatePlayback &) {
+        return {};
+    }
     virtual bool owns_evidence(const SqliteWorkSession &, const PlaybackEvidence &);
 };
 
@@ -233,11 +370,46 @@ struct ReplacementJob {
     std::string route, qualified_sender;
 };
 
+struct EffectiveMilestoneRelease {
+    CommittedMilestoneGroup group;
+    std::vector<SelectedVersion> versions;
+    std::vector<ReplacementJob> replacement_jobs;
+};
+
+// Re-read the selected versions in the writer; cached action definitions can
+// lag replacement, but the occurrence and its immutable ordinal layout cannot.
+std::optional<EffectiveMilestoneRelease>
+select_effective_milestone_release(SqliteWriter &, const CommittedMilestoneGroup &,
+                                   const Occurrence &);
+
+// Consume only the completion of the exact queued -> sending turn. This is
+// not the publication path for retained sending rows after recovery.
+void publish_acknowledged_replacement_claim(const SqliteWorkResult &, Disposition,
+                                            std::optional<ReplacementJob>,
+                                            std::vector<ReplacementJob> &);
+
 struct ReplacementAttempt {
     qint64 revision;
     DeliveryJobState state;
     QByteArray evidence;
 };
+
+struct StrandedReplacementAttempt {
+    Occurrence target;
+    SelectedVersion version;
+    qint64 sending_revision;
+};
+struct StrandedReplacementPage {
+    std::vector<StrandedReplacementAttempt> attempts;
+    std::optional<QByteArray> next_after;
+};
+
+// Use a quiescent owner session during recovery. Continuation follows the
+// last examined key, including when none of the examined versions are sending.
+StrandedReplacementPage stranded_replacement_attempts(const SqliteWorkSession &,
+                                                      const MilestoneTrackKey &,
+                                                      const std::optional<QByteArray> &after,
+                                                      std::size_t limit);
 
 // Exact retained reads and settlement do not require the version to remain
 // eligible to start. The caller owns the active writer session.
@@ -256,6 +428,26 @@ class ReplacementDispatchAuthority {
     virtual bool allows(const ReplacementJob &) = 0;
     virtual std::optional<QByteArray> retry_decision(const ReplacementJob &) { return {}; }
 };
+
+class ReplacementDeliveryAdapter {
+  public:
+    virtual ~ReplacementDeliveryAdapter() = default;
+    // Owned capture on the serial owner after normal claim acknowledgement.
+    // The attempt revision is the sending event's exact revision.
+    virtual void start(ReplacementJob, qint64 attempt_revision) = 0;
+};
+struct ReplacementDispatchCompletion {
+    SqliteWorkResult work;
+    std::optional<Disposition> disposition;
+    bool adapter_threw{false};
+};
+using ReplacementDispatchCallback = std::function<void(ReplacementDispatchCompletion)>;
+
+[[nodiscard]] StorageError dispatch_replacement_job(SqliteWriter &, Occurrence, SelectedVersion,
+                                                    qint64 queued_revision,
+                                                    std::shared_ptr<ReplacementDispatchAuthority>,
+                                                    std::shared_ptr<ReplacementDeliveryAdapter>,
+                                                    ReplacementDispatchCallback);
 
 Disposition claim_replacement(const SqliteWorkSession &, const Occurrence &,
                               const SelectedVersion &, qint64, ReplacementDispatchAuthority &);

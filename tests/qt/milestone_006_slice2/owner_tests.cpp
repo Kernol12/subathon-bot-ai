@@ -69,8 +69,9 @@ struct AcknowledgedClaim {
     std::optional<ReplacementJob> selected_job;
 };
 
-void publish_dispatch(const AcknowledgedClaim &, DispatchSink &) {
-    throw OwnerEntryMissing("R2: publish only the acknowledged exact successor claim");
+void publish_dispatch(const AcknowledgedClaim &claim, DispatchSink &sink) {
+    publish_acknowledged_replacement_claim(claim.work, claim.result.disposition, claim.selected_job,
+                                           sink);
 }
 
 struct PendingCaptureSelection {
@@ -78,9 +79,10 @@ struct PendingCaptureSelection {
     OccurrenceSelection committed;
 };
 
-std::vector<ReplacementJob> select_effective_release(SqliteWriter &,
-                                                     const PendingCaptureSelection &) {
-    throw OwnerEntryMissing("R1: select effective capture for the exact cached occurrence");
+std::vector<ReplacementJob> select_effective_release(SqliteWriter &writer,
+                                                     const PendingCaptureSelection &selection) {
+    return select_effective_milestone_release(writer, selection.cached, selection.committed.target)
+        .value().replacement_jobs;
 }
 
 struct PreviewAuthority final : CommandAuthority {
@@ -99,8 +101,9 @@ struct PreviewAuthority final : CommandAuthority {
     }
 };
 
-Preview preview_at_owner(const SqliteWorkSession &, CommandAuthority &, const Command &) {
-    throw OwnerEntryMissing("R7: classify absent authoritative facts before Replace admission");
+Preview preview_at_owner(const SqliteWorkSession &session, CommandAuthority &owner,
+                         const Command &command) {
+    return preview_milestone_replacement(session, owner, command);
 }
 
 struct PlaybackPort final : PlaybackAuthority, PlaybackStopAdapter {
@@ -138,9 +141,10 @@ struct PlaybackPort final : PlaybackAuthority, PlaybackStopAdapter {
 };
 
 enum class PlaybackTurn { handoff, cold_restore, late_activation };
-void process_playback(SqliteWriter &, PlaybackTurn, const PlaybackHandoff &, PlaybackAuthority &,
-                      PlaybackStopAdapter &) {
-    throw OwnerEntryMissing("P1/P2/P3: reconcile exact playback at the owner turn");
+void process_playback(SqliteWriter &writer, PlaybackTurn turn, const PlaybackHandoff &handoff,
+                      PlaybackAuthority &authority, PlaybackStopAdapter &adapter) {
+    process_milestone_playback_turn(writer, static_cast<MilestonePlaybackTurn>(turn), handoff,
+                                    authority, adapter);
 }
 
 struct ColdQueueState {
@@ -150,10 +154,12 @@ struct ColdQueueState {
     std::optional<PlaybackOutcome> prior_handoff;
 };
 
-ColdQueueState restore_committed_queue(SqliteWriter &, CommandAuthority &, const Command &,
-                                       const Command &, const PlaybackHandoff &,
-                                       PlaybackStopAdapter &) {
-    throw OwnerEntryMissing("T2: restore exact selected version, Hold and marked playback");
+ColdQueueState restore_committed_queue(SqliteWriter &writer, CommandAuthority &authority,
+                                       const Command &stop, const Command &next,
+                                       const PlaybackHandoff &handoff, PlaybackStopAdapter &) {
+    auto restored = restore_interrupted_milestone_queue(writer, authority, stop, next, handoff).value();
+    return {std::move(restored.holds), std::move(restored.selected), restored.presentation,
+            restored.prior_handoff};
 }
 
 struct PlaybackFixture {

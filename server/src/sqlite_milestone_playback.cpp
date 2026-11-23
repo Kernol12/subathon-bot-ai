@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "sqlite_milestone_interruption_detail.hpp"
 
+#include <QScopeGuard>
+#include <subathon/server/milestone_playback_stop.hpp>
+
 #include <limits>
 #include <set>
 
@@ -272,8 +275,16 @@ Disposition stage_playback_handoff(const SqliteWorkSession &s, PlaybackAuthority
         args.append(wanted.intent);
         const auto rows = s.execute(
             {"UPDATE subathon_milestone_playback_instances SET handoff=? WHERE installation=? "
-             "AND track=? AND stop=? AND instance=? AND handoff IS NULL RETURNING 1",
+             "AND track=? AND stop=? AND instance=? AND handoff IS NULL AND NOT EXISTS("
+             "SELECT 1 FROM main.subathon_milestone_playback_evidence e "
+             "WHERE (e.installation,e.track,e.stop,e.instance)="
+             "(subathon_milestone_playback_instances.installation,"
+             "subathon_milestone_playback_instances.track,subathon_milestone_playback_instances."
+             "stop,"
+             "subathon_milestone_playback_instances.instance)) RETURNING 1",
              args});
+        if (rows.empty())
+            return Disposition::refused;
         if (rows.size() != 1 || integer(rows[0][0]) != 1)
             corrupt();
         return Disposition::committed;
@@ -353,7 +364,7 @@ lookup_playback_evidence(const SqliteWorkSession &s, CommandAuthority &authority
             !validate_stop(s, request, origin(request.instance.target, nullptr)))
             return {};
         const auto selected = find_instance(s, request, nullptr);
-        if (!handoff_matches(selected, wanted) || !selected->claimed)
+        if (!handoff_matches(selected, wanted))
             return {};
         auto args = stop_key(request.track, request.stop);
         args.append({wanted.intent, ordinal});
@@ -366,9 +377,160 @@ lookup_playback_evidence(const SqliteWorkSession &s, CommandAuthority &authority
         const auto *row = unique(rows);
         if (!row)
             return {};
-        return PlaybackOutcomeRecord{
-            milestone_edit_sql::enumeration((*row)[0], PlaybackOutcome::uncertain),
-            verified_ref((*row)[1])};
+        const auto outcome = milestone_edit_sql::enumeration((*row)[0], PlaybackOutcome::uncertain);
+        if (!selected->claimed && (outcome != PlaybackOutcome::obsolete || ordinal != 1))
+            corrupt();
+        return PlaybackOutcomeRecord{outcome, verified_ref((*row)[1])};
     });
+}
+
+namespace {
+
+std::optional<PlaybackOutcome> retained_handoff(const SqliteWorkSession &s,
+                                                const PlaybackHandoff &wanted) {
+    const auto &request = wanted.selected;
+    const auto selected = find_instance(s, request, nullptr);
+    if (!handoff_matches(selected, wanted))
+        return {};
+    auto args = stop_key(request.track, request.stop);
+    args.append(wanted.intent);
+    const auto rows = s.execute(
+        {"SELECT outcome FROM main.subathon_milestone_playback_evidence "
+         "WHERE installation=? AND track=? AND stop=? AND instance=? ORDER BY ordinal DESC "
+         "LIMIT 1",
+         args});
+    if (rows.empty())
+        return selected->claimed ? std::optional{PlaybackOutcome::uncertain} : std::nullopt;
+    const auto outcome =
+        milestone_edit_sql::enumeration(rows.front().front(), PlaybackOutcome::uncertain);
+    if (!selected->claimed && outcome != PlaybackOutcome::obsolete)
+        corrupt();
+    return outcome;
+}
+
+void retire_obsolete(const SqliteWorkSession &s, PlaybackAuthority &authority,
+                     const PlaybackHandoff &wanted) {
+    const auto &request = wanted.selected;
+    const auto selected = find_instance(s, request, nullptr);
+    if (!handoff_matches(selected, wanted) || selected->claimed || retained_handoff(s, wanted))
+        return;
+    const auto evidence = authority.proves_obsolete(s, request);
+    if (!evidence || !ref(*evidence))
+        return;
+    auto args = stop_key(request.track, request.stop);
+    args.append({wanted.intent, 1, int(PlaybackOutcome::obsolete), *evidence});
+    (void)s.execute(
+        {"INSERT INTO main.subathon_milestone_playback_evidence VALUES(?,?,?,?,?,?,?)", args});
+}
+
+bool normal(const SqliteWorkResult &work) {
+    return work.transaction == TransactionOutcome::committed && work.error == WorkError::none &&
+           work.value.has_value();
+}
+
+} // namespace
+
+MilestonePlaybackCompletion process_milestone_playback_turn(SqliteWriter &writer,
+                                                            MilestonePlaybackTurn turn,
+                                                            const PlaybackHandoff &wanted,
+                                                            PlaybackAuthority &authority,
+                                                            PlaybackStopAdapter &adapter) {
+    MilestonePlaybackCompletion result{};
+    static thread_local bool processing = false;
+    if (processing) {
+        result.work.error = WorkError::busy;
+        return result;
+    }
+    if (!valid_late(wanted.selected) ||
+        (turn != MilestonePlaybackTurn::late_activation && !ref(wanted.intent))) {
+        result.disposition = Disposition::refused;
+        return result;
+    }
+    processing = true;
+    const auto leave = qScopeGuard([] { processing = false; });
+    auto disposition = Disposition::refused;
+    std::optional<QByteArray> intent;
+    result.work = writer.run_idle_owner_work([&](auto ctx) -> QVariant {
+        const auto s = ctx.begin();
+        switch (turn) {
+        case MilestonePlaybackTurn::late_activation:
+            disposition = stage_late_playback(s, authority, wanted.selected);
+            if ((disposition == Disposition::committed || disposition == Disposition::replay) &&
+                wanted.selected.instance.capability == StopCapability::supported) {
+                const auto instance = find_instance(s, wanted.selected, nullptr);
+                if (!instance || !instance->exact)
+                    corrupt();
+                intent = instance->reference;
+            }
+            break;
+        case MilestonePlaybackTurn::cold_restore:
+            require_catalog(s);
+            if (validate_stop(s, wanted.selected,
+                              origin(wanted.selected.instance.target, nullptr))) {
+                const auto instance = find_instance(s, wanted.selected, nullptr);
+                if (handoff_matches(instance, wanted)) {
+                    disposition = Disposition::replay;
+                    (void)retained_handoff(s, wanted);
+                }
+            }
+            break;
+        case MilestonePlaybackTurn::handoff:
+            require_catalog(s);
+            if (validate_stop(s, wanted.selected,
+                              origin(wanted.selected.instance.target, nullptr))) {
+                disposition = stage_playback_handoff(s, authority, wanted);
+                if (disposition == Disposition::refused)
+                    retire_obsolete(s, authority, wanted);
+            }
+            break;
+        }
+        s.commit();
+        return 1;
+    });
+    if (!normal(result.work))
+        return result;
+    result.disposition = disposition;
+    result.intent = std::move(intent);
+    if (turn == MilestonePlaybackTurn::handoff && disposition == Disposition::committed) {
+        try {
+            adapter.request_stop(wanted);
+        } catch (...) {
+            // The marker remains uncertain until exact adapter evidence is read.
+            result.adapter_threw = true;
+        }
+    }
+    return result;
+}
+
+std::optional<RestoredMilestoneQueue>
+restore_interrupted_milestone_queue(SqliteWriter &writer, CommandAuthority &authority,
+                                    const Command &stop, const Command &next,
+                                    const PlaybackHandoff &handoff) {
+    const auto *intent = std::get_if<StopIntent>(&stop.intent);
+    if (!intent || !valid_late(handoff.selected) || !ref(handoff.intent) ||
+        stop.track != next.track || stop.track != handoff.selected.track ||
+        stop.operation != handoff.selected.stop ||
+        !same(intent->target, handoff.selected.instance.target))
+        return {};
+    std::optional<RestoredMilestoneQueue> result;
+    const auto work = writer.run_idle_owner_work([&](auto ctx) -> QVariant {
+        const auto s = ctx.begin();
+        const auto stopped = read_command(s, authority, stop);
+        if (stopped.disposition == Disposition::replay &&
+            std::ranges::find(stopped.playback_intents, handoff.intent) !=
+                stopped.playback_intents.end() &&
+            validate_stop(s, handoff.selected, origin(intent->target, nullptr))) {
+            if (auto selected = read_occurrence_selection(s, authority, next)) {
+                result.emplace();
+                result->selected = std::move(selected->selected_versions);
+                for (auto &hold : selected->interruption_holds)
+                    result->holds.push_back({stop.track, std::move(hold)});
+                result->prior_handoff = retained_handoff(s, handoff);
+            }
+        }
+        s.commit();
+        return result.has_value();
+    });
+    return normal(work) ? result : std::nullopt;
 }
 } // namespace subathon::server::milestone_interruption

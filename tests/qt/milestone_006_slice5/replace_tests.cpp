@@ -193,9 +193,9 @@ struct CurrentAuthority final : CommandAuthority {
     }
 };
 
-Decision confirm_at_owner(const SqliteWorkSession &, CommandAuthority &, const Command &,
-                          const ReplacePreview &) {
-    throw std::logic_error("R7: confirm exact cross-origin command under current authority");
+Decision confirm_at_owner(const SqliteWorkSession &session, CommandAuthority &owner,
+                          const Command &command, const ReplacePreview &preview) {
+    return confirm_milestone_replacement(session, owner, command, preview);
 }
 
 } // namespace

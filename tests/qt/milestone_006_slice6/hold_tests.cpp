@@ -99,16 +99,20 @@ template <class Database> struct StopAdapter final : PlaybackAuthority, Playback
     }
 };
 
-void handoff_playback(SqliteWriter &, const PlaybackHandoff &, PlaybackAuthority &,
-                      PlaybackStopAdapter &) {
-    throw std::logic_error("S1/T2: hand off the exact acknowledged Hold playback intent");
+void handoff_playback(SqliteWriter &writer, const PlaybackHandoff &handoff,
+                      PlaybackAuthority &authority, PlaybackStopAdapter &adapter) {
+    process_milestone_playback_turn(writer, MilestonePlaybackTurn::handoff, handoff, authority,
+                                    adapter);
 }
 
 enum class StopCompletionSource { command, readback };
 
-void adopt_stop_completion(MilestoneTimeline &, Sample, const Command &, StopCompletionSource,
-                           const SqliteWorkResult &, const std::optional<Decision> &) {
-    throw std::logic_error("T1/T2: adopt the exact acknowledged Hold on the warm timeline");
+void adopt_stop_completion(MilestoneTimeline &timeline, Sample now, const Command &command,
+                           StopCompletionSource source, const SqliteWorkResult &work,
+                           const std::optional<Decision> &published) {
+    adopt_milestone_stop_completion(
+        timeline, now, command, static_cast<MilestoneStopCompletionSource>(source),
+        work, published);
 }
 
 std::vector<SelectedVersion> originals(qint64 slot_count) {

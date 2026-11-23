@@ -120,6 +120,9 @@ class SqliteWorkSession final {
   public:
     SqliteWorkSession() = default;
     [[nodiscard]] SqlRows execute(const SqlStatement &statement) const;
+    // Check a complete upcoming result projection against the remaining
+    // cumulative work budget before materializing any of its value cells.
+    void preflight_result(qsizetype rows, qsizetype value_bytes) const;
     void commit() const; // Performs the actual synchronous COMMIT, never an outer vote.
     void rollback() const;
     // Idempotent RAII cleanup: inactive/stale tickets return none, foreign tickets
@@ -165,6 +168,10 @@ class SqliteWriter final : public QObject {
     [[nodiscard]] StorageError open(const QString &path, StorageLimits limits = {});
     [[nodiscard]] StorageError enqueue(const WriteBatch &batch, Completion completion);
     [[nodiscard]] StorageError enqueue_work(Work work, WorkCompletion completion);
+    // An already serialized owner turn may run on an idle writer without
+    // pumping events or overtaking admitted work. Returns only after the
+    // ordinary work-finalization path revokes the session.
+    [[nodiscard]] SqliteWorkResult run_idle_owner_work(const Work &);
     [[nodiscard]] StorageError shutdown(std::function<void()> completion);
 
   private:

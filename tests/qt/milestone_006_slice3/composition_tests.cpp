@@ -25,15 +25,17 @@ template <class Body> void check(Body body) {
 // Both completions come from the real writer. A staged Decision is never fed
 // to the owner. A replay from a readback may be the first acknowledged Stop.
 enum class StopCompletionSource { command, readback };
-void adopt_stop_completion(MilestoneTimeline &, Sample, const Command &, StopCompletionSource,
-                           const SqliteWorkResult &, const std::optional<Decision> &) {
-    throw OwnerEntryMissing(
-        "T1/T2: adopt the exact acknowledged writer Stop result on the warm timeline");
+void adopt_stop_completion(MilestoneTimeline &timeline, Sample now, const Command &command,
+                           StopCompletionSource source, const SqliteWorkResult &work,
+                           const std::optional<Decision> &published) {
+    adopt_milestone_stop_completion(
+        timeline, now, command, static_cast<MilestoneStopCompletionSource>(source),
+        work, published);
 }
 
-Preview preview_replacement_owner(const SqliteWorkSession &, CommandAuthority &, const Command &) {
-    throw OwnerEntryMissing(
-        "R7: preview the exact authorized application replacement at the owner entry");
+Preview preview_replacement_owner(const SqliteWorkSession &session, CommandAuthority &owner,
+                                  const Command &command) {
+    return preview_milestone_replacement(session, owner, command);
 }
 
 struct Completion {
