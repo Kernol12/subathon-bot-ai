@@ -1,12 +1,15 @@
 # Scene media playback — logical contract v1
 
 [Scene media #804](https://github.com/Kernol12/subathon-bot-ai/issues/804) · Tier B ·
-owner decisions 168–171 · [specification v0.45](../specification.md) §11,
+owner decisions 168–171 and 217–219 · [specification v0.45](../specification.md) §§5, 11,
 MEDIA-01 and MEDIA-02 · protected base `4b522332c6ab0099e0e3c488b162240858306fa0`.
 
-This contract defines admission, sound, replacement and resume for scene audio
-and video shared by the native and browser outputs. [RENDER-004 #453](https://github.com/Kernol12/subathon-bot-ai/issues/453)
-owns execution and platform scheduling. Concrete schema fields, wire encoding,
+This contract defines admission, sound, replacement and resume for scene-level
+audio and video referenced by `MediaAttachmentRef` on native and browser
+outputs. [#825](https://github.com/Kernol12/subathon-bot-ai/issues/825) owns
+video and animated GIF referenced by `VisualAssetRef` in Image nodes.
+[RENDER-004 #453](https://github.com/Kernol12/subathon-bot-ai/issues/453) owns
+execution and platform scheduling. Concrete schema fields, wire encoding,
 output policy configuration and measured codec support remain downstream work.
 
 ## Owning inputs
@@ -16,6 +19,7 @@ output policy configuration and measured codec support remain downstream work.
 | Authored scene and media attachment | The [scene document](scene-document-v1.md) §§1, 4–5 defines exact scene revisions and typed attachment references. Playback consumes the selected revision, the exact attachment within it and that attachment's authored policy. |
 | Media bytes and output compatibility | The [asset contract](scene-assets-packages-v1.md) §§1–2 defines immutable asset identity and separates declaration, inspection and compatibility. An output needs compatible evidence for the exact asset and profile it will use. |
 | Current activation, presentation and elapsed position | The [bindings and timelines contract](scene-bindings-conditions-timeline-v1.md) §§1, 5 defines the selected view and clocks. Its milestone owner already supplies a current milestone presentation and its qualified elapsed position. [#792](https://github.com/Kernol12/subathon-bot-ai/issues/792) owns the corresponding event announcement selection and sequencing. Event playback that needs that observation remains unavailable until the owner can supply it. |
+| Contribution review | The contribution owner applies [specification §5](../specification.md#5-paused-input-review-and-silent-application). Silent acceptance suppresses ordinary message, sound and visual-alert occurrences, while time, score and internal progression still apply. Milestone actions follow their separate explicit decision. |
 | Output sound permission and local mute | The admitted output supplies its sound permission for the selected scene and its local mute state. Silence is the effective default when sound permission is missing or denied. |
 
 Use one admitted view of scene, asset, output and presentation. A reference
@@ -39,27 +43,33 @@ checks its own compatibility and sound policy.
    active. Autoplay defaults off. Loading, showing or reconnecting to a scene
    on its own does not start playback. A declaration, compatible asset, queued
    job or known attachment does not supply a cause or permission.
+   Under decision 217, silent acceptance leaves ordinary media alerts without
+   an admitted occurrence. Those alerts do not start playback.
 2. **Exact match.** Admit a start only for the selected active scene, the
    matching authored attachment and cause, and an output with compatible
-   evidence. If currentness, authorization or identity has not been established,
-   the start is unavailable. Known output incompatibility is unsupported.
+   evidence. If currentness, authorization, identity or compatibility has not
+   been established, the start is unavailable. Known output incompatibility
+   is unsupported.
    An undisclosed input stays within the owning projection's disclosure rules.
 3. **Retrigger.** A repeated delivery of the same authorized occurrence for
    that attachment has no effect, including after replacement or end. A
    distinct authorized occurrence selected for the same attachment replaces
-   its current playback from the beginning. The renderer follows the owner's
-   current selection or ordering and cannot revive old playback from message
-   arrival order. #792 owns announcement sequence and expiry.
-4. **Background loop.** The authored background loop flag defaults off.
-   An explicit loop repeats playback of the admitted background attachment
-   within the same instance and active window. File loop metadata alone does
-   not enable this policy. The loop does not create a fresh trigger or extend
+   its current playback from the beginning. This is decision 170's
+   per-attachment replacement rule as confirmed by decision 219. Other
+   attachments keep their own playback state. The renderer follows the
+   owner's current selection or ordering and cannot revive old playback from
+   message arrival order. #792 owns announcement sequence and expiry.
+4. **Background loop.** A background loop is a scene-level attachment
+   explicitly authored to repeat in the background. The authored loop flag
+   defaults off. With it enabled, the admitted attachment repeats within the
+   same instance and active window. File metadata and autoplay alone leave
+   the loop flag off. Looping supplies no start cause and does not extend
    the owner window.
-5. **Sound.** Audible playback requires explicit scene sound enablement,
-   output sound permission and no local mute. An output that permits silence
-   only can run an otherwise admitted attachment muted. Mute and unmute
-   change audibility without stopping, restarting or shifting the playback
-   clock. Permission to play silently does not grant permission for sound.
+5. **Sound.** Decision 169 governs audibility of already authorized playback.
+   Audible playback requires explicit scene sound enablement, output sound
+   permission and no local mute. An output that permits silence only can run
+   an otherwise admitted attachment muted. Mute and unmute change audibility
+   without stopping, restarting or shifting the playback clock.
 
 ## Currentness and resume
 
@@ -70,6 +80,12 @@ window. A missed frame, local mute, asset load time or disconnected renderer
 does not extend that window. A clip that ends without an admitted loop becomes
 terminal. A replaced or stopped instance remains terminal, and deactivation
 ends the activation's autoplay instance.
+
+The [scene-document publication owner](scene-document-v1.md#6-drafts-publication-and-restore)
+selects the live revision. A publication change alone supplies neither a
+new activation nor evidence that the old instance matches the new selection.
+Use the owning activation observation and bind any resume to the exact current
+instance.
 
 Resume only the same still-active, compatible instance at its current qualified
 elapsed position. For a running loop, the total elapsed position remains the
@@ -100,3 +116,8 @@ observation for the identified instance.
 | M07 | A reconnect supplies an asset matching an old stopped instance, or supplies a current identity without qualified elapsed. | No resume in either observation. The old instance is terminal and the current position remains unavailable, respectively. |
 | M08 | Milestone window starts t=2000, lasts 1,000 ms and is followed by a 200 ms gap. Current media is selected through the presentation. Reconnect at t=2999 and then at t=3000. | Resume the window-bound active instance at 999 on the first observation. No milestone resume at the gap boundary t=3000. The next window needs its own owner selection. |
 | M09 | On autoplay's scene deactivation, the old asset stays cached. The same revision activates again with a distinct activation and unchanged attachment bytes. | The old instance cannot resume. The new authorized activation admits its own autoplay instance at 0. |
+| M10 | A start is authorized and compatibility is established. The output permits sound and local mute is off. The scene omits sound enablement. | Playback starts muted. It continues at the qualified position. |
+| M11 | The exact attachment and authorized cause are known, but the output's compatibility with the exact asset and profile is unproved. | Playback is unavailable on that output. |
+| M12 | A contribution is accepted silently. An ordinary alert would have matched A on normal acceptance. B is a separate, already authorized instance with sound disabled by the output. | No occurrence is admitted for A, so A does not start. B continues muted at its qualified position. |
+| M13 | A and B are distinct authored attachments with active playback. A new authorized occurrence matches A alone. | A restarts at elapsed 0. B keeps its instance and elapsed clock. |
+| M14 | A new revision selects the same asset bytes while the scene is visible. The playback input has no new activation and no proof that the old instance matches the new selection. | No autoplay start and no resume inferred from publication or asset equality. |
