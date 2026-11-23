@@ -252,6 +252,7 @@ if(TARGET subathon_sqlite_credential_catalog AND TARGET subathon_sqlite_permissi
     subathon_target_options(subathon_sqlite_milestone_target_edits)
 
     add_library(subathon_contribution_review STATIC EXCLUDE_FROM_ALL
+        src/connector_intake_start.cpp
         src/contribution_review.cpp
         src/sqlite_milestone_interruption.cpp
         src/sqlite_milestone_playback.cpp
