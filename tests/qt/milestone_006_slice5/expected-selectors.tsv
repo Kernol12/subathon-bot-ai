@@ -1,0 +1,16 @@
+suite	selector	data_tag	type	source	qt_line	call_line	throw_line	description
+replace	r5ApplicationRefundReviewInvalidatesDeferPreview		pass					ordinary control
+replace	r7SharedRefDoesNotAuthorizeCrossOriginOrChangedBytes		pass					ordinary control
+replace	r7ShapeRefusalsPreserveBothOrigins	application-empty	pass					ordinary control
+replace	r7ShapeRefusalsPreserveBothOrigins	application-duplicate	pass					ordinary control
+replace	r7ShapeRefusalsPreserveBothOrigins	application-nonexistent	pass					ordinary control
+replace	r7ShapeRefusalsPreserveBothOrigins	application-no-change	pass					ordinary control
+replace	r7ShapeRefusalsPreserveBothOrigins	edit-valid-plus-automation-to-bonus	pass					ordinary control
+replace	r7ShapeRefusalsPreserveBothOrigins	edit-valid-plus-bonus-to-automation	pass					ordinary control
+replace	r7ApplicationRetryAndDisclosureCheckRevocation		pass					ordinary control
+replace	r7ConfirmationAuthorityParity	edit-revoked	fail	replace_tests.cpp	12	492	198	R7: confirm exact cross-origin command under current authority
+replace	r7ConfirmationAuthorityParity	edit-absent	fail	replace_tests.cpp	12	492	198	R7: confirm exact cross-origin command under current authority
+replace	r7ConfirmationAuthorityParity	edit-current	fail	replace_tests.cpp	12	492	198	R7: confirm exact cross-origin command under current authority
+replace	r7ConfirmationAuthorityParity	application-revoked	fail	replace_tests.cpp	12	492	198	R7: confirm exact cross-origin command under current authority
+replace	r7ConfirmationAuthorityParity	application-absent	fail	replace_tests.cpp	12	492	198	R7: confirm exact cross-origin command under current authority
+replace	r7ConfirmationAuthorityParity	application-current	fail	replace_tests.cpp	12	492	198	R7: confirm exact cross-origin command under current authority
