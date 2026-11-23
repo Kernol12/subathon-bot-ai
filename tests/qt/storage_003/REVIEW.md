@@ -91,6 +91,25 @@ for the exact reviewed migration statements as a separate Tier A prerequisite.
 No v22 trigger admission, SQL policy, or executor change is in this fix. The
 statement-11 cut earns no intended-red or downstream credit.
 
+### Closing conditions for assembly and test review
+
+The fixture-source closing receipt is pinned at SHA-256
+`685481efb8f533c572018b401d2295a3ea485acb9ae8732c88f6aac03c20ceda`.
+
+- C3 requires a separate Tier A writer-owned observation seam for W1 prepare
+  and BEGIN counts and the in-unit total SQL bytes and result cells. Count
+  prepared SQL operations separately from BEGIN, COMMIT and ROLLBACK. Read
+  the counters on the idle writer after the observed work completes. If the
+  fixture uses a writer variant, seal that object and its link map along with
+  the checkpoint variant. The structural source and registration supply no
+  W1 trace or in-unit ledger evidence before that seam is reviewed and reached.
+- C4 limits the failed one-less probe controls to the typed resource refusal,
+  terminal query and ledger presence. The frozen brief leaves partial values
+  unspecified. Numeric partial-ledger assertions require a numbered correction.
+
+The reopened v22 Ready and blank stores use the 22-row history oracle. The old
+reader on the untouched backup uses 21 rows.
+
 An earlier unimplemented entry is the only candidate for intended red on its own
 assertion. Compiler, plugin, unexpected meter, invalid fixture and linked-source
 failures are setup failures. Pending W2–W5 statements carry no executable-case
