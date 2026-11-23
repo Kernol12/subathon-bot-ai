@@ -38,6 +38,203 @@
         "text": "Nicht verbunden"
       }
     },
+    "scene.modifier.active.false": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Modifikator inaktiv"
+      }
+    },
+    "scene.modifier.active.true": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Modifikator aktiv"
+      }
+    },
+    "scene.modifier.mode.active_subathon": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Aktive Subathon-Zeit"
+      }
+    },
+    "scene.modifier.mode.real_elapsed": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Verstrichene Echtzeit"
+      }
+    },
+    "scene.pause.active.false": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Countdown nicht pausiert"
+      }
+    },
+    "scene.pause.active.true": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Countdown pausiert"
+      }
+    },
+    "scene.pause.reason.false": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Nicht wirksam"
+      }
+    },
+    "scene.pause.reason.true": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Wirksam"
+      }
+    },
+    "scene.pause.stream_unknown_notice.false": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Streamstatus-Hinweis inaktiv"
+      }
+    },
+    "scene.pause.stream_unknown_notice.true": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Streamstatus unbekannt"
+      }
+    },
+    "scene.support.count.bits": {
+      "parameters": {
+        "quantity": "text",
+        "selector": "integer"
+      },
+      "plural": "selector",
+      "forms": {
+        "one": "{quantity} Bit",
+        "other": "{quantity} Bits"
+      }
+    },
+    "scene.support.count.gift": {
+      "parameters": {
+        "quantity": "text",
+        "selector": "integer"
+      },
+      "plural": "selector",
+      "forms": {
+        "one": "{quantity} Geschenkabo",
+        "other": "{quantity} Geschenkabos"
+      }
+    },
+    "scene.support.kind.bits": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Bits"
+      }
+    },
+    "scene.support.kind.donation": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Spende"
+      }
+    },
+    "scene.support.kind.gift": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Geschenkabo"
+      }
+    },
+    "scene.support.kind.subscription": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Abonnement"
+      }
+    },
+    "scene.timer.awaiting_confirmation.false": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Wartet nicht auf Bestätigung"
+      }
+    },
+    "scene.timer.awaiting_confirmation.true": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Wartet auf Bestätigung"
+      }
+    },
+    "scene.timer.lifecycle.active": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Aktiv"
+      }
+    },
+    "scene.timer.lifecycle.finished": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Beendet"
+      }
+    },
+    "scene.timer.lifecycle.ready": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Bereit"
+      }
+    },
+    "scene.timer.phase.grace": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Nachfrist"
+      }
+    },
+    "scene.timer.phase.main": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Hauptzeit"
+      }
+    },
+    "scene.track.position.all_completed": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Alle Ziele erreicht"
+      }
+    },
+    "scene.track.position.before_first": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Vor dem ersten Ziel"
+      }
+    },
+    "scene.track.position.between_targets": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Zwischen zwei Zielen"
+      }
+    },
+    "scene.track.position.empty": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Keine Ziele"
+      }
+    },
     "timer.remaining": {
       "parameters": {
         "duration": "text"

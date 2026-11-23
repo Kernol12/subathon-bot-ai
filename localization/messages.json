@@ -55,6 +55,276 @@
       }
     },
     {
+      "id": "scene.modifier.active.false",
+      "description": "Known inactive state of the selected modifier instance.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Modifier inactive"},
+        "de": {"text": "Modifikator inaktiv"}
+      }
+    },
+    {
+      "id": "scene.modifier.active.true",
+      "description": "Known active state of the selected modifier instance. It may currently be paused.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Modifier active"},
+        "de": {"text": "Modifikator aktiv"}
+      }
+    },
+    {
+      "id": "scene.modifier.mode.active_subathon",
+      "description": "Modifier clock mode that uses qualified countdown progression.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Active subathon time"},
+        "de": {"text": "Aktive Subathon-Zeit"}
+      }
+    },
+    {
+      "id": "scene.modifier.mode.real_elapsed",
+      "description": "Modifier clock mode that uses independently qualified elapsed time.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Real elapsed time"},
+        "de": {"text": "Verstrichene Echtzeit"}
+      }
+    },
+    {
+      "id": "scene.pause.active.false",
+      "description": "The countdown is known to have no effective pause reason.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Countdown not paused"},
+        "de": {"text": "Countdown nicht pausiert"}
+      }
+    },
+    {
+      "id": "scene.pause.active.true",
+      "description": "The countdown is known to have an effective pause reason.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Countdown paused"},
+        "de": {"text": "Countdown pausiert"}
+      }
+    },
+    {
+      "id": "scene.pause.reason.false",
+      "description": "The selected pause reason is known to be absent from the effective reason set. Adjacent authored text names the reason.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Not in effect"},
+        "de": {"text": "Nicht wirksam"}
+      }
+    },
+    {
+      "id": "scene.pause.reason.true",
+      "description": "The selected pause reason is known to be in the effective reason set. Adjacent authored text names the reason.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "In effect"},
+        "de": {"text": "Wirksam"}
+      }
+    },
+    {
+      "id": "scene.pause.stream_unknown_notice.false",
+      "description": "The stream-status-unknown notice is known to be inactive. This describes the notice, not the stream status.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Stream status notice inactive"},
+        "de": {"text": "Streamstatus-Hinweis inaktiv"}
+      }
+    },
+    {
+      "id": "scene.pause.stream_unknown_notice.true",
+      "description": "The stream-status-unknown notice is known to be active.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Stream status unknown"},
+        "de": {"text": "Streamstatus unbekannt"}
+      }
+    },
+    {
+      "id": "scene.support.count.bits",
+      "description": "Bits quantity on a Bits support row. Quantity contains the complete decimal digits. The selector chooses the form and is never displayed.",
+      "parameters": {"quantity": "text", "selector": "integer"},
+      "plural": "selector",
+      "translations": {
+        "en": {"one": "{quantity} Bit", "other": "{quantity} Bits"},
+        "de": {"one": "{quantity} Bit", "other": "{quantity} Bits"}
+      }
+    },
+    {
+      "id": "scene.support.count.gift",
+      "description": "Count of gifted subscriptions on a Gift support row. Quantity contains the complete decimal digits. The selector chooses the form and is never displayed.",
+      "parameters": {"quantity": "text", "selector": "integer"},
+      "plural": "selector",
+      "translations": {
+        "en": {"one": "{quantity} gifted subscription", "other": "{quantity} gifted subscriptions"},
+        "de": {"one": "{quantity} Geschenkabo", "other": "{quantity} Geschenkabos"}
+      }
+    },
+    {
+      "id": "scene.support.kind.bits",
+      "description": "Kind label for a recent-support row classified as Bits.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Bits"},
+        "de": {"text": "Bits"}
+      }
+    },
+    {
+      "id": "scene.support.kind.donation",
+      "description": "Kind label for a recent-support row classified as a donation.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Donation"},
+        "de": {"text": "Spende"}
+      }
+    },
+    {
+      "id": "scene.support.kind.gift",
+      "description": "Kind label for a recent-support row classified as a gifted subscription or bundle of gifted subscriptions.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Gifted subscription"},
+        "de": {"text": "Geschenkabo"}
+      }
+    },
+    {
+      "id": "scene.support.kind.subscription",
+      "description": "Kind label for a recent-support row classified as a subscription.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Subscription"},
+        "de": {"text": "Abonnement"}
+      }
+    },
+    {
+      "id": "scene.timer.awaiting_confirmation.false",
+      "description": "Known false state of the confirmation-wait flag for the active timer.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Not awaiting confirmation"},
+        "de": {"text": "Wartet nicht auf Bestätigung"}
+      }
+    },
+    {
+      "id": "scene.timer.awaiting_confirmation.true",
+      "description": "Known true state of the confirmation-wait flag for the active timer.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Awaiting confirmation"},
+        "de": {"text": "Wartet auf Bestätigung"}
+      }
+    },
+    {
+      "id": "scene.timer.lifecycle.active",
+      "description": "Active timer lifecycle, irrespective of phase or pause state.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Active"},
+        "de": {"text": "Aktiv"}
+      }
+    },
+    {
+      "id": "scene.timer.lifecycle.finished",
+      "description": "Finished timer lifecycle.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Finished"},
+        "de": {"text": "Beendet"}
+      }
+    },
+    {
+      "id": "scene.timer.lifecycle.ready",
+      "description": "Ready timer lifecycle before the subathon starts.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Ready"},
+        "de": {"text": "Bereit"}
+      }
+    },
+    {
+      "id": "scene.timer.phase.grace",
+      "description": "Grace phase of the active timer, including when paused.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Grace period"},
+        "de": {"text": "Nachfrist"}
+      }
+    },
+    {
+      "id": "scene.timer.phase.main",
+      "description": "Main phase of the active timer, including when paused.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Main time"},
+        "de": {"text": "Hauptzeit"}
+      }
+    },
+    {
+      "id": "scene.track.position.all_completed",
+      "description": "Milestone track with all targets completed, even if it now has a deficit.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "All targets completed"},
+        "de": {"text": "Alle Ziele erreicht"}
+      }
+    },
+    {
+      "id": "scene.track.position.before_first",
+      "description": "Milestone track with targets and no completed first target.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Before first target"},
+        "de": {"text": "Vor dem ersten Ziel"}
+      }
+    },
+    {
+      "id": "scene.track.position.between_targets",
+      "description": "Milestone track with a completed target and a next target.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "Between targets"},
+        "de": {"text": "Zwischen zwei Zielen"}
+      }
+    },
+    {
+      "id": "scene.track.position.empty",
+      "description": "Milestone track with no targets.",
+      "parameters": {},
+      "plural": null,
+      "translations": {
+        "en": {"text": "No targets"},
+        "de": {"text": "Keine Ziele"}
+      }
+    },
+    {
       "id": "timer.remaining",
       "description": "Remaining timer duration; duration is already formatted plain text.",
       "parameters": {"duration": "text"},
