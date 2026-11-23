@@ -415,7 +415,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;rate-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;modifier-capture;frankfurter-rates"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;rate-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;modifier-capture;frankfurter-rates;api-031"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE=ON
           -DSUBATHON_BUILD_STORAGE_026_STAGE1=ON
@@ -483,6 +483,8 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^live-financial-refunds$' --no-tests=error
       - name: Run durable connector intake storage acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^storage-026$' --output-on-failure --no-tests=error
+      - name: Run connector intake startup and first checkpoint acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^api-031$' --output-on-failure --no-tests=error
       - name: Run all reviewed milestone interruption storage suites
         run: |
           ctest --preset sqlite-reference-capture-debug -L '^storage-027$' \
