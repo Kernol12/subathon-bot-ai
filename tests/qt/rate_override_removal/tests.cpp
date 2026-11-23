@@ -75,6 +75,46 @@ RateAuthorityFacts another_actor() {
     return facts;
 }
 
+enum class ReadDenial { revoked, missing_use, owner_only, grant_only, individual_deny, actor };
+
+void read_denials() {
+    QTest::addColumn<int>("reason");
+    QTest::newRow("revoked-session") << int(ReadDenial::revoked);
+    QTest::newRow("missing-use") << int(ReadDenial::missing_use);
+    QTest::newRow("owner-only") << int(ReadDenial::owner_only);
+    QTest::newRow("grant-only") << int(ReadDenial::grant_only);
+    QTest::newRow("matching-individual-deny") << int(ReadDenial::individual_deny);
+    QTest::newRow("actor-mismatch") << int(ReadDenial::actor);
+}
+
+RateAuthorityResolution denied_read_authority(ReadDenial reason) {
+    switch (reason) {
+    case ReadDenial::revoked:
+        return SessionFailure::revoked;
+    case ReadDenial::missing_use:
+    case ReadDenial::grant_only: {
+        // Keep A as the authenticated actor and put ownership on enabled account B.
+        auto facts = another_actor();
+        facts.session = permitted().session;
+        facts.graph.owner.account = "B";
+        facts.graph.use.accounts.front().individual_entries.clear();
+        if (reason == ReadDenial::grant_only)
+            facts.graph.grant.accounts.front().individual_entries = {grant()};
+        return facts;
+    }
+    case ReadDenial::owner_only: {
+        auto facts = permitted();
+        facts.graph.use.accounts.front().individual_entries.clear();
+        return facts;
+    }
+    case ReadDenial::individual_deny:
+        return role_authority(true, false);
+    case ReadDenial::actor:
+        return another_actor();
+    }
+    throw std::logic_error("Unknown removal read denial fixture");
+}
+
 class RateOverrideRemovalTests final : public QObject {
     Q_OBJECT
 
@@ -219,6 +259,22 @@ class RateOverrideRemovalTests final : public QObject {
         });
     }
 
+    void authorityAtPreview_data() { read_denials(); }
+    void authorityAtPreview() {
+        QFETCH(int, reason);
+        check([=] {
+            constexpr auto start = Start::equal_rates;
+            const auto contract = example(start);
+            RateFile file;
+            const auto before = establish(file, contract, start);
+            const auto expected = contract.expected_preview();
+            expect_refusal(preview(file, expected.edit, expected.basis,
+                                   denied_read_authority(ReadDenial(reason))),
+                           RateStoreRefusal::denied);
+            require(rate_image(file) == before, "Denied preview leaves the committed image intact");
+        });
+    }
+
     void freshTargets_data() {
         QTest::addColumn<int>("test");
         QTest::newRow("empty-E") << 0;
@@ -301,6 +357,30 @@ class RateOverrideRemovalTests final : public QObject {
         });
     }
 
+    void previewIdentityCollisions_data() {
+        QTest::addColumn<QString>("decision");
+        QTest::addColumn<QString>("successor");
+        QTest::newRow("retained-decision-D") << QStringLiteral("D") << QStringLiteral("U");
+        QTest::newRow("reserved-successor-E") << QStringLiteral("M") << QStringLiteral("E");
+        QTest::newRow("retained-successor-S") << QStringLiteral("M") << QStringLiteral("S");
+    }
+    void previewIdentityCollisions() {
+        QFETCH(QString, decision);
+        QFETCH(QString, successor);
+        check([=] {
+            constexpr auto start = Start::pin_f_first;
+            const auto contract = example(start);
+            RateFile file;
+            const auto before = establish(file, contract, start);
+            auto expected = contract.expected_preview();
+            expected.edit.decision = decision.toStdString();
+            expected.edit.successor = successor.toStdString();
+            expect_refusal(preview(file, expected.edit, expected.basis),
+                           RateStoreRefusal::identity_conflict);
+            require(rate_image(file) == before, "Preview identity collision leaves no writes");
+        });
+    }
+
     void freshIdentityAndProposal() {
         check([] {
             constexpr auto start = Start::equal_rates;
@@ -319,12 +399,42 @@ class RateOverrideRemovalTests final : public QObject {
                                 RateStoreRefusal::identity_conflict);
 
             auto tampered = expected;
-            // This snapshot is internally coherent and EUR/USD is still 6/5,
-            // but it selects an unindexed EUR/GBP quote from the full F body.
+            // This candidate selects unindexed F#1. EUR/USD stays at 6/5, but
+            // EUR/GBP becomes available while the reviewed delta stays empty.
             tampered.proposal.candidate.constraints.push_back(core::FetchedRateConstraint{"F", 1});
             auto &members = tampered.proposal.candidate.components.front().members;
             members.insert(members.begin() + 1, {"GBP", "9", "10"});
             expect_quote(tampered.proposal.candidate, "EUR", "USD", ratio(6, 5));
+            expect_save_refusal(file, expected.edit, tampered, expected.basis,
+                                RateStoreRefusal::preview_changed);
+        });
+    }
+
+    void freshReviewedProposal_data() {
+        QTest::addColumn<bool>("candidate");
+        QTest::newRow("equal-rate-candidate-only") << true;
+        QTest::newRow("reviewed-target-only") << false;
+    }
+    void freshReviewedProposal() {
+        QFETCH(bool, candidate);
+        check([=] {
+            const auto start = candidate ? Start::equal_rates : Start::pin_f_first;
+            const auto contract = example(start);
+            RateFile file;
+            (void)establish(file, contract, start);
+            const auto expected = contract.expected_preview();
+            auto tampered = expected;
+            if (candidate) {
+                // Change one candidate evidence field. Support, weights, review
+                // deltas, and both copies of the basis still match.
+                auto &snapshot = tampered.proposal.candidate;
+                snapshot.sources.front().context.source_evidence_ref = "alternate-evidence";
+                expect_quotes(contract, snapshot, start);
+                require(snapshot_bytes(snapshot) != snapshot_bytes(expected.proposal.candidate),
+                        "Equal-rate candidate has different canonical evidence bytes");
+            } else {
+                tampered.proposal.removed_override_ref = "Q";
+            }
             expect_save_refusal(file, expected.edit, tampered, expected.basis,
                                 RateStoreRefusal::preview_changed);
         });
@@ -404,7 +514,8 @@ class RateOverrideRemovalTests final : public QObject {
             changed.edit.removed_override_ref = "Q";
             changed.proposal.removed_override_ref = "Q";
             conflict(changed);
-            changed.edit.pair = {"CAD", "JPY"};
+            changed = expected;
+            changed.edit.pair = {"EUR", "GBP"};
             conflict(changed);
             changed = expected;
             changed.edit.actor = "B";
@@ -614,6 +725,27 @@ class RateOverrideRemovalTests final : public QObject {
                            RateStoreRefusal::denied);
             require(rate_image(file) == before,
                     "Recovering a never-submitted preview is read-only");
+        });
+    }
+
+    void authorityAtCommittedRecovery_data() { read_denials(); }
+    void authorityAtCommittedRecovery() {
+        QFETCH(int, reason);
+        check([=] {
+            constexpr auto start = Start::equal_rates;
+            const auto contract = example(start);
+            RateFile file;
+            const auto before = establish(file, contract, start);
+            const auto expected = contract.expected_preview();
+            expect_saved(*submit(file, expected), RateReceiptOrigin::newly_staged, expected);
+            expect_transition(file, before, contract, start);
+            const auto committed = rate_image(file);
+            file.reopen();
+            expect_refusal(recover(file, expected, denied_read_authority(ReadDenial(reason))),
+                           RateStoreRefusal::denied);
+            expect_recovered(file, expected);
+            require(rate_image(file) == committed,
+                    "Denied and permitted recovery preserve the committed closure");
         });
     }
 
