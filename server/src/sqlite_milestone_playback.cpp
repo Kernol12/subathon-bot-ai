@@ -263,7 +263,7 @@ Disposition stage_playback_handoff(const SqliteWorkSession &s, PlaybackAuthority
         if (!validate_stop(s, request, key))
             return Disposition::refused;
         const auto existing = find_instance(s, request, profile);
-        if (!handoff_matches(existing, wanted) || !owner.proves_current(s, request))
+        if (!handoff_matches(existing, wanted) || !std::holds_alternative<PlaybackCurrent>(owner.currentness(s, request)))
             return Disposition::refused;
         if (existing->claimed)
             return Disposition::replay;
@@ -414,11 +414,13 @@ void retire_obsolete(const SqliteWorkSession &s, PlaybackAuthority &authority,
     const auto selected = find_instance(s, request, nullptr);
     if (!handoff_matches(selected, wanted) || selected->claimed || retained_handoff(s, wanted))
         return;
-    const auto evidence = authority.proves_obsolete(s, request);
-    if (!evidence || !ref(*evidence))
+    const auto currentness = authority.currentness(s, request);
+    const auto *obsolete = std::get_if<PlaybackProvenObsolete>(&currentness);
+    if (!obsolete || !ref(obsolete->observed_generation) ||
+        obsolete->observed_generation == request.instance.runtime_generation)
         return;
     auto args = stop_key(request.track, request.stop);
-    args.append({wanted.intent, 1, int(PlaybackOutcome::obsolete), *evidence});
+    args.append({wanted.intent, 1, int(PlaybackOutcome::obsolete), obsolete->observed_generation});
     (void)s.execute(
         {"INSERT INTO main.subathon_milestone_playback_evidence VALUES(?,?,?,?,?,?,?)", args});
 }

@@ -5,6 +5,7 @@
 #include <subathon/server/sqlite_milestone_target_edits.hpp>
 
 #include <array>
+#include <variant>
 
 namespace subathon::server {
 
@@ -312,15 +313,24 @@ struct LatePlayback {
 
 struct PlaybackEvidence;
 
+struct PlaybackCurrent {};
+struct PlaybackProvenObsolete {
+    QByteArray observed_generation;
+};
+struct PlaybackCurrentnessUnknown {};
+using PlaybackCurrentness =
+    std::variant<PlaybackCurrentnessUnknown, PlaybackCurrent, PlaybackProvenObsolete>;
+
 class PlaybackAuthority {
   public:
     virtual ~PlaybackAuthority() = default;
     virtual bool proves_current(const SqliteWorkSession &, const LatePlayback &) = 0;
-    // Missing current proof does not establish obsolescence. An owning port
-    // may separately attest that the exact old instance has ended or changed.
-    virtual std::optional<QByteArray> proves_obsolete(const SqliteWorkSession &,
-                                                      const LatePlayback &) {
-        return {};
+    // Only an affirmative observation for the exact instance can prove a new
+    // generation. Legacy ports can prove currentness or leave it unknown.
+    virtual PlaybackCurrentness currentness(const SqliteWorkSession &s, const LatePlayback &playback) {
+        if (proves_current(s, playback))
+            return PlaybackCurrent{};
+        return PlaybackCurrentnessUnknown{};
     }
     virtual bool owns_evidence(const SqliteWorkSession &, const PlaybackEvidence &);
 };

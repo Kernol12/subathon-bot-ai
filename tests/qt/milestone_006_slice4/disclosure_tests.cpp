@@ -252,7 +252,8 @@ struct ScoreCrossing {
 };
 
 void capture_later_group(const SqliteWorkSession &, CurrentConfiguration &,
-                         const ContributionReceipt &, const Occurrence &, ScoreCrossing) {
+                         const ContributionReceipt &, const ApplicationPlanKey &,
+                         const Occurrence &, ScoreCrossing) {
     throw OwnerEntryMissing("R1: capture a later milestone from the published definition");
 }
 
@@ -453,8 +454,21 @@ class Milestone006DisclosureTests final : public QObject {
             const Occurrence later_group{edit::track,
                                          {"ordinary-later-occurrence"},
                                          ApplicationOperationKey{"test", "ordinary-later"}};
+            ApplicationPlanKey plan;
             d.f.file.write([&](const auto &s) {
-                capture_later_group(s, authority, receipt, later_group, {36000000, 40000000});
+                const auto &operation = std::get<ApplicationOperationKey>(later_group.origin);
+                plan = finance::File::receipt_application(s, receipt, operation.operation_ref)
+                           .intent.plan;
+                finance::File::retain_plan(s, plan, finance::File::plain_capture(receipt, {}, {}));
+            });
+            d.f.file.write([&](const auto &s) {
+                const auto admitted =
+                    SqliteApplicationBundleStore(s).read_inputs(plan, ApplicationSubjectKind::receipt);
+                require(admitted.disposition == SqliteBundleInputDisposition::ready &&
+                            admitted.inputs &&
+                            admitted.inputs->selected_plan.captured.event.receipt_id == receipt.id,
+                        "The admitted plan belongs to the exact later receipt");
+                capture_later_group(s, authority, receipt, plan, later_group, {36000000, 40000000});
             });
             require(authority.resolutions > 0,
                     "Capture resolves actions from the admitted current configuration");
@@ -487,6 +501,10 @@ class Milestone006DisclosureTests final : public QObject {
                             bundle->jobs.front().group_ordinal == 1 &&
                             bundle->jobs.front().envelope.format_ref == inherited_format,
                         "Later C owns a real versioned capture and exact enrollment");
+                require(bundle->intent.subject_kind == ApplicationSubjectKind::receipt &&
+                            bundle->intent.plan.plan_ref == plan.plan_ref &&
+                            bundle->intent.plan.revision == plan.revision,
+                        "The later capture used the admitted receipt plan and revision");
                 const auto job =
                     SqliteDeliveryJobStore(s).lookup({key, bundle->jobs.front().job_ref});
                 require(job && job->action_document == QByteArray::fromHex("00a5") &&
