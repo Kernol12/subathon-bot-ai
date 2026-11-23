@@ -233,8 +233,10 @@ inline LiveProgressObservation live_witness(bool after_reconnect = false, QByteA
 class Transcript final : public ConnectorHistoryAdapter, public ConnectorLiveProgressPort {
   public:
     explicit Transcript(bool second, bool after_reconnect = false)
-        : cut_fact(cut_witness(second)),
-          live_fact(second ? std::nullopt : std::optional(live_witness(after_reconnect))) {}
+        : cut_fact(cut_witness(second)) {
+        if (!second)
+            offer_live(live_witness(after_reconnect));
+    }
 
     void clear_invocation() {
         observed_cut.reset();
@@ -272,8 +274,13 @@ class Transcript final : public ConnectorHistoryAdapter, public ConnectorLivePro
     }
 
     void offer_live(LiveProgressObservation fact) {
+        // Re-offering the same fact preserves one transcript. Distinct facts
+        // sharing a request and proof remain ambiguous for recovery.
+        if (std::ranges::none_of(retained_live, [&](const auto &retained) {
+                return exact_live(retained, fact.request, fact);
+            }))
+            retained_live.append(fact);
         live_fact = std::move(fact);
-        retained_live.append(*live_fact);
     }
 
     CutObservation cut_fact;
@@ -338,10 +345,24 @@ class Transcript final : public ConnectorHistoryAdapter, public ConnectorLivePro
 
     bool attests(const LiveProgressRequest &request, const LiveProgressObservation &result) const {
         ++live_attestations;
-        return (live_fact && exact_live(*live_fact, request, result)) ||
-               std::ranges::any_of(retained_live, [&](const auto &fact) {
-                   return exact_live(fact, request, result);
-               });
+        return std::ranges::any_of(retained_live, [&](const auto &fact) {
+            return exact_live(fact, request, result);
+        });
+    }
+
+    std::optional<LiveProgressObservation>
+    resolve_retained_live(const LiveProgressRequest &request, const QByteArray &proof) const {
+        const LiveProgressObservation *match = nullptr;
+        for (const auto &fact : retained_live) {
+            if (request != fact.request || proof != fact.proof)
+                continue;
+            if (match)
+                return std::nullopt;
+            match = &fact;
+        }
+        if (match)
+            return *match;
+        return std::nullopt;
     }
 
   private:
@@ -422,6 +443,9 @@ class Registry final : public StartupProfileRegistry {
             },
             [&port](const auto &retained_cut, const auto &item) {
                 return port.qualify_live_item(retained_cut, item);
+            },
+            [&port](const auto &retained_request, const auto &retained_proof) {
+                return port.resolve_retained_live(retained_request, retained_proof);
             }});
     }
 

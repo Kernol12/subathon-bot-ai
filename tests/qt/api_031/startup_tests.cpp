@@ -1004,6 +1004,13 @@ class Api031StartupTests final : public QObject {
             require(fixture.registry.calls() == calls,
                     "A stale fence stops before proof comparison");
             expect_unchanged(fixture, after, changes);
+
+            // Keep the g2 fence and port but replace the approved registry identity.
+            fixture.registry.retire_first();
+            expect_refusal(fixture.inspect({request}), IntakeStatus::unavailable);
+            require(port.lives == live_observations,
+                    "An unproved registry identity cannot trigger a fresh live observation");
+            expect_unchanged(fixture, after, changes);
         });
     }
 

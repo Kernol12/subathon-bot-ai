@@ -123,6 +123,10 @@ struct StartupProfile {
     std::function<StartupPreCutRelation(const QByteArray &retained_cut,
                                        const LiveItemEnvelope &observed_item)>
         qualify_live_item{};
+    // Recover the unique original observation from its exact request and proof.
+    std::function<std::optional<LiveProgressObservation>(const LiveProgressRequest &retained_request,
+                                                         const QByteArray &retained_proof)>
+        resolve_retained_live{};
 };
 
 class StartupProfileRegistry {
