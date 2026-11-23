@@ -252,8 +252,11 @@ Disposition stage_late_playback(const SqliteWorkSession &s, PlaybackAuthority &o
     });
 }
 
-Disposition stage_playback_handoff(const SqliteWorkSession &s, PlaybackAuthority &owner,
-                                   const PlaybackHandoff &wanted, const AdmissionProfile *profile) {
+namespace {
+
+Disposition mark_playback_handoff(const SqliteWorkSession &s, PlaybackAuthority &owner,
+                                  const PlaybackHandoff &wanted, const AdmissionProfile *profile,
+                                  PlaybackCurrentness *observed) {
     if (!valid_late(wanted.selected) || !ref(wanted.intent))
         return Disposition::refused;
     return guarded(s, [&] {
@@ -263,7 +266,12 @@ Disposition stage_playback_handoff(const SqliteWorkSession &s, PlaybackAuthority
         if (!validate_stop(s, request, key))
             return Disposition::refused;
         const auto existing = find_instance(s, request, profile);
-        if (!handoff_matches(existing, wanted) || !std::holds_alternative<PlaybackCurrent>(owner.currentness(s, request)))
+        if (!handoff_matches(existing, wanted))
+            return Disposition::refused;
+        const auto currentness = owner.currentness(s, request);
+        if (observed)
+            *observed = currentness;
+        if (!std::holds_alternative<PlaybackCurrent>(currentness))
             return Disposition::refused;
         if (existing->claimed)
             return Disposition::replay;
@@ -289,6 +297,13 @@ Disposition stage_playback_handoff(const SqliteWorkSession &s, PlaybackAuthority
             corrupt();
         return Disposition::committed;
     });
+}
+
+} // namespace
+
+Disposition stage_playback_handoff(const SqliteWorkSession &s, PlaybackAuthority &owner,
+                                   const PlaybackHandoff &wanted, const AdmissionProfile *profile) {
+    return mark_playback_handoff(s, owner, wanted, profile, nullptr);
 }
 
 Disposition stage_playback_outcome(const SqliteWorkSession &s, PlaybackAuthority &owner,
@@ -408,19 +423,17 @@ std::optional<PlaybackOutcome> retained_handoff(const SqliteWorkSession &s,
     return outcome;
 }
 
-void retire_obsolete(const SqliteWorkSession &s, PlaybackAuthority &authority,
-                     const PlaybackHandoff &wanted) {
+void retire_obsolete(const SqliteWorkSession &s, const PlaybackHandoff &wanted,
+                     const PlaybackProvenObsolete &obsolete) {
     const auto &request = wanted.selected;
+    if (!ref(obsolete.observed_generation) ||
+        obsolete.observed_generation == request.instance.runtime_generation)
+        return;
     const auto selected = find_instance(s, request, nullptr);
     if (!handoff_matches(selected, wanted) || selected->claimed || retained_handoff(s, wanted))
         return;
-    const auto currentness = authority.currentness(s, request);
-    const auto *obsolete = std::get_if<PlaybackProvenObsolete>(&currentness);
-    if (!obsolete || !ref(obsolete->observed_generation) ||
-        obsolete->observed_generation == request.instance.runtime_generation)
-        return;
     auto args = stop_key(request.track, request.stop);
-    args.append({wanted.intent, 1, int(PlaybackOutcome::obsolete), obsolete->observed_generation});
+    args.append({wanted.intent, 1, int(PlaybackOutcome::obsolete), obsolete.observed_generation});
     (void)s.execute(
         {"INSERT INTO main.subathon_milestone_playback_evidence VALUES(?,?,?,?,?,?,?)", args});
 }
@@ -476,15 +489,13 @@ MilestonePlaybackCompletion process_milestone_playback_turn(SqliteWriter &writer
                 }
             }
             break;
-        case MilestonePlaybackTurn::handoff:
-            require_catalog(s);
-            if (validate_stop(s, wanted.selected,
-                              origin(wanted.selected.instance.target, nullptr))) {
-                disposition = stage_playback_handoff(s, authority, wanted);
-                if (disposition == Disposition::refused)
-                    retire_obsolete(s, authority, wanted);
-            }
+        case MilestonePlaybackTurn::handoff: {
+            PlaybackCurrentness observed;
+            disposition = mark_playback_handoff(s, authority, wanted, nullptr, &observed);
+            if (const auto *obsolete = std::get_if<PlaybackProvenObsolete>(&observed))
+                retire_obsolete(s, wanted, *obsolete);
             break;
+        }
         }
         s.commit();
         return 1;

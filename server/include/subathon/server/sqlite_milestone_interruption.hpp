@@ -213,6 +213,25 @@ Disposition publish_milestone_definitions(const SqliteWorkSession &,
                                           const MilestoneDefinitionAuthority &,
                                           const MilestoneDefinitionEdit &);
 
+struct PublishedMilestoneAutomation {
+    MilestoneAction action;
+    ApplicationEnvelope envelope;
+    DeliverySenderSelection sender_selection;
+    std::string route;
+    std::string qualified_sender;
+};
+using PublishedMilestoneConfiguration = std::function<std::optional<PublishedMilestoneAutomation>(
+    const SqliteWorkSession &, const MilestoneDefinitionBinding &, const core::MilestoneTarget &)>;
+
+// The trusted application owner supplies the already admitted receipt plan
+// and exact score operands. This is an internal capture turn for one newly
+// earned occurrence, with no additional application effects.
+Disposition capture_published_milestone_group(const SqliteWorkSession &,
+                                              const PublishedMilestoneConfiguration &,
+                                              const ContributionReceipt &,
+                                              const ApplicationPlanKey &, const Occurrence &,
+                                              qint64 score_before, qint64 score_after);
+
 // An unused Replace key requires a current preview. A committed key uses the
 // journal's bound preview after authority and exact typed target/patch checks.
 Decision stage_command(const SqliteWorkSession &, CommandAuthority &, const Command &,

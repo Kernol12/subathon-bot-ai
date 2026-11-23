@@ -251,10 +251,24 @@ struct ScoreCrossing {
     qint64 after;
 };
 
-void capture_later_group(const SqliteWorkSession &, CurrentConfiguration &,
-                         const ContributionReceipt &, const ApplicationPlanKey &,
-                         const Occurrence &, ScoreCrossing) {
-    throw OwnerEntryMissing("R1: capture a later milestone from the published definition");
+void capture_later_group(const SqliteWorkSession &session, CurrentConfiguration &owner,
+                         const ContributionReceipt &receipt, const ApplicationPlanKey &plan,
+                         const Occurrence &occurrence, ScoreCrossing score) {
+    (void)capture_published_milestone_group(
+        session,
+        [&](const auto &s, const MilestoneDefinitionBinding &binding,
+            const subathon::core::MilestoneTarget &target)
+            -> std::optional<PublishedMilestoneAutomation> {
+            auto found = owner.resolve_automation(
+                s, {binding.track, binding.revision, binding.configuration}, target);
+            if (!found)
+                return std::nullopt;
+            auto &capture = found->capture;
+            return PublishedMilestoneAutomation{
+                std::move(capture.definition), {std::move(capture.format), std::move(capture.payload)},
+                found->sender_selection, std::move(capture.route), std::move(capture.sender)};
+        },
+        receipt, plan, occurrence, score.before, score.after);
 }
 
 struct DisclosureFixture {
