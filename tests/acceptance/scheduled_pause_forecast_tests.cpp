@@ -140,7 +140,7 @@ class EnteredBasis {
         const auto *projection = std::get_if<ScheduledPauseProgress>(&entered);
         if (!projection || projection->notice || projection->cursor.hold ||
             projection->cursor.last_observation.utc_ms != at - 1 ||
-            projection->cursor.evaluated_through_utc_ms != at - 1 ||
+            projection->cursor.evaluated_through_utc_ms.has_value() ||
             projection->timer.lifecycle != TimerLifecycle::Active ||
             projection->timer.main_remaining_ms != 900'000 || !projection->new_deliveries.empty() ||
             !projection->stops.empty()) {
