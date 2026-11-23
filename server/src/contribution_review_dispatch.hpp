@@ -82,6 +82,8 @@ class Execute : public std::enable_shared_from_this<Execute> {
           command_(std::move(command)), proof_(std::move(proof)), manifest_(std::move(document)),
           done_(std::move(done)),
           selection_(selectors(command_.entries, [](const auto &x) { return x.intent.selector; })) {
+        // Reserve the admitted row count before any writer work can settle.
+        safe_reply_.rows.reserve(command_.entries.size());
     }
 
     ~Execute() { release(); }
@@ -123,6 +125,7 @@ class Execute : public std::enable_shared_from_this<Execute> {
     bool active_{};
     int initial_cursor_{1};
     Prefix prefix_;
+    ReviewReply safe_reply_;
     std::array<ReadCost, row_limit> reservations_{};
     ReadCost committed_cost_;
     std::pair<qint64, qint64> checked_snapshot_;
@@ -495,14 +498,21 @@ class Execute : public std::enable_shared_from_this<Execute> {
 
     void reconcile() {
         auto self = shared_from_this();
-        // The acceptance fault shares the provisional allocation's pre-enqueue boundary.
-        if (const auto *probe = observer_.target<testing::FinalReviewAllocationObserver>();
-            probe && probe->fault && std::exchange(probe->fault->armed, false)) {
-            ++probe->fault->hits;
-            throw std::bad_alloc{};
+        using Pending = std::variant<ReviewRefusal, Prefix>;
+        std::shared_ptr<Pending> pending;
+        try {
+            // The acceptance fault shares the provisional allocation's pre-enqueue boundary.
+            if (const auto *probe = observer_.target<testing::FinalReviewAllocationObserver>();
+                probe && probe->fault && std::exchange(probe->fault->armed, false)) {
+                ++probe->fault->hits;
+                throw std::bad_alloc{};
+            }
+            pending = std::make_shared<Pending>(ReviewRefusal::unavailable);
+        } catch (const std::bad_alloc &) {
+            // Complete inside the writer's callback containment with the reserved reply.
+            finish_unreconciled();
+            return;
         }
-        auto pending =
-            std::make_shared<std::variant<ReviewRefusal, Prefix>>(ReviewRefusal::unavailable);
         if (!enqueue(
                 test_unit::final_read, 0,
                 [self, pending](const auto &s) {
@@ -520,10 +530,7 @@ class Execute : public std::enable_shared_from_this<Execute> {
                 },
                 [self, pending](const auto &r, bool observed) {
                     if (!normal(r, observed)) {
-                        if (self->stop_)
-                            self->safe_stop();
-                        else
-                            self->finish(ReviewRefusal::unavailable);
+                        self->finish_unreconciled();
                         return;
                     }
                     if (const auto *refusal = std::get_if<ReviewRefusal>(pending.get())) {
@@ -536,12 +543,15 @@ class Execute : public std::enable_shared_from_this<Execute> {
                     if (self->stop_)
                         self->add_suffix(self->prefix_.reply);
                     self->finish(std::move(self->prefix_.reply));
-                })) {
-            if (stop_)
-                safe_stop();
-            else
-                finish(ReviewRefusal::unavailable);
-        }
+                }))
+            finish_unreconciled();
+    }
+
+    void finish_unreconciled() {
+        if (stop_)
+            safe_stop();
+        else
+            finish(ReviewRefusal::unavailable);
     }
 
     void add_suffix(ReviewReply &reply) const {
@@ -561,11 +571,10 @@ class Execute : public std::enable_shared_from_this<Execute> {
     }
 
     void safe_stop() {
-        ReviewReply safe;
         for (const auto &row : prefix_.reply.rows)
-            safe.rows.push_back({row.ordinal, row.disposition, {}});
-        add_suffix(safe);
-        finish(std::move(safe));
+            safe_reply_.rows.push_back({row.ordinal, row.disposition, {}});
+        add_suffix(safe_reply_);
+        finish(std::move(safe_reply_));
     }
 };
 
