@@ -39,11 +39,28 @@ enum class ScheduleZoneUnavailable {
     limit_exceeded
 };
 
+struct ReachedRequestEnd {};
+struct TransitionCap {};
+struct TerminalPrefix {
+    ScheduleZoneUnavailable cause;
+};
+
+struct ForecastPage {
+    ScheduleZoneFacts facts;
+    std::variant<ReachedRequestEnd, TransitionCap, TerminalPrefix> tail;
+};
+
 class ScheduleZoneSource {
   public:
     virtual ~ScheduleZoneSource() = default;
     virtual std::variant<ScheduleZoneFacts, ScheduleZoneUnavailable>
     read(const ScheduleZoneRequest &) = 0;
+
+    // Closed forecast-page contract. Stage 1 exposes the seam before the bridge is implemented.
+    virtual std::variant<ForecastPage, ScheduleZoneUnavailable>
+    read_forecast_page(const ScheduleZoneRequest &) {
+        return ScheduleZoneUnavailable::source_unavailable;
+    }
 };
 
 struct ScheduledPauseRule {
@@ -135,6 +152,9 @@ enum class ScheduledPauseKnowledgeUnavailable { history, ledger, elapsed_split }
 using ScheduledPauseCoverageFailure =
     std::variant<ScheduleZoneUnavailable, ScheduledPauseKnowledgeUnavailable>;
 
+enum class ForecastSupportFailure { beyond_supported_timezone_transitions };
+using ForecastFailure = std::variant<ScheduledPauseCoverageFailure, ForecastSupportFailure>;
+
 struct ScheduledPauseCoverageHold {
     ScheduledPauseCoverageFailure cause;
     std::int64_t from_utc_ms;
@@ -192,7 +212,7 @@ struct ScheduledPausePreview {
     ScheduledPauseConfiguration proposed;
     std::int64_t requested_through_utc_ms;
     std::optional<std::int64_t> resolved_through_utc_ms;
-    std::optional<ScheduledPauseCoverageFailure> incomplete;
+    std::optional<ForecastFailure> incomplete;
     std::vector<ScheduledPauseFactBinding> facts;
     std::vector<ScheduledPausePreviewRow> upcoming;
     std::vector<ScheduledPauseCutoverEffect> cutover_effects;
