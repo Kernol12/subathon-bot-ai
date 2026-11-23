@@ -5,6 +5,7 @@
 #include <subathon/server/sqlite_milestone_target_edits.hpp>
 
 #include <array>
+#include <variant>
 
 namespace subathon::server {
 
