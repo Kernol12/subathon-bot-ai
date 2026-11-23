@@ -17,7 +17,7 @@ govern this boundary. Review receipts and freeze status are recorded in the PR.
   [#406 header](../../core/include/subathon/core/rate_override.hpp) directly.
   A preview is owned data, never authority. A manual command adds one override
   or explicitly replaces the active override for the same unordered pair.
-  A standalone removal command belongs to unqueued #733.
+  The standalone removal operation is specified by [RATES-013](sqlite-rate-override-removal-v1.md).
 - The only source inputs here are current observations and ordered edges supplied
   by the owning authority. This contract defines the persistence shape for
   successors produced with those facts. Provider calls, successful-sync
@@ -89,6 +89,7 @@ For a structurally fitting and authorized request, use this order.
 | Existing operation / base | Outcome |
 | --- | --- |
 | Operation present, exact intent, complete retained closure | Return its immutable original receipt, even after head or live source-policy advance. No writes, new decision or second head publication. |
+| Operation present, other operation kind | Verify the retained closure, then return identity conflict without disclosing the retained payload or writing. |
 | Operation present, changed intent | Identity conflict without revealing retained contents or writing. Changing original spelling, entered direction, actor, target, base, source binding or candidate identity is a change even at an equal rate. |
 | Operation absent, base spent | Stale. Minting a new operation key does not permit reusing the preview. |
 | Operation absent, base current | Recheck current source inputs and exact preview, reject revision/override/decision identity collisions, then attempt the head CAS and atomic write. |
@@ -181,8 +182,8 @@ including populated-prefix and old-manifest refusal.
 | --- | --- | --- |
 | Observation | observation ref | Format + ROB1. Complete immutable context and ordered quotes. Reuse only identical canonical bytes. Retain every admitted basis observation, including those with no selected edges. |
 | Revision | snapshot ref | Nullable parent FK to Revision, unique among non-null parents. Format + complete RSV1. All nonroot revisions have a real earlier parent. |
-| Decision | decision ref | Installation ref and operation key form a unique composite. Successor is separately unique. Base and successor are Revision FKs. RIN1 format + bytes, RDC1 format + bytes. All envelope refs agree with their columns and each other. |
-| Occurrence | override ref | Introducing decision FK (unique), introducing revision FK and complete canonical RSV1 Override body (no envelope). The body matches the introduced override in that revision and the bound edit. Later active references keep those same bytes. Retain replaced and expired occurrences permanently. |
+| Decision | decision ref | Installation ref and operation key form a unique composite. Successor is separately unique. Base and successor are Revision FKs. Introduction and replacement use paired RIN1/RDC1 envelopes. Standalone removal uses paired RRI1/RRD1 envelopes under RATES-013. All envelope refs agree with their columns and each other. |
+| Occurrence | override ref | Introducing decision FK (unique), introducing revision FK and complete canonical RSV1 Override body (no envelope). The body matches the introduced override in that revision and the bound edit. Later active references keep those same bytes. Retain replaced, removed and expired occurrences permanently. A standalone removal introduces no occurrence. |
 | Head | one-byte `H` (0x48) | Active revision FK. Exactly one head, at a terminal revision. Seed with reserved one-byte ref `E` (0x45), absent parent/time and empty vectors. Reserve E from successor generation. A missing or malformed head or root is invalid data. |
 
 Keys and payloads are byte-exact BLOBs. Rate rows share the single-server
@@ -191,8 +192,10 @@ requiring a preexisting account installation. Use explicit physical type/length
 checks and local FKs on relational references.
 All rows except Head are immutable and retained. An Occurrence body is at most
 5,535 bytes under the new-override field and provenance rules.
-Validate envelope-only links explicitly. The Decision's introduced occurrence is
-selected by its unique introducing decision and must match the RDC1 ref. A
+Validate envelope-only links explicitly. For RIN1/RDC1, select the introduced
+occurrence by its unique introducing decision and match the RDC1 ref. An
+RRI1/RRD1 decision cannot introduce an occurrence. Its target is an existing
+occurrence retained under the original introducing decision. A
 replacement names an existing occurrence present in the base and absent from
 the successor, on the same unordered pair. Its stored body must equal the base's
 override. Keep the revision store separate from valuation snapshot identities.
