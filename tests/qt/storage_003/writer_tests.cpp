@@ -55,9 +55,7 @@ void advance_to_22(const DisposableFile &file, const detail::ClockPreOpenWitness
     SqliteWriter owner;
     require(owner.open(file.path(), profile(charge)) == StorageError::none,
             "Normal owner opens after read-only admission and matching backup");
-    const auto result = advance(owner, request(MigrationMode::advance, manifest), witness);
-    require(result.refusal == detail::ClockAdvanceRefusal::none, "Unchanged basis admitted");
-    expect_current(result.migration, 22, 22 - expected.version);
+    expect_guarded_v22_advance(owner, manifest, witness);
 }
 
 void advance_blank(const DisposableFile &file) {

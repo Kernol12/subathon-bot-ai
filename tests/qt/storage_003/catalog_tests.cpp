@@ -102,9 +102,7 @@ void advance_current(const DisposableFile &file, const MigrationManifest &manife
     SqliteWriter owner;
     require(owner.open(file.path(), limits) == StorageError::none,
             "Open the owner after pre-open and matching backup");
-    const auto result = advance(owner, request(MigrationMode::advance, manifest), witness);
-    require(result.refusal == detail::ClockAdvanceRefusal::none, "Admitted unchanged basis");
-    expect_current(result.migration, 22, 22 - witness.version);
+    expect_guarded_v22_advance(owner, manifest, witness);
 }
 
 const detail::ClockPreOpenWitness ready_witness{21, Predecessor::ready, "A", "K"};
@@ -193,9 +191,16 @@ class Storage003CatalogTests final : public QObject {
                     SqliteWriter owner;
                     require(owner.open(file.path(), limits) == StorageError::none,
                             "Open with just one charged dimension reduced");
-                    const auto result =
-                        advance(owner, request(MigrationMode::advance, manifest), witness);
-                    expect_migration_rollback(result.migration, MigrationReason::resource_limit);
+                    auto migration = request(MigrationMode::advance, manifest);
+                    const auto observed = observe_v22(migration);
+                    const auto result = advance(owner, std::move(migration), witness);
+                    const auto diagnostic = observed->diagnose(result.migration);
+                    if (metered_limits[dimension] != &StorageLimits::statement_utf8_bytes)
+                        require(observed->reached_history(),
+                                "Expected before_history(22,15) before the reduced budget stop" +
+                                    diagnostic);
+                    expect_migration_rollback(result.migration, MigrationReason::resource_limit,
+                                              diagnostic);
                 }
                 (void)candidate(file, basis);
             };
@@ -340,23 +345,20 @@ class Storage003CatalogTests final : public QObject {
             predecessor.file.copy_to(backup);
             const auto manifest = compiled_successor();
             auto migration = request(MigrationMode::advance, manifest);
-            auto seen = std::make_shared<QList<qsizetype>>();
-            migration.cancel = [seen](const auto &progress) {
-                if (progress.version != 22)
-                    return false;
-                if (progress.checkpoint == MigrationCheckpoint::before_statement)
-                    seen->append(progress.statement);
-                return progress.checkpoint == MigrationCheckpoint::before_history &&
-                       progress.statement == 15;
-            };
+            const auto observed = observe_v22(migration, true);
             {
                 SqliteWriter owner;
                 require(owner.open(predecessor.file.path(), profile(ready_cancel)) ==
                             StorageError::none,
                         "Open the owner with the exact cancel-path profile");
                 const auto result = advance(owner, std::move(migration), witness);
-                expect_migration_rollback(result.migration, MigrationReason::cancelled);
-                require(*seen ==
+                const auto diagnostic = observed->diagnose(result.migration);
+                require(
+                    observed->statements() == v22_statement_order && observed->reached_history(),
+                    "Expected v22 statements 1..15 and before_history(22,15) before cancellation" +
+                        diagnostic);
+                expect_migration_rollback(result.migration, MigrationReason::cancelled, diagnostic);
+                require(observed->statements() ==
                             QList<qsizetype>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
                         "All 15 DDL attempts precede the cancellation boundary");
             }
@@ -405,6 +407,106 @@ class Storage003CatalogTests final : public QObject {
             DisposableFile restored;
             backup.copy_to(restored);
             inspect_old(restored, true);
+        });
+    }
+
+    void ordinaryWorkRefusesCompiledTrigger() {
+        check([] {
+            ProtectedPredecessor predecessor(true);
+            const auto exact = compiled_successor().steps.back().sql[10];
+            {
+                SqliteWriter owner;
+                require(owner.open(predecessor.file.path(), setup_profile) == StorageError::none,
+                        "Ordinary work opens the protected v21 writer");
+                const auto work = qt_test_support::run_work(
+                    owner,
+                    [exact](auto context) {
+                        const auto session = context.begin();
+                        (void)session.execute({exact, {}});
+                        session.commit();
+                        return 1;
+                    },
+                    10000);
+                require(
+                    work.transaction == TransactionOutcome::rolled_back &&
+                        work.error == WorkError::invalid_statement && !work.value,
+                    "Ordinary work refuses the exact compiled trigger with acknowledged rollback");
+            }
+            inspect_old(predecessor.file, true);
+        });
+    }
+
+    void guardedRejectsDivergentManifest_data() {
+        QTest::addColumn<bool>("paired");
+        QTest::newRow("statement-and-projection") << true;
+        QTest::newRow("projection-only") << false;
+    }
+
+    void guardedRejectsDivergentManifest() {
+        QFETCH(bool, paired);
+        check([=] {
+            ProtectedPredecessor predecessor(true);
+            const auto witness = candidate(predecessor.file, ready_witness);
+            const auto seal = predecessor.file.seal();
+            auto manifest = compiled_successor();
+            auto &step = manifest.steps.back();
+            const auto exact = step.sql[10];
+            auto divergent = exact;
+            divergent.replace(" BEGIN ", "  BEGIN ");
+            require(divergent != exact, "The inert whitespace divergence changes exact SQL bytes");
+            qsizetype changed = 0;
+            for (auto &object : step.expected_schema) {
+                if (object.sql == exact) {
+                    object.sql = divergent;
+                    ++changed;
+                }
+            }
+            require(changed == 1, "Change exactly the matching trigger projection");
+            if (paired)
+                step.sql[10] = divergent;
+
+            const auto completed = std::make_shared<bool>(false);
+            const auto drained = std::make_shared<bool>(false);
+            MigrationAdmission admission;
+            {
+                SqliteWriter owner;
+                require(owner.open(predecessor.file.path(), setup_profile) == StorageError::none,
+                        "Guarded admission uses the real protected v21 writer");
+                admission = detail::enqueue_clock_checkpoint_advance(
+                    owner, request(MigrationMode::advance, std::move(manifest)), witness,
+                    [completed](auto) { *completed = true; });
+                require(owner.shutdown([drained] { *drained = true; }) == StorageError::none &&
+                            QTest::qWaitFor([drained] { return *drained; }, 10000),
+                        "Writer drains and closes before checking completion and file seal");
+            }
+            require(
+                admission.error == StorageError::invalid_options &&
+                    admission.reason == MigrationReason::invalid_manifest && !*completed,
+                "Divergent manifest refuses before enqueue and yields no callback through drain");
+            require(predecessor.file.seal() == seal,
+                    "Divergent manifest leaves the exact v21 seal");
+        });
+    }
+
+    void publicMigrationCannotUseCompiledTriggerAdmission() {
+        check([] {
+            ProtectedPredecessor predecessor(false);
+            auto migration = request(MigrationMode::advance, compiled_successor());
+            const auto observed = observe_v22(migration);
+            {
+                SqliteWriter owner;
+                require(owner.open(predecessor.file.path(), setup_profile) == StorageError::none,
+                        "Public migration opens the real Active v21 writer");
+                const auto result = migrate(owner, std::move(migration));
+                require(observed->statements() == v22_statement_order.first(11) &&
+                            observed->events.size() == 11 &&
+                            result.work.error == WorkError::invalid_statement,
+                        "Public migration must stop at the protected trigger rejection" +
+                            observed->diagnose(result));
+                expect_migration_rollback(result, MigrationReason::sql_failure,
+                                          observed->diagnose(result));
+            }
+            inspect_old(predecessor.file, false);
         });
     }
 };

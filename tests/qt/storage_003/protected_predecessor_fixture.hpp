@@ -7,6 +7,7 @@
 #include <QCryptographicHash>
 #include <QFile>
 #include <QFileInfo>
+#include <QStringList>
 #include <QTemporaryDir>
 #include <memory>
 #include <subathon/server/sqlite_milestone_interruption.hpp>
@@ -178,10 +179,97 @@ inline void expect_current(const MigrationResult &r, qint32 version, qsizetype a
             "Normal committed exact catalog report");
 }
 
-inline void expect_migration_rollback(const MigrationResult &r, MigrationReason reason) {
+inline void expect_migration_rollback(const MigrationResult &r, MigrationReason reason,
+                                      const QString &diagnostic = {}) {
     require(r.reason == reason && !r.report && !r.work.value &&
                 r.work.transaction == TransactionOutcome::rolled_back,
-            "Exact refusal with acknowledged rollback and no report or value");
+            QString("Exact refusal with acknowledged rollback and no report or value") +
+                diagnostic);
+}
+
+inline const QList<qsizetype> v22_statement_order{1, 2,  3,  4,  5,  6,  7, 8,
+                                                  9, 10, 11, 12, 13, 14, 15};
+
+struct V22Progress {
+    QList<std::pair<MigrationCheckpoint, qsizetype>> events;
+
+    QList<qsizetype> statements() const {
+        QList<qsizetype> result;
+        for (const auto &[checkpoint, ordinal] : events)
+            if (checkpoint == MigrationCheckpoint::before_statement)
+                result.append(ordinal);
+        return result;
+    }
+
+    bool reached_history() const {
+        return events.contains({MigrationCheckpoint::before_history, 15});
+    }
+
+    bool completed_in_order() const {
+        QList<std::pair<MigrationCheckpoint, qsizetype>> expected;
+        for (const auto ordinal : v22_statement_order)
+            expected.append({MigrationCheckpoint::before_statement, ordinal});
+        expected.append({MigrationCheckpoint::before_history, 15});
+        expected.append({MigrationCheckpoint::before_commit, 0});
+        return events == expected;
+    }
+
+    QString diagnose(const MigrationResult &result) const {
+        const auto seen = statements();
+        QStringList ordinals;
+        for (const auto ordinal : seen)
+            ordinals.append(QString::number(ordinal));
+        const auto reason = result.reason == MigrationReason::sql_failure
+                                ? QString("sql_failure")
+                                : QString::number(static_cast<int>(result.reason));
+        const auto error = result.work.error == WorkError::invalid_statement
+                               ? QString("invalid_statement")
+                               : QString::number(static_cast<int>(result.work.error));
+        const auto settlement = result.work.transaction == TransactionOutcome::rolled_back
+                                    ? QString("rolled_back")
+                                    : QString::number(static_cast<int>(result.work.transaction));
+        return QString(" [v22 statements=%1; last=%2; before_history(22,15)=%3; "
+                       "before_commit(22,0)=%4; reason=%5; work=%6; settlement=%7; "
+                       "report=%8; value=%9]")
+            .arg(ordinals.join(','))
+            .arg(seen.isEmpty() ? 0 : seen.back())
+            .arg(reached_history() ? "yes" : "no")
+            .arg(events.contains({MigrationCheckpoint::before_commit, 0}) ? "yes" : "no")
+            .arg(reason, error, settlement)
+            .arg(result.report ? "yes" : "no")
+            .arg(result.work.value ? "yes" : "no");
+    }
+};
+
+inline auto observe_v22(MigrationRequest &request, bool cancel_at_history = false) {
+    const auto observed = std::make_shared<V22Progress>();
+    request.cancel = [observed, cancel_at_history](const MigrationProgress &progress) {
+        if (progress.version != 22)
+            return false;
+        observed->events.append({progress.checkpoint, progress.statement});
+        return cancel_at_history && progress.checkpoint == MigrationCheckpoint::before_history &&
+               progress.statement == 15;
+    };
+    return observed;
+}
+
+inline void expect_guarded_v22_advance(SqliteWriter &writer, const MigrationManifest &manifest,
+                                       const detail::ClockPreOpenWitness &witness) {
+    auto command = request(MigrationMode::advance, manifest);
+    const auto observed = observe_v22(command);
+    const auto result = advance(writer, std::move(command), witness);
+    const auto &migration = result.migration;
+    require(
+        observed->completed_in_order() && result.refusal == detail::ClockAdvanceRefusal::none &&
+            migration.reason == MigrationReason::none &&
+            migration.work.transaction == TransactionOutcome::committed &&
+            migration.work.error == WorkError::none && migration.work.value && migration.report &&
+            migration.report->state == CatalogState::current && migration.report->version == 22 &&
+            migration.report->target_version == 22 &&
+            migration.report->applied == 22 - witness.version,
+        "Expected v22 statements 1..15, before_history and before_commit with committed report" +
+            observed->diagnose(migration));
+    expect_current(migration, 22, 22 - witness.version);
 }
 
 inline void expect_state(const ApplicationStateSnapshot &got, bool is_ready) {
