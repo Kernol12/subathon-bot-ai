@@ -56,11 +56,13 @@ inline PermissionGraphTrust trust() {
     return trust;
 }
 
-inline core::PermissionEditableState graph(bool allow_b, bool allow_inspect = true) {
+inline core::PermissionEditableState graph(bool allow_b, bool allow_inspect = true,
+                                           bool allow_activate = true,
+                                           bool expanded_cohort = false) {
     using namespace core;
     std::vector<PermissionPolicyEntry> entries;
     for (std::size_t i = 0; i < operations.size(); ++i) {
-        if (!allow_inspect && i == 3)
+        if ((!allow_inspect && i == 3) || (!allow_activate && i == 1))
             continue;
         PermissionPolicyEntry entry{PermissionOrigin::individual,
                                     operations[i],
@@ -73,7 +75,9 @@ inline core::PermissionEditableState graph(bool allow_b, bool allow_inspect = tr
         for (const auto &binding : resources(a))
             entry.resources.push_back(
                 {binding.slot, PermissionResourceMode::allowed_set, {binding.resource}});
-        if (allow_b)
+        if (expanded_cohort)
+            entry.resources[2] = {"account", PermissionResourceMode::any, {}};
+        else if (allow_b)
             entry.resources[2].allowed.push_back("B");
         entries.push_back(std::move(entry));
     }
@@ -98,9 +102,12 @@ class Authority final : public StartupAuthority {
     const PermissionGraphTrust catalog{trust()};
     Clock clock;
     QByteArray decision_suffix;
+    std::function<void(const SqliteWorkSession &, StartupAction)> before_resolve;
 
     StartupDecision resolve(const SqliteWorkSession &session,
                             const StartupAuthorityRequest &request) override {
+        if (before_resolve)
+            before_resolve(session, request.action);
         const auto i = static_cast<std::size_t>(request.action);
         const auto facts = evaluate(session, request.binding, request.scope, request.require_fresh,
                                     operations.at(i));
@@ -234,14 +241,23 @@ class Transcript final : public ConnectorHistoryAdapter, public ConnectorLivePro
         observed_live.reset();
     }
 
-    const CutObservation cut_fact;
+    void offer_live(LiveProgressObservation fact) {
+        live_fact = std::move(fact);
+        retained_live.append(*live_fact);
+    }
+
+    CutObservation cut_fact;
     std::optional<LiveProgressObservation> live_fact;
     bool cut_available{true};
+    std::optional<HistoryFailure> cut_failure, live_failure;
     int cuts{}, lives{}, pages{};
+    mutable int cut_attestations{}, live_attestations{};
 
     CutResult observe_cut(const CutRequest &request) override {
         ++cuts;
         observed_cut.reset();
+        if (cut_failure)
+            return *cut_failure;
         if (!cut_available || !same_cut_request(request, cut_fact.request))
             return HistoryFailure::unproved;
         observed_cut = request;
@@ -256,9 +272,11 @@ class Transcript final : public ConnectorHistoryAdapter, public ConnectorLivePro
     LiveProgressResult observe_progress(const LiveProgressRequest &request) override {
         ++lives;
         observed_live.reset();
+        if (live_failure)
+            return *live_failure;
         if (!live_fact || request != live_fact->request)
             return HistoryFailure::unproved;
-        observed_live = request;
+        observed_live = *live_fact;
         return *live_fact;
     }
 
@@ -270,6 +288,7 @@ class Transcript final : public ConnectorHistoryAdapter, public ConnectorLivePro
 
     bool attests(const Fence &before, const CutRequest &request,
                  const CutObservation &result) const {
+        ++cut_attestations;
         const auto &cut = cut_fact.cut;
         return before == (cut_fact.request.source.scope == a ? pending : pending_b) &&
                same_cut_request(request, cut_fact.request) &&
@@ -283,20 +302,39 @@ class Transcript final : public ConnectorHistoryAdapter, public ConnectorLivePro
 
     bool validates(const LiveProgressRequest &request,
                    const LiveProgressObservation &result) const {
-        return observed_live && request == *observed_live && attests(request, result);
+        return observed_live && exact_live(*observed_live, request, result) &&
+               attests(request, result);
     }
 
     bool attests(const LiveProgressRequest &request, const LiveProgressObservation &result) const {
-        // The fixture records a closed feed marker with zero items.
-        return live_fact && request == live_fact->request && result.request == live_fact->request &&
-               result.coverage == live_fact->coverage && result.lower == live_fact->lower &&
-               result.upper == live_fact->upper && result.ordered_inputs.isEmpty() &&
-               result.dispositions.isEmpty() && result.proof == live_fact->proof;
+        ++live_attestations;
+        return (live_fact && exact_live(*live_fact, request, result)) ||
+               std::ranges::any_of(retained_live, [&](const auto &fact) {
+                   return exact_live(fact, request, result);
+               });
     }
 
   private:
+    static bool exact_live(const LiveProgressObservation &fact, const LiveProgressRequest &request,
+                           const LiveProgressObservation &result) {
+        const auto same_claim = [](const auto &lhs, const auto &rhs) {
+            return lhs.scope == rhs.scope && lhs.generation == rhs.generation &&
+                   lhs.intake_ref == rhs.intake_ref && lhs.normalized == rhs.normalized &&
+                   lhs.provenance == rhs.provenance && lhs.arrival_ms == rhs.arrival_ms &&
+                   lhs.history == rhs.history && lhs.phase == rhs.phase &&
+                   lhs.disposition == rhs.disposition &&
+                   lhs.quarantine_bytes == rhs.quarantine_bytes && lhs.attempt == rhs.attempt;
+        };
+        return request == fact.request && result.request == fact.request &&
+               result.coverage == fact.coverage && result.lower == fact.lower &&
+               result.upper == fact.upper && result.ordered_inputs == fact.ordered_inputs &&
+               std::ranges::equal(result.dispositions, fact.dispositions, same_claim) &&
+               result.proof == fact.proof;
+    }
+
+    QList<LiveProgressObservation> retained_live;
     std::optional<CutRequest> observed_cut;
-    std::optional<LiveProgressRequest> observed_live;
+    std::optional<LiveProgressObservation> observed_live;
 };
 
 class Registry final : public StartupProfileRegistry {
@@ -311,7 +349,19 @@ class Registry final : public StartupProfileRegistry {
         reconnect.clear_invocation();
     }
 
-    void use_reconnect() { binding_a = bind(a, reconnect, "registry-r1", "g3"); }
+    void use_reconnect(QByteArray generation = "g3") {
+        binding_a = bind(a, reconnect, "registry-r1", std::move(generation));
+    }
+
+    void retire_first() { binding_a = bind(a, first, "registry-retired", "g2"); }
+
+    auto calls() const {
+        const auto counts = [](const Transcript &port) {
+            return std::array{port.cuts, port.lives, port.pages, port.cut_attestations,
+                              port.live_attestations};
+        };
+        return std::array{counts(first), counts(second), counts(reconnect)};
+    }
 
     std::shared_ptr<const StartupProfile> select(const Scope &scope, const QByteArray &p,
                                                  const QByteArray &c) override {
@@ -416,14 +466,14 @@ class Store {
 
     SqliteWriter &writer() { return *writer_; }
 
-    void reopen() {
+    void reopen(StorageLimits limits = work_limits) {
         auto closed = std::make_shared<bool>(false);
         require(writer().shutdown([closed] { *closed = true; }) == StorageError::none &&
                     QTest::qWaitFor([closed] { return *closed; }, 10000),
                 "Single old writer finishes shutdown before reopen");
         require(reader.close() == StorageError::none, "Read observer closes before reopen");
         writer_.reset();
-        open();
+        open(limits);
         inspect_catalog();
     }
 
@@ -487,9 +537,9 @@ class Store {
     std::unique_ptr<SqliteWriter> writer_;
     QString path() const { return directory.filePath("startup.sqlite"); }
 
-    void open() {
+    void open(StorageLimits limits = work_limits) {
         writer_ = std::make_unique<SqliteWriter>();
-        require(writer().open(path(), work_limits) == StorageError::none &&
+        require(writer().open(path(), limits) == StorageError::none &&
                     reader.open(path()) == StorageError::none,
                 "Real owner writer and independent read-only observer open");
     }
@@ -517,13 +567,15 @@ class Fixture {
     StartupConfiguration configuration;
     const bool two;
     const bool disjoint;
+    const bool allow_b;
 
-    explicit Fixture(bool two = false, bool disjoint = false, bool allow_b = true)
+    explicit Fixture(bool two_sources = false, bool disjoint_groups = false, bool grant_b = true,
+                     bool expanded_cohort = false)
         : configuration{"install",
                         config,
                         "operator",
                         {{member(a), "review-lane", "g0", "g2", profile, cursor, true}}},
-          two(two), disjoint(disjoint) {
+          two(two_sources), disjoint(disjoint_groups), allow_b(grant_b) {
         if (two) {
             configuration.lanes.append({member(b, disjoint),
                                         disjoint ? "disjoint-lane" : "mirror-lane", "gB0", "gB",
@@ -573,8 +625,8 @@ class Fixture {
             require(accounts.insert_session(record, SessionRetention::normal, accepted) == staged,
                     "Protected session unit staged the trusted synthetic sign-in acceptance");
             SqlitePermissionGraphUnit permissions(s, "install", authority.catalog);
-            require(permissions.bootstrap("owner", graph(allow_b), graph(false, false)) ==
-                        PermissionGraphWrite::staged,
+            require(permissions.bootstrap("owner", graph(allow_b, true, true, expanded_cohort),
+                                          graph(false, false)) == PermissionGraphWrite::staged,
                     "Protected permission unit stages current scoped grants and a distinct graph");
             return true;
         });
@@ -623,7 +675,7 @@ class Fixture {
     }
 
     RegisterRequest register_request() const {
-        RegisterRequest request{"install", config, {}, {}, {}, {}};
+        RegisterRequest request{"install", configuration.revision, {}, {}, {}, {}};
         for (const auto &lane : configuration.lanes) {
             request.cohort.append(lane.member.scope);
             request.members.append(lane.member);
@@ -633,7 +685,7 @@ class Fixture {
     }
 
     ActivateRequest activate_request() const {
-        ActivateRequest request{1, config, {}, {{a, pending, "g2", "B0", {}}}};
+        ActivateRequest request{1, configuration.revision, {}, {{a, pending, "g2", "B0", {}}}};
         if (two)
             request.sources.append({b, pending_b, "gB", "BB0", {}});
         return request;
@@ -679,24 +731,33 @@ class Fixture {
         registry.clear_invocations();
     }
 
-    void remove_inspect_grant() {
+    void remove_inspect_grant() { change_grants(graph(allow_b, false)); }
+
+    void remove_activation_grant() { change_grants(graph(allow_b, true, false)); }
+
+    void change_grants(const core::PermissionEditableState &grants) {
         store.work([&](const auto &s) -> QVariant {
             SqlitePermissionGraphUnit permissions(s, "install", authority.catalog);
-            require(permissions.replace_use(1, graph(two, false)) == PermissionGraphWrite::staged,
-                    "Real permission writer revokes Inspect but retains mutating grants");
+            require(permissions.replace_use(1, grants) == PermissionGraphWrite::staged,
+                    "Protected permission writer commits the exact revised scoped grants");
             return true;
         });
     }
 
     void stage_protected_reconnect() {
+        stage_protected_reconnect(active, "g3", "R0");
+        registry.use_reconnect();
+    }
+
+    void stage_protected_reconnect(const Fence &before, const QByteArray &generation,
+                                   const QByteArray &key) {
         store.work([&](const auto &s) -> QVariant {
-            require(stage_reconnect(s, {a, active, "g3", cursor, "R0",
+            require(stage_reconnect(s, {a, before, generation, cursor, key,
                                         authority.reconnect_decision(s), "connected"}) ==
                         HistoryStatus::staged,
                     "Protected reconnect advances generation at the frontierless active fence");
             return true;
         });
-        registry.use_reconnect();
     }
 
   private:

@@ -55,8 +55,9 @@ inline PolicyMember member(const Scope &scope, bool disjoint = false) {
             primary,
             f(lane) + f("operator") + f("history-v1") + f("cursor-contract")};
 }
-inline QByteArray cut(const QByteArray &generation, const QByteArray &evidence) {
-    return QByteArray("CUT1\x01", 5) + f("key-v1") + f("S/history") + opt(QByteArray("10")) +
+inline QByteArray cut(const QByteArray &generation, const QByteArray &evidence,
+                      std::optional<QByteArray> position = QByteArray("10")) {
+    return QByteArray("CUT1\x01", 5) + f("key-v1") + f("S/history") + opt(position) +
            f(generation) + f(evidence);
 }
 inline QByteArray covered(const QByteArray &evidence, const QByteArray &upper = "11") {
