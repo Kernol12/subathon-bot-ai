@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "support/contribution_review_fixture.hpp"
 
+#include <QThread>
 #include <array>
 #include <subathon/server/sqlite_modifier_activations.hpp>
 #include <subathon/server/sqlite_rate_overrides.hpp>
+#include <tuple>
 
 namespace {
 using namespace contribution_review_fixture;
@@ -132,6 +134,257 @@ void inject_rollback(Batch &batch, int ordinal) {
             throw std::runtime_error("synthetic after-stage failure before real COMMIT");
     };
 }
+
+enum class AllocationPredecessor { last_row, row_rollback, live_budget };
+
+using WriterAck = std::tuple<U, int, TransactionOutcome, WorkError, bool>;
+
+struct AllocationObservation {
+    std::vector<WriterAck> acknowledgements;
+    std::optional<ContributionReview::Result> result;
+    unsigned unit_events{};
+    unsigned callbacks{};
+    bool predecessor_seen{};
+    bool predecessor_turn_ended{};
+    bool on_owner{};
+    bool in_predecessor_turn{};
+};
+
+struct AllocationAttempt {
+    ReviewCommand command;
+    std::shared_ptr<AllocationObservation> observed;
+    std::shared_ptr<FinalReviewAllocationFault> fault;
+    bool delivered{};
+};
+
+AllocationAttempt observe_allocation(Batch &batch, AllocationPredecessor predecessor, bool armed) {
+    const auto observed = std::make_shared<AllocationObservation>();
+    const auto fault = std::make_shared<FinalReviewAllocationFault>();
+    auto *const writer = &batch.db.writer();
+    auto *const owner = writer->thread();
+    const auto last_unit =
+        predecessor == AllocationPredecessor::live_budget ? U::qualification_read : U::row;
+    const int last_ordinal = predecessor == AllocationPredecessor::last_row ? 3 : 2;
+    ContributionReview service{
+        *writer, batch.facts,
+        FinalReviewAllocationObserver{
+            [&batch, observed, writer, last_unit, last_ordinal](const ReviewUnitEvent &event) {
+                ++observed->unit_events;
+                if (event.completion) {
+                    const auto &result = *event.completion;
+                    observed->acknowledgements.emplace_back(event.unit, event.ordinal,
+                                                            result.transaction, result.error,
+                                                            result.value.has_value());
+                    if (event.unit == last_unit && event.ordinal == last_ordinal) {
+                        observed->predecessor_seen = true;
+                        // Mark the next owner turn from inside the real writer completion.
+                        QMetaObject::invokeMethod(
+                            writer, [observed] { observed->predecessor_turn_ended = true; },
+                            Qt::QueuedConnection);
+                    }
+                }
+                batch.trace.observe(event);
+            },
+            fault}};
+    require(batch.db.rows(history_query) == expected_history(literal_v19()),
+            "The disposable file holds the exact committed v19 migration history");
+    expect_schema(batch.db.rows(schema_query), literal_v19().steps.back());
+    batch.head(95, 0, 90);
+    batch.claims(0);
+    auto command = batch.command(service);
+    observed->acknowledgements.clear(); // Preview is a separate completed request.
+
+    if (predecessor == AllocationPredecessor::row_rollback) {
+        inject_rollback(batch, 2);
+    } else if (predecessor == AllocationPredecessor::live_budget) {
+        batch.trace.control = [&batch](const ReviewUnitEvent &event) {
+            if (event.unit == U::row && event.ordinal == 1 && event.phase == P::completed) {
+                auto &jobs = batch.facts.current->internal_jobs;
+                for (int i = 0; i < 769; ++i)
+                    jobs.push_back({"bounded-fanout-" + std::to_string(i),
+                                    {},
+                                    {},
+                                    {},
+                                    {delivery_job_format, "synthetic internal"}});
+            }
+        };
+    }
+
+    fault->armed = armed;
+    service.execute(command, "synthetic", [observed, owner](auto result) {
+        if (++observed->callbacks == 1) {
+            observed->on_owner = QThread::currentThread() == owner;
+            observed->in_predecessor_turn =
+                observed->predecessor_seen && !observed->predecessor_turn_ended;
+            observed->result.emplace(std::move(result));
+        }
+    });
+    require(QTest::qWaitFor([observed] { return observed->predecessor_turn_ended; }, 10000),
+            "The selected real writer completion reaches its owner-turn checkpoint");
+    const bool delivered =
+        QTest::qWaitFor([observed] { return observed->result.has_value(); }, armed ? 250 : 10000);
+
+    const auto committed = [](U unit, int ordinal) -> WriterAck {
+        return {unit, ordinal, TransactionOutcome::committed, WorkError::none, true};
+    };
+    std::vector<WriterAck> expected{committed(U::initial_read, 0),
+                                    committed(U::qualification_read, 1), committed(U::row, 1),
+                                    committed(U::qualification_read, 2)};
+    std::vector<int> admitted{1};
+    std::vector<int> published{1};
+    if (predecessor == AllocationPredecessor::last_row) {
+        expected.insert(expected.end(), {committed(U::row, 2), committed(U::qualification_read, 3),
+                                         committed(U::row, 3)});
+        admitted = published = {1, 2, 3};
+    } else if (predecessor == AllocationPredecessor::row_rollback) {
+        expected.emplace_back(U::row, 2, TransactionOutcome::rolled_back, WorkError::work_exception,
+                              false);
+        admitted.push_back(2);
+    }
+    if (!armed)
+        expected.push_back(committed(U::final_read, 0));
+    require(observed->acknowledgements == expected,
+            "All writer acknowledgements match the exact ordered predecessor and settlement");
+    require(batch.trace.ordinals(U::row, P::before_enqueue) == admitted &&
+                batch.trace.ordinals(U::row, P::began) == admitted &&
+                batch.trace.ordinals(U::row, P::before_commit) == admitted &&
+                batch.trace.ordinals(U::row, P::after_commit) == published &&
+                batch.trace.ordinals(U::row, P::published) == published,
+            "Only the selected rows stage, and only normally committed rows publish once");
+    const auto final = armed ? std::vector<int>{} : std::vector{0};
+    for (const auto phase : {P::before_enqueue, P::began, P::completed})
+        require(batch.trace.ordinals(U::final_read, phase) == final,
+                "The final read has zero admission, body and completion on the allocation fault");
+    require(!fault->armed && fault->hits == unsigned(armed),
+            "The provisional final allocation consumes the fixture arm exactly once when armed");
+    return {std::move(command), observed, fault, delivered};
+}
+
+std::optional<ReviewStop> allocation_prior_stop(AllocationPredecessor predecessor) {
+    switch (predecessor) {
+    case AllocationPredecessor::last_row:
+        return {};
+    case AllocationPredecessor::row_rollback:
+        return ReviewStop::write_failed;
+    case AllocationPredecessor::live_budget:
+        return ReviewStop::row_budget_exceeded;
+    }
+    Q_UNREACHABLE();
+}
+
+void expect_applied_link(Batch &batch, const ReviewReply &reply, const ReviewCommand &command,
+                         int ordinal, D disposition) {
+    expected_row(reply, ordinal, disposition, S::applied);
+    const auto &selector = command.entries.at(std::size_t(3 - ordinal)).intent.selector;
+    const auto &facts = reply.rows.at(std::size_t(ordinal - 1)).outcome->facts;
+    const auto link = batch.db.rows(
+        "SELECT application_ref FROM subathon_review_entries WHERE ordinal=?", {ordinal});
+    require(facts && facts->verified == selector && facts->bundle &&
+                facts->bundle->operation_scope == "review-application" &&
+                link == SqlRows{{QByteArray::fromStdString(facts->bundle->operation_ref)}},
+            "Applied discloses the verified CID/receipt and exact owning bundle link");
+}
+
+void expect_allocation_reply(Batch &batch, const AllocationAttempt &attempt,
+                             AllocationPredecessor predecessor, bool faulted) {
+    const auto &result = *attempt.observed->result;
+    const auto stop = allocation_prior_stop(predecessor);
+    if (faulted && !stop) {
+        refusal(result, ReviewRefusal::unavailable);
+        return;
+    }
+    const auto &reply = Case::reply(result);
+    require(reply.stop == stop && reply.rows.size() == 3,
+            "The exact prior stop and all three ordinals are preserved");
+    for (int ordinal = 1; ordinal <= 3; ++ordinal) {
+        if (!stop || ordinal == 1) {
+            if (faulted)
+                expected_row(reply, ordinal, D::committed);
+            else
+                expect_applied_link(batch, reply, attempt.command, ordinal, D::committed);
+        } else {
+            expected_row(reply, ordinal,
+                         ordinal == 2 && stop == ReviewStop::write_failed ? D::write_failed
+                                                                          : D::unattempted);
+        }
+    }
+}
+
+void expect_allocation_durable(Batch &batch, const ReviewCommand &command, int applied) {
+    if (applied == 3)
+        batch.complete_prefix();
+    else
+        batch.prefix_one();
+    require(batch.db.rows("SELECT installation_ref,work_scope,work_ref,entry_count,"
+                          "substr(manifest,1,4) FROM subathon_review_work") ==
+                SqlRows{{QByteArray("install"), QByteArray("review"), QByteArray("batch"), 3,
+                         QByteArray("SRW1")}},
+            "One manifest binds the exact installation, work key and selected entry count");
+    SqlRows expected;
+    SqlRows contributions;
+    for (int ordinal = 1; ordinal <= 3; ++ordinal) {
+        const bool committed = ordinal <= applied;
+        contributions.append({blob8(10 + ordinal), committed ? 2 : 0, committed ? 1 : 0});
+    }
+    require(
+        batch.db.rows("SELECT original_receipt_id,review,application FROM subathon_contributions "
+                      "ORDER BY original_receipt_id") == contributions,
+        "Only the committed prefix is accepted and applied in contribution storage");
+    for (int ordinal = 1; ordinal <= applied; ++ordinal) {
+        const auto cid =
+            blob8(command.entries.at(std::size_t(3 - ordinal)).intent.selector.cid.value);
+        expected.append({ordinal, 1, blob8(10 + ordinal), cid, QByteArray("review-application"),
+                         QByteArray::number(10 + ordinal).prepend("receipt-").append("-plan"),
+                         blob8(1), 0, cid, QByteArray("operator"),
+                         QByteArray::number(ordinal).prepend("decision-"),
+                         QByteArray::number(ordinal).prepend("synthetic reason ")});
+    }
+    require(
+        batch.db.rows(
+            "SELECT e.ordinal,e.decision_kind,o.receipt_id,o.contribution_id,o.operation_scope,"
+            "o.plan_ref,o.plan_revision,c.subject_kind,c.subject_id,a.actor_ref,a.decision_ref,"
+            "a.reason FROM subathon_review_entries e JOIN subathon_app_operations o "
+            "ON e.application_scope=o.operation_scope AND e.application_ref=o.operation_ref "
+            "JOIN subathon_app_claims c USING(operation_scope,operation_ref) "
+            "JOIN subathon_app_audit a USING(operation_scope,operation_ref) ORDER BY e.ordinal") ==
+            expected,
+        "Each durable accepted decision links the selected receipt, plan, claim and exact audit");
+    require(batch.db.rows("SELECT count(*) FROM subathon_app_operations") == SqlRows{{applied}} &&
+                batch.db.rows("SELECT count(*) FROM subathon_app_audit") == SqlRows{{applied}} &&
+                batch.db.rows("SELECT count(*) FROM subathon_app_results") == SqlRows{{applied}} &&
+                batch.db.rows("SELECT count(*) FROM subathon_app_effects") ==
+                    SqlRows{{2 * applied}} &&
+                batch.db.rows("SELECT * FROM subathon_app_jobs").isEmpty() &&
+                batch.db.rows("SELECT * FROM subathon_delivery_captures").isEmpty(),
+            "No extra bundle, audit, effect or delivery job persists");
+}
+
+QList<SqlRows> allocation_snapshot(Batch &batch) {
+    QList<SqlRows> rows;
+    for (const auto *table : {"subathon_review_work",
+                              "subathon_review_entries",
+                              "subathon_review_terminal_requests",
+                              "subathon_contributions",
+                              "subathon_app_head",
+                              "subathon_app_states",
+                              "subathon_app_balances",
+                              "subathon_app_operations",
+                              "subathon_app_contributions",
+                              "subathon_app_claims",
+                              "subathon_app_effects",
+                              "subathon_app_components",
+                              "subathon_app_transitions",
+                              "subathon_app_audit",
+                              "subathon_app_results",
+                              "subathon_app_jobs",
+                              "subathon_delivery_captures",
+                              "subathon_milestone_groups",
+                              "subathon_milestone_actions",
+                              "subathon_milestone_acceptance_decisions"})
+        rows.append(batch.db.rows(QString("SELECT * FROM %1 ORDER BY rowid").arg(table)));
+    return rows;
+}
+
 void rollback_reply(Batch &batch, const ContributionReview::Result &result, int ordinal) {
     const auto &reply = Case::reply(result);
     require(reply.stop == ReviewStop::write_failed && reply.rows.size() == 3,
@@ -1967,6 +2220,83 @@ class ContributionReviewTests final : public QObject {
             expected_row(reply, 2, D::unattempted);
             expected_row(reply, 3, D::unattempted);
             batch.prefix_one();
+        });
+    }
+
+    void finalReconciliationAllocationFailure_data() {
+        QTest::addColumn<int>("predecessor");
+        QTest::newRow("all-rows-committed") << int(AllocationPredecessor::last_row);
+        QTest::newRow("row-two-rolled-back") << int(AllocationPredecessor::row_rollback);
+        QTest::newRow("live-row-budget") << int(AllocationPredecessor::live_budget);
+    }
+
+    void finalReconciliationAllocationFailure() {
+        QFETCH(int, predecessor);
+        check([&] {
+            const auto scenario = AllocationPredecessor(predecessor);
+            const int applied = scenario == AllocationPredecessor::last_row ? 3 : 1;
+            QList<SqlRows> control_snapshot;
+            {
+                Batch control;
+                const auto attempt = observe_allocation(control, scenario, false);
+                control.db.reopen();
+                require(attempt.delivered && attempt.observed->callbacks == 1 &&
+                            attempt.observed->on_owner,
+                        "A disarmed attempt completes once on the owner through drain");
+                expect_allocation_reply(control, attempt, scenario, false);
+                expect_allocation_durable(control, attempt.command, applied);
+                control_snapshot = allocation_snapshot(control);
+            }
+
+            Batch batch;
+            const auto attempt = observe_allocation(batch, scenario, true);
+            expect_allocation_durable(batch, attempt.command, applied);
+            const auto before_retry = allocation_snapshot(batch);
+            require(before_retry == control_snapshot,
+                    "The allocation fault preserves the exact durable rows of its control");
+
+            QVERIFY2(attempt.delivered,
+                     "Final reconciliation allocation fault must deliver one owned component "
+                     "callback by the deadline");
+            require(attempt.observed->callbacks == 1 && attempt.observed->on_owner &&
+                        attempt.observed->in_predecessor_turn,
+                    "The owned result arrives once on the owner in the predecessor continuation");
+            expect_allocation_reply(batch, attempt, scenario, true);
+
+            const auto manifest = batch.db.rows("SELECT manifest FROM subathon_review_work");
+            const auto first =
+                batch.db.rows("SELECT * FROM subathon_review_entries WHERE ordinal=1");
+            const auto fault_events = attempt.observed->unit_events;
+            batch.trace = {};
+            batch.facts.current->internal_jobs.clear();
+            // Keep the original writer so fresh admission exercises the same active lease.
+            ContributionReview service{
+                batch.db.writer(), batch.facts,
+                FinalReviewAllocationObserver{
+                    [&batch](const ReviewUnitEvent &event) { batch.trace.observe(event); },
+                    attempt.fault}};
+            const auto replayed = Case::execute(service, attempt.command, "refreshed");
+            const auto &reply = Case::reply(replayed);
+            require(!reply.stop && reply.rows.size() == 3,
+                    "Freshly authorized exact replay completes the full selection");
+            for (int ordinal = 1; ordinal <= 3; ++ordinal)
+                expect_applied_link(batch, reply, attempt.command, ordinal,
+                                    ordinal <= applied ? D::existing : D::committed);
+            const auto suffix = applied == 3 ? std::vector<int>{} : std::vector{2, 3};
+            batch.db.reopen();
+            require(attempt.observed->callbacks == 1 &&
+                        attempt.observed->unit_events == fault_events && attempt.fault->hits == 1 &&
+                        batch.trace.ordinals(U::row, P::before_enqueue) == suffix &&
+                        batch.trace.ordinals(U::row, P::published) == suffix,
+                    "Drain preserves one fault callback and only fresh suffix writes publish");
+            expect_allocation_durable(batch, attempt.command, 3);
+            require(batch.db.rows("SELECT manifest FROM subathon_review_work") == manifest &&
+                        batch.db.rows("SELECT * FROM subathon_review_entries WHERE ordinal=1") ==
+                            first,
+                    "Refreshed recovery retains the exact original manifest and prefix");
+            if (applied == 3)
+                require(allocation_snapshot(batch) == before_retry,
+                        "A fully committed replay preserves the complete durable snapshot");
         });
     }
 };

@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "task_id": "ACCT-008",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 751
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/ACCT-008.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/751",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/818",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088772887",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088779931",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088780759",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088781588",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088782220",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088782863",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088797872",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088828259"
+  ],
+  "limitations": [
+    "Acceptance covers the contribution-review SQLite component on the admitted Qt runner. Host transport and reply eligibility remain with issue #294.",
+    "Bounded allocation-free transfer, immediate re-entry and throwing-caller containment were verified by source review.",
+    "The durable readback covers the fixture-selected tables. Shared reader bounds remain with issue #750."
+  ],
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "authors": [
+          "codex:t3-de5832b3-c1de-4b97-9b3a-c8db37ab003e"
+        ],
+        "revision": "f9244a379832afdb7ad4de9dfcdfd133182ea97a",
+        "paths": [
+          "server/include/subathon/server/testing/contribution_review_test_access.hpp",
+          "tests/qt/contribution_review_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-5895c9e7-9711-4ac9-b434-18099d831089",
+            "revision": "f9244a379832afdb7ad4de9dfcdfd133182ea97a",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088772887",
+            "findings": [
+              "ACCT008-T1",
+              "ACCT008-T2",
+              "ACCT008-T3"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:t3-1cd07407-1958-45d9-ac8c-d0a3055b205f",
+            "revision": "f9244a379832afdb7ad4de9dfcdfd133182ea97a",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088779931",
+            "findings": [
+              "ACCT008-T1",
+              "ACCT008-T2",
+              "ACCT008-T3"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-74d3823d-9f65-401e-9ceb-27a4a5a50bf5",
+            "revision": "f9244a379832afdb7ad4de9dfcdfd133182ea97a",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088780759",
+            "findings": [
+              "ACCT008-T1",
+              "ACCT008-T2",
+              "ACCT008-T3"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "authors": [
+          "codex:t3-13b8971b-39be-46fe-b4c9-0ccf368c037d",
+          "codex:coordinator"
+        ],
+        "revision": "7070b6c00a071d73448c64964cd7871e593c2943",
+        "paths": [
+          ".github/workflows/ci.yml",
+          "docs/tasks/ACCT-008.md",
+          "server/src/contribution_review_dispatch.hpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-f275e51d-97d3-4c6d-9bcf-d1db2e1267d7",
+            "revision": "0651b597b68e08c8f421bdd94a7e554c3bc84c09",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088781588",
+            "findings": [
+              "ACCT008-I-N1",
+              "ACCT008-I-N2"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:t3-dc403ea5-b70b-4ddf-bf6b-53ffd0e9a0a5",
+            "revision": "0651b597b68e08c8f421bdd94a7e554c3bc84c09",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088782220",
+            "findings": [
+              "ACCT008-I-N1",
+              "ACCT008-I-N2"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-807cab41-c4c5-4d56-9ca6-2cc294d5c4db",
+            "revision": "0651b597b68e08c8f421bdd94a7e554c3bc84c09",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088782863",
+            "findings": [
+              "ACCT008-I-N1",
+              "ACCT008-I-N2"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:t3-e8aa372b-f8ed-4409-b04b-e548c9c22b83",
+            "revision": "7070b6c00a071d73448c64964cd7871e593c2943",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088797872",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-683c1c73-d92b-43d9-809e-01303cd935b2",
+            "revision": "7070b6c00a071d73448c64964cd7871e593c2943",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/818#issuecomment-7088828259",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  }
+}
