@@ -128,39 +128,77 @@ DisclosureReply preview_disclosure(const SqliteWorkSession &, CommandAuthority &
     throw OwnerEntryMissing("R7: produce authorized ordered replacement disclosure");
 }
 
-// Ordinary publisher accepts proposed definitions and resolves authorization
-// from the current owner port. It cannot rewrite any existing occurrence.
+// Only definition identity and ordered targets are published in v21. The
+// current configuration owner supplies action facts on the later capture turn.
 struct DefinitionEdit {
     MilestoneTrackKey track;
     MilestoneEditActor actor;
     QByteArray operation;
     std::string expected_revision;
-    MilestoneAction proposed;
+    std::string proposed_configuration;
+};
+
+struct DefinitionBinding {
+    MilestoneTrackKey track;
+    std::string revision;
+    std::string configuration;
+    bool operator==(const DefinitionBinding &) const = default;
+};
+
+struct AdmittedDefinition {
+    DefinitionBinding binding;
+    std::vector<subathon::core::MilestoneTarget> targets;
 };
 
 class DefinitionAuthority {
   public:
     virtual ~DefinitionAuthority() = default;
-    virtual std::optional<AutomationView> admitted_definition(const SqliteWorkSession &,
-                                                              const DefinitionEdit &) = 0;
+    virtual std::optional<AdmittedDefinition> admit(const SqliteWorkSession &,
+                                                    const DefinitionEdit &) = 0;
 };
 
-struct PublicationAuthority final : DefinitionAuthority {
-    int selections{};
+struct CaptureAutomation {
+    AutomationView capture;
+    Mode sender_selection;
+};
 
-    std::optional<AutomationView> admitted_definition(const SqliteWorkSession &,
-                                                      const DefinitionEdit &edit) override {
-        ++selections;
-        if (edit.track != storage_027_fixture::edit::track ||
-            edit.actor.actor_ref != storage_027_fixture::edit::actor.actor_ref ||
-            edit.actor.session_lineage != storage_027_fixture::edit::actor.session_lineage ||
-            edit.expected_revision != "application-v1")
+class CurrentConfiguration {
+  public:
+    virtual ~CurrentConfiguration() = default;
+    virtual std::optional<CaptureAutomation>
+    resolve_automation(const SqliteWorkSession &, const DefinitionBinding &,
+                       const subathon::core::MilestoneTarget &) = 0;
+};
+
+struct PublicationAuthority final : DefinitionAuthority, CurrentConfiguration {
+    int admissions{};
+    int resolutions{};
+
+    std::optional<AdmittedDefinition> admit(const SqliteWorkSession &,
+                                            const DefinitionEdit &request) override {
+        ++admissions;
+        if (request.track != edit::track || request.actor.actor_ref != edit::actor.actor_ref ||
+            request.actor.session_lineage != edit::actor.session_lineage ||
+            request.operation != "publish-v2" || request.expected_revision != "application-v1" ||
+            request.proposed_configuration != "cfg-published")
             return {};
-        return AutomationView{{Kind::automation, "audio", "ordinary-v2"},
-                              inherited_format,
-                              QByteArray::fromHex("00a5"),
-                              "local/published",
-                              "published-S"};
+        return AdmittedDefinition{{edit::track, "ordinary-v2", "cfg-published"},
+                                  {{"A", 35000000}, {"B", 36000000}, {"C", 37000000}}};
+    }
+
+    std::optional<CaptureAutomation>
+    resolve_automation(const SqliteWorkSession &, const DefinitionBinding &binding,
+                       const subathon::core::MilestoneTarget &selected) override {
+        ++resolutions;
+        if (binding != DefinitionBinding{edit::track, "ordinary-v2", "cfg-published"} ||
+            selected.milestone_ref != "C" || selected.target_micro_points != 37000000)
+            return {};
+        return CaptureAutomation{{{Kind::automation, "audio", "ordinary-v2"},
+                                  inherited_format,
+                                  QByteArray::fromHex("00a5"),
+                                  "local/published",
+                                  "published-S"},
+                                 Mode::configured_default};
     }
 };
 
@@ -169,14 +207,13 @@ Disposition publish_definitions(const SqliteWorkSession &, DefinitionAuthority &
     throw OwnerEntryMissing("R1: publish ordinary milestone definitions under current authority");
 }
 
-struct LaterCrossing {
-    std::string milestone_ref;
-    qint64 target;
-    qint64 score;
+struct ScoreCrossing {
+    qint64 before;
+    qint64 after;
 };
 
-void capture_later_group(const SqliteWorkSession &, const ContributionReceipt &, const Occurrence &,
-                         const LaterCrossing &) {
+void capture_later_group(const SqliteWorkSession &, CurrentConfiguration &,
+                         const ContributionReceipt &, const Occurrence &, ScoreCrossing) {
     throw OwnerEntryMissing("R1: capture a later milestone from the published definition");
 }
 
@@ -312,28 +349,83 @@ class Milestone006DisclosureTests final : public QObject {
         check([] {
             DisclosureFixture d;
             d.require_original();
+            d.f.file.write([&](const auto &s) {
+                // Retain the trusted owner's opaque configuration identity.
+                // Retention alone does not advance the current definition.
+                require(SqliteRetainedContextStore(s).retain(
+                            {{RetainedKind::configuration, "cfg-published"},
+                             QByteArray("ordinary revision fixture document"),
+                             {}}) == RetainDisposition::inserted,
+                        "The new configuration identity is independently retained");
+            });
+            const QList<QVariant> track{QByteArray("install"), QByteArray("track")};
+            const auto current_definition = [&] {
+                return d.f.file.rows("SELECT h.definition_revision,v.configuration_ref,"
+                                     "coalesce(v.predecessor_revision,x'') "
+                                     "FROM main.subathon_milestone_definition_heads h JOIN "
+                                     "main.subathon_milestone_definition_versions v "
+                                     "USING(installation_ref,track_ref,definition_revision) "
+                                     "WHERE installation_ref=? AND track_ref=?",
+                                     track);
+            };
+            const auto targets = [&](const QByteArray &revision) {
+                auto args = track;
+                args.append(revision);
+                return d.f.file.rows(
+                    "SELECT ordinal,milestone_ref,target_micro_points FROM "
+                    "main.subathon_milestone_definition_targets "
+                    "WHERE installation_ref=? AND track_ref=? AND definition_revision=? "
+                    "ORDER BY ordinal",
+                    args);
+            };
+            const SqlRows original_targets{{1, QByteArray("A"), 35000000},
+                                           {2, QByteArray("B"), 36000000}};
+            require(current_definition() == SqlRows{{QByteArray("application-v1"),
+                                                     QByteArray("cfg"), QByteArray("")}} &&
+                        targets("application-v1") == original_targets,
+                    "Retaining a configuration never publishes it or creates a new target");
             const auto state = d.snapshot();
+            const auto prefix = d.f.file.rows("SELECT * FROM main.subathon_milestone_prefix_heads");
             PublicationAuthority authority;
-            const DefinitionEdit edit_request{edit::track,
-                                              edit::actor,
-                                              "publish-v2",
-                                              "application-v1",
-                                              {Kind::automation, "audio", "ordinary-v2"}};
+            const DefinitionEdit edit_request{edit::track, edit::actor, "publish-v2",
+                                              "application-v1", "cfg-published"};
             d.f.file.write([&](const auto &s) {
                 require(publish_definitions(s, authority, edit_request) == Disposition::committed &&
-                            authority.selections > 0,
+                            authority.admissions > 0,
                         "The ordinary publication is accepted using current owner authority");
             });
-            require(
-                d.snapshot() == state,
-                "Publication alone creates no captured group, replacement, claim, or reservation");
-            const auto receipt = d.f.file.intake("ordinary-later-C", {}, "synthetic-owner-command");
+            const SqlRows new_targets{{1, QByteArray("A"), 35000000},
+                                      {2, QByteArray("B"), 36000000},
+                                      {3, QByteArray("C"), 37000000}};
+            require(current_definition() ==
+                            SqlRows{{QByteArray("ordinary-v2"), QByteArray("cfg-published"),
+                                     QByteArray("application-v1")}} &&
+                        targets("ordinary-v2") == new_targets &&
+                        targets("application-v1") == original_targets,
+                    "Normal readback finds the new head and exact ordered A/B/C binding, with the "
+                    "old version intact");
+            require(d.snapshot() == state &&
+                        d.f.file.rows("SELECT * FROM main.subathon_milestone_prefix_heads") ==
+                            prefix &&
+                        authority.resolutions == 0,
+                    "Publication changes no earned prefix, existing capture, release or attempt");
+
+            const auto receipt = d.f.file.intake("ordinary-later", {}, "synthetic-owner-command");
             const Occurrence later_group{edit::track,
-                                         {"ordinary-later-C"},
-                                         ApplicationOperationKey{"test", "ordinary-later-C"}};
-            const LaterCrossing crossing{"C", 37000000, 40000000};
-            d.f.file.write(
-                [&](const auto &s) { capture_later_group(s, receipt, later_group, crossing); });
+                                         {"ordinary-later-occurrence"},
+                                         ApplicationOperationKey{"test", "ordinary-later"}};
+            d.f.file.write([&](const auto &s) {
+                capture_later_group(s, authority, receipt, later_group, {36000000, 40000000});
+            });
+            require(authority.resolutions > 0,
+                    "Capture resolves actions from the admitted current configuration");
+            const auto after_capture = d.snapshot();
+            for (std::size_t table = 0; table < state.size(); ++table)
+                require(
+                    std::ranges::all_of(
+                        state[table],
+                        [&](const auto &row) { return after_capture[table].contains(row); }),
+                    "Later capture preserves every retained occurrence, capture and attempt row");
             d.require_original();
             d.f.file.write([&](const auto &s) {
                 const MilestoneAction later_audio{Kind::automation, "audio", "ordinary-v2"};
@@ -342,11 +434,16 @@ class Milestone006DisclosureTests final : public QObject {
                 require(pending.size() == 3 && pending[0].group.occurrence == d.f.a.occurrence &&
                             pending[0].group.actions.front().version_ref == "v1" &&
                             pending[2].group.occurrence == later_group.occurrence &&
+                            pending[2].group.achievement.milestone_ref == "C" &&
+                            pending[2].group.achievement.definition_revision_ref == "ordinary-v2" &&
+                            pending[2].group.achievement.target_micro_points == 37000000 &&
+                            pending[2].group.achievement.score_micro_points == 40000000 &&
                             pending[2].group.actions == later_actions,
                         "Owning capture uses the new definition only for later C");
                 const auto &key = std::get<ApplicationOperationKey>(later_group.origin);
                 const auto bundle = SqliteApplicationBundleStore(s).lookup(key);
-                require(bundle && bundle->jobs.size() == 1 &&
+                require(bundle && bundle->intent.receipt_id == receipt.id &&
+                            bundle->jobs.size() == 1 &&
                             bundle->jobs.front().group_ref == later_group.occurrence.ref &&
                             bundle->jobs.front().group_ordinal == 1 &&
                             bundle->jobs.front().envelope.format_ref == inherited_format,
@@ -355,6 +452,7 @@ class Milestone006DisclosureTests final : public QObject {
                     SqliteDeliveryJobStore(s).lookup({key, bundle->jobs.front().job_ref});
                 require(job && job->action_document == QByteArray::fromHex("00a5") &&
                             job->capture.sender_ref == "published-S" &&
+                            job->capture.selection == Mode::configured_default &&
                             job->capture.route_ref == "local/published" &&
                             job->capture.action_version_ref == "ordinary-v2",
                         "Normal readback finds the newly published capture only on C");
