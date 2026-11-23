@@ -257,10 +257,9 @@ Image exact_progress_image(Image before, const StartupProjection &projection) {
 
 template <class Request>
 StartupOutcome between_preparation_and_write(Fixture &fixture, const Request &request,
-                                             const auto &between) {
+                                             const auto &between, StartupFaults hooks = {}) {
     std::exception_ptr failure;
     int pauses = 0;
-    StartupFaults hooks;
     hooks.on_prepared = [&](StartupFaults::Resume resume) {
         ++pauses;
         try {
@@ -961,12 +960,19 @@ class Api031StartupTests final : public QObject {
             const auto request = fixture.checkpoint_request();
             auto &port = fixture.registry.first;
             port.offer_live(live_witness(false, "12"));
+            std::shared_ptr<const PreparedStartupIntent> intent_at_twelve;
+            StartupFaults hooks;
+            hooks.capture_prepared_intent = [&](auto intent) noexcept {
+                intent_at_twelve = std::move(intent);
+            };
             qint64 changes{};
             expect_refusal(
                 between_preparation_and_write(
                     fixture, request,
                     [&] {
                         require(port.lives == 1, "The first prepared intent observed 12");
+                        require(bool(intent_at_twelve),
+                                "The owner captured the position-12 intent before resuming it");
                         same_image(fixture.store.image(), before);
                         port.offer_live(live_witness());
                         expect_projection(fixture.submit(request), IntakeStatus::committed,
@@ -974,8 +980,21 @@ class Api031StartupTests final : public QObject {
                         require(port.lives == 2, "Both intents came from actual invocations");
                         same_image(fixture.store.image(), after);
                         changes = fixture.store.changes();
-                    }),
+                    },
+                    std::move(hooks)),
                 IntakeStatus::conflict);
+            expect_unchanged(fixture, after, changes);
+
+            require(!request.candidate && !request.qualified,
+                    "Inspect receives no range echo or separate live qualification");
+            const auto live_observations = port.lives;
+            expect_projection(fixture.inspect({request}), IntakeStatus::exact_replay,
+                              checkpoint(), "K0 alone recovers the committed position 11",
+                              StartupReadback::applied);
+            expect_unchanged(fixture, after, changes);
+            expect_refusal(fixture.inspect({request, intent_at_twelve}), IntakeStatus::conflict);
+            require(port.lives == live_observations,
+                    "Inspect compares retained evidence without a fresh observation");
             expect_unchanged(fixture, after, changes);
 
             auto stale = request;
