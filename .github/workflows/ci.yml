@@ -565,8 +565,8 @@ jobs:
               raise SystemExit("Contribution review failed or skipped")
           output = case.findtext("system-out", "")
           totals = re.findall(r"^Totals: (\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted", output, re.MULTILINE)
-          if totals != [("43", "0", "0", "0")]:
-              raise SystemExit("Contribution review must pass 41 invocations and both hooks, with zero skips")
+          if totals != [("46", "0", "0", "0")]:
+              raise SystemExit("Contribution review must pass 44 invocations and both hooks, with zero skips")
           if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
               raise SystemExit("Unexpected Qt warning in contribution review acceptance")
           PYTHON
