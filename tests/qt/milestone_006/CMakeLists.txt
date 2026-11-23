@@ -3,7 +3,7 @@
 subathon_add_qt_suite(server_milestone_006_stage1_timing
     NAME milestone-006-timing SOURCES timing_tests.cpp
     LIBRARIES subathon_milestone_timeline Qt6::Sql
-    LABELS "milestone-006;intentional-red;acceptance;qt;server")
+    LABELS "milestone-006;acceptance;qt;server")
 
 subathon_add_qt_suite(server_milestone_006_stage1_store
     NAME milestone-006-store SOURCES store_tests.cpp
