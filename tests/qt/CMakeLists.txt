@@ -8,6 +8,12 @@ if(SUBATHON_BUILD_CONNECTOR_LIFECYCLE_TESTS)
 endif()
 
 if(SUBATHON_BUILD_API_HOST_TESTS)
+    option(SUBATHON_BUILD_API_023_HOST_CONSUMER_TESTS
+        "Assemble the standalone API-023 Host fatal consumer baseline" OFF)
+    if(SUBATHON_BUILD_API_023_HOST_CONSUMER_TESTS)
+        add_subdirectory(api_023)
+    endif()
+
     # Exception to the usual whole-runner registration: the frozen native
     # profile installs once per process. Preserve every individual data row.
     add_executable(server_api_host_acceptance api_host_tests.cpp)

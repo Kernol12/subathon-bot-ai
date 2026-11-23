@@ -98,3 +98,63 @@ and PR/proof receipts are future gates. Wider Host/exit composition (#294),
 operational logging (#545), #685 composition and #812 Debug qualification
 retain their owners. This is authored source with a forecast only. No compile,
 configure, artifact load, test discovery or runtime evidence.
+
+## Coordinator-authorized passive assembly
+
+The follow-up assembled the exact test source at `439cc6ef9f71a267f16c9fca56d2a3d8433a6dd0`
+(tree `1e4df0c638e1f025495c9f894d1b523f2adf0fc9`). The coordinator
+authorized the retained SDK as a link-time input for the unchanged normal
+`subathon_api_host`, its v10 catalog and the separate native profile.
+`SUBATHON_BUILD_API_023_HOST_CONSUMER_TESTS` defaults OFF and is scoped to
+the existing Host-test selection. It adds five distinct CTest commands with
+one selector per process, the existing 180 s bound and SDK path policy,
+and ordinary failure semantics under the intentional-red label.
+
+The `api-host-debug` preset configured the fresh retained
+`build/API-023/test-assembly` directory. Ninja compiled and linked only
+`server_api_023_host_consumer` and its prerequisites, in 54 steps. The
+compiler reported the protected `Options::limits` shadow warning. CMake
+reported the redundant disconnected-fetch flag as unused. The authored test
+and prior fixtures are byte-identical. Static readback matched all five new
+CTest commands and all 157 existing Host registrations in frozen order.
+Generated MOC contains four methods and the `fatal_stop_order_data` hook,
+with no fixture-defined init or cleanup hook. Both row tags and the private
+forward marker are present in the ELF. This is generated-file and symbol
+readback. The one control and four stub outcomes remain forecasts.
+
+The coordinator's `roots.txt` selected the historical successor SDK.
+All 176 entries in `sdk-176.sha256` matched before and after build.
+The identity digest is
+`d89b7744b4f97c02d9eafc5de12bc9ea0772b58814d4d5fbc30b3adacf1ca294`.
+The protected installed manifest, 16 Release options, upstream pins, ordered
+patches, and original and derived native sources matched their recorded
+identities. Compiler dependency readback names the sealed native build copy
+and its SDK headers. The explicit libsodium root passed configuration, but
+the runner link graph contains no libsodium archive.
+
+The retained `evidence/` directory contains the configure/build commands and
+logs, compiler and CTest command readback, 23 link archives with members and
+hashes, and 33 prospective ELF objects including the interpreter, Qt and the
+separate QSQLITE plugin root. The protected passive ELF method checked
+SONAMEs, search paths, version requirements, strong imports for the runner
+and both SDK DSOs, seven patched exports and the successor marker. Both the
+runner and Drogon define default-visible Session RTTI in `.dynsym` and
+`.symtab`. The scoped link/symbol inventory contains the real Host and
+native profile, with no Drogon transport adapter or Foundation archive.
+
+| Retained evidence | SHA-256 |
+| --- | --- |
+| Runner ELF | `e42e7598394a41b5f659b5302c75fd5104d3ba6ba5687c284f22aefdad9d5d8c` |
+| `evidence.sha256` | `5560ed846918a3f34d5c7c3b0f62e39436135127d0096447c223f43cf1b3ab06` |
+| `elf-closure.sha256` | `aeb620907678b251f1f3bf861300e376e9ed5e5008081dda0d8845ea06ba679e` |
+| `passive-abi.json` | `a97227ffe7f1be97e436af818bdde49f60bbf53f975de8f4626d0ccafd8d17f0` |
+| `registration.cmake` | `3cbefd98e1527c72219a54bf38cfc86515086f566386b5c39662bb92b769b0d8` |
+
+The fixture supplies only fake transport and synthetic in-process peers. The
+SDK-linked ELF establishes no service, socket, provider, lookup or vendor
+behavior. No candidate was loaded, no discovery or Qt hook ran and no
+SQLite work executed. Any separately authorized synthetic Host-only run
+still requires fresh exact admission, including the controlled environment,
+reached loader and plugin maps and reconciled pre/post hashes. Tier A test
+review, credited intended red, implementation review and frozen native,
+composed and Release gates remain pending.
