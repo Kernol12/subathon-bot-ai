@@ -12,9 +12,14 @@ using namespace std::string_view_literals;
 
 inline constexpr auto intent_format = "subathon.internal.rate-override-intent.v1"sv;
 inline constexpr auto decision_format = "subathon.internal.rate-override-decision.v1"sv;
+inline constexpr auto removal_intent_format = "subathon.internal.rate-override-removal-intent.v1"sv;
+inline constexpr auto removal_decision_format =
+    "subathon.internal.rate-override-removal-decision.v1"sv;
 inline constexpr auto observation_format = "subathon.internal.rate-observation.v1"sv;
 inline constexpr std::size_t intent_bytes = 229376;
 inline constexpr std::size_t document_bytes = 32768;
+inline constexpr std::size_t removal_intent_bytes = 206836;
+inline constexpr std::size_t removal_decision_bytes = 30678;
 inline constexpr std::size_t occurrence_bytes = 5535;
 inline constexpr std::size_t logical_bytes = 24576;
 inline constexpr std::size_t observation_count = 16;
@@ -40,20 +45,32 @@ inline std::string_view view(const QByteArray &bytes) {
     return {bytes.constData(), static_cast<std::size_t>(bytes.size())};
 }
 
-struct Intent {
-    RateOverrideEdit edit;
+template <class Edit> struct DecisionIntent {
+    Edit edit;
     std::string policy;
     std::vector<std::string> observations;
     std::vector<RateSourceEdge> edges;
 };
-struct Audit {
-    std::string installation, operation, decision, base, successor, introduced;
-    std::optional<std::string> replaced;
+using Intent = DecisionIntent<RateOverrideEdit>;
+using RemovalIntent = DecisionIntent<RateOverrideRemovalEdit>;
+
+struct AuthorityAudit {
     std::string account, session, record_revision, snapshot, catalog;
     std::uint64_t graph_revision{};
     std::string source, grant;
     std::optional<std::string> role;
     std::optional<std::int64_t> accepted_at;
+};
+struct Audit {
+    std::string installation, operation, decision, base, successor, introduced;
+    std::optional<std::string> replaced;
+    AuthorityAudit authority;
+};
+struct RemovalAudit {
+    std::string installation, operation, decision, base, successor;
+    core::RateOverridePair pair;
+    std::string removed_override_ref;
+    AuthorityAudit authority;
 };
 
 // Each grammar runs first as a no-growth scan, then as an owning read or write.
@@ -106,7 +123,7 @@ class WireWriter {
         for (const auto &value : values)
             visit(value);
     }
-    void witness(const Audit &value) {
+    void witness(const AuthorityAudit &value) {
         scalar(value.role.has_value(), 1);
         bounded(value.source, 4096);
         bounded(value.grant, 4096);
@@ -171,7 +188,7 @@ class WireReader {
                 values.push_back(std::move(entry));
         }
     }
-    void witness(Audit &value) {
+    void witness(AuthorityAudit &value) {
         const auto has_role = tag();
         bounded(value.source, 4096);
         bounded(value.grant, 4096);
@@ -258,11 +275,24 @@ inline constexpr auto edit_fields = [](auto &wire, auto &edit) {
     override_fields(wire, edit.override_input);
     wire.optional_ref(edit.replacement, 256);
 };
-inline constexpr auto intent_fields = [](auto &wire, auto &intent) {
-    edit_fields(wire, intent.edit);
+inline constexpr auto basis_fields = [](auto &wire, auto &intent) {
     wire.bounded(intent.policy, 256);
     wire.list(intent.observations, observation_count, [&](auto &ref) { wire.bounded(ref, 256); });
     wire.list(intent.edges, edge_count, [&](auto &edge) { wire.edge(edge); });
+};
+inline constexpr auto intent_fields = [](auto &wire, auto &intent) {
+    edit_fields(wire, intent.edit);
+    basis_fields(wire, intent);
+};
+inline constexpr auto authority_fields = [](auto &wire, auto &audit) {
+    wire.bounded(audit.account, 256);
+    wire.bounded(audit.session, 4096);
+    wire.bounded(audit.record_revision, 4096);
+    wire.bounded(audit.snapshot, 4096);
+    wire.bounded(audit.catalog, 256);
+    wire.major(audit.graph_revision);
+    wire.witness(audit);
+    wire.instant(audit.accepted_at);
 };
 inline constexpr auto audit_fields = [](auto &wire, auto &audit) {
     wire.bounded(audit.installation, 4096);
@@ -272,14 +302,29 @@ inline constexpr auto audit_fields = [](auto &wire, auto &audit) {
     wire.bounded(audit.successor, 256);
     wire.bounded(audit.introduced, 256);
     wire.optional_ref(audit.replaced, 256);
-    wire.bounded(audit.account, 256);
-    wire.bounded(audit.session, 4096);
-    wire.bounded(audit.record_revision, 4096);
-    wire.bounded(audit.snapshot, 4096);
-    wire.bounded(audit.catalog, 256);
-    wire.major(audit.graph_revision);
-    wire.witness(audit);
-    wire.instant(audit.accepted_at);
+    authority_fields(wire, audit.authority);
+};
+inline constexpr auto removal_identity_fields = [](auto &wire, auto &value) {
+    wire.bounded(value.installation, 4096);
+    wire.bounded(value.operation, 256);
+    wire.bounded(value.decision, 256);
+    wire.bounded(value.base, 256);
+    wire.bounded(value.successor, 256);
+    wire.bounded(value.pair.low_currency, 64);
+    wire.bounded(value.pair.high_currency, 64);
+    wire.bounded(value.removed_override_ref, 256);
+};
+inline constexpr auto removal_edit_fields = [](auto &wire, auto &edit) {
+    removal_identity_fields(wire, edit);
+    wire.bounded(edit.actor, 256);
+};
+inline constexpr auto removal_intent_fields = [](auto &wire, auto &intent) {
+    removal_edit_fields(wire, intent.edit);
+    basis_fields(wire, intent);
+};
+inline constexpr auto removal_audit_fields = [](auto &wire, auto &audit) {
+    removal_identity_fields(wire, audit);
+    authority_fields(wire, audit.authority);
 };
 
 template <class T, class Fields>
