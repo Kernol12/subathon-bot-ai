@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 
+#include "sqlite_migration_inspection.hpp"
+
 #include <subathon/server/sqlite_application_bundle.hpp>
 #include <subathon/server/sqlite_retained_context.hpp>
 #include <variant>
@@ -29,16 +31,6 @@ struct ClockStatementLedger {
     qsizetype cells;
     qsizetype result_bytes;
     bool operator==(const ClockStatementLedger &) const = default;
-};
-
-enum class ClockProbeQuery {
-    encoding,
-    schema,
-    header,
-    history,
-    integrity,
-    foreign_keys,
-    legacy_guard
 };
 
 struct ClockPreOpenResult {

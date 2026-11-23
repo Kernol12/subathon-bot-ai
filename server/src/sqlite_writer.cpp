@@ -2,6 +2,7 @@
 #include <subathon/server/sqlite_writer.hpp>
 
 #include "contribution_review_writer_access.hpp"
+#include "sqlite_connection.hpp"
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 
 #include <QDir>
@@ -9,12 +10,9 @@
 #include <QMetaObject>
 #include <QRegularExpression>
 #include <QSet>
-#include <QSqlDatabase>
-#include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QThread>
-#include <QUuid>
 #include <algorithm>
 #include <deque>
 #include <limits>
@@ -24,6 +22,13 @@
 
 namespace subathon::server {
 namespace {
+using detail::Connection;
+using detail::consume;
+using detail::consume_value;
+using detail::control;
+using detail::pragma_equals;
+using detail::sql_error;
+
 std::mutex writer_lease_mutex;
 QSet<QString> writer_leases;
 
@@ -51,94 +56,6 @@ void release_writer_lease(QString &path) {
     const std::lock_guard lock(writer_lease_mutex);
     writer_leases.remove(path);
     path.clear();
-}
-
-StorageError sql_error(const QSqlError &error) {
-    bool valid = false;
-    const int code = error.nativeErrorCode().toInt(&valid);
-    // SQLite extended result codes retain the primary error in their low byte.
-    return valid && ((code & 0xff) == 5 || (code & 0xff) == 6) ? StorageError::busy
-                                                               : StorageError::sql_failure;
-}
-
-// All queries are local to individual operations, so none outlive connection close.
-class Connection final {
-  public:
-    ~Connection() { close(); }
-    bool open(const QString &path, bool read_only) {
-        if (!QSqlDatabase::isDriverAvailable("QSQLITE"))
-            return false;
-        name_ = "subathon-" + QUuid::createUuid().toString(QUuid::WithoutBraces);
-        database_ = QSqlDatabase::addDatabase("QSQLITE", name_);
-        database_.setDatabaseName(path);
-        database_.setConnectOptions(read_only ? "QSQLITE_OPEN_READONLY;QSQLITE_BUSY_TIMEOUT=0"
-                                              : "QSQLITE_BUSY_TIMEOUT=0");
-        if (!database_.open()) {
-            close();
-            return false;
-        }
-        return true;
-    }
-    void close() {
-        if (name_.isEmpty())
-            return;
-        database_.close();
-        database_ = {};
-        QSqlDatabase::removeDatabase(std::exchange(name_, {}));
-    }
-    QSqlDatabase &database() { return database_; }
-    bool is_open() const { return !name_.isEmpty(); }
-
-  private:
-    QString name_;
-    QSqlDatabase database_;
-};
-
-StorageError control(Connection &connection, const QString &sql) {
-    QSqlQuery query(connection.database());
-    return query.exec(sql) ? StorageError::none : sql_error(query.lastError());
-}
-
-bool pragma_equals(Connection &connection, const QString &sql, const QVariant &expected) {
-    QSqlQuery query(connection.database());
-    return query.exec(sql) && query.next() && query.value(0) == expected;
-}
-
-bool consume(qsizetype &remaining, qsizetype amount) {
-    if (amount > remaining)
-        return false;
-    remaining -= amount;
-    return true;
-}
-
-// Revision 1 counts a base eight bytes per value plus any UTF-8/blob payload.
-bool consume_value(qsizetype &remaining, const QVariant &value) {
-    if (!consume(remaining, 8))
-        return false;
-    if (!value.isValid() || value.isNull())
-        return true;
-    switch (value.metaType().id()) {
-    case QMetaType::QString:
-        return consume(remaining, value.toString().toUtf8().size());
-    case QMetaType::QByteArray:
-        return consume(remaining, value.toByteArray().size());
-    case QMetaType::Bool:
-    case QMetaType::Char:
-    case QMetaType::SChar:
-    case QMetaType::UChar:
-    case QMetaType::Short:
-    case QMetaType::UShort:
-    case QMetaType::Int:
-    case QMetaType::UInt:
-    case QMetaType::Long:
-    case QMetaType::ULong:
-    case QMetaType::LongLong:
-    case QMetaType::ULongLong:
-    case QMetaType::Double:
-        return true;
-    default:
-        return false;
-    }
 }
 
 bool allowed_writer_sql(const QString &sql) {
