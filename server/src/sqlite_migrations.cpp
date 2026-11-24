@@ -16,6 +16,9 @@ const QString header_ddl = "CREATE TABLE subathon_catalog(singleton INTEGER PRIM
 const QString history_ddl = "CREATE TABLE subathon_migration_history(version INTEGER PRIMARY KEY, "
                             "migration_id TEXT NOT NULL UNIQUE, content_sha256 BLOB NOT NULL)";
 const QString store_identity = "subathon.sqlite-store";
+const QString post_empty =
+    "SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM main.subathon_clock_checkpoint) AND "
+    "NOT EXISTS(SELECT 1 FROM main.subathon_clock_evidence) THEN 1 ELSE 0 END";
 
 const QString legacy_guard =
     "WITH checked AS (SELECT CASE WHEN h.singleton IS NULL THEN CASE WHEN EXISTS(SELECT 1 FROM "
@@ -204,6 +207,7 @@ QList<QByteArray> preflight(MigrationRequest &request) {
 
 struct GuardedAdvance {
     detail::ClockPreOpenWitness witness;
+    const MigrationManifest compiled_manifest;
     detail::ClockAdvanceRefusal refusal{detail::ClockAdvanceRefusal::none};
     std::optional<detail::ClockProbeQuery> terminal{};
     detail::ClockStatementLedger ledger{};
@@ -399,6 +403,21 @@ template <typename Execute> class CatalogInspection final {
 } // namespace
 
 namespace detail {
+// Only the migration executor can construct the key required by the writer bridge.
+class CompiledMigrationSqlKey final {
+    friend class MigrationExecution;
+
+    // This type requires explicit construction and destruction by its owner.
+    CompiledMigrationSqlKey() noexcept {}
+    ~CompiledMigrationSqlKey() noexcept {}
+    CompiledMigrationSqlKey(const CompiledMigrationSqlKey &) = delete;
+    CompiledMigrationSqlKey &operator=(const CompiledMigrationSqlKey &) = delete;
+};
+
+SqlRows execute_compiled_migration_sql(const CompiledMigrationSqlKey &,
+                                       const std::weak_ptr<SqliteWorkState> &ticket,
+                                       const QString &sql, const QString &compiled);
+
 // This executor owns no connection. Every observation and change is charged to
 // the existing session, including raw/type verification and repeated final checks.
 class MigrationExecution final {
@@ -423,13 +442,16 @@ class MigrationExecution final {
             qint32 final_version = old_version;
             qsizetype applied = 0;
             if (request_.mode == MigrationMode::advance) {
+                const auto *compiled = state_.guard ? &state_.guard->compiled_manifest : nullptr;
                 if (old_version == 0)
                     bootstrap();
                 for (qsizetype i = old_version; i < request_.manifest.steps.size(); ++i) {
                     const auto &step = request_.manifest.steps[i];
                     for (qsizetype statement = 0; statement < step.sql.size(); ++statement) {
                         probe(MigrationCheckpoint::before_statement, step.version, statement + 1);
-                        (void)execute(step.sql[statement], {}, MigrationReason::sql_failure);
+                        const auto &sql = step.sql[statement];
+                        execute_migration_sql(sql,
+                                              compiled ? compiled->steps[i].sql[statement] : sql);
                     }
                     probe(MigrationCheckpoint::before_history, step.version, step.sql.size());
                     verify_catalog_schema(catalog_inspection().read_schema(), step.expected_schema);
@@ -443,6 +465,8 @@ class MigrationExecution final {
             }
             if (catalog_inspection().inspect_store() != final_version)
                 throw MigrationFailure(MigrationReason::catalog_mismatch);
+            if (state_.guard && applied != 0)
+                verify_empty_checkpoint();
             probe(MigrationCheckpoint::before_commit, final_version, 0);
             session_.commit();
             const auto target = static_cast<qint32>(request_.manifest.steps.size());
@@ -523,9 +547,24 @@ class MigrationExecution final {
             throw;
         }
     }
+    void execute_migration_sql(const QString &sql, const QString &compiled) {
+        if (state_.guard)
+            (void)execute_compiled_migration_sql(CompiledMigrationSqlKey{}, session_.state_, sql,
+                                                 compiled);
+        else
+            (void)execute(sql, {}, MigrationReason::sql_failure);
+    }
+    void verify_empty_checkpoint() {
+        const auto rows = execute(post_empty, {}, MigrationReason::inspection_failed);
+        if (rows.size() != 1 || rows.front().size() != 1)
+            throw MigrationFailure(MigrationReason::catalog_mismatch);
+        const auto &empty = rows.front().front();
+        if (empty.isNull() || !integer_value(empty) || empty.toLongLong() != 1)
+            throw MigrationFailure(MigrationReason::catalog_mismatch);
+    }
     void bootstrap() {
-        (void)execute(header_ddl, {}, MigrationReason::sql_failure);
-        (void)execute(history_ddl, {}, MigrationReason::sql_failure);
+        execute_migration_sql(header_ddl, header_ddl);
+        execute_migration_sql(history_ddl, history_ddl);
         (void)execute("INSERT INTO main.subathon_catalog"
                       "(singleton,catalog_format,store_identity) VALUES (?,?,?)",
                       {1, 1, store_identity}, MigrationReason::sql_failure);
@@ -669,7 +708,9 @@ MigrationAdmission detail::ClockAdvanceExecution::enqueue(SqliteWriter &writer,
     if (!completion)
         return enqueue_migration(writer, std::move(request), {});
     auto state = std::make_shared<RequestState>();
-    state->guard.emplace(GuardedAdvance{std::move(witness)});
+    // The binding has replaced the supplied manifest with the exact compiled
+    // values. Keep these for per-ordinal comparison after runner preflight.
+    state->guard.emplace(GuardedAdvance{std::move(witness), request.manifest});
     auto finish = [state, completion = std::move(completion)](MigrationResult result) {
         const auto &guard = *state->guard;
         completion({std::move(result), guard.refusal, guard.terminal,
