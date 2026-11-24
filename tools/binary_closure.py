@@ -172,7 +172,7 @@ def check_tree(ctest: dict, expected: dict, build_dir: Path, repo: Path,
         want = NOT_ELF if name == NOT_ELF else profiles.get(name)
         if want is None:
             result.errors.append(f"{key}: unknown profile {name!r}")
-        elif observed != want:
+        elif observed != (sorted(want) if isinstance(want, list) else want):
             if isinstance(want, list) and isinstance(observed, list):
                 extra = sorted(set(observed) - set(want))
                 missing = sorted(set(want) - set(observed))
