@@ -15,10 +15,10 @@ leaves the actual writer in charge of work admission and completion.
 
 ## Selectors
 
-The control passes. The other selectors fail at the `forward_published_fact`
-stub until it is replaced.
+The control is intended to pass. The other selectors are intended to fail at
+the `forward_published_fact` stub until it is replaced.
 
-| Qt selector | Independent witness after the handoff | Frozen expectation |
+| Qt selector | Independent witness after the handoff | Intended outcome (not yet observed) |
 | --- | --- | --- |
 | `ordinary_stop_control` | Serving positive. D = 7,000,000,000 ns, one ordinary fence, no fatal report, writer receipt plus held fake network receipt before `stopped`. | Passes. |
 | `fatal_stop_order:fatal_first` | No ordinary stop request before the Host consumes the fact. Deadline absent, first fake transport argument zero, no new elapsed read. Exact typed inspection and one local line survive later ordinary stop and both receipts, ending in `failed`. | Fails at the stub until it is replaced. |
