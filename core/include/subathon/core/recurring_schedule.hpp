@@ -5,6 +5,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <optional>
 #include <span>
 #include <stdexcept>
 #include <vector>
@@ -77,6 +78,33 @@ struct ScheduledPauseOccurrence {
     ScheduleLocalTime local_end{};
 
     bool operator==(const ScheduledPauseOccurrence &) const = default;
+};
+
+// Indexed offset facts used by the bounded forecast and the legacy solvers.
+// The transition storage must stay alive and immutable while the timeline is used.
+class ScheduleTimeline {
+  public:
+    static constexpr std::size_t max_transitions = 4096;
+
+    // Throws std::invalid_argument for malformed facts or a third local inverse.
+    explicit ScheduleTimeline(ScheduleZoneRules);
+
+    // Uses the same range and identity rules as preview_schedule_occurrences.
+    [[nodiscard]] std::vector<ScheduleOccurrence>
+    starts(const RecurringSchedule &, SchedulePreviewRange,
+           std::span<const ScheduleOccurrenceId> delivered = {}) const;
+    [[nodiscard]] std::optional<ScheduleLocalTime> local_at(std::int64_t utc_ms) const;
+
+  private:
+    struct LocalBand {
+        std::int64_t first;
+        std::array<std::int64_t, 2> offsets{};
+        std::size_t inverse_count{};
+        std::optional<std::int64_t> gap_offset;
+    };
+
+    ScheduleZoneRules rules_;
+    std::vector<LocalBand> bands_;
 };
 
 class RecurringScheduleNotImplemented final : public std::logic_error {
