@@ -409,16 +409,23 @@ class ZoneReads {
         if (const auto *prior = known(view, from); prior && prior->through_utc_ms >= through) {
             return prior;
         }
-        if (!charge_request(view.config.configured_zone, view.revision)) {
+        const auto request_bytes = sizeof(ScheduleZoneRequest) +
+                                   view.config.configured_zone.size() +
+                                   (view.revision ? view.revision->size() : 0);
+        if (!query() || !input_.take(request_bytes)) {
             return ZoneError::limit_exceeded;
         }
         auto answer = source_.read({view.config.configured_zone, from, through,
                                     view.revision ? std::optional{*view.revision} : std::nullopt});
         if (const auto *error = std::get_if<ZoneError>(&answer)) {
-            return charge_error() ? *error : ZoneError::limit_exceeded;
+            return *error;
         }
         auto &reply = std::get<ScheduleZoneFacts>(answer);
-        if (!charge_facts(reply, sizeof(reply)) || facts.size() >= Limits::max_result_rows) {
+        if (reply.transitions.size() > core::schedule_zone_max_transitions ||
+            !input_.take(sizeof(reply) +
+                         reply.transitions.size() * sizeof(core::ScheduleZoneTransition)) ||
+            !reference(input_, reply.configured_zone) || !reference(input_, reply.rules_revision) ||
+            facts.size() >= Limits::max_result_rows) {
             return ZoneError::limit_exceeded;
         }
         if (reply.configured_zone != view.config.configured_zone || reply.rules_revision.empty() ||
