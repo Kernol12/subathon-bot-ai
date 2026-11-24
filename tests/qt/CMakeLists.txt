@@ -321,6 +321,10 @@ if(SUBATHON_BUILD_STORAGE_026_STAGE1)
     add_subdirectory(storage_026)
 endif()
 
+if(SUBATHON_BUILD_STORAGE_003_STAGE1)
+    add_subdirectory(storage_003)
+endif()
+
 option(SUBATHON_BUILD_API_031_STAGE1 "Build the API-031 startup acceptance baseline" OFF)
 if(SUBATHON_BUILD_API_031_TESTS OR SUBATHON_BUILD_API_031_STAGE1)
     add_subdirectory(api_031)
