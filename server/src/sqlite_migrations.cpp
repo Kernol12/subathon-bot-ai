@@ -407,8 +407,11 @@ namespace detail {
 class CompiledMigrationSqlKey final {
     friend class MigrationExecution;
 
-    CompiledMigrationSqlKey() = default;
+    // This type requires explicit construction and destruction by its owner.
+    CompiledMigrationSqlKey() noexcept {}
+    ~CompiledMigrationSqlKey() noexcept {}
     CompiledMigrationSqlKey(const CompiledMigrationSqlKey &) = delete;
+    CompiledMigrationSqlKey &operator=(const CompiledMigrationSqlKey &) = delete;
 };
 
 SqlRows execute_compiled_migration_sql(const CompiledMigrationSqlKey &,
