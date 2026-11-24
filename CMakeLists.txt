@@ -17,6 +17,7 @@ option(SUBATHON_BUILD_STORAGE_027_STAGE1 "Build the STORAGE-027 reviewed accepta
 option(SUBATHON_BUILD_RATES_012_STAGE1 "Build the reviewed RATES-012 acceptance suite" OFF)
 option(SUBATHON_BUILD_RULES_004_STAGE1 "Build the reviewed RULES-004 acceptance suite" OFF)
 option(SUBATHON_BUILD_RULES_005_STAGE1 "Build the reviewed RULES-005 acceptance suite" OFF)
+option(SUBATHON_BUILD_EVENT_ANNOUNCEMENT_STAGE1 "Build the event announcement intentional-red suite" OFF)
 option(SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE "Build the ACCT-007 Qt acceptance suite explicitly" OFF)
 option(SUBATHON_BUILD_MODIFIER_005_STAGE1 "Build the reviewed MODIFIER-005 acceptance suite" OFF)
 option(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE "Build the modifier-clock acceptance suite explicitly" OFF)
