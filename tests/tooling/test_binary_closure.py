@@ -5,10 +5,13 @@ Synthetic ldd output and ctest JSON only; no real binary is inspected or run.
 Expected values follow the ADR rule: the observed set must equal the committed set.
 """
 import json
+import os
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
@@ -128,12 +131,40 @@ class CheckTree(unittest.TestCase):
         self.assertTrue(any("writer_tests" in error for error in result.errors))
         self.assertTrue(any("child_helper" in error for error in result.errors))
 
-    def test_expectations_of_other_trees_are_ignored(self):
+    def test_observed_file_passes_as_expected_file_including_outside_programs(self):
+        outside = tempfile.TemporaryDirectory()
+        self.addCleanup(outside.cleanup)
+        python = Path(outside.name) / "python3"
+        python.write_bytes(b"\x7fELF fake")
+        self.ldd[str(python.resolve())] = LDD_QT
+        ctest = self.ctest({"name": "a", "command": [str(self.writer)]},
+                           {"name": "py", "command": [str(python), "check.py"]})
+        first = self.check(ctest, {"format": 1, "profiles": {}, "programs": {}})
+        self.assertEqual(len(first.errors), 2)
+        self.assertEqual(self.check(ctest, first.observed).errors, [])
+
+    def test_built_children_are_checked_and_cmake_probes_are_not(self):
+        launched = self.build / "server" / "dev-server"
+        probe = self.build / "CMakeFiles" / "a.out"
+        for program in (launched, probe):
+            program.parent.mkdir(parents=True, exist_ok=True)
+            program.write_bytes(b"\x7fELF fake")
+            program.chmod(0o755)
+        self.ldd[str(launched)] = LDD_QT
         ctest = self.ctest({"name": "a", "command": [str(self.writer)]})
-        result = self.check(ctest, self.expected(**{
-            "build/qt/tests/writer_tests": "qt-sql",
-            "build/core/tests/core_tests": "static"}))
-        self.assertEqual(result.errors, [])
+        result = self.check(ctest, self.expected(**{"build/qt/tests/writer_tests": "qt-sql"}))
+        self.assertEqual(result.errors, ["build/qt/server/dev-server: registered but not listed"])
+
+    def test_closure_that_depends_on_the_test_environment_fails(self):
+        ldd = self.run_ldd
+        self.run_ldd = lambda program, environment: (
+            LDD_QT.replace("/opt/qt/lib/libQt6Core", "/elsewhere/libQt6Core")
+            if environment.get("CLOSURE_TEST_SWITCH") else ldd(program, environment))
+        ctest = self.ctest({"name": "a", "command": [str(self.writer)]},
+                           {"name": "b", "command": [str(self.writer)], "properties": [
+                               {"name": "ENVIRONMENT", "value": ["CLOSURE_TEST_SWITCH=1"]}]})
+        result = self.check(ctest, self.expected(**{"build/qt/tests/writer_tests": "qt-sql"}))
+        self.assertTrue(any("differs between its test environments" in e for e in result.errors))
 
     def test_non_elf_command_must_be_declared_not_elf(self):
         ctest = self.ctest({"name": "a", "command": [str(self.script)]})
@@ -153,7 +184,9 @@ class CheckTree(unittest.TestCase):
         for test in ({"name": "no-command"},
                      {"name": "missing", "command": [str(self.build / "tests" / "absent")]},
                      {"name": "modified", "command": [str(self.writer)], "properties": [
-                         {"name": "ENVIRONMENT_MODIFICATION", "value": ["A=set:1"]}]}):
+                         {"name": "ENVIRONMENT_MODIFICATION", "value": ["A=set:1"]}]},
+                     {"name": "malformed", "command": [str(self.writer)], "properties": [
+                         {"name": "ENVIRONMENT", "value": ["NO_EQUALS"]}]}):
             with self.subTest(test["name"]), self.assertRaises(bc.ClosureError):
                 self.check(self.ctest(test), expected)
 
@@ -161,6 +194,15 @@ class CheckTree(unittest.TestCase):
         ctest = self.ctest({"name": "a", "command": [str(self.writer)]})
         result = self.check(ctest, self.expected(**{"build/qt/tests/writer_tests": "nope"}))
         self.assertEqual(len(result.errors), 1)
+
+
+class RunLdd(unittest.TestCase):
+    def test_loader_diagnostics_on_stderr_fail_even_with_a_listing(self):
+        answer = subprocess.CompletedProcess(["ldd"], 0, LDD_QT,
+                                             "version `GLIBCXX_3.4.33' not found (required by x)\n")
+        with patch.object(bc.subprocess, "run", return_value=answer), \
+                self.assertRaisesRegex(bc.ClosureError, "GLIBCXX_3.4.33"):
+            bc.run_ldd("x", dict(os.environ))
 
 
 class ObservedFile(unittest.TestCase):

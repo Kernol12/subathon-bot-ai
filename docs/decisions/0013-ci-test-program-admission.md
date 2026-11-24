@@ -18,7 +18,10 @@ a reboot or a coordinator restart come from these steps, not from product work.
 **History: precaution, not incident.** The procedure began with the patched Drogon
 and Trantor SDK of API-012/API-016, which sits beside the stock SDK
 ([native WebSocket profile §1](../contracts/native-websocket-profile-v1.md) requires a
-distinct, admitted prefix). The owner then widened it step by step:
+distinct, admitted prefix). The hazard is real: stock Drogon behaves differently,
+for example the contaminated Pong during fragmented text recorded for PR108 in the
+[evidence summary](../evidence/README.md). Loading the stock SDK by mistake would
+change results. The owner then widened the procedure step by step:
 
 | Date | Step | Source |
 | --- | --- | --- |
@@ -46,19 +49,27 @@ Because no incident is on record, this decision does not keep the full local che
 ## Decision
 
 1. **Admission moves into CI.** `tools/binary_closure.py` runs in the `core` and `qt`
-   jobs after each build tree is built and before its first `ctest`. For every
-   program the tree registers (the command plus ELF arguments inside the build tree)
-   it asks the system loader (`ldd`) for the DT_NEEDED closure with resolved paths,
-   using the test's CTest `ENVIRONMENT`. It compares each `soname => path` with the
-   committed list in `tools/binary_closures/`. Any extra, missing or relocated
-   library, unresolved name, unlisted program or unsupported registration fails the
-   job. It logs each program's SHA-256. Runner-specific roots appear as `$QT_PREFIX`
-   or `$RUNNER_TEMP`. A changed list is an ordinary diff reviewed in its PR.
+   jobs after each build tree is built and before its tests run. CTest's discovery
+   may list GoogleTest cases first. The programs are every command the tree's
+   CTest registration starts and every ELF executable or shared object built in
+   the tree, which covers children that tests launch by a compiled-in path. For
+   each, the gate asks the system loader (`ldd`) for the DT_NEEDED closure with
+   resolved paths, using the test's CTest `ENVIRONMENT`. It compares each
+   `soname => path` with the tree's committed list in `tools/binary_closures/`.
+   Any extra, missing or relocated library, unresolved name, loader diagnostic
+   (such as a missing symbol version), unlisted program or unsupported
+   registration fails the job. It logs each program's SHA-256. Runner-specific
+   roots appear as `$QT_PREFIX` or `$RUNNER_TEMP`. A changed list is an ordinary
+   diff reviewed in its PR.
 2. **The commit and its CI run are the record of a test run.** Credited passing
    results are the required CI jobs on the reviewed PR head. On a pull request CI
-   tests the merge of that head with current `main`, which replaces the separate
-   protected-`main` pin. The PR names the head commit and links the run. Local
-   sealed run packages and their before/after reviews end.
+   tests the merge of that head with `main` as it stood when the run started. The
+   PR names the head commit, the tested merge commit and the run. The `push` run on
+   `main` after the merge is the run of the merged commit. Together these replace
+   the separate protected-`main` pin. `main` may still move between the PR run
+   and the merge, because the ruleset does not require an up-to-date branch. The
+   post-merge run covers that gap. Local sealed run packages and their
+   before/after reviews end.
 3. **One local run observes intended red.** Red cannot run in a passing CI gate, so
    the tests stage keeps one local run on the reviewed commit. Its record is the
    commit, the command and the failure summary in the PR. It needs no admission,
@@ -81,7 +92,8 @@ Because no incident is on record, this decision does not keep the full local che
   SHA-256 and Boost by package version. A runner-image update that replaces a
   system library in place is not detected.
 - Plugins loaded with `dlopen` (for example Qt's SQLite driver) are outside
-  DT_NEEDED. `QT_PLUGIN_PATH` and the job's prefix check still point them at the
+  DT_NEEDED, as are programs that a test starts from outside its build tree
+  other than its registered command. `QT_PLUGIN_PATH` and the job's prefix check still point them at the
   pinned Qt.
 - Reconciliation of the live loaded map against the passive closure for Qt and
   GoogleTest programs. Without `LD_PRELOAD` or `dlopen`, the loader resolves the

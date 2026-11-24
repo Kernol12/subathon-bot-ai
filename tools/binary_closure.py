@@ -1,15 +1,19 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """CI gate: every test program's loaded-library closure equals its committed list.
 
-ADR-0013. For each program a CTest tree registers (the command and any ELF argument
-inside the build tree), ask the system loader which libraries it resolves (ldd:
-the DT_NEEDED closure with RUNPATH, ld.so.cache and the test's ENVIRONMENT) and
-compare "soname => path" with the committed list. Any difference, unresolved
-library, unlisted program or unsupported registration fails the job.
+ADR-0013. The programs of one build tree are every command its CTest registration
+starts and every ELF executable or shared object built in the tree (outside
+CMakeFiles/), which covers children that tests launch by compiled-in path. For
+each, ask the system loader which libraries it resolves (ldd: the DT_NEEDED closure
+with RUNPATH, ld.so.cache and the test's ENVIRONMENT) and compare "soname => path"
+with the tree's committed list. Any difference, unresolved library, loader
+diagnostic, unlisted program or unsupported registration fails the job.
 
-Usage in CI, after the tree is built and before its first ctest run:
+Usage in CI, after the tree is built and before its tests run (CTest's own test
+discovery may list GoogleTest cases first):
 
-    python3 tools/binary_closure.py --expected tools/binary_closures/qt.json \
+    python3 tools/binary_closure.py \
+        --expected tools/binary_closures/sqlite-reference-capture-debug.json \
         --build-dir build/sqlite-reference-capture-debug --root QT_PREFIX="$QT_PREFIX"
 
 On failure the observed file for that tree is printed; a reviewed PR may commit it.
@@ -68,9 +72,11 @@ def portable(path: str, roots: dict[str, str]) -> str:
 
 def run_ldd(program: str, environment: dict[str, str]) -> str:
     result = subprocess.run(["ldd", program], env=environment, capture_output=True, text=True)
-    if result.returncode != 0 and "not a dynamic executable" not in result.stdout + result.stderr:
-        raise ClosureError(f"ldd failed for {program}: {result.stderr.strip()}")
-    return result.stdout or result.stderr
+    if "not a dynamic executable" in result.stdout + result.stderr:
+        return "not a dynamic executable"
+    if result.returncode != 0 or result.stderr.strip():
+        raise ClosureError(f"ldd reported a problem for {program}: {result.stderr.strip()}")
+    return result.stdout
 
 
 def _is_elf(path: Path) -> bool:
@@ -85,12 +91,25 @@ def _environment(test: dict) -> tuple[str, ...]:
             raise ClosureError(f"{test.get('name')}: ENVIRONMENT_MODIFICATION is not supported")
         if prop.get("name") == "ENVIRONMENT":
             values = tuple(prop["value"])
+            if any("=" not in value for value in values):
+                raise ClosureError(f"{test.get('name')}: ENVIRONMENT entry without '='")
     return values
 
 
+def _built(build_dir: Path) -> list[Path]:
+    """ELF executables and shared objects built in the tree, outside CMake's probes."""
+    found = []
+    for path in build_dir.rglob("*"):
+        if "CMakeFiles" in path.relative_to(build_dir).parts or path.is_symlink() or not path.is_file():
+            continue
+        if (os.access(path, os.X_OK) or ".so" in path.name) and _is_elf(path):
+            found.append(path.resolve())
+    return found
+
+
 def _programs(ctest: dict, build_dir: Path) -> dict[Path, set[tuple[str, ...]]]:
-    """Every program a test starts: its command, plus ELF arguments inside the build tree."""
-    programs: dict[Path, set[tuple[str, ...]]] = {}
+    """Every program a test starts (command and ELF arguments) and every ELF built in the tree."""
+    programs: dict[Path, set[tuple[str, ...]]] = {path: set() for path in _built(build_dir)}
     for test in ctest.get("tests", []):
         command = test.get("command")
         if not command:
@@ -120,7 +139,7 @@ class TreeResult:
 
 def check_tree(ctest: dict, expected: dict, build_dir: Path, repo: Path,
                roots: dict[str, str], ldd: Callable[[str, dict[str, str]], str] = run_ldd) -> TreeResult:
-    """Compare one CTest tree's programs with the expected file; never raises on a mere difference."""
+    """Compare one tree's programs with its expected file; never raises on a mere difference."""
     build_dir, repo = build_dir.resolve(), repo.resolve()
     result = TreeResult()
     closures: dict[str, list[str] | str] = {}
@@ -131,7 +150,7 @@ def check_tree(ctest: dict, expected: dict, build_dir: Path, repo: Path,
             closures[key] = NOT_ELF
             continue
         seen = []
-        for values in sorted(environments):
+        for values in sorted(environments or {()}):
             environment = dict(os.environ)
             environment.update(value.split("=", 1) for value in values)
             libraries = parse_ldd(ldd(str(program), environment))
@@ -141,8 +160,7 @@ def check_tree(ctest: dict, expected: dict, build_dir: Path, repo: Path,
             result.errors.append(f"{key}: closure differs between its test environments")
         closures[key] = seen[0]
 
-    prefix = str(build_dir.relative_to(repo)) + "/" if build_dir.is_relative_to(repo) else str(build_dir) + "/"
-    listed = {key: profile for key, profile in expected.get("programs", {}).items() if key.startswith(prefix)}
+    listed = expected.get("programs", {})
     profiles = expected.get("profiles", {})
     for key in sorted(listed.keys() - closures.keys()):
         result.errors.append(f"{key}: listed but not registered in this tree")
@@ -189,8 +207,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", action="append", default=[], metavar="NAME=PATH",
                         help="named runner-specific root, written as $NAME in the lists")
     args = parser.parse_args(argv)
-    roots = dict(item.split("=", 1) for item in args.root)
-    roots = {name: str(Path(path).resolve()) for name, path in roots.items()}
+    roots = {}
+    for item in args.root:
+        name, _, path = item.partition("=")
+        if not name or not path:
+            raise ClosureError(f"--root {item!r} needs a name and a nonempty path")
+        roots[name] = str(Path(path).resolve())
     expected = json.loads(args.expected.read_text(encoding="utf-8"))
     if expected.get("format") != 1:
         raise ClosureError(f"{args.expected}: unsupported format")
