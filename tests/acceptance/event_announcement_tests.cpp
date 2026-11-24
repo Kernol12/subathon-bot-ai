@@ -410,13 +410,20 @@ TEST_F(EventAnnouncementTest, StaleOrRefusedCancellationPreservesTheHead) {
     advance(2170ms, {blocked, allowed(E3)});
     stuck(E2);
 
+    cancel({E2}, {blocked, allowed(E3)}, CommandAuthority::withdrawn);
+    stuck(E2);
     cancel({E2, EventAnnouncementAfterCancel::continue_queue}, {blocked, allowed(E3)},
            CommandAuthority::withdrawn);
+    stuck(E2);
+    cancel({E2}, {blocked, allowed(E3)}, CommandAuthority::current, Completion::unknown);
+    stuck(E2);
     cancel({E2, EventAnnouncementAfterCancel::continue_queue}, {blocked, allowed(E3)},
            CommandAuthority::current, Completion::unknown);
     stuck(E2);
 
     // The same head became eligible before the command committed.
+    cancel({E2}, {allowed(E2), allowed(E3)});
+    no_stuck();
     cancel({E2, EventAnnouncementAfterCancel::continue_queue}, {allowed(E2), allowed(E3)});
     no_stuck();
     advance(2200ms, {allowed(E2), allowed(E3)});
@@ -440,6 +447,8 @@ TEST_F(EventAnnouncementTest, ContinueCancelsExactHeadAndStaleRetryCannotCancelS
     advance(2195ms, {blocked_e3});
     stuck(E3);
     cancel(request, {blocked_e3});
+    stuck(E3);
+    cancel({E2}, {blocked_e3});
     stuck(E3);
     advance(2200ms, {allowed(E2), allowed(E3)});
     active(2200ms, E3, 0ms, 400ms);
