@@ -47,6 +47,11 @@ Result<Done> register_listeners(Foundation &, drogon::HttpAppFramework &, Endpoi
 Result<Done> install_raw_hooks(Foundation &, RawHooks) noexcept { return NI{}; }
 Result<Done> testing::Access::arm_first_wire(Foundation &) noexcept { return NI{}; }
 Result<Done> testing::Access::release_wire(Foundation &) noexcept { return NI{}; }
+Result<Done> testing::Access::arm_listener_observer(Foundation &,
+                                                    trantor::bounded_io::ListenerObservation &) noexcept {
+    return NI{};
+}
+Result<Done> seal_listener_registration(Foundation &) noexcept { return NI{}; }
 void Request::release_raw() noexcept {} // No issued State or native owner exists in NI.
 void Reply::cancel() noexcept {}
 Result<std::unique_ptr<Foundation>> create(Limits, std::span<const Route>, NativeBinding,
