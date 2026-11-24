@@ -334,6 +334,16 @@ if(SUBATHON_BUILD_STORAGE_026_STAGE1)
     add_subdirectory(storage_026)
 endif()
 
+if(SUBATHON_BUILD_V22_CATALOG_DRIFT)
+    add_executable(server_v22_catalog_drift storage_003/catalog_drift.cpp
+        "${PROJECT_SOURCE_DIR}/server/src/sqlite_clock_checkpoint.cpp")
+    target_link_libraries(server_v22_catalog_drift PRIVATE
+        subathon_contribution_review subathon_sqlite_v22_catalog)
+    subathon_target_options(server_v22_catalog_drift)
+    add_test(NAME v22-catalog-drift COMMAND server_v22_catalog_drift)
+    set_tests_properties(v22-catalog-drift PROPERTIES LABELS "v22-catalog-drift" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_STORAGE_003_STAGE1)
     add_subdirectory(storage_003)
 endif()

@@ -420,12 +420,15 @@ jobs:
           -DSUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE=ON
           -DSUBATHON_BUILD_STORAGE_026_STAGE1=ON
           -DSUBATHON_BUILD_STORAGE_027_STAGE1=ON
+          -DSUBATHON_BUILD_V22_CATALOG_DRIFT=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
       - name: Build reviewed SQL suites
         run: cmake --build --preset sqlite-reference-capture-debug
+      - name: Verify the v22 catalog recognition seal
+        run: ctest --preset sqlite-reference-capture-debug -L '^v22-catalog-drift$' --no-tests=error
       - name: Build and run the reviewed diagnostics acceptance suite
         run: |
           cmake -S tests/qt/release_002 -B build/release-002-acceptance -G Ninja \
