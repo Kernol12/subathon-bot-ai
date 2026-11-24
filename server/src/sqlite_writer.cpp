@@ -211,6 +211,8 @@ void complete(Callback &callback, Arguments &&...arguments) noexcept {
 } // namespace
 
 namespace detail {
+class CompiledMigrationSqlKey;
+
 namespace {
 enum class WorkPhase { not_started, active, committed, rolled_back, unknown };
 }
@@ -291,12 +293,13 @@ class SqliteWorkState final {
     }
 
   private:
-    friend SqlRows execute_compiled_migration_sql(const std::weak_ptr<SqliteWorkState> &ticket,
-                                                 const QString &sql, const QString &compiled);
+    friend SqlRows execute_compiled_migration_sql(const CompiledMigrationSqlKey &,
+                                                  const std::weak_ptr<SqliteWorkState> &ticket,
+                                                  const QString &sql, const QString &compiled);
 
     template <typename CheckSql>
     SqlRows execute_metered(const SqlStatement &statement, ClockStatementLedger *clock,
-                           CheckSql check_sql) {
+                            CheckSql check_sql) {
         require_active();
         try {
             auto *authority = in_retained_authority_ ? &retained_authority_ : nullptr;
@@ -491,11 +494,11 @@ live_work_state(const std::weak_ptr<detail::SqliteWorkState> &ticket) {
 }
 } // namespace
 
-// The migration executor's private bridge. It takes the live writer ticket and
-// the sealed statement selected by the executor, with no runtime bindings.
 namespace detail {
-SqlRows execute_compiled_migration_sql(const std::weak_ptr<SqliteWorkState> &ticket,
-                                      const QString &sql, const QString &compiled) {
+// The executor presents its key, live ticket and sealed statement. No bindings.
+SqlRows execute_compiled_migration_sql(const CompiledMigrationSqlKey &,
+                                       const std::weak_ptr<SqliteWorkState> &ticket,
+                                       const QString &sql, const QString &compiled) {
     auto state = live_work_state(ticket);
     return state->execute_metered({sql, {}}, nullptr, [&] {
         if (sql != compiled)

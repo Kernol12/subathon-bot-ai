@@ -403,10 +403,17 @@ template <typename Execute> class CatalogInspection final {
 } // namespace
 
 namespace detail {
-// Defined in the writer. Only the guarded executor supplies its session's
-// private ticket and the exact statement from the sealed migration.
-SqlRows execute_compiled_migration_sql(const std::weak_ptr<SqliteWorkState> &ticket,
-                                      const QString &sql, const QString &compiled);
+// Only the migration executor can construct the key required by the writer bridge.
+class CompiledMigrationSqlKey final {
+    friend class MigrationExecution;
+
+    CompiledMigrationSqlKey() = default;
+    CompiledMigrationSqlKey(const CompiledMigrationSqlKey &) = delete;
+};
+
+SqlRows execute_compiled_migration_sql(const CompiledMigrationSqlKey &,
+                                       const std::weak_ptr<SqliteWorkState> &ticket,
+                                       const QString &sql, const QString &compiled);
 
 // This executor owns no connection. Every observation and change is charged to
 // the existing session, including raw/type verification and repeated final checks.
@@ -432,15 +439,16 @@ class MigrationExecution final {
             qint32 final_version = old_version;
             qsizetype applied = 0;
             if (request_.mode == MigrationMode::advance) {
-                const auto &compiled =
-                    state_.guard ? state_.guard->compiled_manifest : request_.manifest;
+                const auto *compiled = state_.guard ? &state_.guard->compiled_manifest : nullptr;
                 if (old_version == 0)
                     bootstrap();
                 for (qsizetype i = old_version; i < request_.manifest.steps.size(); ++i) {
                     const auto &step = request_.manifest.steps[i];
                     for (qsizetype statement = 0; statement < step.sql.size(); ++statement) {
                         probe(MigrationCheckpoint::before_statement, step.version, statement + 1);
-                        execute_migration_sql(step.sql[statement], compiled.steps[i].sql[statement]);
+                        const auto &sql = step.sql[statement];
+                        execute_migration_sql(sql,
+                                              compiled ? compiled->steps[i].sql[statement] : sql);
                     }
                     probe(MigrationCheckpoint::before_history, step.version, step.sql.size());
                     verify_catalog_schema(catalog_inspection().read_schema(), step.expected_schema);
@@ -538,7 +546,8 @@ class MigrationExecution final {
     }
     void execute_migration_sql(const QString &sql, const QString &compiled) {
         if (state_.guard)
-            (void)execute_compiled_migration_sql(session_.state_, sql, compiled);
+            (void)execute_compiled_migration_sql(CompiledMigrationSqlKey{}, session_.state_, sql,
+                                                 compiled);
         else
             (void)execute(sql, {}, MigrationReason::sql_failure);
     }
