@@ -167,7 +167,7 @@ or capability. All 34 foundation methods and 44 unchanged native methods pass
 locally against one prepared successor. Both run as ordinary passing suites in the
 existing `native` job, behind separate gates. The preserved candidate4 NI target
 remains a historical compile/link baseline; it supplies no successor behavior.
-Revision R4 comprises corrections 1–17, reviewed in
+Revision R4 comprises corrections 1–18, reviewed in
 [PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664), which records the
 frozen baseline and passing selected Linux CI for foundation34 and both native44
 SDK lanes. No first-party public declaration or frozen test/oracle was changed;

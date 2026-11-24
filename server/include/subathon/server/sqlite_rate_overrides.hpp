@@ -26,6 +26,17 @@ struct RateEditPreview {
     core::RateOverridePreview proposal;
 };
 
+struct RateOverrideRemovalEdit {
+    std::string installation, operation, actor, decision, base, successor;
+    core::RateOverridePair pair;
+    std::string removed_override_ref;
+};
+struct RateRemovalPreview {
+    RateOverrideRemovalEdit edit;
+    RateSourceBasis basis;
+    core::RateOverrideRemovalProposal proposal;
+};
+
 struct RateAuthorityFacts {
     ResolvedAccountSession session;
     StoredPermissionGraph graph;
@@ -62,6 +73,16 @@ struct RateReceiptSelection {
     RateReceiptOrigin origin;
     RateOverrideReceipt receipt;
 };
+struct RateRemovalReceipt {
+    std::string decision, base, successor;
+    core::RateOverridePair pair;
+    std::string removed_override_ref;
+    std::vector<core::RatePairChange> changes;
+};
+struct RateRemovalReceiptSelection {
+    RateReceiptOrigin origin;
+    RateRemovalReceipt receipt;
+};
 // For recovery only: verified absence of the entire attempted write. Never implies
 // permission to resubmit and never produces a receipt.
 struct RateAttemptAbsent {};
@@ -69,6 +90,10 @@ using RatePreviewResult = std::variant<RateEditPreview, RateStoreRefusal>;
 using RateRevisionResult = std::variant<core::EffectiveRateSnapshot, RateStoreRefusal>;
 using RateSaveResult = std::variant<RateReceiptSelection, RateStoreRefusal>;
 using RateRecoveryResult = std::variant<RateReceiptSelection, RateStoreRefusal, RateAttemptAbsent>;
+using RateRemovalPreviewResult = std::variant<RateRemovalPreview, RateStoreRefusal>;
+using RateRemovalSaveResult = std::variant<RateRemovalReceiptSelection, RateStoreRefusal>;
+using RateRemovalRecoveryResult =
+    std::variant<RateRemovalReceiptSelection, RateStoreRefusal, RateAttemptAbsent>;
 
 class RateOverridesNotImplemented final : public std::logic_error {
   public:
@@ -104,6 +129,20 @@ class SqliteRateOverrideUnit final {
                                              const RateOverrideEdit &,
                                              const RateEditPreview &) const;
 
+    [[nodiscard]] RateRemovalPreviewResult preview_removal(RateAuthoritySource &,
+                                                           const PermissionGraphTrust &,
+                                                           const RateOverrideRemovalEdit &,
+                                                           const RateSourceBasis &) const;
+    [[nodiscard]] RateRemovalSaveResult
+    save_removal(RateAuthoritySource &, const PermissionGraphTrust &,
+                 const RateOverrideRemovalEdit &, const RateRemovalPreview &,
+                 const RateSourceBasis &current,
+                 const std::function<std::optional<std::int64_t>()> &sample) const;
+    [[nodiscard]] RateRemovalRecoveryResult recover_removal(RateAuthoritySource &,
+                                                            const PermissionGraphTrust &,
+                                                            const RateOverrideRemovalEdit &,
+                                                            const RateRemovalPreview &) const;
+
   private:
     SqliteWorkSession session_;
 };
@@ -112,4 +151,6 @@ class SqliteRateOverrideUnit final {
 // normal value after acknowledged COMMIT and normal work completion.
 [[nodiscard]] std::optional<RateReceiptSelection>
 finish_rate_receipt(std::optional<RateReceiptSelection>, const SqliteWorkResult &);
+[[nodiscard]] std::optional<RateRemovalReceiptSelection>
+finish_rate_removal_receipt(std::optional<RateRemovalReceiptSelection>, const SqliteWorkResult &);
 } // namespace subathon::server

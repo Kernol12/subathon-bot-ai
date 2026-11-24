@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
+#include "application_port_fake.hpp"
 #include "sqlite_reference_authority_fixture.hpp"
 #include <subathon/server/reference_application.hpp>
 
@@ -207,13 +208,9 @@ class Source final : public ReferenceAuthoritySource {
         return result;
     }
 };
-// Bounded test composition, NOT #562's concrete ports. Stop after consumer allow
-// by deliberate denial unless full_accounting is selected by the specific test.
-class Ports final : public ExecutionAccess,
-                    public CurrentApplicationPolicy,
-                    public SegmentedApplicationClock,
-                    public RequiredApplicationActions,
-                    public FreshApplicationReferences {
+// Exercise configured-rule authority, then stop with a deliberate denial unless
+// full_accounting selects controlled policy, clock, actions and fresh references.
+class Ports final : public qt_test_support::ApplicationPortFake {
   public:
     ConfigData config;
     Source source;
@@ -282,8 +279,8 @@ class Ports final : public ExecutionAccess,
         source.calls = 0;
         config.loaded.clear();
         policies = clocks = disclosures = actions = references = 0;
-        ApplicationServicePorts ports{*this, *this, *this, *this, *this};
-        OriginalApplicationService service(d.writer, ports);
+        auto service_ports = ports();
+        OriginalApplicationService service(d.writer, service_ports);
         bool done = false;
         ApplicationServiceCompletion completion;
         require(service.enqueue(c,

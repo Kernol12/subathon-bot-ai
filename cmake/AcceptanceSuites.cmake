@@ -13,7 +13,7 @@ set(subathon_acceptance_suites
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
     chat-commands scheduled-pause milestone-target-edit sqlite-milestone-target-edits downtime-recovery finished-timer rule-actions rule-chain rule-simulator
-    frankfurter-rates exchange-rate-api open-exchange-rates)
+    frankfurter-rates exchange-rate-api open-exchange-rates api-031)
 
 # Test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.

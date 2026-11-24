@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 // Literal DATA and old storage primitives only. No service entry or codec is called here.
+#include "application_port_fake.hpp"
 #include "sqlite_application_hold_fixture.hpp"
-#include <subathon/server/application_service.hpp>
 
 namespace application_service_fixture {
 namespace core = subathon::core;
@@ -450,12 +450,7 @@ inline void retain_case(SqliteWriter &writer, const Data &data, const QString &n
 
 // Synthetic scripted DATA only: no SQL/writer/session/reentrant mutation/read-view call.
 // Output bindings are constructed from frozen inputs, never echoed from a UUT request.
-class ScriptedPorts final : public ExecutionAccess,
-                            public CurrentApplicationPolicy,
-                            public SegmentedApplicationClock,
-                            public RequiredApplicationActions,
-                            public FreshApplicationReferences {
-  public:
+struct PortScript {
     OriginalApplicationCommand expected_command;
     AccessDecision access{ApplicationAccessAllowed{"grant"}};
     PolicyResolution bound_policy;
@@ -466,7 +461,7 @@ class ScriptedPorts final : public ExecutionAccess,
     std::vector<std::string> calls;
     std::optional<ApplicationCalculatedProposal> received_proposal;
 
-    ScriptedPorts(const Data &data, const QString &name)
+    PortScript(const Data &data, const QString &name)
         : expected_command(data.command(name)), bound_policy(data.policy_resolution(name)),
           observed_clock(data.clock_resolution(name)),
           prepared_actions(data.action_resolution(name)) {
@@ -492,34 +487,34 @@ class ScriptedPorts final : public ExecutionAccess,
         }
     }
     AccessDecision check(const ApplicationReferenceReadView &,
-                         const OriginalApplicationCommand &c) override {
+                         const OriginalApplicationCommand &c) {
         expect(c);
         calls.push_back("access");
         return access;
     }
     bool disclose_application(const ApplicationReferenceReadView &,
                               const OriginalApplicationCommand &c,
-                              const RecordedApplicationBundle &) override {
+                              const RecordedApplicationBundle &) {
         expect(c);
         calls.push_back("disclose_application");
         return application_visible;
     }
     bool disclose_holds(const ApplicationReferenceReadView &, const OriginalApplicationCommand &c,
-                        const ApplicationHoldActiveSet &) override {
+                        const ApplicationHoldActiveSet &) {
         expect(c);
         calls.push_back("disclose_holds");
         return holds_visible;
     }
     PolicyResolution resolve(const ApplicationReferenceReadView &,
                              const OriginalApplicationCommand &c, const ApplicationBundleInputs &,
-                             const AccessDecision &) override {
+                             const AccessDecision &) {
         expect(c);
         calls.push_back("policy");
         return bound_policy;
     }
     ClockResolution observe(const ApplicationReferenceReadView &,
                             const OriginalApplicationCommand &c, const ApplicationBundleInputs &,
-                            const BoundApplicationPolicy &) override {
+                            const BoundApplicationPolicy &) {
         expect(c);
         calls.push_back("clock");
         return observed_clock;
@@ -527,14 +522,14 @@ class ScriptedPorts final : public ExecutionAccess,
     ActionResolution prepare(const ApplicationReferenceReadView &,
                              const OriginalApplicationCommand &c, const ApplicationBundleInputs &,
                              const BoundApplicationPolicy &,
-                             const ApplicationCalculatedProposal &p) override {
+                             const ApplicationCalculatedProposal &p) {
         expect(c);
         calls.push_back("actions");
         received_proposal = p;
         return prepared_actions;
     }
     ReferenceResolution issue(ApplicationReferencePurpose p,
-                              const ApplicationReferenceBinding &binding) override {
+                              const ApplicationReferenceBinding &binding) {
         calls.push_back("reference:" + std::to_string(static_cast<int>(p)));
         for (const auto &r : issued) {
             const auto &b = r.binding;
@@ -552,12 +547,66 @@ class ScriptedPorts final : public ExecutionAccess,
         }
         return ApplicationUnavailable{"unscripted-reference"};
     }
-    ApplicationServicePorts ports() { return {*this, *this, *this, *this, *this}; }
 
   private:
     void expect(const OriginalApplicationCommand &c) const {
         require(same_command(c, expected_command),
                 "Script receives independent complete command DATA");
+    }
+};
+
+// Optional hooks inspect/read finite inputs only; NONE writes SQL, owns a session
+// or mutates authoritative state. All default bindings come from frozen DATA.
+class ScriptedPorts final : public qt_test_support::ApplicationPortFake {
+  public:
+    PortScript script;
+    std::function<AccessDecision(const ApplicationReferenceReadView &)> access_hook;
+    std::function<PolicyResolution(const ApplicationReferenceReadView &,
+                                   const ApplicationBundleInputs &)>
+        policy_hook;
+    std::function<ClockResolution(const ApplicationReferenceReadView &)> clock_hook;
+    std::function<ActionResolution(const ApplicationCalculatedProposal &)> actions_hook;
+    std::function<ReferenceResolution(ApplicationReferencePurpose,
+                                      const ApplicationReferenceBinding &)>
+        reference_hook;
+    ScriptedPorts(const Data &data, const QString &name) : script(data, name) {}
+    AccessDecision check(const ApplicationReferenceReadView &v,
+                         const OriginalApplicationCommand &c) override {
+        auto result = script.check(v, c);
+        return access_hook ? access_hook(v) : result;
+    }
+    bool disclose_application(const ApplicationReferenceReadView &v,
+                              const OriginalApplicationCommand &c,
+                              const RecordedApplicationBundle &r) override {
+        return script.disclose_application(v, c, r);
+    }
+    bool disclose_holds(const ApplicationReferenceReadView &v, const OriginalApplicationCommand &c,
+                        const ApplicationHoldActiveSet &s) override {
+        return script.disclose_holds(v, c, s);
+    }
+    PolicyResolution resolve(const ApplicationReferenceReadView &v,
+                             const OriginalApplicationCommand &c, const ApplicationBundleInputs &i,
+                             const AccessDecision &a) override {
+        auto result = script.resolve(v, c, i, a);
+        return policy_hook ? policy_hook(v, i) : result;
+    }
+    ClockResolution observe(const ApplicationReferenceReadView &v,
+                            const OriginalApplicationCommand &c, const ApplicationBundleInputs &i,
+                            const BoundApplicationPolicy &p) override {
+        auto result = script.observe(v, c, i, p);
+        return clock_hook ? clock_hook(v) : result;
+    }
+    ActionResolution prepare(const ApplicationReferenceReadView &v,
+                             const OriginalApplicationCommand &c, const ApplicationBundleInputs &i,
+                             const BoundApplicationPolicy &p,
+                             const ApplicationCalculatedProposal &a) override {
+        auto result = script.prepare(v, c, i, p, a);
+        return actions_hook ? actions_hook(a) : result;
+    }
+    ReferenceResolution issue(ApplicationReferencePurpose p,
+                              const ApplicationReferenceBinding &b) override {
+        auto result = script.issue(p, b);
+        return reference_hook ? reference_hook(p, b) : result;
     }
 };
 } // namespace application_service_fixture
