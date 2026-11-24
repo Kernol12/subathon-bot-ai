@@ -89,6 +89,11 @@ Night queue is retired. Labels:
 | `end-phase` | Valid work deliberately left for late in the release | Picked only when no other Ready product task remains, or once the owner declares the end phase |
 | `security-blocked` | A provider safeguard stopped the work | Handled as described below |
 
+After parking a task, start the next eligible Ready task in the same turn when
+the active limits allow it. A Parked task without an open question resumes when
+a slot is available or returns to Ready. Starting the next test stage does not
+require separate authorization.
+
 ## Night
 
 - The coordinator picks Ready tasks and prefers tasks whose contract is settled.
