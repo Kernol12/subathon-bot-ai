@@ -154,6 +154,10 @@ if(SUBATHON_BUILD_SQLITE_RATE_OVERRIDE_WRITER_TESTS)
         NAME sqlite-rate-override-writer SOURCES sqlite_rate_override_writer_tests.cpp
         LIBRARIES subathon_sqlite_rate_overrides subathon_sqlite_modifier_activations
         LABELS "sqlite-rate-override-writer;acceptance;qt;server" TIMEOUT 180)
+    option(SUBATHON_BUILD_RATE_OVERRIDE_REMOVAL_STAGE1 "Build the standalone rate override removal baseline" OFF)
+    if(SUBATHON_BUILD_RATE_OVERRIDE_REMOVAL_STAGE1)
+        add_subdirectory(rate_override_removal)
+    endif()
 endif()
 
 if(SUBATHON_BUILD_CONTRIBUTION_REVIEW_TESTS)
@@ -321,6 +325,15 @@ endif()
 option(SUBATHON_BUILD_STORAGE_026_STAGE1 "Build the STORAGE-026 acceptance suites" OFF)
 if(SUBATHON_BUILD_STORAGE_026_STAGE1)
     add_subdirectory(storage_026)
+endif()
+
+if(SUBATHON_BUILD_STORAGE_003_STAGE1)
+    add_subdirectory(storage_003)
+endif()
+
+option(SUBATHON_BUILD_API_031_STAGE1 "Build the API-031 startup acceptance baseline" OFF)
+if(SUBATHON_BUILD_API_031_TESTS OR SUBATHON_BUILD_API_031_STAGE1)
+    add_subdirectory(api_031)
 endif()
 
 if(SUBATHON_BUILD_STORAGE_027_STAGE1)

@@ -750,26 +750,32 @@
       "tests": [
         "tests/qt/storage_026/catalog_tests.cpp",
         "tests/qt/storage_026/transitions_tests.cpp",
-        "tests/qt/storage_026/receipts_tests.cpp"
+        "tests/qt/storage_026/receipts_tests.cpp",
+        "tests/qt/api_031/startup_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/760",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7067157033"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7067157033",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/811",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/819"
       ],
-      "scope": "Disposable SQLite coverage for the bounded intake catalog, exact page, gap and source fences, durable receipt attempts and first basis, and pre-existing reader compatibility. API-006 orchestration, live connector authority, and unexercised multi-source, receiptless history and reconnect paths remain separate."
+      "scope": "Disposable SQLite coverage includes the bounded intake catalog, exact page, gap and source fences, receipt attempts and first basis, reader compatibility, and API-031 owner registration, all-cohort first activation, first live checkpoint and recovery. Provider live authority, downstream history orchestration and joined host integration remain separate."
     },
     {
       "id": "INTAKE-02",
       "status": "partial",
       "tests": [
         "tests/qt/storage_026/transitions_tests.cpp",
-        "tests/qt/storage_026/receipts_tests.cpp"
+        "tests/qt/storage_026/receipts_tests.cpp",
+        "tests/qt/api_031/startup_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/760",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7067157033"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7067157033",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/811",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/819"
       ],
-      "scope": "Disposable SQLite coverage for the stored baseline, adoption and history-operation boundary. Historical import orchestration, live source qualification and end-to-end Review behavior remain separate."
+      "scope": "Disposable SQLite coverage includes the stored baseline, adoption and history-operation boundary, plus API-031 first activation, exact checkpoint proof, fencing and replay from synthetic observations. Historical import orchestration, live provider verification and end-to-end Review remain separate."
     },
     {
       "id": "UI-04",

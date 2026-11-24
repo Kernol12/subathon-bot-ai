@@ -205,65 +205,7 @@ void check_creation(const ApplicationHoldView &a, const ApplicationHoldDetection
     original_claim_fixture::same_envelope(a.first_detection.audit, b.request.audit);
 }
 
-// Optional hooks inspect/read finite inputs only; NONE writes SQL, owns a session
-// or mutates authoritative state. All default bindings come from frozen DATA.
-class Ports final : public ExecutionAccess,
-                    public CurrentApplicationPolicy,
-                    public SegmentedApplicationClock,
-                    public RequiredApplicationActions,
-                    public FreshApplicationReferences {
-  public:
-    ScriptedPorts script;
-    std::function<AccessDecision(const ApplicationReferenceReadView &)> access_hook;
-    std::function<PolicyResolution(const ApplicationReferenceReadView &,
-                                   const ApplicationBundleInputs &)>
-        policy_hook;
-    std::function<ClockResolution(const ApplicationReferenceReadView &)> clock_hook;
-    std::function<ActionResolution(const ApplicationCalculatedProposal &)> actions_hook;
-    std::function<ReferenceResolution(ApplicationReferencePurpose,
-                                      const ApplicationReferenceBinding &)>
-        reference_hook;
-    Ports(const Data &data, const QString &name) : script(data, name) {}
-    AccessDecision check(const ApplicationReferenceReadView &v,
-                         const OriginalApplicationCommand &c) override {
-        auto result = script.check(v, c);
-        return access_hook ? access_hook(v) : result;
-    }
-    bool disclose_application(const ApplicationReferenceReadView &v,
-                              const OriginalApplicationCommand &c,
-                              const RecordedApplicationBundle &r) override {
-        return script.disclose_application(v, c, r);
-    }
-    bool disclose_holds(const ApplicationReferenceReadView &v, const OriginalApplicationCommand &c,
-                        const ApplicationHoldActiveSet &s) override {
-        return script.disclose_holds(v, c, s);
-    }
-    PolicyResolution resolve(const ApplicationReferenceReadView &v,
-                             const OriginalApplicationCommand &c, const ApplicationBundleInputs &i,
-                             const AccessDecision &a) override {
-        auto result = script.resolve(v, c, i, a);
-        return policy_hook ? policy_hook(v, i) : result;
-    }
-    ClockResolution observe(const ApplicationReferenceReadView &v,
-                            const OriginalApplicationCommand &c, const ApplicationBundleInputs &i,
-                            const BoundApplicationPolicy &p) override {
-        auto result = script.observe(v, c, i, p);
-        return clock_hook ? clock_hook(v) : result;
-    }
-    ActionResolution prepare(const ApplicationReferenceReadView &v,
-                             const OriginalApplicationCommand &c, const ApplicationBundleInputs &i,
-                             const BoundApplicationPolicy &p,
-                             const ApplicationCalculatedProposal &a) override {
-        auto result = script.prepare(v, c, i, p, a);
-        return actions_hook ? actions_hook(a) : result;
-    }
-    ReferenceResolution issue(ApplicationReferencePurpose p,
-                              const ApplicationReferenceBinding &b) override {
-        auto result = script.issue(p, b);
-        return reference_hook ? reference_hook(p, b) : result;
-    }
-    ApplicationServicePorts ports() { return {*this, *this, *this, *this, *this}; }
-};
+using Ports = ScriptedPorts;
 
 struct File {
     QTemporaryDir directory;

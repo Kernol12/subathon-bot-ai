@@ -3,7 +3,11 @@
 [#684](https://github.com/Kernol12/subathon-bot-ai/issues/684) · Tier A tests stage.
 The coordinator supplied the [night claim](https://github.com/Kernol12/subathon-bot-ai/issues/684#issuecomment-7091053084)
 and accepted standalone source scope. The protected source is
-`71a1c2e5f661f8d144bac6bdf93a6aaec07d5302`, tree `d752321ed39b064dba90ef494232805855550521`.
+`aa04f15238987192c5338d7d63cf289033d59e1f` under the
+[advisor re-point](https://github.com/Kernol12/subathon-bot-ai/issues/684#issuecomment-7126776377) from the
+original `71a1c2e5f661f8d144bac6bdf93a6aaec07d5302`. None of the 52 commits
+between them changes the Foundation, Host, Drogon transport, native profile,
+SDK patches, manifest or `tests/qt/support/api_host_fixture.hpp`.
 
 | Frozen input | SHA-256 |
 | --- | --- |
@@ -100,6 +104,13 @@ retain their owners. This is authored source with a forecast only. No compile,
 configure, artifact load, test discovery or runtime evidence.
 
 ## Coordinator-authorized passive assembly
+
+This section records the assembly at the original `71a1c2e5` basis. Its
+runner cannot be admitted for a run on the current basis. Since then main
+changed `server/include/subathon/server/sqlite_writer.hpp` in the test's
+include closure (`bc891c3d`: a private member and friend declarations, no
+layout change) and the linked writer and migration sources. A fresh assembly
+and header-dependency readback on the current basis supersede this one.
 
 The follow-up assembled the exact test source at `439cc6ef9f71a267f16c9fca56d2a3d8433a6dd0`
 (tree `1e4df0c638e1f025495c9f894d1b523f2adf0fc9`). The coordinator

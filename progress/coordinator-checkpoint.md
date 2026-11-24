@@ -22,11 +22,9 @@ Apply the workflow tier; report each merge briefly and continue without awaiting
 a reply. The original [#278 handover](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6930279142)
 remains historical technical context, not a continuing stop directive.
 
-Only owner-needed stops are: third fix round; contract change beyond the issue
-or ADR-0012 assertion weakening; specification conflict or unclear requirement;
-unclassifiable failure or product failure persisting after allowed fix rounds;
-provider switch, new dependency, any process/tooling change; no dependency-ready
-product task; or explicit owner stop. Ask with options and a recommendation,
+Since 2026-11-23, questions go to the advisor under
+[docs/ADVISOR.md](../docs/ADVISOR.md), which lists what still reaches the owner.
+An explicit owner stop always applies. Ask with options and a recommendation,
 while continuing independent work not blocked. Pre-build/test CI infrastructure
 allows one recorded rerun; routine in-scope choices, self-caught mistakes and
 filing planned issues are not stops.

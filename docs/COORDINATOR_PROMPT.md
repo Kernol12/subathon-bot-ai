@@ -29,8 +29,9 @@ merge rules. This page adds only what is specific to coordinating.
 5. Update the checkpoint when scope, assignments or blockers change. Continue with the
    next authorized task or stop at the owner's boundary.
 
-Resolve routine issues without asking. Ask the owner only for a decision or access
-that is actually needed. Report failures as they happened; never relabel a failed or
+Resolve routine issues without asking. Send any decision or access that is actually
+needed to the [advisor](ADVISOR.md) as a numbered question with options and a
+recommendation; it decides or escalates to the owner. Report failures as they happened; never relabel a failed or
 premature run as evidence. No live chat or payment side effects are authorized.
 
 When the standing loop is authorized, the product is complete only when the full

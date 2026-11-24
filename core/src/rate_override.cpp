@@ -287,13 +287,11 @@ class Proposal {
 };
 
 const ManualRateOverrideData *replacement(const EffectiveRateSnapshotData &current,
-                                          const ManualRateOverrideInput &edit,
+                                          std::string_view from, std::string_view to,
                                           std::optional<std::string_view> target) {
     for (const auto &active : current.overrides) {
-        const bool same_pair =
-            (active.from_currency == edit.from_currency &&
-             active.to_currency == edit.to_currency) ||
-            (active.from_currency == edit.to_currency && active.to_currency == edit.from_currency);
+        const bool same_pair = (active.from_currency == from && active.to_currency == to) ||
+                               (active.from_currency == to && active.to_currency == from);
         if (same_pair) {
             if (!target)
                 fail(Error::invalid_override);
@@ -404,7 +402,8 @@ RateOverridePreview preview_rate_override(const EffectiveRateSnapshot &current,
                                           std::optional<std::string_view> replace_override_ref) {
     check_edge_count(fetched_edges);
     const auto &base = current.data();
-    const auto *replaced = replacement(base, edit, replace_override_ref);
+    const auto *replaced =
+        replacement(base, edit.from_currency, edit.to_currency, replace_override_ref);
     const auto rate = parse_edit_rate(edit.original_decimal);
 
     Proposal proposal(base.snapshot_ref, candidate_ref);
@@ -423,6 +422,38 @@ RateOverridePreview preview_rate_override(const EffectiveRateSnapshot &current,
     }
     auto changes = affected_rates(base, validated.data(), budget);
     return {proposal.take_candidate(), std::move(changes), std::move(replaced_ref)};
+}
+
+RateOverrideRemovalProposal
+preview_rate_override_removal(const EffectiveRateSnapshot &current, const RateOverridePair &pair,
+                              std::string_view removed_override_ref,
+                              std::span<const RateOverrideFetchedEdge> fetched_edges,
+                              std::string_view candidate_ref) {
+    check_edge_count(fetched_edges);
+    if (pair.low_currency.size() > limits.currency_bytes ||
+        pair.high_currency.size() > limits.currency_bytes)
+        fail(Error::resource_limit);
+    // std::string comparison orders the bytes as unsigned char.
+    if (pair.low_currency.empty() || pair.low_currency >= pair.high_currency)
+        fail(Error::invalid_currency);
+    if (removed_override_ref.size() > limits.reference_bytes)
+        fail(Error::resource_limit);
+    if (removed_override_ref.empty())
+        fail(Error::invalid_reference);
+
+    const auto &base = current.data();
+    Proposal proposal(base.snapshot_ref, candidate_ref);
+    const auto *removed =
+        replacement(base, pair.low_currency, pair.high_currency, removed_override_ref);
+    for (const auto &active : base.overrides)
+        if (&active != removed)
+            proposal.keep_manual(active, active.rate);
+    proposal.select_fetched(fetched_edges);
+    const auto validated = make_effective_rate_snapshot(proposal.candidate());
+    auto budget = proposal.budget();
+    budget.text(removed_override_ref, limits.reference_bytes);
+    auto changes = affected_rates(base, validated.data(), budget);
+    return {proposal.take_candidate(), std::move(changes), std::string(removed_override_ref)};
 }
 
 RatePreviewBaseStatus check_rate_preview_base(const EffectiveRateSnapshot &current,
