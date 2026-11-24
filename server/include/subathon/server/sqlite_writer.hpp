@@ -107,6 +107,8 @@ struct SqliteWorkResult {
 
 namespace detail {
 class SqliteWorkState;
+class MigrationExecution;
+struct ClockStatementLedger;
 class ContributionReviewWriterAccess;
 } // namespace detail
 namespace testing {
@@ -131,10 +133,14 @@ class SqliteWorkSession final {
     [[nodiscard]] WorkError cleanup() const noexcept;
 
   private:
+    // Observe the normal statement path only during the migration's initial check.
+    [[nodiscard]] SqlRows execute_clock_preflight(const SqlStatement &statement,
+                                                   detail::ClockStatementLedger &ledger) const;
     explicit SqliteWorkSession(std::weak_ptr<detail::SqliteWorkState> state)
         : state_(std::move(state)) {}
     std::weak_ptr<detail::SqliteWorkState> state_;
     friend class detail::ContributionReviewWriterAccess;
+    friend class detail::MigrationExecution;
     friend class SqliteWorkContext;
     friend class SqliteWriter;
 };

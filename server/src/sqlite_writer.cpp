@@ -2,6 +2,8 @@
 #include <subathon/server/sqlite_writer.hpp>
 
 #include "contribution_review_writer_access.hpp"
+#include "sqlite_connection.hpp"
+#include "sqlite_migration_inspection.hpp"
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 
 #include <QDir>
@@ -10,12 +12,9 @@
 #include <QRegularExpression>
 #include <QScopeGuard>
 #include <QSet>
-#include <QSqlDatabase>
-#include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QThread>
-#include <QUuid>
 #include <algorithm>
 #include <deque>
 #include <limits>
@@ -25,6 +24,14 @@
 
 namespace subathon::server {
 namespace {
+using detail::ClockStatementLedger;
+using detail::Connection;
+using detail::consume;
+using detail::consume_value;
+using detail::control;
+using detail::pragma_equals;
+using detail::sql_error;
+
 std::mutex writer_lease_mutex;
 QSet<QString> writer_leases;
 
@@ -52,94 +59,6 @@ void release_writer_lease(QString &path) {
     const std::lock_guard lock(writer_lease_mutex);
     writer_leases.remove(path);
     path.clear();
-}
-
-StorageError sql_error(const QSqlError &error) {
-    bool valid = false;
-    const int code = error.nativeErrorCode().toInt(&valid);
-    // SQLite extended result codes retain the primary error in their low byte.
-    return valid && ((code & 0xff) == 5 || (code & 0xff) == 6) ? StorageError::busy
-                                                               : StorageError::sql_failure;
-}
-
-// All queries are local to individual operations, so none outlive connection close.
-class Connection final {
-  public:
-    ~Connection() { close(); }
-    bool open(const QString &path, bool read_only) {
-        if (!QSqlDatabase::isDriverAvailable("QSQLITE"))
-            return false;
-        name_ = "subathon-" + QUuid::createUuid().toString(QUuid::WithoutBraces);
-        database_ = QSqlDatabase::addDatabase("QSQLITE", name_);
-        database_.setDatabaseName(path);
-        database_.setConnectOptions(read_only ? "QSQLITE_OPEN_READONLY;QSQLITE_BUSY_TIMEOUT=0"
-                                              : "QSQLITE_BUSY_TIMEOUT=0");
-        if (!database_.open()) {
-            close();
-            return false;
-        }
-        return true;
-    }
-    void close() {
-        if (name_.isEmpty())
-            return;
-        database_.close();
-        database_ = {};
-        QSqlDatabase::removeDatabase(std::exchange(name_, {}));
-    }
-    QSqlDatabase &database() { return database_; }
-    bool is_open() const { return !name_.isEmpty(); }
-
-  private:
-    QString name_;
-    QSqlDatabase database_;
-};
-
-StorageError control(Connection &connection, const QString &sql) {
-    QSqlQuery query(connection.database());
-    return query.exec(sql) ? StorageError::none : sql_error(query.lastError());
-}
-
-bool pragma_equals(Connection &connection, const QString &sql, const QVariant &expected) {
-    QSqlQuery query(connection.database());
-    return query.exec(sql) && query.next() && query.value(0) == expected;
-}
-
-bool consume(qsizetype &remaining, qsizetype amount) {
-    if (amount > remaining)
-        return false;
-    remaining -= amount;
-    return true;
-}
-
-// Revision 1 counts a base eight bytes per value plus any UTF-8/blob payload.
-bool consume_value(qsizetype &remaining, const QVariant &value) {
-    if (!consume(remaining, 8))
-        return false;
-    if (!value.isValid() || value.isNull())
-        return true;
-    switch (value.metaType().id()) {
-    case QMetaType::QString:
-        return consume(remaining, value.toString().toUtf8().size());
-    case QMetaType::QByteArray:
-        return consume(remaining, value.toByteArray().size());
-    case QMetaType::Bool:
-    case QMetaType::Char:
-    case QMetaType::SChar:
-    case QMetaType::UChar:
-    case QMetaType::Short:
-    case QMetaType::UShort:
-    case QMetaType::Int:
-    case QMetaType::UInt:
-    case QMetaType::Long:
-    case QMetaType::ULong:
-    case QMetaType::LongLong:
-    case QMetaType::ULongLong:
-    case QMetaType::Double:
-        return true;
-    default:
-        return false;
-    }
 }
 
 bool allowed_writer_sql(const QString &sql) {
@@ -217,13 +136,30 @@ struct RetainedAuthorityAllowance {
     ReviewSqlAllowance sql{attempts * 32, rows * 104, 0, detail::retained_authority_documents};
 };
 
+struct ClockPreflightAttempt {
+    ClockStatementLedger &ledger;
+    qsizetype sql_bytes;
+    qsizetype binding_bytes;
+};
+
 // Rows/bytes are shared across the whole writer batch; the reader passes its own
 // row limit. A query failure or exceeded bound never publishes partial rows.
 ReadResult statement_result(Connection &connection, const SqlStatement &statement,
                             qsizetype &remaining_rows, qsizetype &remaining_bytes,
                             ReviewSqlAllowance *review = nullptr,
-                            RetainedAuthorityAllowance *authority = nullptr) {
+                            RetainedAuthorityAllowance *authority = nullptr,
+                            std::optional<ClockPreflightAttempt> clock = {}) {
     QSqlQuery query(connection.database());
+    if (clock) {
+        auto &ledger = clock->ledger;
+        if (clock->sql_bytes > std::numeric_limits<qsizetype>::max() - ledger.total_sql)
+            return {StorageError::result_limit, {}};
+        ++ledger.attempts;
+        ledger.peak_sql = std::max(ledger.peak_sql, clock->sql_bytes);
+        ledger.total_sql += clock->sql_bytes;
+        ledger.bindings += statement.bindings.size();
+        ledger.binding_bytes += clock->binding_bytes;
+    }
     if (!query.prepare(statement.sql))
         return {sql_error(query.lastError()), {}};
     for (const auto &value : statement.bindings)
@@ -251,6 +187,13 @@ ReadResult statement_result(Connection &connection, const SqlStatement &statemen
             (review && !consume(review->result_documents, excess)))
             return {StorageError::result_limit, {}};
         rows.append(std::move(row));
+        if (clock) {
+            // The ordinary writer budgets bound rows and bytes. Each admitted
+            // cell costs at least eight bytes, bounding the cumulative cells too.
+            ++clock->ledger.rows;
+            clock->ledger.cells += columns;
+            clock->ledger.result_bytes += before - remaining_bytes;
+        }
     }
     if (query.lastError().isValid())
         return {sql_error(query.lastError()), {}};
@@ -347,17 +290,18 @@ class SqliteWorkState final {
     }
     void leave_retained_authority() noexcept { in_retained_authority_ = false; }
 
-    SqlRows execute(const SqlStatement &statement) {
+    SqlRows execute(const SqlStatement &statement, ClockStatementLedger *clock = nullptr) {
         require_active();
         try {
             auto *authority = in_retained_authority_ ? &retained_authority_ : nullptr;
             if ((authority &&
                  (!consume(authority->attempts, 1) ||
                   !consume(authority->sql.binding_cells, statement.bindings.size()))) ||
-                !consume(statements_left_, 1) ||
-                statement.sql.toUtf8().size() >
-                    (review_ ? std::min(limits_.statement_utf8_bytes, qsizetype(65536))
-                             : limits_.statement_utf8_bytes) ||
+                !consume(statements_left_, 1))
+                fail(WorkError::resource_limit);
+            const auto width = statement.sql.toUtf8().size();
+            if (width > (review_ ? std::min(limits_.statement_utf8_bytes, qsizetype(65536))
+                                 : limits_.statement_utf8_bytes) ||
                 (review_ && !consume(review_->binding_cells, statement.bindings.size())))
                 fail(WorkError::resource_limit);
             if (!allowed_writer_sql(statement.sql))
@@ -374,8 +318,11 @@ class SqliteWorkState final {
                 (review_ && !consume(review_->binding_documents, excess)))
                 fail(WorkError::resource_limit);
             const auto snapshot = owned_batch({statement});
+            const auto observation =
+                clock ? std::optional{ClockPreflightAttempt{*clock, width, before - bindings_left_}}
+                      : std::nullopt;
             auto result = statement_result(*connection_, snapshot.front(), rows_left_, values_left_,
-                                           review_ ? &*review_ : nullptr, authority);
+                                           review_ ? &*review_ : nullptr, authority, observation);
             if (result.error != StorageError::none)
                 fail(work_error(result.error));
             return std::move(result.rows);
@@ -547,6 +494,10 @@ SqlRows SqliteWorkSession::execute(const SqlStatement &statement) const {
 }
 void SqliteWorkSession::preflight_result(qsizetype rows, qsizetype value_bytes) const {
     live_work_state(state_)->preflight_result(rows, value_bytes);
+}
+SqlRows SqliteWorkSession::execute_clock_preflight(const SqlStatement &statement,
+                                                    ClockStatementLedger &ledger) const {
+    return live_work_state(state_)->execute(statement, &ledger);
 }
 void SqliteWorkSession::commit() const { live_work_state(state_)->commit(); }
 void SqliteWorkSession::rollback() const { live_work_state(state_)->rollback(); }
