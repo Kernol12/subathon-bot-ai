@@ -212,6 +212,8 @@ void complete(Callback &callback, Arguments &&...arguments) noexcept {
 } // namespace
 
 namespace detail {
+class CompiledMigrationSqlKey;
+
 namespace {
 enum class WorkPhase { not_started, active, committed, rolled_back, unknown };
 }
@@ -291,6 +293,20 @@ class SqliteWorkState final {
     void leave_retained_authority() noexcept { in_retained_authority_ = false; }
 
     SqlRows execute(const SqlStatement &statement, ClockStatementLedger *clock = nullptr) {
+        return execute_metered(statement, clock, [&] {
+            if (!allowed_writer_sql(statement.sql))
+                fail(WorkError::invalid_statement);
+        });
+    }
+
+  private:
+    friend SqlRows execute_compiled_migration_sql(const CompiledMigrationSqlKey &,
+                                                  const std::weak_ptr<SqliteWorkState> &ticket,
+                                                  const QString &sql, const QString &compiled);
+
+    template <typename CheckSql>
+    SqlRows execute_metered(const SqlStatement &statement, ClockStatementLedger *clock,
+                            CheckSql check_sql) {
         require_active();
         try {
             auto *authority = in_retained_authority_ ? &retained_authority_ : nullptr;
@@ -304,8 +320,7 @@ class SqliteWorkState final {
                                  : limits_.statement_utf8_bytes) ||
                 (review_ && !consume(review_->binding_cells, statement.bindings.size())))
                 fail(WorkError::resource_limit);
-            if (!allowed_writer_sql(statement.sql))
-                fail(WorkError::invalid_statement);
+            check_sql();
             const auto before = bindings_left_;
             for (const auto &value : statement.bindings) {
                 if (!supported_value(value))
@@ -334,6 +349,8 @@ class SqliteWorkState final {
             fail(WorkError::work_exception);
         }
     }
+
+  public:
     void commit() {
         require_active();
         const auto reply = run_control(WorkControl::commit);
@@ -483,6 +500,19 @@ live_work_state(const std::weak_ptr<detail::SqliteWorkState> &ticket) {
     return state;
 }
 } // namespace
+
+namespace detail {
+// The executor presents its key, live ticket and sealed statement. No bindings.
+SqlRows execute_compiled_migration_sql(const CompiledMigrationSqlKey &,
+                                       const std::weak_ptr<SqliteWorkState> &ticket,
+                                       const QString &sql, const QString &compiled) {
+    auto state = live_work_state(ticket);
+    return state->execute_metered({sql, {}}, nullptr, [&] {
+        if (sql != compiled)
+            state->fail(WorkError::invalid_statement);
+    });
+}
+} // namespace detail
 
 SqliteWorkSession SqliteWorkContext::begin() const {
     auto state = live_work_state(state_);
