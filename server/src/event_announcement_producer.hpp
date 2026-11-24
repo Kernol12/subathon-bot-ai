@@ -101,7 +101,7 @@ class Producer {
 
   private:
     // The first successful exact admission binds version and lineage to this
-    // key. Invalid or missing version or duration consumes no key.
+    // key. A version or duration that cannot be resolved consumes no key.
     struct SubmissionLess {
         bool operator()(const EventAnnouncementAction &left,
                         const EventAnnouncementAction &right) const;
