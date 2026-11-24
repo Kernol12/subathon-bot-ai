@@ -12,6 +12,10 @@ coordinator works under [AGENTS.md](../AGENTS.md) and
   standing rules)". The coordinator treats them as owner decisions within this page.
 - For an escalated item, the coordinator accepts only the owner's own words, or
   the advisor quoting the owner's explicit answer.
+- An owner answer applies to the same kind of step later in the same task,
+  in the same context with the same safeguards. This includes a rebuild, a
+  re-check after a reviewed fix and a credited run after a trial run. Escalate
+  a different kind of step or a wider context.
 - The owner can reverse any advisor decision. A reversal applies from then on and
   never relabels evidence that was already recorded.
 
@@ -21,7 +25,7 @@ Run every 20 minutes by day and every 30 to 60 minutes at night, and whenever th
 coordinator ends a turn.
 
 1. Read the coordinator's new messages.
-2. Find every question: dialogs and numbered questions in the text ("**212.**").
+2. Find every question in dialogs and numbered messages.
 3. Decide each question or escalate it.
 4. Check that every In progress task has running work.
 
@@ -36,7 +40,20 @@ unchecked.
   merge-conflict resolutions and re-pointing a procedure at the current build.
   A change that matches an established passing procedure or a reviewed artifact,
   and weakens no check, isolation or assertion, needs only an independent review.
-- **Readings of the specification** where a quoted section decides the question.
+- **Task-local run scripts.** The advisor may approve a script for one task's
+  run when it meets all three conditions.
+
+  - It stays in that task's ignored build folder, is never committed and is
+    never used by CI.
+  - It is derived from a reviewed script or is a small piece of glue.
+  - It preserves every check, isolation boundary and assertion.
+
+  Obtain independent review before running it. Name the script and review in
+  the report so the advisor can include them in the owner's digest. Existing
+  approvals for task-local run scripts still apply.
+- **Readings of the specification.** Quote the applicable section. When a
+  feature has a gap, apply and quote the nearest similar feature's rule.
+  Record the decision in the owner's digest for review.
 - **Fail-closed answers:** refuse what is unknown or unproved.
 - **Contract changes** within the issue's goal, compatible growth of a merged
   contract, and splitting extra work into a new Planned issue.
@@ -49,12 +66,14 @@ unchecked.
 
 ## Escalated to the owner
 
-1. A gap or a contradiction in the specification.
-2. A new dependency, or work moving to another provider.
-3. Process and tooling changes, including the required CI.
+1. A specification contradiction or a gap without an applicable sibling rule.
+2. A new dependency or a provider change outside the standing Claude track.
+3. Process changes outside the task-local rule, reusable tools, anything under
+   `tools/`, committed scripts or tooling, and CI changes. Escalate before
+   authoring any of these.
 4. An incompatible change to a merged contract: stored data, a wire format or an
    existing caller breaks.
-5. Behavior visible to the streamer that the specification does not describe.
+5. Streamer-visible behavior without an applicable specification or sibling rule.
 6. A change in the meaning of money, score or time: rounding, reversals, caps and
    deduplication.
 7. Weakening a test so that failing code passes.
@@ -65,7 +84,8 @@ unchecked.
 11. A failure that cannot be classified.
 12. No dependency-ready product task left outside `end-phase`.
 13. Every Junie run, as described below.
-14. The final decision on a task that stays `security-blocked`.
+14. An authorized step that the Claude track also declines.
+15. A sandbox exception outside an existing owner approval.
 
 An escalation states the subject in plain words, the options, the advisor's
 recommendation and the consequences. When the subject is technical, it says what
@@ -106,15 +126,23 @@ require separate authorization.
 
 ## Security-blocked tasks
 
-1. **Detect.** The advisor watches for provider errors, a failed thread status or
-   a stopped delegate. The coordinator parks the task with the `security-blocked`
-   label, without retrying or rewording.
-2. **Claude track.** The advisor or the owner starts a separate Claude track with
-   an honest brief: defensive work on this project's own code, plus the issue.
-   The coordinator never routes flagged work itself. Codex reviews only the part
-   it can see, as on #752.
-3. **Another approach.** If Claude declines, first try an existing library, a
-   narrower scope or a test through the public interface.
+1. **Record and park.** If OpenAI's filter or the Codex approval review refuses
+   an otherwise authorized step, or the next step requires restricted material,
+   the coordinator parks the task and records the exact step in a numbered
+   question for the advisor. Use `security-blocked` for a safeguard refusal.
+   Preserve the evidence. The coordinator makes no retry or rewording and sends
+   no execution request to another provider.
+2. **Claude track.** The advisor starts the single Claude track without another
+   owner decision for the same authorized step if the work is permitted within
+   the track's safeguards. Run one track at a time. Give an honest brief with the
+   exact task, scope and safeguards, and require independent
+   reviews before and after. This also applies to the passive library and ELF
+   closure check of a task's exact test program. For restricted material, report
+   pass or fail and checksums only, and keep raw listings private. Record the run
+   in the owner's daily digest. Each provider's safeguards still apply.
+3. **Escalate after a Claude decline.** Stop without retrying or rewording and
+   escalate to the owner. Explain the options in plain language, such as redesign,
+   `end-phase`, dropping the scope or outside expertise.
 4. **Junie, rarely.** Only when Claude's refusal looks like a false alarm, and only
    after the owner approves the single run.
    - Models: `gemini-4-carbon` or `gemini-4-neon` only.
@@ -123,11 +151,12 @@ require separate authorization.
    - Run in a separate worktree, because Junie edits files without asking.
    - Before the first run, confirm that Junie's side calls use no OpenAI model.
      Otherwise Junie is unavailable for these tasks.
-5. **Escalate.** If every route declines, escalate to the owner in plain language.
-   The options are redesign, `end-phase`, dropping the scope or outside expertise.
 
-OpenAI's cyber-permissive access for Codex remains the official route for these
-tasks.
+## Provider usage limits
+
+When a provider reports a usage limit, the advisor notifies the owner once
+and attempts a short resume every hour. Resume on the existing allocation
+with the same provider.
 
 ## Review
 
