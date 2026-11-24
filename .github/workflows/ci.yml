@@ -270,8 +270,8 @@ jobs:
               raise SystemExit(f"No enabled cases discovered for: {empty or 'time-credit'}")
           if found["recurring-schedule"] != 25:
               raise SystemExit(f"Expected 25 recurring schedule cases, got {found['recurring-schedule']}")
-          if found["scheduled-pause"] != 35:
-              raise SystemExit(f"Expected 35 scheduled pause cases, got {found['scheduled-pause']}")
+          if found["scheduled-pause"] != 36:
+              raise SystemExit(f"Expected 36 scheduled pause cases, got {found['scheduled-pause']}")
           if found["downtime-recovery"] != 49:
               raise SystemExit(f"Expected 49 downtime recovery cases, got {found['downtime-recovery']}")
           if found["finished-timer"] != 22:

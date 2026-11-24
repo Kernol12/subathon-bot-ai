@@ -38,6 +38,21 @@ When the standing loop is authorized, the product is complete only when the full
 specification and release gates have evidence. An empty ready queue or green scaffold
 checks are not completion: name the remaining work or the concrete blocker.
 
+## Run mechanics
+
+- Run GitHub network commands (`git push`, `git fetch`, `git ls-remote`, and
+  `gh`) with `sandbox_permissions: "require_escalated"` and a one-line
+  justification.
+- If the runner permits CLI PR creation, open a PR for a branch outside the
+  current thread with `gh pr create --head <branch>`, then call
+  `link_pull_request`. A runner that requires a branch-bound PR tool needs a
+  thread on the target branch.
+- Keep builds and results in durable directories, outside `/tmp`.
+- Pin runs to exact commits or private refs. Avoid remote-tracking refs.
+- Keep security-flagged material out of the coordinator context and refer the
+  step to the single Claude track.
+- After a restart, verify pins and checksums again before running anything.
+
 ## Starting prompt
 
 ```text

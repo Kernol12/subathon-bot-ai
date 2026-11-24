@@ -56,11 +56,11 @@ class ScheduleZoneSource {
     virtual std::variant<ScheduleZoneFacts, ScheduleZoneUnavailable>
     read(const ScheduleZoneRequest &) = 0;
 
-    // Closed forecast-page contract. Stage 1 exposes the seam before the bridge is implemented.
+    // Read a closed prefix starting at the exact lower bound. A cap attests
+    // that the next millisecond is an offset change in the returned revision.
+    // The default bridge clips a single bounded legacy reply to the request.
     virtual std::variant<ForecastPage, ScheduleZoneUnavailable>
-    read_forecast_page(const ScheduleZoneRequest &) {
-        return ScheduleZoneUnavailable::source_unavailable;
-    }
+    read_forecast_page(const ScheduleZoneRequest &);
 };
 
 struct ScheduledPauseRule {
