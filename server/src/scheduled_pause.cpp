@@ -316,46 +316,49 @@ core::ScheduleZoneRules core_rules(const ScheduleZoneFacts &facts) {
             facts.transitions};
 }
 
-std::size_t fact_bytes(const ScheduleZoneFacts &facts) {
-    return sizeof(ScheduledPauseFactBinding) + facts.configured_zone.size() +
-           facts.rules_revision.size() +
+std::size_t fact_payload_bytes(const ScheduleZoneFacts &facts) {
+    return facts.configured_zone.size() + facts.rules_revision.size() +
            facts.transitions.size() * sizeof(core::ScheduleZoneTransition);
 }
 
-// Validate even a short source prefix that cannot yet be passed to CORE-004.
-bool supported_offsets(const ScheduleZoneFacts &facts) {
+std::size_t fact_bytes(const ScheduleZoneFacts &facts) {
+    return sizeof(ScheduledPauseFactBinding) + fact_payload_bytes(facts);
+}
+
+bool bounded_facts(const ScheduleZoneFacts &facts) {
+    return facts.transitions.size() <= core::schedule_zone_max_transitions &&
+           facts.configured_zone.size() <= Limits::max_reference_bytes &&
+           facts.rules_revision.size() <= Limits::max_reference_bytes;
+}
+
+bool canonical_facts(const ScheduleZoneFacts &facts) {
     const auto valid_offset = [](auto offset) { return offset >= -86'400 && offset <= 86'400; };
-    if (!valid_offset(facts.offset_at_start_seconds)) {
-        return false;
-    }
-    std::array<std::pair<Instant, Instant>, core::schedule_zone_max_transitions + 1> intervals;
-    std::size_t count = 0;
     auto from = facts.from_utc_ms;
     auto offset = facts.offset_at_start_seconds;
-    const auto append = [&](Instant through) {
-        const auto shift = milliseconds{seconds{offset}}.count();
-        const auto start = std::max(from, first_ms - std::min(shift, Instant{0}));
-        const auto end = std::min(through, last_ms - std::max(shift, Instant{0}));
-        if (start <= end) {
-            intervals[count++] = {start + shift, end + shift};
-        }
-    };
+    if (from > facts.through_utc_ms || !valid_offset(offset)) {
+        return false;
+    }
     for (const auto &change : facts.transitions) {
         if (change.at_utc_ms <= from || change.at_utc_ms > facts.through_utc_ms ||
             !valid_offset(change.offset_after_seconds) || change.offset_after_seconds == offset) {
             return false;
         }
-        append(change.at_utc_ms - 1);
         from = change.at_utc_ms;
         offset = change.offset_after_seconds;
     }
-    append(facts.through_utc_ms);
-    const std::span local{intervals.data(), count};
-    return std::ranges::none_of(local, [&](const auto &segment) {
-        return std::ranges::count_if(local, [&](const auto &other) {
-                   return other.first <= segment.first && segment.first <= other.second;
-               }) > 2;
-    });
+    return true;
+}
+
+bool supported_facts(const ScheduleZoneFacts &facts) {
+    if (!canonical_facts(facts)) {
+        return false;
+    }
+    try {
+        const core::ScheduleTimeline timeline{core_rules(facts)};
+        return true;
+    } catch (const std::invalid_argument &) {
+        return false;
+    }
 }
 
 struct View {
@@ -406,23 +409,16 @@ class ZoneReads {
         if (const auto *prior = known(view, from); prior && prior->through_utc_ms >= through) {
             return prior;
         }
-        const auto request_bytes = sizeof(ScheduleZoneRequest) +
-                                   view.config.configured_zone.size() +
-                                   (view.revision ? view.revision->size() : 0);
-        if (!query() || !input_.take(request_bytes)) {
+        if (!charge_request(view.config.configured_zone, view.revision)) {
             return ZoneError::limit_exceeded;
         }
         auto answer = source_.read({view.config.configured_zone, from, through,
                                     view.revision ? std::optional{*view.revision} : std::nullopt});
         if (const auto *error = std::get_if<ZoneError>(&answer)) {
-            return *error;
+            return charge_error() ? *error : ZoneError::limit_exceeded;
         }
         auto &reply = std::get<ScheduleZoneFacts>(answer);
-        if (reply.transitions.size() > core::schedule_zone_max_transitions ||
-            !input_.take(sizeof(reply) +
-                         reply.transitions.size() * sizeof(core::ScheduleZoneTransition)) ||
-            !reference(input_, reply.configured_zone) || !reference(input_, reply.rules_revision) ||
-            facts.size() >= Limits::max_result_rows) {
+        if (!charge_facts(reply, sizeof(reply)) || facts.size() >= Limits::max_result_rows) {
             return ZoneError::limit_exceeded;
         }
         if (reply.configured_zone != view.config.configured_zone || reply.rules_revision.empty() ||
@@ -430,7 +426,7 @@ class ZoneReads {
             reply.through_utc_ms < from) {
             return ZoneError::insufficient_coverage;
         }
-        if (!supported_offsets(reply)) {
+        if (!supported_facts(reply)) {
             return ZoneError::unsupported_rules;
         }
         if (!view.archived) {
@@ -440,12 +436,8 @@ class ZoneReads {
                 return ZoneError::unsupported_rules;
             }
         }
-        for (const auto &binding : facts) {
-            const auto &prior = binding.facts;
-            if (prior.configured_zone == reply.configured_zone &&
-                prior.rules_revision == reply.rules_revision && !agree(prior, reply)) {
-                return ZoneError::unsupported_rules;
-            }
+        if (!coherent(reply)) {
+            return ZoneError::unsupported_rules;
         }
         if (bindings_ && !bindings_->take(fact_bytes(reply))) {
             return ZoneError::limit_exceeded;
@@ -457,6 +449,49 @@ class ZoneReads {
         return &facts.back().facts;
     }
 
+    std::variant<ForecastPage, ZoneError> forecast_page(const std::string &zone,
+                                                        const std::string *revision, Instant from,
+                                                        Instant through) {
+        if (!charge_request(zone, revision)) {
+            return ZoneError::limit_exceeded;
+        }
+        auto answer = source_.read_forecast_page(
+            {zone, from, through, revision ? std::optional{*revision} : std::nullopt});
+        if (const auto *error = std::get_if<ZoneError>(&answer)) {
+            return charge_error() ? *error : ZoneError::limit_exceeded;
+        }
+        const auto &page = std::get<ForecastPage>(answer);
+        if (!charge_facts(page.facts, sizeof(page))) {
+            return ZoneError::limit_exceeded;
+        }
+        return answer;
+    }
+
+    const std::string *current_revision(std::string_view zone) const {
+        const auto bound = current_revisions_.find(zone);
+        return bound == current_revisions_.end() ? nullptr
+                                                 : &facts[bound->second].facts.rules_revision;
+    }
+
+    bool coherent(const ScheduleZoneFacts &reply, bool cap = false) const {
+        for (const auto &binding : facts) {
+            const auto &prior = binding.facts;
+            if (prior.configured_zone != reply.configured_zone ||
+                prior.rules_revision != reply.rules_revision) {
+                continue;
+            }
+            if (!agree(prior, reply)) {
+                return false;
+            }
+            const auto edge = reply.through_utc_ms;
+            if (cap && prior.from_utc_ms <= edge && edge < prior.through_utc_ms &&
+                offset_at(prior, edge) == offset_at(prior, edge + 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     std::optional<std::string> revision(std::size_t epoch) const {
         const auto it = std::ranges::find(facts, std::optional{epoch},
                                           &ScheduledPauseFactBinding::old_epoch_index);
@@ -466,6 +501,19 @@ class ZoneReads {
     std::vector<ScheduledPauseFactBinding> facts;
 
   private:
+    bool charge_request(std::string_view zone, const std::string *revision) {
+        const auto bytes =
+            sizeof(ScheduleZoneRequest) + zone.size() + (revision ? revision->size() : 0);
+        // Spend work at dispatch, including reads that return errors.
+        return remaining_ != 0 && input_.take(bytes) && query();
+    }
+
+    bool charge_error() { return input_.take(sizeof(ZoneError)); }
+
+    bool charge_facts(const ScheduleZoneFacts &reply, std::size_t header) {
+        return bounded_facts(reply) && input_.take(header + fact_payload_bytes(reply));
+    }
+
     ScheduleZoneSource &source_;
     Bytes input_;
     Bytes *bindings_;
@@ -538,26 +586,25 @@ class DeliveredKeys {
 };
 
 Starts scan_rule(ZoneReads &zone, const View &view, const RuleRange &range, Instant through,
-                 bool local_ends, const DeliveredKeys &keys) {
+                 const DeliveredKeys &keys) {
     const auto after = range.after;
     const auto duration = range.rule->duration.count();
-    const auto shoulder = local_ends ? std::max(padding, duration) : padding;
     const auto lower = add(after, -padding);
-    auto end = std::min({through, last_ms - shoulder, last_ms - duration});
+    auto end = std::min({through, last_ms - padding, last_ms - duration});
     if (!lower || end <= after) {
         return {after, ZoneError::limit_exceeded};
     }
 
     const ScheduleZoneFacts *facts = nullptr;
     for (;;) {
-        const auto reply = zone.read(view, *lower, end + shoulder);
+        const auto reply = zone.read(view, *lower, end + padding);
         if (const auto *available = std::get_if<const ScheduleZoneFacts *>(&reply)) {
             facts = *available;
             break;
         }
         const auto error = std::get<ZoneError>(reply);
         const auto *prior = zone.known(view, *lower);
-        if (prior && prior->through_utc_ms > after + shoulder) {
+        if (prior && prior->through_utc_ms > after + padding) {
             facts = prior;
             break;
         }
@@ -568,7 +615,7 @@ Starts scan_rule(ZoneReads &zone, const View &view, const RuleRange &range, Inst
         // itself exceed the source or CORE-004 limit.
         end = after + (end - after) / 2;
     }
-    const auto upper = add(facts->through_utc_ms, -shoulder);
+    const auto upper = add(facts->through_utc_ms, -padding);
     if (!upper || *upper <= after) {
         return {after, ZoneError::insufficient_coverage};
     }
@@ -583,21 +630,7 @@ Starts scan_rule(ZoneReads &zone, const View &view, const RuleRange &range, Inst
         for (const auto &occurrence : core::preview_schedule_occurrences(
                  range.rule->recurrence, rules, {after, end}, delivered)) {
             const auto utc_end = occurrence.start_utc_ms + duration;
-            core::ScheduleLocalTime local_end{};
-            if (local_ends) {
-                const auto offset = milliseconds{seconds{offset_at(*facts, utc_end)}}.count();
-                const auto projected = add(utc_end, offset);
-                if (!projected) {
-                    result.through = occurrence.start_utc_ms - 1;
-                    result.failure = ZoneError::limit_exceeded;
-                    std::erase_if(result.rows, [&](const auto &prior) {
-                        return prior.occurrence.start.start_utc_ms > result.through;
-                    });
-                    break;
-                }
-                local_end = core::ScheduleLocalTime{milliseconds{*projected}};
-            }
-            result.rows.push_back({range.rule, {occurrence, utc_end, local_end}});
+            result.rows.push_back({range.rule, {occurrence, utc_end, {}}});
         }
     } catch (const std::invalid_argument &) {
         return {after, ZoneError::unsupported_rules};
@@ -610,7 +643,7 @@ Instant start_of(const Candidate &row) { return row.occurrence.start.start_utc_m
 // Advance only as far as every rule in the tile was resolved. Rows are retained
 // in UTC order and an oversized boundary group is removed as a whole.
 Starts scan(ZoneReads &zone, const View &view, std::span<const RuleRange> input, Instant after,
-            Instant through, bool local_ends, const DeliveredKeys &keys) {
+            Instant through, const DeliveredKeys &keys) {
     if (input.empty()) {
         return {through};
     }
@@ -624,7 +657,7 @@ Starts scan(ZoneReads &zone, const View &view, std::span<const RuleRange> input,
             if (from >= frontier) {
                 continue;
             }
-            auto resolved = scan_rule(zone, view, {range.rule, from}, frontier, local_ends, keys);
+            auto resolved = scan_rule(zone, view, {range.rule, from}, frontier, keys);
             if (resolved.through < frontier) {
                 frontier = resolved.through;
                 failure = resolved.failure;
@@ -858,8 +891,7 @@ Starts Progression::ordinary(Instant after, Instant through) {
     const auto rules = ranges(epoch.configuration, after);
     const auto limit = add(state_.cursor.last_observation.utc_ms, scan_span).value_or(last_ms);
     const auto end = rules.empty() ? through : std::clamp(limit, after, through);
-    auto resolved =
-        scan(zone_, old_view(epoch, state_.epochs.size() - 1), rules, after, end, false, keys);
+    auto resolved = scan(zone_, old_view(epoch, state_.epochs.size() - 1), rules, after, end, keys);
     if (!state_.ledger && !resolved.rows.empty()) {
         resolved.through = start_of(resolved.rows.front()) - 1;
         resolved.failure = Knowledge::ledger;
@@ -950,7 +982,7 @@ std::optional<Failure> Progression::eligibility() {
         if (rules.empty()) {
             continue;
         }
-        const auto starts = scan(zone_, old_view(epoch, i), rules, after, through, false, keys);
+        const auto starts = scan(zone_, old_view(epoch, i), rules, after, through, keys);
         const std::span rows{starts.rows};
         result.starts_resolved_through_utc_ms = starts.through;
         for (std::size_t first = 0; first < rows.size();) {
@@ -1133,9 +1165,8 @@ void Progression::probe_new(const ScheduledPauseConfiguration &proposed) {
     if (result.timer.lifecycle == Lifecycle::Active && has_starts(proposed)) {
         const auto next = add(at, 1);
         const auto rules = ranges(proposed, at);
-        const auto failure =
-            next ? scan(zone_, View{proposed, {}}, rules, at, *next, false, keys).failure
-                 : std::optional<Failure>{ZoneError::limit_exceeded};
+        const auto failure = next ? scan(zone_, View{proposed, {}}, rules, at, *next, keys).failure
+                                  : std::optional<Failure>{ZoneError::limit_exceeded};
         if (failure) {
             hold(*failure, at);
         }
@@ -1181,12 +1212,306 @@ bool Progression::retain_epoch(const ScheduledPauseConfiguration &proposed,
                            config_strings(proposed) + (revision ? revision->size() : 0));
 }
 
+constexpr std::size_t max_forecast_pages = 64;
+static_assert(max_forecast_pages * core::schedule_zone_max_transitions ==
+              core::ScheduleTimeline::max_transitions);
+
+struct ForecastChain {
+    Instant through;
+    std::int32_t initial_offset{};
+    bool final_cap = false;
+    std::optional<ZoneError> failure{};
+    // Canonical UTC index input, without page headers or source references.
+    std::vector<core::ScheduleZoneTransition> changes{};
+};
+
+ForecastChain acquire_forecast(ZoneReads &zone, const std::string &configured_zone, Instant from,
+                               Instant through, Bytes &output) {
+    const auto first_page = zone.facts.size();
+    const auto original_output = output;
+    ForecastChain chain{from};
+    chain.changes.reserve(core::ScheduleTimeline::max_transitions);
+
+    for (std::size_t attempt = 0; attempt < max_forecast_pages; ++attempt) {
+        const bool initial = zone.facts.size() == first_page;
+        const auto *revision = initial ? zone.current_revision(configured_zone)
+                                       : &zone.facts[first_page].facts.rules_revision;
+        auto answer = zone.forecast_page(configured_zone, revision, chain.through, through);
+        if (const auto *error = std::get_if<ZoneError>(&answer)) {
+            chain.failure = *error;
+            break;
+        }
+
+        auto &page = std::get<ForecastPage>(answer);
+        auto &facts = page.facts;
+        if (facts.configured_zone != configured_zone || (initial && facts.from_utc_ms > from)) {
+            chain.failure = ZoneError::insufficient_coverage;
+            break;
+        }
+        const auto end = facts.through_utc_ms;
+        const bool reached = std::holds_alternative<ReachedRequestEnd>(page.tail);
+        const bool cap = std::holds_alternative<TransitionCap>(page.tail);
+        const auto *terminal = std::get_if<TerminalPrefix>(&page.tail);
+        const bool valid_tail =
+            reached ? end == through
+            : cap ? end < through && facts.transitions.size() == core::schedule_zone_max_transitions
+                  : terminal && end < through;
+        const bool continuous =
+            initial ||
+            (facts.offset_at_start_seconds == offset_at(zone.facts.back().facts, chain.through) &&
+             (end == chain.through || (!facts.transitions.empty() &&
+                                       facts.transitions.front().at_utc_ms == chain.through + 1)));
+        if (facts.from_utc_ms != chain.through || facts.rules_revision.empty() ||
+            (revision && *revision != facts.rules_revision) || !canonical_facts(facts) ||
+            !valid_tail || !continuous || !zone.coherent(facts, cap)) {
+            zone.facts.resize(first_page);
+            output = original_output;
+            return {from, 0, false, ZoneError::unsupported_rules};
+        }
+        if (terminal && !initial && end == chain.through) {
+            chain.failure = terminal->cause;
+            break;
+        }
+        if (!output.take(fact_bytes(facts))) {
+            chain.failure = ZoneError::limit_exceeded;
+            break;
+        }
+
+        if (initial) {
+            chain.initial_offset = facts.offset_at_start_seconds;
+        }
+        chain.through = end;
+        chain.changes.insert(chain.changes.end(), facts.transitions.begin(),
+                             facts.transitions.end());
+        zone.facts.push_back({{}, std::move(facts)});
+        if (!cap) {
+            if (terminal) {
+                chain.failure = terminal->cause;
+            }
+            break;
+        }
+        chain.final_cap = attempt + 1 == max_forecast_pages;
+    }
+    return chain;
+}
+
+struct RuleForecast {
+    const ScheduledPauseRule *rule = nullptr;
+    std::vector<core::ScheduleOccurrence> starts;
+    bool uncertain_near_cut = false;
+    std::size_t next = 0;
+    std::size_t group_end = 0;
+};
+
+std::optional<core::ScheduledPauseOccurrence>
+forecast_window(const core::ScheduleTimeline &timeline, const ScheduledPauseRule &rule,
+                const core::ScheduleOccurrence &start) {
+    if (const auto end = add(start.start_utc_ms, rule.duration.count())) {
+        if (const auto local = timeline.local_at(*end)) {
+            return core::ScheduledPauseOccurrence{start, *end, *local};
+        }
+    }
+    return {};
+}
+
+std::optional<Failure> retain_forecast(const ScheduledPauseState &state,
+                                       ScheduledPausePreview &result,
+                                       const std::optional<Failure> &old_failure,
+                                       const core::ScheduleTimeline &timeline,
+                                       std::span<RuleForecast> forecasts, Bytes &output) {
+    const auto near_cut = add(result.as_of.utc_ms, day_ms).value_or(last_ms);
+    for (;;) {
+        std::optional<Instant> next;
+        for (const auto &forecast : forecasts) {
+            if (forecast.next < forecast.starts.size()) {
+                const auto start = forecast.starts[forecast.next].start_utc_ms;
+                next = next ? std::min(*next, start) : start;
+            }
+        }
+        if (!next) {
+            return {};
+        }
+
+        // Check the whole tie before retaining any of it. Per-rule vectors
+        // already preserve nominal order and fold identity within a UTC tie.
+        std::optional<Failure> knowledge_failure;
+        std::size_t count = 0;
+        std::size_t bytes = 0;
+        bool representable = true;
+        for (auto &forecast : forecasts) {
+            forecast.group_end = forecast.next;
+            while (forecast.group_end < forecast.starts.size() &&
+                   forecast.starts[forecast.group_end].start_utc_ms == *next) {
+                const auto &start = forecast.starts[forecast.group_end++];
+                if (!state.ledger) {
+                    knowledge_failure = Knowledge::ledger;
+                } else if (forecast.uncertain_near_cut &&
+                           start.id.nominal_local_start.time_since_epoch().count() <= near_cut) {
+                    knowledge_failure = old_failure;
+                }
+                representable &= forecast_window(timeline, *forecast.rule, start).has_value();
+                ++count;
+                bytes += sizeof(ScheduledPausePreviewRow) +
+                         key_strings(state.timer_lineage, forecast.rule->schedule_id);
+            }
+        }
+        if (knowledge_failure || !representable ||
+            count > Limits::max_result_rows - result.upcoming.size() || !output.take(bytes)) {
+            result.resolved_through_utc_ms = *next - 1;
+            return knowledge_failure.value_or(Failure{ZoneError::limit_exceeded});
+        }
+
+        for (auto &forecast : forecasts) {
+            while (forecast.next < forecast.group_end) {
+                const auto &start = forecast.starts[forecast.next++];
+                result.upcoming.push_back(
+                    {{state.timer_lineage, forecast.rule->schedule_id, start.id},
+                     forecast_window(timeline, *forecast.rule, start).value()});
+            }
+        }
+    }
+}
+
+ForecastFailure forecast_coverage(ZoneError cause) { return Failure{cause}; }
+
+std::optional<ForecastFailure> forecast_schedule(ZoneReads &zone, const ScheduledPauseState &state,
+                                                 const DeliveredKeys &keys,
+                                                 const std::optional<Failure> &old_failure,
+                                                 ScheduledPausePreview &result, Bytes &output) {
+    const auto cut = result.as_of.utc_ms;
+    const auto horizon = result.requested_through_utc_ms;
+    result.resolved_through_utc_ms = cut;
+    if (horizon == cut || !has_starts(result.proposed)) {
+        result.resolved_through_utc_ms = horizon;
+        return {};
+    }
+
+    auto shoulder = padding;
+    for (const auto &rule : result.proposed.rules) {
+        if (can_start(rule)) {
+            shoulder = std::max(shoulder, rule.duration.count());
+        }
+    }
+    const auto from = add(cut, -padding);
+    if (!from || last_ms - shoulder <= cut) {
+        return forecast_coverage(ZoneError::limit_exceeded);
+    }
+
+    const auto to = add(horizon, shoulder);
+    const auto first_page = zone.facts.size();
+    const auto original_output = output;
+    const auto chain = acquire_forecast(zone, result.proposed.configured_zone, *from,
+                                        to.value_or(last_ms), output);
+    if (zone.facts.size() == first_page) {
+        return forecast_coverage(chain.failure.value_or(ZoneError::insufficient_coverage));
+    }
+
+    // A cap alone cannot grant support classification. Validate the entire
+    // joined chain, including both shoulders, against the shared work budget.
+    if (!zone.query()) {
+        zone.facts.resize(first_page);
+        output = original_output;
+        return forecast_coverage(ZoneError::limit_exceeded);
+    }
+    std::optional<core::ScheduleTimeline> timeline;
+    try {
+        timeline.emplace(
+            core::ScheduleZoneRules{*from, chain.through, chain.initial_offset, chain.changes});
+    } catch (const std::invalid_argument &) {
+        zone.facts.resize(first_page);
+        output = original_output;
+        return forecast_coverage(ZoneError::unsupported_rules);
+    }
+
+    const bool beyond_support = chain.final_cap && to.has_value();
+    const auto chain_failure = [&]() -> std::optional<ForecastFailure> {
+        if (beyond_support) {
+            return ForecastSupportFailure::beyond_supported_timezone_transitions;
+        }
+        if (chain.failure) {
+            return forecast_coverage(*chain.failure);
+        }
+        if (!to) {
+            return forecast_coverage(ZoneError::limit_exceeded);
+        }
+        return {};
+    }();
+    const auto frontier = std::clamp(add(chain.through, -shoulder).value_or(cut), cut, horizon);
+    if (frontier == cut) {
+        return chain_failure;
+    }
+
+    std::array<RuleForecast, Limits::max_rules> forecasts;
+    std::size_t count = 0;
+    // Keep each rule's bounded date expansion separately, then consume the
+    // earliest remaining UTC group in proposal order.
+    // Starts within the candidate range cannot depend on inverse segments or
+    // gap crossings outside its 48-hour shoulders. Ends use the full chain.
+    for (const auto &rule : result.proposed.rules) {
+        if (!can_start(rule)) {
+            continue;
+        }
+        if (!zone.query()) {
+            return beyond_support ? chain_failure : forecast_coverage(ZoneError::limit_exceeded);
+        }
+        const auto delivered = keys.between(rule.schedule_id, cut, frontier);
+        forecasts[count++] = {&rule, timeline->starts(rule.recurrence, {cut, frontier}, delivered),
+                              old_failure.has_value() &&
+                                  (state.epochs.empty() ||
+                                   find_rule(state.epochs.back().configuration, rule.schedule_id))};
+    }
+
+    result.resolved_through_utc_ms = frontier;
+    const auto row_failure = retain_forecast(state, result, old_failure, *timeline,
+                                             std::span{forecasts}.first(count), output);
+    if (row_failure && !beyond_support) {
+        return *row_failure;
+    }
+    return chain_failure;
+}
+
 constexpr std::size_t progress_bytes =
     sizeof(ScheduledPauseProgress) + 9 * Limits::max_reference_bytes +
     6 * sizeof(ScheduledPauseTransitions) + 12 * sizeof(core::TimerTransition) +
     6 * sizeof(core::PauseReason);
 
 } // namespace
+
+std::variant<ForecastPage, ScheduleZoneUnavailable>
+ScheduleZoneSource::read_forecast_page(const ScheduleZoneRequest &request) {
+    auto answer = read(request);
+    if (const auto *error = std::get_if<ZoneError>(&answer)) {
+        return *error;
+    }
+    auto &facts = std::get<ScheduleZoneFacts>(answer);
+    if (!bounded_facts(facts)) {
+        return ZoneError::limit_exceeded;
+    }
+    if (facts.configured_zone != request.configured_zone ||
+        facts.from_utc_ms > request.from_utc_ms || facts.through_utc_ms < request.from_utc_ms) {
+        return ZoneError::insufficient_coverage;
+    }
+    if (request.from_utc_ms > request.through_utc_ms || facts.rules_revision.empty() ||
+        (request.required_rules_revision &&
+         *request.required_rules_revision != facts.rules_revision) ||
+        !supported_facts(facts)) {
+        return ZoneError::unsupported_rules;
+    }
+
+    facts.offset_at_start_seconds = offset_at(facts, request.from_utc_ms);
+    facts.from_utc_ms = request.from_utc_ms;
+    facts.through_utc_ms = std::min(facts.through_utc_ms, request.through_utc_ms);
+    std::erase_if(facts.transitions, [&](const auto &transition) {
+        return transition.at_utc_ms <= facts.from_utc_ms ||
+               transition.at_utc_ms > facts.through_utc_ms;
+    });
+
+    ForecastPage page{std::move(facts), ReachedRequestEnd{}};
+    if (page.facts.through_utc_ms < request.through_utc_ms) {
+        page.tail = TerminalPrefix{ZoneError::insufficient_coverage};
+    }
+    return page;
+}
 
 std::variant<ScheduledPausePreview, ScheduledPauseRefusal> project_scheduled_pause_edit(
     const ScheduledPauseState &state, const ScheduledPauseClockInput &clock,
@@ -1230,47 +1555,12 @@ std::variant<ScheduledPausePreview, ScheduledPauseRefusal> project_scheduled_pau
     if (!old_failure) {
         result.pause_after_cutover = progression.result.pause;
     }
-    result.incomplete = old_failure;
-
-    const auto rules = ranges(proposed, at.utc_ms);
-    auto starts = scan(zone, View{proposed, {}}, rules, at.utc_ms, through, true, progression.keys);
-    result.resolved_through_utc_ms = starts.through;
-    if (!result.incomplete) {
-        result.incomplete = starts.failure;
+    result.incomplete =
+        forecast_schedule(zone, state, progression.keys, old_failure, result, output);
+    if (old_failure) {
+        result.incomplete = *old_failure;
     }
-
     result.facts = std::move(zone.facts);
-    const auto old_nominal_limit = add(at.utc_ms, day_ms).value_or(last_ms);
-    const std::span rows{starts.rows};
-    for (std::size_t first = 0; first < rows.size();) {
-        const auto end = group_end(rows, first);
-        std::size_t bytes = 0;
-        std::optional<Failure> row_failure;
-        for (const auto &row : rows.subspan(first, end - first)) {
-            bytes += sizeof(ScheduledPausePreviewRow) +
-                     key_strings(state.timer_lineage, row.rule->schedule_id);
-            if (!state.ledger) {
-                row_failure = Knowledge::ledger;
-            } else if (old_failure &&
-                       row.occurrence.start.id.nominal_local_start.time_since_epoch().count() <=
-                           old_nominal_limit &&
-                       (state.epochs.empty() ||
-                        find_rule(state.epochs.back().configuration, row.rule->schedule_id))) {
-                row_failure = old_failure;
-            }
-        }
-        if (row_failure || !output.take(bytes)) {
-            result.incomplete = row_failure.value_or(Failure{ZoneError::limit_exceeded});
-            result.resolved_through_utc_ms = start_of(rows[first]) - 1;
-            break;
-        }
-        for (const auto &row : rows.subspan(first, end - first)) {
-            result.upcoming.push_back(
-                {{state.timer_lineage, row.rule->schedule_id, row.occurrence.start.id},
-                 row.occurrence});
-        }
-        first = end;
-    }
     return result;
 }
 
