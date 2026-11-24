@@ -20,6 +20,7 @@ struct MissingHostFatalConsumer : std::runtime_error {
 
 // Replace only this stop with a forward through the fake transport's private
 // Host binding when that owner exists. The call runs on the fixture IO owner.
+// Replacement rule: see Replacing the stub in tests/qt/api_023/README.md.
 void forward_published_fact(Rig &, PublishedFatal) { throw MissingHostFatalConsumer{}; }
 
 void supply(Rig &rig, PublishedFatal fact) {
@@ -88,6 +89,15 @@ template <class Inspection> void expect_fatal(const Inspection &inspection, Publ
         require(false, "Missing typed Host fatal inspection");
     }
 }
+
+// The control's no-fatal checks pass vacuously while a member is absent. Both
+// frozen members must exist or neither, so one missing or misspelled member
+// cannot silently disable those checks once the other one lands.
+template <class Inspection, class Options>
+constexpr bool fatal_members_consistent =
+    (requires(const Inspection &inspection) { inspection.fatal_elapsed; }) ==
+    (requires(const Options &options) { options.fatal_diagnostic; });
+static_assert(fatal_members_consistent<host::Inspection, host::Options>);
 
 void await_writer_only(Rig &rig) {
     require(QTest::qWaitFor([&] { return rig.instance->inspect().writer_barrier; }, wait_ms),
