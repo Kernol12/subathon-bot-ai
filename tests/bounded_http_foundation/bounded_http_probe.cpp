@@ -33,6 +33,10 @@
 #include <thread>
 #include <trantor/net/EventLoop.h>
 #include <unistd.h>
+#if __has_include(<trantor/net/BoundedIo.h>)
+#include <trantor/net/BoundedIo.h>
+#define SUBATHON_API024_PROBE 1 // successor SDK only; candidate4 builds omit API-024 code
+#endif
 
 namespace bh = subathon::server::bounded_http;
 namespace ws = subathon::server::native_ws;
@@ -187,6 +191,83 @@ struct Clock final : ws::ElapsedSource {
         return ws::ElapsedInstant{ns.load()};
     }
 };
+#ifdef SUBATHON_API024_PROBE
+// API-024 (R4 correction 19): fixture-owned listener record, outcome script and owner-turn
+// witness. Insertions only. This code runs only when argv names "api024"; every frozen
+// action, assertion and event keeps its bytes and behaviour.
+constexpr const char *api024Stub = "API-024 stub: arm_listener_observer returned NI";
+trantor::bounded_io::ListenerObservation api024Record{};
+std::string api024Mode; // empty for every frozen selector
+struct Rig;
+void api024Command(Rig &, const Json::Value &);
+// One expected arm outcome; NI always reports the single stub literal.
+template <class T>
+void api024Expect(bh::Result<T> r, std::optional<bh::Error> expected, const char *oracle) {
+    if (std::holds_alternative<bh::NI>(r))
+        required(std::move(r), api024Stub);
+    if (expected)
+        error(std::move(r), *expected, oracle);
+    else
+        required(std::move(r), oracle);
+}
+constexpr std::array<const char *, 14> api024RoleFields{
+    "no_pending",   "operational",          "interest_enables", "poller_registrations",
+    "final_removals", "listener_closes",    "idle_closes",      "acceptor_retirements",
+    "hold_deadline", "owner_evaluations",   "phase",            "interest",
+    "script_length", "script_cursor"};
+constexpr std::array<const char *, 10> api024InspectFields{
+    "accept_attempts", "peers",         "http_peers",  "native_peers",          "constructed",
+    "transient_fds",   "handles",       "output_slots", "held_application_wire", "wire_releases"};
+// Named record fields (role) and inspection fields (x, IO0 only).
+std::optional<bh::U64> api024Field(unsigned role, std::string_view name,
+                                   const bh::Observation *x) {
+    const auto &e = api024Record.roles[role];
+    if (name == "no_pending") return e.no_pending;
+    if (name == "operational") return e.operational;
+    if (name == "interest_enables") return e.interest_enables;
+    if (name == "poller_registrations") return e.poller_registrations;
+    if (name == "final_removals") return e.final_removals;
+    if (name == "listener_closes") return e.listener_closes;
+    if (name == "idle_closes") return e.idle_closes;
+    if (name == "acceptor_retirements") return e.acceptor_retirements;
+    if (name == "hold_deadline") return e.hold_deadline;
+    if (name == "owner_evaluations") return e.owner_evaluations;
+    if (name == "phase") return e.phase;
+    if (name == "interest") return e.interest;
+    if (name == "script_length") return e.script_length;
+    if (name == "script_cursor") return e.script_cursor;
+    if (!x) return std::nullopt;
+    if (name == "accept_attempts") return x->accept_attempts;
+    if (name == "peers") return x->current.peers;
+    if (name == "http_peers") return x->current.http_peers;
+    if (name == "native_peers") return x->current.native_peers;
+    if (name == "constructed") return x->current.constructed;
+    if (name == "transient_fds") return x->current.transient_fds;
+    if (name == "handles") return x->current.handles;
+    if (name == "output_slots") return x->current.output_slots;
+    if (name == "held_application_wire") return x->held_application_wire;
+    if (name == "wire_releases") return x->wire_releases;
+    return std::nullopt;
+}
+Json::Value api024Snapshot(const char *name, const bh::Observation *x) {
+    auto v = event(name);
+    Json::Value roles(Json::arrayValue);
+    for (unsigned role = 0; role < 2; ++role) {
+        Json::Value record;
+        for (auto field : api024RoleFields)
+            record[field] = Json::UInt64(*api024Field(role, field, nullptr));
+        roles.append(record);
+    }
+    v["roles"] = roles;
+    if (x) {
+        Json::Value inspect;
+        for (auto field : api024InspectFields)
+            inspect[field] = Json::UInt64(*api024Field(0, field, x));
+        v["inspect"] = inspect;
+    }
+    return v;
+}
+#endif
 bh::Limits limits(std::string_view name) {
     if (name == "reference" || name == "method" || name == "budget")
         return {128,     80,   48,   8,    8,    name == "budget" ? 8192ULL : 1048576ULL,
@@ -561,6 +642,10 @@ struct Rig {
                  !x.current.output_slots && !x.current.transient_fds && !x.current.pending_wakes,
              "actual network drain");
         emit(event("stop_drained"));
+#ifdef SUBATHON_API024_PROBE
+        if (!api024Mode.empty())
+            emit(api024Snapshot("api024_drained", &x));
+#endif
         drogon::app().quit();
     }
     static void onRead(void *o, void *c, bh::ReadSample s) {
@@ -833,6 +918,12 @@ struct Rig {
             must(before.stock_output_appends == after.stock_output_appends &&
                      before.current.metadata_charge == after.current.metadata_charge,
                  "offIO facade no enqueue/allocation source gate also required");
+#ifdef SUBATHON_API024_PROBE
+        } else if (op.starts_with("api024-")) {
+            if (api024Mode.empty())
+                fixture("api024 command without api024 mode");
+            api024Command(*this, v);
+#endif
         } else
             fixture("unknown command");
         auto e = event("ack");
@@ -844,6 +935,150 @@ static_assert(sizeof(Rig) <= 66560); // 128 caller records x512 +1024 global fix
 // SDK retains native registration globally. Keep the fixture and its callback targets alive until
 // process teardown, even if a child fails; do not pretend Profile destruction unregisters it.
 Rig *retained = nullptr; // One intentionally process-retained registration owner; see receipt.
+#ifdef SUBATHON_API024_PROBE
+// IO0 poll on real 1 ms timers for a named fact, or for a rise of the owner-turn witness.
+// The facts are read in the same IO0 functor that observes the condition.
+void api024Poll(Rig &r, unsigned role, std::string field, bh::U64 value, bool rise,
+                unsigned turn) {
+    auto x = required(r.foundation->inspect(), "api024 inspect");
+    auto actual = api024Field(role, field, &x);
+    if (!actual)
+        fixture("api024 unknown field");
+    if (rise ? *actual > value : *actual == value) {
+        emit(api024Snapshot(rise ? "api024_turn" : "api024_waited", &x));
+        return;
+    }
+    if (turn >= 2000)
+        fixture("api024 wait bound, not behavioral red");
+    r.io.load()->runAfter(0.001, [&r, role, field, value, rise, turn] {
+        api024Poll(r, role, field, value, rise, turn + 1);
+    });
+}
+void api024Command(Rig &r, const Json::Value &v) {
+    const auto op = v["op"].asString();
+    const auto role = v.get("role", 0).asUInt();
+    if (role > 1)
+        fixture("api024 role");
+    if (op == "api024-observe") {
+        auto x = required(r.foundation->inspect(), "api024 inspect");
+        emit(api024Snapshot("api024_record", &x));
+    } else if (op == "api024-owner-turn") {
+        // Clock first, then the witness base, both on IO0: any later poll samples t.
+        r.clock->ns = v["ns"].asUInt64();
+        r.clock->available = v.get("available", true).asBool();
+        api024Poll(r, role, "owner_evaluations", api024Record.roles[role].owner_evaluations,
+                   true, 0);
+    } else if (op == "api024-wait") {
+        api024Poll(r, role, v["field"].asString(), v["value"].asUInt64(), false, 0);
+    } else if (op == "api024-release-wire") {
+        required(bh::testing::Access::release_wire(*r.foundation), "api024 release held node");
+    } else if (op == "api024-stop-pair") {
+        // Both stops and the clock change share one IO0 functor: no owner turn between.
+        auto first = required(r.foundation->stop({v["first"].asUInt64()}), "api024 first stop");
+        must(first == bh::Post::queued || first == bh::Post::wake_uncertain,
+             "first stop recorded");
+        auto second =
+            required(r.foundation->stop({v["second"].asUInt64()}), "api024 second stop");
+        must(second == bh::Post::coalesced, "later stop coalesces with the first deadline");
+        r.clock->ns = v["ns"].asUInt64();
+    } else if (op == "api024-arm-from-io0") {
+        api024Expect(bh::testing::Access::arm_listener_observer(*r.foundation, api024Record),
+                     bh::Error::wrong_thread, "observer arm from IO0 refused");
+    } else
+        fixture("api024 unknown command");
+}
+// Writes the role scripts, arms on the creating thread, and finishes the arm-window
+// cases before serving. Returns true when the case has completed.
+bool api024Setup(Rig &r, const Json::Value &config) {
+    api024Mode = config["api024"].asString();
+    if (api024Mode.empty())
+        fixture("api024 mode");
+    for (unsigned role = 0; role < 2; ++role) {
+        const auto &script = config[role ? "sn" : "sh"];
+        if (script.isNull())
+            continue;
+        if (!script.isArray() || script.size() > 4)
+            fixture("api024 script shape");
+        auto &record = api024Record.roles[role];
+        record.script_length = static_cast<std::uint8_t>(script.size());
+        for (Json::ArrayIndex i = 0; i < script.size(); ++i)
+            record.script[i] = static_cast<std::uint8_t>(script[i].asUInt());
+    }
+    if (config.get("wire_gate", false).asBool() &&
+        !std::holds_alternative<bh::Done>(bh::testing::Access::arm_first_wire(*r.foundation)))
+        fixture("actual application gate arm unavailable");
+    auto arm = [&r] {
+        return bh::testing::Access::arm_listener_observer(*r.foundation, api024Record);
+    };
+    if (api024Mode == "control" || api024Mode == "window-io0")
+        return false;
+    if (api024Mode == "row" || api024Mode == "a8") {
+        api024Expect(arm(), std::nullopt, "cold observer arm");
+        return false;
+    }
+    if (api024Mode == "window-cold") {
+        api024Expect(arm(), std::nullopt, "cold observer arm");
+        api024Expect(arm(), bh::Error::invalid_state, "second observer arm refused");
+    } else if (api024Mode == "window-seal") {
+        required(bh::seal_listener_registration(*r.foundation), "seal listener registration");
+        api024Expect(arm(), bh::Error::invalid_state, "observer arm refused after seal");
+        error(bh::testing::Access::arm_first_wire(*r.foundation), bh::Error::invalid_state,
+              "first-wire arm refused after seal");
+    } else if (api024Mode == "window-stop") {
+        required(r.foundation->stop({6000000000ULL}), "cold stop");
+        api024Expect(arm(), bh::Error::invalid_state, "observer arm refused after stop");
+    } else
+        fixture("api024 mode");
+    emit(event("api024_window_pass"));
+    maps("cleanup");
+    auto final = event("cleanup_complete");
+    final["native_registration_retained_until_process_exit"] = true;
+    emit(final);
+    return true;
+}
+// A8 (Correction 5 and closing C2): stop from the beginning advice, before both IO0
+// start entries. No before-listen callback, no endpoint or socket read, no stdin.
+int api024StopBeforeStartup(Rig &r) {
+    auto &app = drogon::app();
+    app.disableSigtermHandling()
+        .setThreadNum(1)
+        .setIdleConnectionTimeout(0)
+        .setLogLevel(trantor::Logger::kFatal)
+        .setFileTypes({})
+        .setHomePage("")
+        .setImplicitPageEnable(false)
+        .enableGzip(false)
+        .enableBrotli(false)
+        .enableDateHeader(false)
+        .enableServerHeader(false)
+        .disableSession()
+        .enableRequestStream(false)
+        .enableCompressedRequest(false)
+        .setDocumentRoot((std::filesystem::current_path() / "empty").string())
+        .setUploadPath((std::filesystem::current_path() / "upload").string())
+        .setClientMaxBodySize(1048576)
+        .setClientMaxMemoryBodySize(1048576);
+    app.enableReusePort(true); // Public probe bypass: no /tmp/drogon.lock.
+    bh::Endpoints e{};
+    std::memcpy(e.address.data(), "127.0.0.1", 10);
+    required(bh::register_listeners(*r.foundation, app, e), "register actual two listeners");
+    app.registerBeginningAdvice([&r] {
+        required(r.foundation->stop({6000000000ULL}), "A8 stop from beginning advice");
+        emit(event("api024_a8_stopped"));
+    });
+    std::thread server([&] { app.run(); });
+    server.join();
+    emit(event("framework_joined"));
+    must(r.drained, "drain before framework join");
+    emit(api024Snapshot("api024_final", nullptr));
+    required(r.foundation->finish(), "finish after joins/handle quiescence");
+    maps("cleanup");
+    auto final = event("cleanup_complete");
+    final["native_registration_retained_until_process_exit"] = true;
+    emit(final);
+    return 0;
+}
+#endif
 // Keep the fail-fast rule even when the bounded, nonblocking record cannot be written.
 [[noreturn]] void diagnostics(const char *bytes, const std::uint64_t length) {
     constexpr std::size_t head_limit = 128, tail_limit = 64, record_limit = 512;
@@ -1171,7 +1406,15 @@ int main(int argc, char **argv) {
                     bh::testing::Access::arm_first_wire(*r.foundation)))
                 fixture("actual application gate arm unavailable");
         }
+#ifdef SUBATHON_API024_PROBE
+        if (config.isMember("api024") && api024Setup(r, config))
+            return 0; // arm-window cases complete before serving
+#endif
     }
+#ifdef SUBATHON_API024_PROBE
+    if (api024Mode == "a8")
+        return api024StopBeforeStartup(r);
+#endif
     auto &app = drogon::app();
     setup(app);
     if (r.action == "large-output")
@@ -1277,6 +1520,10 @@ int main(int argc, char **argv) {
         fixture("command/read turns exhausted");
     server.join();
     emit(event("framework_joined"));
+#ifdef SUBATHON_API024_PROBE
+    if (!api024Mode.empty())
+        emit(api024Snapshot("api024_final", nullptr));
+#endif
     if (!control) {
         must(r.drained, "drain before framework join");
         if (r.action == "retain-inert") {

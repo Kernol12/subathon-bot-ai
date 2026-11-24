@@ -485,6 +485,13 @@ struct Core final : io::Producer, sdk::Sink {
         observation.native_handoff_accepted = accepted;
     }
     void owner_turn() noexcept override;
+    // API-024 tests-stage stub: no listener recovery or observation yet. Timing and
+    // unknown queries report inactive; the passive query reports no observer (R2 values).
+    io::ListenerState listener_state(io::ListenerQuery query) noexcept override {
+        return {query == io::ListenerQuery::passive_observation ? io::ListenerStatus::observer_absent
+                                                                : io::ListenerStatus::inactive,
+                0, nullptr};
+    }
     void drop(PeerRecord &p, unsigned kind) noexcept {
         delete_count.fetch_add(1, std::memory_order_acq_rel);
         p.deletes.fetch_add(1, std::memory_order_acq_rel);
@@ -1555,6 +1562,12 @@ Result<Done> testing::Access::release_wire(Foundation &f) noexcept {
     if (!c.is_io())
         return Error::wrong_thread;
     return sdk::Runtime::release_wire() ? Result<Done>(Done{}) : Result<Done>(Error::invalid_state);
+}
+// API-024 tests-stage stubs. Implementation adds the registration latch (R4 correction 19).
+Result<Done> seal_listener_registration(Foundation &) noexcept { return Done{}; }
+Result<Done> testing::Access::arm_listener_observer(Foundation &,
+                                                    io::ListenerObservation &) noexcept {
+    return NI{};
 }
 Result<std::unique_ptr<Foundation>> create(Limits l, std::span<const Route> routes,
                                            NativeBinding native,

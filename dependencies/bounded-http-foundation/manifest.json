@@ -30,7 +30,7 @@
     {
       "file": "0003-trantor-bounded-http.patch",
       "apply_at": "trantor",
-      "sha256": "a68badebe62e3b9ada32bb5fbae08b9c97b381cd066b60c8350d39b68195385e"
+      "sha256": "576bcbbb3a489b02b66f390fd4e7f35a291e2ae997014824ed2b84700292a20e"
     },
     {
       "file": "0004-drogon-bounded-http.patch",

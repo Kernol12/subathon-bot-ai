@@ -216,6 +216,10 @@ Result<std::unique_ptr<Foundation>> create(Limits, std::span<const Route>, Nativ
                                            std::shared_ptr<const native_ws::ElapsedSource>,
                                            Callbacks) noexcept;
 Result<Done> register_listeners(Foundation &, drogon::HttpAppFramework &, Endpoints) noexcept;
+// Closes the cold arm windows before any SDK listener registration (R4 correction 19).
+// Callers that register listeners through the SDK directly call this first; the helper
+// above calls it itself. Idempotent; any thread; unavailable if Core's mutex cannot lock.
+Result<Done> seal_listener_registration(Foundation &) noexcept;
 enum class RawKind { receive, fields, method, target, body };
 enum class RawUse { current, pending, owner_teardown };
 struct RawTag {

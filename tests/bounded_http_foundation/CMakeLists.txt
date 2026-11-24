@@ -30,6 +30,18 @@ set_tests_properties(bounded-http-foundation.suite PROPERTIES
     TIMEOUT 10158)
 # Ordinary failures, including NI. No WILL_FAIL, skip, DISABLED or dependency waiver.
 
+# API-024 Stage 1 (R4 correction 19): opt-in intentional red, outside passing CI.
+# The same gate receipt admits the probe; the driver adds selectors, not a binary.
+if(SUBATHON_BUILD_API_024_STAGE1)
+    add_test(NAME api-024.listener
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/test_api024_listener.py"
+            --probe "$<TARGET_FILE:bounded_http_probe>"
+            --admission "${SUBATHON_BOUNDED_HTTP_ADMISSION}")
+    set_tests_properties(api-024.listener PROPERTIES
+        LABELS "api-024;intentional-red;loopback"
+        TIMEOUT 900)
+endif()
+
 # 297 suite children * (30s lifetime + two 2s reap attempts) + 60s runner margin.
 
 # Select account capture explicitly. Admit the binary before PRE_TEST discovery.

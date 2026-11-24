@@ -1,7 +1,8 @@
 # Bounded selected HTTP foundation — v1, correction R4
 
 Revision R4 comprises corrections 1–18, implemented in API-016 and reviewed in
-[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). That record covers
+[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664), and correction 19
+(API-024), whose interface lands with its tests stage. The #664 record covers
 the source/interface, allocation inventory, artifact/recipe/gate and selected Linux
 CI evidence. First-party declarations and the reviewed baseline remain unchanged.
 This evidence establishes no release, platform or security verification.
@@ -1048,6 +1049,25 @@ nothing: delivery, deadlines and read/write interest stay unchanged. The intents
 keep their posting semantics and have no native effect. The native profile alone
 owns established read interest and backpressure. Close and stop keep their existing
 teardown behaviour; admission never reopens a closing or removed connection.
+
+Correction 19 (API-024, [#685](https://github.com/Kernol12/subathon-bot-ai/issues/685)):
+installed `trantor/net/BoundedIo.h` adds the data-only `ListenerQuery`,
+`ListenerStatus`, `ListenerPhase`, `ListenerState` (24 bytes) and fixture-owned
+`ListenerObservation` (two 88-byte role records). It appends one pure virtual
+`Producer::listener_state(ListenerQuery)` after `owner_turn`. No DSO export is added;
+every dependent object is rebuilt and mixed generations are refused. Query modes,
+precedence, record fields and the outcome script follow the #685 Release packets
+(ABI fix 2 and fixture/baseline r2). `passive_observation` is also reachable from the
+`boundedPoll` refresh. First-party additions: `seal_listener_registration` closes the
+cold arm windows before any SDK registration. By contract `register_listeners` and the
+Host call it first, so `register_listeners` may also return `unavailable`; the
+tests-stage stub does not call it yet, the implementation does.
+`testing::Access::arm_listener_observer` arms the record cold on the creating thread.
+`arm_first_wire` checks the seal before it consumes the process-global one-shot gate,
+and refuses once the seal is set. Advisor ruling C1: `Runtime::arm_first_wire` runs
+under Core's mutex, the one stated exception to no SDK call under the new critical
+sections. Either arm returns `unavailable` if taking its own lock throws. The tests
+stage ships this interface only: the arm returns NI until implementation.
 
 Import, do not reopen, the parent numeric-address/data-endpoint observation,
 public enableReusePort(true) probe bypass plus pre-listen SO_REUSEPORT clear and
