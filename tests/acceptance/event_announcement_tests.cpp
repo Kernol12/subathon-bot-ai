@@ -468,7 +468,7 @@ TEST_F(EventAnnouncementTest, ManagementDenialConcealsStuckAndHold) {
 
 TEST_F(EventAnnouncementTest, ResumeMatchesHoldAndHeadEvenWithSuffixArrival) {
     const StartFact blocked{E2, Authority::grant_withdrawn};
-    for (const bool suffix_arrives : {false, true}) {
+    const auto check = [&](bool suffix_arrives) {
         SCOPED_TRACE(suffix_arrives);
         const std::array arrivals{admission(E2, 300ms), admission(E3, 400ms)};
         const std::array blocked_facts{blocked, allowed(E3)};
@@ -514,6 +514,9 @@ TEST_F(EventAnnouncementTest, ResumeMatchesHoldAndHeadEvenWithSuffixArrival) {
         } else {
             EXPECT_TRUE(std::holds_alternative<NoCurrentEventAnnouncement>(next));
         }
+    };
+    for (const bool suffix_arrives : {false, true}) {
+        check(suffix_arrives);
     }
 }
 
@@ -632,7 +635,7 @@ TEST_F(EventAnnouncementTest, CancellationDuringHoldKeepsOrClearsItWithoutBypass
 
     const std::array initial{admission(E1, 600ms)};
     const std::array blocked_e1{StartFact{E1, Authority::use_withdrawn}};
-    for (const auto &scenario : scenarios) {
+    const auto check = [&](const Scenario &scenario) {
         SCOPED_TRACE(static_cast<int>(scenario.choice));
         SCOPED_TRACE(static_cast<int>(scenario.successor_authority));
         Producer fresh{lifetime};
@@ -687,6 +690,9 @@ TEST_F(EventAnnouncementTest, CancellationDuringHoldKeepsOrClearsItWithoutBypass
             EXPECT_EQ(head->head, E3);
             EXPECT_TRUE(std::holds_alternative<NoCurrentEventAnnouncement>(current));
         }
+    };
+    for (const auto &scenario : scenarios) {
+        check(scenario);
     }
 }
 
