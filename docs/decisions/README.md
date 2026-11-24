@@ -33,3 +33,7 @@ Consult its task/evidence for actual independent review status.
 - [ADR-0012 — Test-suite simplification](0012-test-suite-simplification.md):
   owner-directed cleanup plan with per-task independent-review gates and no reduction
   to specification or release scope.
+
+- [ADR-0013 — CI test-program admission](0013-ci-test-program-admission.md):
+  proposed owner decision to admit test programs in CI and record runs by commit,
+  with a ten-task trial; the standing local admission applies until it merges.
