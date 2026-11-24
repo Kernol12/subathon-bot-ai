@@ -61,6 +61,11 @@ are stuck. Blocked tasks name the prerequisite issue and use neither limit. At n
 the combined limit is lifted. Update the board at every start, park, block and
 merge. Process or tooling work needs an owner decision per task.
 
+After parking a task, start the next eligible Ready task in the same turn when
+the active limits allow it. A Parked task without an open question resumes when
+a slot is available or returns to Ready. Starting the next test stage does not
+require separate authorization.
+
 Epics track child work and do not use task slots. Keep an epic Planned until
 every task in its table is linked and every child is closed, then close it and
 set Done. If a task is missing, link it and leave the epic open. Epics never
