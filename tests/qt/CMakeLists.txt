@@ -231,6 +231,13 @@ if(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS)
         NAME sqlite-migrations SOURCES sqlite_migration_tests.cpp
         LIBRARIES subathon_sqlite_migrations
         LABELS "sqlite-migrations;acceptance;qt;server")
+    add_executable(sqlite_migration_engine_witness sqlite_migration_engine_witness.cpp)
+    set_target_properties(sqlite_migration_engine_witness PROPERTIES AUTOMOC ON)
+    target_link_libraries(sqlite_migration_engine_witness PRIVATE Qt6::Sql Qt6::Test)
+    subathon_target_options(sqlite_migration_engine_witness)
+    add_test(NAME sqlite-migrations-engine-witness.suite COMMAND sqlite_migration_engine_witness)
+    set_tests_properties(sqlite-migrations-engine-witness.suite PROPERTIES
+        LABELS "sqlite-migrations;acceptance;qt;server" TIMEOUT 120)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_RETAINED_TESTS)
