@@ -113,6 +113,10 @@ jobs:
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
       - name: Build all pure core suites once
         run: cmake --build --preset core-acceptance-debug
+      - name: Check core-acceptance-debug test programs against their library closure list
+        run: >-
+          python3 tools/binary_closure.py --expected tools/binary_closures/core.json
+          --build-dir build/core-acceptance-debug --root RUNNER_TEMP="$RUNNER_TEMP"
       - name: Verify independent permission fixture integrity
         run: |
           python3 - <<'PYTHON'
@@ -426,6 +430,10 @@ jobs:
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
       - name: Build reviewed SQL suites
         run: cmake --build --preset sqlite-reference-capture-debug
+      - name: Check sqlite-reference-capture-debug test programs against their library closure list
+        run: >-
+          python3 tools/binary_closure.py --expected tools/binary_closures/qt.json
+          --build-dir build/sqlite-reference-capture-debug --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
       - name: Build and run the reviewed diagnostics acceptance suite
         run: |
           cmake -S tests/qt/release_002 -B build/release-002-acceptance -G Ninja \
@@ -434,6 +442,9 @@ jobs:
             -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 \
             -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
           cmake --build build/release-002-acceptance --target release_002_stage1 --parallel 2
+          python3 tools/binary_closure.py --expected tools/binary_closures/qt.json \
+            --build-dir build/release-002-acceptance \
+            --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
           QT_PLUGIN_PATH="$QT_PREFIX/plugins" \
             ctest --test-dir build/release-002-acceptance -L '^release-002$' \
             --output-on-failure --no-tests=error
@@ -783,6 +794,10 @@ jobs:
         run: |
           cmake --build --preset password-hashing-debug
           cmake --build --preset password-hashing-debug --target password_hashing_fixture_generator
+      - name: Check password-hashing-debug test programs against their library closure list
+        run: >-
+          python3 tools/binary_closure.py --expected tools/binary_closures/qt.json
+          --build-dir build/password-hashing-debug --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
       - name: Keep synthetic input preparation outside CTest
         run: |
           python3 - <<'PYTHON'
@@ -828,6 +843,10 @@ jobs:
           cmake --preset session-resolution-debug -DSUBATHON_FETCH_GOOGLETEST=ON \
             -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           cmake --build --preset session-resolution-debug
+      - name: Check session-resolution-debug test programs against their library closure list
+        run: >-
+          python3 tools/binary_closure.py --expected tools/binary_closures/qt.json
+          --build-dir build/session-resolution-debug --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
       - name: Verify enabled session-resolution labels and native result semantics
         run: |
           python3 - <<'PYTHON'
@@ -862,6 +881,10 @@ jobs:
         run: cmake --preset translation-catalog-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
       - name: Build catalogs and verify generated source consistency
         run: cmake --build --preset translation-catalog-debug
+      - name: Check translation-catalog-debug test programs against their library closure list
+        run: >-
+          python3 tools/binary_closure.py --expected tools/binary_closures/qt.json
+          --build-dir build/translation-catalog-debug --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
       - name: Verify the enabled ordinary translation suite
         run: |
           python3 - <<'PYTHON'

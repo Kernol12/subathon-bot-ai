@@ -20,6 +20,11 @@ for focused local runs; `core-acceptance-debug` selects the same suites together
 
 ## Rules
 
+- Before a build tree's first `ctest`, the `core` and `qt` jobs run
+  `tools/binary_closure.py`. It compares the loader-resolved library closure of
+  every registered test program with `tools/binary_closures/<job>.json` and fails
+  on any difference ([ADR-0013](decisions/0013-ci-test-program-admission.md)).
+  Update the list in the PR that changes a program's libraries or a prefix.
 - Never use `WILL_FAIL`, continue-on-error, skips or failure inversion to hide a
   failure. Every stable suite fails on empty discovery. The `core` job checks that
   each of its twelve suites is discovered with its labels and timeouts intact.
