@@ -100,8 +100,8 @@ class Producer {
     [[nodiscard]] EventAnnouncementManagement management(Disclosure disclosure) const;
 
   private:
-    // The submission key excludes version and lineage metadata. Those facts are
-    // bound to the first admission and cannot give a retry a new position.
+    // The first successful exact admission binds version and lineage to this
+    // key. Invalid or missing version or duration consumes no key.
     struct SubmissionLess {
         bool operator()(const EventAnnouncementAction &left,
                         const EventAnnouncementAction &right) const;
