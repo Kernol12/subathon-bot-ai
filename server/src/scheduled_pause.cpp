@@ -1275,7 +1275,7 @@ ForecastChain acquire_forecast(ZoneReads &zone, const std::string &configured_zo
             output = original_output;
             return {from, 0, false, ZoneError::unsupported_rules};
         }
-        if (terminal && !initial && end == chain.through) {
+        if (terminal && end == chain.through) {
             chain.failure = terminal->cause;
             break;
         }
