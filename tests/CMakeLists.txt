@@ -306,6 +306,16 @@ if(SUBATHON_BUILD_SCHEDULED_PAUSE_TESTS)
     subathon_target_options(server_scheduled_pause_acceptance)
     subathon_discover_gtests(server_scheduled_pause_acceptance
         LABELS "scheduled-pause;acceptance;server" TIMEOUT 30)
+
+    if(SUBATHON_BUILD_SCHEDULE_003_STAGE1)
+        add_executable(server_scheduled_pause_forecast_acceptance
+            acceptance/scheduled_pause_forecast_tests.cpp)
+        target_link_libraries(server_scheduled_pause_forecast_acceptance PRIVATE
+            subathon_scheduled_pause GTest::gtest_main)
+        subathon_target_options(server_scheduled_pause_forecast_acceptance)
+        subathon_discover_gtests(server_scheduled_pause_forecast_acceptance
+            LABELS "scheduled-pause-forecast;intentional-red;acceptance;server" TIMEOUT 30)
+    endif()
 endif()
 
 if(SUBATHON_BUILD_APPLICATION_PLAN_TESTS)

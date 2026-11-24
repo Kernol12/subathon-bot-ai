@@ -334,12 +334,17 @@ running sessions, completed reviews and receipts retain their original models.
   Any product assertion or exhausted-witness failure stops for owner; no outer retry.
 - Historical gates are `0e774a51` and, for suspend/admit, `8fbc0ee8`, as #672 states.
   The owner's earlier `f8be1aec` wording was a copied mistake; it belongs to #689.
-  Existing Git/CMake construction is allowed. Anything beyond it (script, route or
-  new tooling) comes to owner with options **before authoring**.
+  That gate allowed existing Git/CMake construction. Other scripts, routes or
+  tooling required a separate owner decision before authoring.
 - The control-only launcher is ignored evidence, never committed and unused by
   CI. Retain its hash-bound bytes outside #690 to preserve the completed sample's
-  evidence. From now on, ANY new tooling, launcher or harness goes to the owner
-  BEFORE authoring, even when it serves an approved step.
+  evidence. The advisor may approve a run script for one task's run with
+  independent review before execution. It must stay in that task's ignored
+  build folder, remain uncommitted and unused by CI, derive from a reviewed
+  script or be small glue, and preserve every check, isolation boundary and
+  assertion. Name it in the report for the advisor's digest. Escalate reusable
+  tools, anything under `tools/`, committed scripts or tooling, and CI changes
+  to the owner before authoring. See [the advisor rule](../docs/ADVISOR.md).
 - The owner authorized the completed fresh N5 scenario/sampling investigation
   and unchanged 20-run historical diagnosis in parallel, with paired delivery.
   These diagnostic results do not resume acceptance or authorize the proposed
