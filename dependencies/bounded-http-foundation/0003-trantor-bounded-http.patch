@@ -86,7 +86,7 @@
 +}
 --- /dev/null
 +++ b/trantor/net/BoundedIo.h
-@@ -0,0 +1,58 @@
+@@ -0,0 +1,91 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#pragma once
 +#include <array>
@@ -132,6 +132,37 @@
 +    virtual void native_retired() noexcept = 0;
 +    virtual void sdk_objects_released() noexcept = 0;
 +};
++// API-024 listener recovery, fixture observation and outcome script (R4 correction 19).
++// Data-only types: no member functions and no new exported symbol.
++enum class ListenerQuery : std::uint8_t { owner_turn_state, listener_hold_sample, passive_observation };
++enum class ListenerStatus : std::uint8_t {
++    valid, fenced, stopping, inactive, observer_present, observer_absent
++};
++enum class ListenerPhase : std::uint8_t { clear, held, time_fenced, stopped };
++// Fixture-owned record. The fixture writes script_length and script before the cold
++// arm; IO0 writes every other field. Script codes: 1 no_pending, 2 operational, 3 pass.
++struct ListenerObservation {
++    struct RoleRecord {
++        U64 no_pending, operational;
++        U64 interest_enables, poller_registrations, final_removals;
++        U64 listener_closes, idle_closes, acceptor_retirements;
++        U64 hold_deadline;     // ns, meaningful only while held
++        U64 owner_evaluations; // boundedPoll recovery evaluations of a live acceptor
++        std::uint8_t phase, interest, script_length, script_cursor;
++        std::uint8_t script[4];
++    };
++    RoleRecord roles[2]; // http, native
++};
++static_assert(sizeof(ListenerObservation::RoleRecord) == 88 &&
++              alignof(ListenerObservation::RoleRecord) == 8);
++static_assert(sizeof(ListenerObservation) == 176);
++// The tick is zero except for valid; observation is null except for observer_present.
++struct ListenerState {
++    ListenerStatus status;
++    U64 ns;
++    ListenerObservation *observation;
++};
++static_assert(sizeof(ListenerState) == 24 && alignof(ListenerState) == 8);
 +class Producer {
 +  public:
 +    virtual ~Producer() = default;
@@ -143,6 +174,8 @@
 +    virtual bool before_read(PeerStorage &, ReadWitness) noexcept = 0;
 +    virtual bool before_write(PeerStorage&) noexcept = 0;
 +    virtual void owner_turn() noexcept = 0;
++    // Appended once for #685; #684 adopts it. Modes and precedence: R4 correction 19.
++    virtual ListenerState listener_state(ListenerQuery) noexcept = 0;
 +};
 +} // namespace trantor::bounded_io
 --- /dev/null
