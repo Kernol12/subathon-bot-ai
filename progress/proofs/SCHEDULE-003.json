@@ -1,0 +1,166 @@
+{
+  "version": 1,
+  "task_id": "SCHEDULE-003",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 813
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/SCHEDULE-003.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/813",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/840",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/848",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/813#issuecomment-7125222021",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/813#issuecomment-7137798922",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/813#issuecomment-7144438311",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/813#issuecomment-7144481744",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/813#issuecomment-7145022334",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/846",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/840#issuecomment-7130064807",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/840#issuecomment-7130065980",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/840#issuecomment-7130067366",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/848#issuecomment-7145128548",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/848#issuecomment-7145092667",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/848#issuecomment-7145120845"
+  ],
+  "limitations": [
+    "Stage 1 intended red at 1af475c3 completed all 25 selectors: 19 expected first stops and six controls, zero skips. The frozen test contents are bound at the original test revision; #840 records the protected publication integration.",
+    "Stage 2 candidate 3df78dcd passed all 25 frozen selectors with zero skips. Credit uses the independently reconciled first control under the advisor ruling. The full and discovery phases were not loader-traced, so per-selector runtime loads outside the first control could go unseen.",
+    "The exact 813.1 regression had one intended failure at f852025d, then passed once with zero skips and 7/7 loader objects reconciled on 3df78dcd. Its sealed source was registered as one filtered test for publication. The five static-only F3 fixtures are tracked on #846.",
+    "With a prior prefix, inability to certify it within the work bound can return limit_exceeded instead of a continuation cause. The first-terminal-point fix preserves the typed cause when no prior prefix exists.",
+    "Publication incorporates a40d50ad through a docs-only merge plus reviewed test registration and the owner-approved discovery count. Credited runtime evidence belongs to 3df78dcd."
+  ],
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "revision": "1af475c3fe57ee1e99fb116b73fa06cf4d800be4",
+        "authors": [
+          "codex:SCHEDULE-003-stage1-test-author"
+        ],
+        "paths": [
+          "tests/acceptance/scheduled_pause_forecast_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:SCHEDULE-003-stage1-initial",
+            "revision": "bf394ea79047dce8f9bb52f730104985fafe4966",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/840#issuecomment-7130064807",
+            "findings": [
+              "F1"
+            ],
+            "blocking_findings": [
+              "F1"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:schedule_813_stage1_fix_verification",
+            "revision": "1af475c3fe57ee1e99fb116b73fa06cf4d800be4",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/840#issuecomment-7130065980",
+            "findings": [
+              "F1"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:SCHEDULE-003-stage1-closing",
+            "revision": "1af475c3fe57ee1e99fb116b73fa06cf4d800be4",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/840#issuecomment-7130067366",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "revision": "6fd3df6103f5f657a927fc221f67571e46a7da4c",
+        "authors": [
+          "codex:SCHEDULE-003-stage2-implementation-author",
+          "codex:coordinator"
+        ],
+        "paths": [
+          "docs/tasks/SCHEDULE-003.md",
+          ".github/workflows/ci.yml",
+          "cmake/AcceptanceRegistration.cmake",
+          "core/include/subathon/core/recurring_schedule.hpp",
+          "core/src/recurring_schedule.cpp",
+          "server/include/subathon/server/scheduled_pause.hpp",
+          "server/src/scheduled_pause.cpp",
+          "tests/CMakeLists.txt",
+          "tests/acceptance/scheduled_pause_forecast_f3_813_1_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:SCHEDULE-003-stage2-initial-f852025d",
+            "revision": "f852025dfd8465589931cbfb69c6713af70c0b26",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/848#issuecomment-7145128548",
+            "findings": [
+              "S2-N1",
+              "S2-N2",
+              "S2-N3"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:SCHEDULE-003-S2-VERIFY-f852025d-codex-r1",
+            "revision": "f852025dfd8465589931cbfb69c6713af70c0b26",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/848#issuecomment-7145128548",
+            "findings": [
+              "S2-V1"
+            ],
+            "blocking_findings": [
+              "S2-V1"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/verify_813_publication",
+            "revision": "6fd3df6103f5f657a927fc221f67571e46a7da4c",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/848#issuecomment-7145092667",
+            "findings": [
+              "S2-V1"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:#848-exact-head-closing-a1963446",
+            "revision": "6fd3df6103f5f657a927fc221f67571e46a7da4c",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/848#issuecomment-7145120845",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  }
+}
