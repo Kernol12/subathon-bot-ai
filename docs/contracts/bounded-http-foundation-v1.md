@@ -1059,10 +1059,14 @@ every dependent object is rebuilt and mixed generations are refused. Query modes
 precedence, record fields and the outcome script follow the #685 Release packets
 (ABI fix 2 and fixture/baseline r2). `passive_observation` is also reachable from the
 `boundedPoll` refresh. First-party additions: `seal_listener_registration` closes the
-cold arm windows before any SDK registration, and `register_listeners` and the Host
-call it first, so `register_listeners` may also return `unavailable`;
-`testing::Access::arm_listener_observer` arms the record cold on the creating thread;
-`arm_first_wire` refuses once the seal is set, deciding under Core's mutex. The tests
+cold arm windows before any SDK registration. By contract `register_listeners` and the
+Host call it first, so `register_listeners` may also return `unavailable`; the
+tests-stage stub does not call it yet, the implementation does.
+`testing::Access::arm_listener_observer` arms the record cold on the creating thread.
+`arm_first_wire` checks the seal before it consumes the process-global one-shot gate,
+and refuses once the seal is set. Advisor ruling C1: `Runtime::arm_first_wire` runs
+under Core's mutex, the one stated exception to no SDK call under the new critical
+sections. Either arm returns `unavailable` if taking its own lock throws. The tests
 stage ships this interface only: the arm returns NI until implementation.
 
 Import, do not reopen, the parent numeric-address/data-endpoint observation,

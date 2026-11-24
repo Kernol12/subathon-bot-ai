@@ -8,6 +8,17 @@ only for argv carrying "api024". Every expected value below comes from contract 
 
 Until the implementation lands, the observer arm returns NI. Each red case then ends with
 exactly one ``missing_producer`` event whose boundary is STUB, after its earlier checkpoints.
+
+Method names map to the packet r2 selectors as follows:
+
+    test_control_existing_accept_and_stop   control_existing_accept_and_stop
+    test_a1_ ... test_a9_ (incl. a7b)        the r2 selector with the same suffix
+    test_a6_source_fault_unavailable        a6_source_fault_fences_both:unavailable
+    test_a6_source_fault_regressed          a6_source_fault_fences_both:regressed
+    test_r3_arm_window_cold_then_second     r3_arm_window:cold_then_second
+    test_r3_arm_window_seal_refuses_both    r3_arm_window:seal_refuses_both
+    test_r3_arm_window_stop_refuses         r3_arm_window:stop_refuses
+    test_r3_arm_window_io0_wrong_thread     r3_arm_window:io0_wrong_thread
 """
 from __future__ import annotations
 
@@ -53,6 +64,9 @@ class ListenerTests(unittest.TestCase):
     def cold(self, **config):
         return Child(self, mode="feature", **config)
 
+    # turn() and until() poll in the probe on real 1 ms IO0 timers (api024Poll). There is no
+    # end-of-batch queueInLoop as in the barrier; a witness rise is only visible after a
+    # completed owner turn, so that is harmless and left as is (review T685-I7d).
     @staticmethod
     def observe(p):
         p.command("api024-observe")
@@ -109,6 +123,12 @@ class ListenerTests(unittest.TestCase):
         p.cleanup()
         return drained, final
 
+    def fences_at_drain(self, drained, final_removals):
+        """r3 A5/A8: stop_drained comes only after both acceptor fences (Correction 4)."""
+        for role in (HTTP, NATIVE):
+            self.record(drained, role, acceptor_retirements=1, listener_closes=1,
+                        idle_closes=1, final_removals=final_removals)
+
     def window(self, mode):
         p = self.cold(profile="tiny", api024=mode)
         p.wait("api024_window_pass")
@@ -121,7 +141,7 @@ class ListenerTests(unittest.TestCase):
 
     # -- control --------------------------------------------------------------------
     def test_control_existing_accept_and_stop(self):
-        """No observer: the shipped accept, request and stop path is unchanged."""
+        # No observer: the shipped accept, request and stop path is unchanged.
         p = self.child(profile="tiny", api024="control")
         s = p.connect()
         p.wait("connected", peer=0)
@@ -155,6 +175,7 @@ class ListenerTests(unittest.TestCase):
         self.record(x, NATIVE, phase=CLEAR, interest=1)
         # Recovery alone does no peer work. The retained backlog connection may already be
         # accepted by the next readiness (advisor V5a); the later peer is stated explicitly.
+        # (1, 0) is r3's "attempts still 1"; (2, 1) is the advisor's accepted V5a reading.
         self.assertIn((x["inspect"]["accept_attempts"], x["inspect"]["http_peers"]),
                       ((1, 0), (2, 1)))
         p.wait("connected", peer=0)
@@ -227,7 +248,8 @@ class ListenerTests(unittest.TestCase):
         self.inspect(x, http_peers=1, native_peers=1, transient_fds=0, accept_attempts=3,
                      wire_releases=1)
         self.assertFalse(any(e["event"] == "removed" for e in p.events), "removal before 1072")
-        # Idle deadline 1072 from raw release at 1022: still open after an owner turn at 1071.
+        # Idle deadline 1072 from the wire/node drain at 1022 (raw ownership was released at
+        # 1021): still open after an owner turn at 1071.
         self.turn(p, ms(1071))
         self.assertFalse(any(e["event"] == "removed" for e in p.events), "idle before 1072")
         p.command("clock", ns=ms(1072))
@@ -286,7 +308,7 @@ class ListenerTests(unittest.TestCase):
         self.until(p, "phase", STOPPED, role=HTTP)
         x = self.until(p, "phase", STOPPED, role=NATIVE)
         for role in (HTTP, NATIVE):
-            self.record(x, role, phase=STOPPED, interest=0)
+            self.record(x, role, phase=STOPPED, interest=0, interest_enables=1)  # no rearm
         self.record(x, HTTP, script_cursor=2, operational=1)
         self.inspect(x, accept_attempts=2, output_slots=1, held_application_wire=1)
         self.assertFalse(any(e["event"] == "ended" for e in p.events), "ended before 1075")
@@ -298,10 +320,11 @@ class ListenerTests(unittest.TestCase):
         p.command("clock", ns=ms(1075))
         p.wait("ended", peer=0, reason=STOPPED_END)
         p.wait("removed", peer=0)
-        self.assertFalse(any(e["event"] == "stop_drained" for e in p.events),
-                         "stop_drained before peer retirement")
+        # removed before stop_drained is enforced order-exactly by the probe's own onDrained
+        # must("all actual removed before drain"); both may arrive in one read here.
         drained, final = self.finish_stopped(p)
         self.assertEqual(drained["inspect"]["accept_attempts"], 2)
+        self.fences_at_drain(drained, final_removals=1)
         for role in (HTTP, NATIVE):
             self.record(final, role, phase=STOPPED, interest=0, acceptor_retirements=1,
                         listener_closes=1, idle_closes=1, final_removals=1)
@@ -324,9 +347,17 @@ class ListenerTests(unittest.TestCase):
         for role in (HTTP, NATIVE):
             self.record(x, role, interest=0)
         self.inspect(x, accept_attempts=2)
+        y = x
         x = self.turn(p, ms(1070))
         for role in (HTTP, NATIVE):
-            self.record(x, role, interest=0, phase=CLEAR, hold_deadline=0)
+            self.record(x, role, interest=0, interest_enables=1, phase=CLEAR, hold_deadline=0)
+        self.inspect(x, accept_attempts=2)
+        # r2 extra: the valid 1070 sample is evaluated on both roles, still without rearm.
+        x = self.turn(p, ms(1070), role=NATIVE)
+        self.assertGreater(x["roles"][NATIVE]["owner_evaluations"],
+                           y["roles"][NATIVE]["owner_evaluations"])
+        for role in (HTTP, NATIVE):
+            self.record(x, role, interest=0, interest_enables=1)
         self.inspect(x, accept_attempts=2)
         p.stop()  # explicit stop keeps its drain authority
 
@@ -346,8 +377,8 @@ class ListenerTests(unittest.TestCase):
         self.record(x, NATIVE, phase=CLEAR, interest=1)
         self.inspect(x, accept_attempts=1, peers=0, constructed=0, transient_fds=0)
         x = self.turn(p, MAX)
-        self.record(x, HTTP, phase=TIME_FENCED, interest=0)
-        self.record(x, NATIVE, phase=CLEAR, interest=1)  # no global source latch
+        self.record(x, HTTP, phase=TIME_FENCED, interest=0, interest_enables=1)
+        self.record(x, NATIVE, phase=CLEAR, interest=1, interest_enables=1)  # no source latch
         p.stop()
 
     def test_a7b_max_deadline_valid(self):
@@ -372,6 +403,7 @@ class ListenerTests(unittest.TestCase):
         drained, final = self.finish_stopped(p)
         self.assertEqual((drained["inspect"]["accept_attempts"], drained["inspect"]["peers"]),
                          (0, 0))
+        self.fences_at_drain(drained, final_removals=0)
         for role in (HTTP, NATIVE):
             self.record(final, role, interest_enables=0, poller_registrations=0,
                         final_removals=0, listener_closes=1, idle_closes=1,
@@ -400,8 +432,8 @@ class ListenerTests(unittest.TestCase):
         x = self.until(p, "http_peers", 0)
         self.record(x, HTTP, phase=HELD, hold_deadline=ms(1070), interest=0)
         x = self.turn(p, ms(1031))
-        self.record(x, HTTP, phase=HELD, interest=0)
-        self.record(x, NATIVE, phase=CLEAR, interest=1)
+        self.record(x, HTTP, phase=HELD, interest=0, interest_enables=1)
+        self.record(x, NATIVE, phase=CLEAR, interest=1, interest_enables=1)
         self.inspect(x, accept_attempts=2, http_peers=0)
         p.stop()
 
