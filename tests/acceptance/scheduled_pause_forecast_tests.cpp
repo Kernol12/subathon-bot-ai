@@ -390,39 +390,44 @@ TEST(ScheduledPauseForecast, Exactly4096ChangesFitAndTheEndAt366DaysIsExact) {
     }
 }
 
-TEST(ScheduledPauseForecast, OnlyAnAttested4097thChangeCertifiesComplexity) {
-    struct Case {
-        FinalPage input;
-        ForecastFailure failure;
-        std::size_t retained_pages;
-    };
-    const std::array cases{
-        Case{FinalPage::attested_cap, SupportError::beyond_supported_timezone_transitions, 64},
-        Case{FinalPage::terminal_prefix, coverage(ZoneError::insufficient_coverage), 64},
-        Case{FinalPage::malformed_cap, coverage(ZoneError::unsupported_rules), 0},
-        Case{FinalPage::oversized, coverage(ZoneError::limit_exceeded), 63}};
-    for (const auto &test : cases) {
-        SCOPED_TRACE(static_cast<int>(test.input));
-        PagedZone zone;
-        dense_two(zone, test.input);
-        EnteredBasis basis(zone);
-        const auto projected = basis.preview(zone, long_rule("Dense/Two"), long_horizon);
-        const auto *preview = std::get_if<ScheduledPausePreview>(&projected);
-        ASSERT_NE(preview, nullptr);
-        expect_forecast(*preview, cut_time, long_horizon, cut_time, test.failure);
-        EXPECT_TRUE(preview->upcoming.empty());
-        ASSERT_TRUE(preview->pause_after_cutover);
-        EXPECT_TRUE(preview->pause_after_cutover->reasons.empty());
-        expect_dense_reads(zone, "r2");
-        EXPECT_TRUE(zone.legacy_requests.empty());
-        ASSERT_EQ(preview->facts.size(), test.retained_pages);
-        for (std::size_t i = 0; i < test.retained_pages; ++i) {
-            expect_fact(preview->facts[i], page_facts(zone.replies[i]));
-        }
-        if (test.retained_pages == 64) {
-            EXPECT_EQ(preview->facts.back().facts.through_utc_ms, unsupported_change - 1);
-        }
+void expect_dense_tail(FinalPage tail, ForecastFailure failure, std::size_t retained_pages) {
+    SCOPED_TRACE(static_cast<int>(tail));
+    PagedZone zone;
+    dense_two(zone, tail);
+    EnteredBasis basis(zone);
+    const auto projected = basis.preview(zone, long_rule("Dense/Two"), long_horizon);
+    const auto *preview = std::get_if<ScheduledPausePreview>(&projected);
+    ASSERT_NE(preview, nullptr);
+    expect_forecast(*preview, cut_time, long_horizon, cut_time, failure);
+    EXPECT_TRUE(preview->upcoming.empty());
+    ASSERT_TRUE(preview->pause_after_cutover);
+    EXPECT_TRUE(preview->pause_after_cutover->reasons.empty());
+    expect_dense_reads(zone, "r2");
+    EXPECT_TRUE(zone.legacy_requests.empty());
+    ASSERT_EQ(preview->facts.size(), retained_pages);
+    for (std::size_t i = 0; i < retained_pages; ++i) {
+        expect_fact(preview->facts[i], page_facts(zone.replies[i]));
     }
+    if (retained_pages == 64) {
+        EXPECT_EQ(preview->facts.back().facts.through_utc_ms, unsupported_change - 1);
+    }
+}
+
+TEST(ScheduledPauseForecast, OnlyAnAttested4097thChangeCertifiesComplexity) {
+    expect_dense_tail(FinalPage::attested_cap, SupportError::beyond_supported_timezone_transitions,
+                      64);
+}
+
+TEST(ScheduledPauseForecast, TerminalPrefixAtSameBoundaryKeepsOrdinaryCoverageFailure) {
+    expect_dense_tail(FinalPage::terminal_prefix, coverage(ZoneError::insufficient_coverage), 64);
+}
+
+TEST(ScheduledPauseForecast, MalformedTransitionCapDiscardsTheProposedView) {
+    expect_dense_tail(FinalPage::malformed_cap, coverage(ZoneError::unsupported_rules), 0);
+}
+
+TEST(ScheduledPauseForecast, OversizedFinalPageKeepsOnlyEarlierPages) {
+    expect_dense_tail(FinalPage::oversized, coverage(ZoneError::limit_exceeded), 63);
 }
 
 void fold_zone(PagedZone &zone, Instant through) {
@@ -437,42 +442,43 @@ void fold_zone(PagedZone &zone, Instant through) {
                      ReachedRequestEnd{}}};
 }
 
-TEST(ScheduledPauseForecast, FoldRunsKeepTheirIdentitiesAcrossTheSharedPageBoundary) {
-    struct Case {
-        ScheduleFoldPolicy policy;
-        Instant horizon;
-        bool second;
-    };
-    constexpr std::array cases{Case{ScheduleFoldPolicy::RunTwice, fold_at, false},
-                               Case{ScheduleFoldPolicy::RunTwice, after(fold_at, 30s), true},
-                               Case{ScheduleFoldPolicy::RunOnce, after(fold_at, 30s), false}};
-    for (const auto &test : cases) {
-        SCOPED_TRACE(test.horizon);
-        PagedZone zone;
-        const auto right = after(test.horizon, 48h);
-        fold_zone(zone, right);
-        EnteredBasis basis(zone);
-        const auto config =
-            configuration("Fold/Test", {rule("fold", 13h + 30s, 30min, test.policy)});
-        const auto projected = basis.preview(zone, config, test.horizon);
-        const auto *preview = std::get_if<ScheduledPausePreview>(&projected);
-        ASSERT_NE(preview, nullptr);
-        ASSERT_FALSE(preview->incomplete);
-        expect_forecast(*preview, cut_time, test.horizon, test.horizon);
-        ASSERT_EQ(preview->upcoming.size(), test.second ? 2U : 1U);
-        const auto nominal = after(fold_at, 30s);
-        expect_row(preview->upcoming[0], key("fold", nominal), after(fold_at, -30s),
-                   after(fold_at, 29min + 30s), nominal, after(fold_at, 29min + 30s));
-        if (test.second) {
-            expect_row(preview->upcoming[1], key("fold", nominal, ScheduleFoldRun::Second), nominal,
-                       after(fold_at, 30min + 30s), nominal, after(fold_at, 30min + 30s));
-        }
-        ASSERT_EQ(preview->facts.size(), 2U);
-        expect_fact(preview->facts[0], page_facts(zone.replies[0]));
-        expect_fact(preview->facts[1], page_facts(zone.replies[1]));
-        expect_page_requests(zone, "Fold/Test", right, {lower, fold_at - 1}, "f1");
-        EXPECT_TRUE(zone.legacy_requests.empty());
+void expect_fold_forecast(ScheduleFoldPolicy policy, Instant horizon, bool includes_second) {
+    SCOPED_TRACE(horizon);
+    PagedZone zone;
+    const auto right = after(horizon, 48h);
+    fold_zone(zone, right);
+    EnteredBasis basis(zone);
+    const auto config = configuration("Fold/Test", {rule("fold", 13h + 30s, 30min, policy)});
+    const auto projected = basis.preview(zone, config, horizon);
+    const auto *preview = std::get_if<ScheduledPausePreview>(&projected);
+    ASSERT_NE(preview, nullptr);
+    ASSERT_FALSE(preview->incomplete);
+    expect_forecast(*preview, cut_time, horizon, horizon);
+    ASSERT_EQ(preview->upcoming.size(), includes_second ? 2U : 1U);
+    const auto nominal = after(fold_at, 30s);
+    expect_row(preview->upcoming[0], key("fold", nominal), after(fold_at, -30s),
+               after(fold_at, 29min + 30s), nominal, after(fold_at, 29min + 30s));
+    if (includes_second) {
+        expect_row(preview->upcoming[1], key("fold", nominal, ScheduleFoldRun::Second), nominal,
+                   after(fold_at, 30min + 30s), nominal, after(fold_at, 30min + 30s));
     }
+    ASSERT_EQ(preview->facts.size(), 2U);
+    expect_fact(preview->facts[0], page_facts(zone.replies[0]));
+    expect_fact(preview->facts[1], page_facts(zone.replies[1]));
+    expect_page_requests(zone, "Fold/Test", right, {lower, fold_at - 1}, "f1");
+    EXPECT_TRUE(zone.legacy_requests.empty());
+}
+
+TEST(ScheduledPauseForecast, FoldRunsKeepTheirIdentitiesAcrossTheSharedPageBoundary) {
+    expect_fold_forecast(ScheduleFoldPolicy::RunTwice, fold_at, false);
+}
+
+TEST(ScheduledPauseForecast, FoldRunTwiceIncludesSecondInverseAtTheHorizon) {
+    expect_fold_forecast(ScheduleFoldPolicy::RunTwice, after(fold_at, 30s), true);
+}
+
+TEST(ScheduledPauseForecast, FoldRunOnceKeepsFirstInverseAfterBothAreInRange) {
+    expect_fold_forecast(ScheduleFoldPolicy::RunOnce, after(fold_at, 30s), false);
 }
 
 TEST(ScheduledPauseForecast, EndAtChangeUsesNewOffsetAndStartAtHIsIncluded) {
@@ -577,30 +583,36 @@ TEST(ScheduledPauseForecast, FirstPageSizeAndZoneChecksPrecedeContinuity) {
     }
 }
 
-TEST(ScheduledPauseForecast, MissingContinuationRetainsOnlyCoherentPrefixAndTypedCause) {
-    for (const auto error : {ZoneError::insufficient_coverage, ZoneError::source_unavailable}) {
-        SCOPED_TRACE(static_cast<int>(error));
-        PagedZone zone;
-        const auto right = after(fold_at, 48h);
-        fold_zone(zone, right);
-        if (error == ZoneError::insufficient_coverage) {
-            zone.replies[1] = ForecastPage{facts("Fold/Test", "f1", fold_at - 1, fold_at - 1, 60),
-                                           TerminalPrefix{error}};
-        } else {
-            zone.replies[1] = error;
-        }
-        EnteredBasis basis(zone);
-        const auto config = configuration("Fold/Test", {rule("fold", 13h + 30s, 30min)});
-        const auto projected = basis.preview(zone, config, fold_at);
-        const auto *preview = std::get_if<ScheduledPausePreview>(&projected);
-        ASSERT_NE(preview, nullptr);
-        expect_forecast(*preview, cut_time, fold_at, cut_time, coverage(error));
-        EXPECT_TRUE(preview->upcoming.empty());
-        // A terminal point or a bare error leaves only the prior accepted prefix.
-        ASSERT_EQ(preview->facts.size(), 1U);
-        expect_fact(preview->facts[0], page_facts(zone.replies[0]));
-        expect_page_requests(zone, "Fold/Test", right, {lower, fold_at - 1}, "f1");
+void expect_missing_continuation(ZoneError error) {
+    SCOPED_TRACE(static_cast<int>(error));
+    PagedZone zone;
+    const auto right = after(fold_at, 48h);
+    fold_zone(zone, right);
+    if (error == ZoneError::insufficient_coverage) {
+        zone.replies[1] = ForecastPage{facts("Fold/Test", "f1", fold_at - 1, fold_at - 1, 60),
+                                       TerminalPrefix{error}};
+    } else {
+        zone.replies[1] = error;
     }
+    EnteredBasis basis(zone);
+    const auto config = configuration("Fold/Test", {rule("fold", 13h + 30s, 30min)});
+    const auto projected = basis.preview(zone, config, fold_at);
+    const auto *preview = std::get_if<ScheduledPausePreview>(&projected);
+    ASSERT_NE(preview, nullptr);
+    expect_forecast(*preview, cut_time, fold_at, cut_time, coverage(error));
+    EXPECT_TRUE(preview->upcoming.empty());
+    // A terminal point or a bare error leaves only the prior accepted prefix.
+    ASSERT_EQ(preview->facts.size(), 1U);
+    expect_fact(preview->facts[0], page_facts(zone.replies[0]));
+    expect_page_requests(zone, "Fold/Test", right, {lower, fold_at - 1}, "f1");
+}
+
+TEST(ScheduledPauseForecast, MissingContinuationRetainsOnlyCoherentPrefixAndTypedCause) {
+    expect_missing_continuation(ZoneError::insufficient_coverage);
+}
+
+TEST(ScheduledPauseForecast, BareContinuationErrorRetainsOnlyCoherentPrefixAndTypedCause) {
+    expect_missing_continuation(ZoneError::source_unavailable);
 }
 
 TEST(ScheduledPauseForecast, JoinedViewRejectsAThirdInverseAcrossTwoIndividuallyValidPages) {
@@ -643,8 +655,9 @@ TEST(ScheduledPauseForecast, BoundRevisionMustAgreeThroughoutOverlapBeforeCapCla
         EnteredBasis basis(zone, cut_time, old);
         zone.legacy_requests.clear();
         if (cap) {
-            // The old view already covers T+1 at offset zero, so this same-revision
-            // cap cannot prove a next actual change.
+            // The old-side read starts at C-1ms-48h and extends past T+1,
+            // where T = lower+2h. The retained same-r1 binding has offset zero
+            // at both endpoints, so the cap cannot attest a next change.
             const auto edge = after(lower, 2h);
             zone.replies = {
                 ForecastPage{facts(view, revision, lower, edge, 0, early), TransitionCap{}}};
