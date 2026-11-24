@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "task_id": "ANNOUNCEMENT-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 792
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/ANNOUNCEMENT-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/792",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/838",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/841",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/838#pullrequestreview-6036759331",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/838#pullrequestreview-6036760386",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/838#pullrequestreview-6036761213",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/838#pullrequestreview-6036762004",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/838#pullrequestreview-6036762839",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/841#pullrequestreview-6043198634",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/841#pullrequestreview-6043199720",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/841#pullrequestreview-6043200675",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/841#pullrequestreview-6043261160",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/792#issuecomment-7136892712"
+  ],
+  "limitations": [
+    "Stage 1 earned intended-red credit on ad52fcd1: 25 predicted first stops and five later F1 failures, with zero skips and a 7/7 loader match. Only the unchanged test oracle is bound as a current tests path. Historical registration and stub source are recorded at the tested revision.",
+    "Stage 2 earned passing credit on integrated candidate 6a5176ada27b19919b94411ad580f6c4a351e412 and runner c86adcb2c2774a72ec13b75f8be591d0bb2eff6c483ef2f8b939d15b041a4848. All 25 frozen selectors passed with zero skips and exact discovery. Seven loader paths and hashes matched independently, with zero extra, missing or unresolved. Result seal c38cba8950b3df75f699f76ca1626ab29b672e0a390ff302389d975a9dc3333a.",
+    "The earlier diagnostic on 1373def7 remains uncredited. F2 and the separate #832, #831 and #294 composition work are outside this proof."
+  ],
+  "verification": {},
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "revision": "ad52fcd12cbee7050930ed3a7f5e01e758712dc8",
+        "authors": [
+          "codex:ANNOUNCEMENT-001-stage1-test-author"
+        ],
+        "paths": [
+          "tests/acceptance/event_announcement_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-1feae5ea-2507-4393-b7d3-c6e3fde8036d",
+            "revision": "66e69cfb5a5f47f492e5e443dc5713e83bf2b95a",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/838#pullrequestreview-6036759331",
+            "findings": [
+              "F1"
+            ],
+            "blocking_findings": [
+              "F1"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/event_f1_verification",
+            "revision": "ad52fcd12cbee7050930ed3a7f5e01e758712dc8",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/838#pullrequestreview-6036760386",
+            "findings": [
+              "F1"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-ae392e6c-8555-4d85-93f1-48d39097f37e",
+            "revision": "ad52fcd12cbee7050930ed3a7f5e01e758712dc8",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/838#pullrequestreview-6036761213",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "revision": "198f706605a4ac50bbb0ba06f5271c5a42477b78",
+        "authors": [
+          "codex:ANNOUNCEMENT-001-stage2-producer-author",
+          "codex:coordinator"
+        ],
+        "paths": [
+          "docs/tasks/ANNOUNCEMENT-001.md",
+          "server/include/subathon/server/event_announcement.hpp",
+          "server/src/event_announcement_producer.cpp",
+          "server/src/event_announcement_producer.hpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-e51997ac-db21-4594-ac61-a40dfe7a138a",
+            "revision": "1373def798448bc64c90703231771c2544ab9884",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/841#pullrequestreview-6043198634",
+            "findings": [
+              "ANN001-S2-IR1-F1"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/event792_comment_verification",
+            "revision": "198f706605a4ac50bbb0ba06f5271c5a42477b78",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/841#pullrequestreview-6043199720",
+            "findings": [
+              "ANN001-S2-IR1-F1"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-7c38e725-d2ad-4e01-b80b-0cf484356fc9",
+            "revision": "198f706605a4ac50bbb0ba06f5271c5a42477b78",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/841#pullrequestreview-6043200675",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  },
+  "review": null
+}
