@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Proposed public server-side shape for #792. Draft only.
 #pragma once
 
 #include <chrono>
