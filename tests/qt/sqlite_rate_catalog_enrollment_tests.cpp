@@ -168,6 +168,7 @@ void replay(const char *historical_revision, bool permit,
     const auto original = file.rows(rate::decision_rows);
     auto modified = original;
     auto &audit = modified.front().back();
+    // Change only historical provenance. The live v1 graph and receipt fields stay fixed.
     audit = replace_revision(audit.toByteArray(), original_revision, historical_revision);
     file.write([&](const auto &session) {
         (void)session.execute(
