@@ -475,11 +475,13 @@ void seed_owning_ports(Fixture &f) {
         auto next = initial->revision;
         next.override_decision = core::PlanOverrideDecision{
             core::OverrideAuthority::authorized, "actor", "revision reason", "decision"};
-        for (std::uint64_t rev : {2, 3}) {
-            next.revision = rev;
-            next.parent_revision = rev - 1;
-            require(plans.append("P", rev - 1, next) == SqlitePlanAppendDisposition::appended,
-                    "Normal v22 legacy revision appended");
+        for (std::uint64_t rev : {1, 2, 3}) {
+            if (rev > 1) {
+                next.revision = rev;
+                next.parent_revision = rev - 1;
+                require(plans.append("P", rev - 1, next) == SqlitePlanAppendDisposition::appended,
+                        "Normal v22 legacy revision appended");
+            }
             // The older refund guard prevents creating holds via the v22 facade.
             const auto name = QString("X'%1'").arg(QString("hold-%1").arg(rev).toLatin1().toHex());
             const QVariantList key{encode_plan_revision_uint64(rev)};
@@ -731,6 +733,7 @@ void owning_port_controls(Fixture &f) {
     install_exact(reference_exact, 1, true);
     install_exact(f.file, 2, true);
     verify_exact(f.file, "010");
+    run("hold", "legacy before exact", [](auto &w) { committed_work(w, [](auto s) { hold_port(s, 1, false); }); });
     for (const auto &p : std::span(owning_ports).first<3>())
         run(p.name, "mixed", [&](auto &w) { committed_work(w, [&](auto s) { p.read(s, 3, false); }); });
     run("plan", "exact-dependent complete history", [&](auto &w) { owning_ports[0].refuse(w, plan_port, 2, true); });
@@ -739,6 +742,7 @@ void owning_port_controls(Fixture &f) {
     verify_exact(f.file, "011");
     run("bundle", "exact-dependent current revision", [&](auto &w) { owning_ports[1].refuse(w, bundle_port, 3, false); });
     verify_exact(reference_exact, "100");
+    run("plan", "legacy with exact anchor", [](auto &w) { committed_work(w, [](auto s) { plan_port(s, 2, false); }); }, &reference_exact);
     run("reference capture", "exact-dependent initial revision", [&](auto &w) { owning_ports[3].refuse(w, capture_port, 1, false); }, &reference_exact);
     require(passed, "All v23 owning-port and reader controls");
 }
