@@ -109,9 +109,47 @@ class Fixture final {
     SqliteWriter writer;
 };
 
+QByteArray cancelled_main_bytes(const QString &path) {
+    QFile file(path);
+    require(file.open(QIODevice::ReadOnly), "Open disposable main file for byte comparison");
+    auto bytes = file.readAll();
+    require(file.error() == QFileDevice::NoError && bytes.size() == file.size() &&
+                bytes.size() >= 100,
+            "Read the complete disposable main file and SQLite header");
+    require(bytes.sliced(18, 2) == QByteArray::fromHex("0202"),
+            "SQLite header read and write versions are both WAL");
+    // The WAL/DELETE round trip may update the change counter, version-valid-for
+    // number and SQLite library version. Compare all other bytes exactly.
+    bytes.replace(24, 4, QByteArray(4, '\0'));
+    bytes.replace(92, 8, QByteArray(8, '\0'));
+    return bytes;
+}
+
+void require_frameless_wal(const QString &path) {
+    const auto wal = wal_bytes(path);
+    require(wal.isEmpty() || wal.size() == 32, "WAL is empty or contains only its header");
+}
+
+void require_restored_owner(SqliteWriter &writer) {
+    auto observed = std::make_shared<std::optional<WriteResult>>();
+    require(writer.enqueue({{"PRAGMA journal_mode", {}}, {"PRAGMA foreign_keys", {}}},
+                           [observed](auto result) { *observed = std::move(result); }) ==
+                StorageError::none,
+            "Released owner admits read-only PRAGMA checks");
+    require(QTest::qWaitFor([observed] { return observed->has_value(); }, 10000),
+            "Owner delivers restored PRAGMA values");
+    const auto &result = observed->value();
+    require(result.error == StorageError::none && result.rows.size() == 2,
+            "Owner completed both PRAGMA checks");
+    expect_rows(result.rows[0], {{QString("wal")}}, "Restored owner journal_mode");
+    expect_rows(result.rows[1], {{integer(1)}}, "Restored owner foreign_keys");
+}
+
 void cancel_before_begin(Fixture &f, V23StoppedWriterLease lease, Ops02UpdateHold hold,
                          V23RebuildBudget budget = {}) {
-    const auto before = f.file_state();
+    const auto path = f.file.path();
+    const auto before = cancelled_main_bytes(path);
+    require_frameless_wal(path);
     struct Observation {
         QList<MigrationCheckpoint> checkpoints;
         int completions = 0;
@@ -138,8 +176,13 @@ void cancel_before_begin(Fixture &f, V23StoppedWriterLease lease, Ops02UpdateHol
                 result.work.transaction == TransactionOutcome::not_started && !result.report &&
                 !result.work.value,
             "One before_begin probe and one cancelled completion without a transaction or value");
-    f.require_unchanged(before);
-    auto replacement = f.reserve();
+    require(cancelled_main_bytes(path) == before, "Cancellation preserves main file contents");
+    require_frameless_wal(path);
+    require(!QFileInfo::exists(path + "-journal"), "Cancellation leaves no rollback journal");
+    {
+        auto replacement = f.reserve();
+    }
+    require_restored_owner(f.writer);
 }
 
 void zero_budget(Fixture &f, V23RebuildBudget budget) {
