@@ -429,7 +429,7 @@ class V23Rebuild final {
             throw MigrationFailure(MigrationReason::inspection_failed);
     }
 
-    // Disk and memory are decided together before the first setting change.
+    // Admit disk, memory and the full scan schedule before the first setting change.
     void admit_resources() {
         V23FixtureFacts facts{};
         const auto page_count = scalar("PRAGMA main.page_count");
@@ -553,7 +553,7 @@ class V23Rebuild final {
 
     // Inside BEGIN IMMEDIATE: recheck the exact v22 head under the fence, run
     // the five sealed statements with the copy comparison between copy and
-    // drop, verify the v23 projection, append history and verify the head.
+    // drop, verify v23 schema and integrity, append history and verify the head.
     void rebuild() {
         const auto version = compiled_version();
         if (inspect() != version - 1)
@@ -642,8 +642,7 @@ MigrationAdmission V23RebuildAccess::enqueue(V22PreOpenWitness witness, Ops02Upd
         return invalid;
     if (!completion)
         return {StorageError::invalid_work, MigrationReason::none};
-    if (budget.disk_bytes.value_or(v23_fixture_disk_bytes) > v23_fixture_disk_bytes ||
-        budget.memory_bytes.value_or(v23_fixture_memory_bytes) > v23_fixture_memory_bytes)
+    if (!v23_fixture_budget_within_ceiling(budget))
         return invalid;
     const auto *compiled = std::get_if<CompiledV23>(&compiled_v23());
     if (!compiled)

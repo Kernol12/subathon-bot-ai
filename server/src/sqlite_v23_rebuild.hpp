@@ -43,9 +43,6 @@ class V23InspectionAccess final {
     friend class testing::V23InspectionFixture;
 };
 
-inline constexpr std::uint64_t v23_fixture_disk_bytes = 83'886'080;
-inline constexpr std::uint64_t v23_fixture_memory_bytes = 184'549'376;
-
 // One bounds type for the private entry and the fixture calculator. A caller
 // value can only lower the compiled fixture ceiling.
 using V23RebuildBudget = V23FixtureBudget;

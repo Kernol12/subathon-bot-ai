@@ -29,6 +29,8 @@ struct V23FixtureEstimate {
     std::uint64_t memory_bytes;
 };
 
+[[nodiscard]] bool v23_fixture_budget_within_ceiling(V23FixtureBudget budget) noexcept;
+
 [[nodiscard]] std::optional<std::uint64_t>
 estimate_v23_fixture_scan_pages(std::uint64_t donor_pages, std::uint64_t successor_pages) noexcept;
 
