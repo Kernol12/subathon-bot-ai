@@ -422,6 +422,7 @@ jobs:
           -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;rate-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;modifier-capture;frankfurter-rates;api-031"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE=ON
+          -DSUBATHON_BUILD_STORAGE_003_STAGE1=ON
           -DSUBATHON_BUILD_STORAGE_026_STAGE1=ON
           -DSUBATHON_BUILD_STORAGE_027_STAGE1=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
@@ -492,6 +493,37 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-financial-refunds$' --no-tests=error
       - name: Run live financial refund and timer resolution acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^live-financial-refunds$' --no-tests=error
+      - name: Run and verify reviewed STORAGE-003 W1 suites
+        run: |
+          ctest --preset sqlite-reference-capture-debug \
+            -R '^storage-003-(catalog|w1-writer|w1-open-admission|w1-admission-supplement)\.suite$' \
+            --no-tests=error --verbose --test-output-size-passed 1048576 \
+            --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/storage-003-w1-results.xml"
+          python3 - <<'PYTHON'
+          import re
+          import xml.etree.ElementTree as ET
+
+          expected = {
+              "storage-003-catalog.suite": "32",
+              "storage-003-w1-writer.suite": "8",
+              "storage-003-w1-open-admission.suite": "8",
+              "storage-003-w1-admission-supplement.suite": "4",
+          }
+          root = ET.parse("build/sqlite-reference-capture-debug/storage-003-w1-results.xml").getroot()
+          cases = root.findall("testcase")
+          if len(cases) != len(expected) or {case.get("name") for case in cases} != expected.keys():
+              raise SystemExit("Expected all four unfiltered STORAGE-003 W1 suites")
+          for case in cases:
+              name = case.get("name")
+              if case.find("failure") is not None or case.find("skipped") is not None:
+                  raise SystemExit(f"{name} failed or skipped")
+              output = case.findtext("system-out", "")
+              totals = re.findall(r"^Totals:\s+(\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted,", output, re.MULTILINE)
+              if totals != [(expected[name], "0", "0", "0")]:
+                  raise SystemExit(f"{name} must pass its reviewed invocations and both Qt hooks")
+              if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
+                  raise SystemExit(f"Unexpected Qt warning in {name}")
+          PYTHON
       - name: Run durable connector intake storage acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^storage-026$' --output-on-failure --no-tests=error
       - name: Run connector intake startup and first checkpoint acceptance
