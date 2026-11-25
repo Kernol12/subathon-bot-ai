@@ -154,6 +154,25 @@ if(SUBATHON_BUILD_SQLITE_RATE_OVERRIDE_WRITER_TESTS)
         NAME sqlite-rate-override-writer SOURCES sqlite_rate_override_writer_tests.cpp
         LIBRARIES subathon_sqlite_rate_overrides subathon_sqlite_modifier_activations
         LABELS "sqlite-rate-override-writer;acceptance;qt;server" TIMEOUT 180)
+    # Decision 843.2: compile the same rate owner in an isolated fixture executable.
+    # Once the reviewed compile-time enrollment exists, bind the synthetic entry
+    # to that mechanism here, exclusively on the fixture target.
+    subathon_add_qt_suite(server_sqlite_rate_catalog_enrollment_fixture
+        NAME sqlite-rate-catalog-enrollment-fixture
+        SOURCES sqlite_rate_catalog_enrollment_tests.cpp
+            ${PROJECT_SOURCE_DIR}/server/src/sqlite_rate_overrides.cpp
+        LIBRARIES subathon_sqlite_credential_catalog subathon_sqlite_permission_graph
+            subathon_valuation_snapshot_codec subathon_rate_overrides subathon_session_resolution
+        LABELS "sqlite-rate-override-writer;acceptance;qt;server;intentional-red" TIMEOUT 180)
+    target_compile_definitions(server_sqlite_rate_catalog_enrollment_fixture
+        PRIVATE SUBATHON_RATE_CATALOG_ENROLLMENT_FIXTURE)
+
+    subathon_add_qt_suite(server_sqlite_rate_catalog_enrollment_controls
+        NAME sqlite-rate-catalog-enrollment-controls
+        SOURCES sqlite_rate_catalog_enrollment_tests.cpp
+        LIBRARIES subathon_sqlite_rate_overrides subathon_session_resolution
+        LABELS "sqlite-rate-override-writer;acceptance;qt;server" TIMEOUT 180)
+
     option(SUBATHON_BUILD_RATE_OVERRIDE_REMOVAL_STAGE1 "Build the standalone rate override removal baseline" OFF)
     if(SUBATHON_BUILD_RATE_OVERRIDE_REMOVAL_STAGE1)
         add_subdirectory(rate_override_removal)
