@@ -575,6 +575,7 @@ class V23Rebuild final {
             return read(sql, MigrationReason::inspection_failed);
         };
         verify_catalog_schema(read_catalog_schema(query), step.expected_schema);
+        verify_catalog_integrity(query);
         read(QString("INSERT INTO main.subathon_migration_history"
                      "(version,migration_id,content_sha256) VALUES (%1,'%2',X'%3')")
                  .arg(version)

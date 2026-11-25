@@ -26,6 +26,7 @@ using CatalogQuery = qxp::function_ref<SqlRows(ClockProbeQuery, const QString &)
 [[nodiscard]] QList<CatalogObject> read_catalog_schema(CatalogQuery execute);
 void verify_catalog_schema(const QList<CatalogObject> &actual,
                            const QList<CatalogObject> &expected);
+void verify_catalog_integrity(CatalogQuery execute);
 
 extern const QString header_ddl;
 extern const QString history_ddl;

@@ -141,7 +141,7 @@ class CatalogInspection final {
         verify_encoding();
         const auto schema = read_catalog_schema(execute_);
         if (schema.isEmpty()) {
-            verify_integrity();
+            verify_catalog_integrity(execute_);
             return 0;
         }
         bool header = false, history = false;
@@ -203,7 +203,7 @@ class CatalogInspection final {
         if (!manifest_.supported_starting_versions.contains(head))
             throw MigrationFailure(MigrationReason::unsupported_version);
         verify_catalog_schema(schema, manifest_.steps[head - 1].expected_schema);
-        verify_integrity();
+        verify_catalog_integrity(execute_);
         return head;
     }
 
@@ -223,19 +223,20 @@ class CatalogInspection final {
             rows[0][0].toString() != "UTF-8")
             throw MigrationFailure(MigrationReason::unsupported_encoding);
     }
-    void verify_integrity() {
-        const auto rows =
-            execute_(Query::integrity, "SELECT * FROM pragma_integrity_check() LIMIT 2");
-        if (rows.size() != 1 || rows[0].size() != 1 || !text_value(rows[0][0]) ||
-            rows[0][0].toString() != "ok")
-            throw MigrationFailure(MigrationReason::integrity_failed);
-        if (!execute_(Query::foreign_keys, "SELECT * FROM pragma_foreign_key_check() LIMIT 1")
-                 .isEmpty())
-            throw MigrationFailure(MigrationReason::integrity_failed);
-    }
 };
 
 } // namespace
+
+void verify_catalog_integrity(CatalogQuery execute) {
+    const auto rows =
+        execute(ClockProbeQuery::integrity, "SELECT * FROM pragma_integrity_check() LIMIT 2");
+    if (rows.size() != 1 || rows[0].size() != 1 || !text_value(rows[0][0]) ||
+        rows[0][0].toString() != "ok")
+        throw MigrationFailure(MigrationReason::integrity_failed);
+    if (!execute(ClockProbeQuery::foreign_keys, "SELECT * FROM pragma_foreign_key_check() LIMIT 1")
+             .isEmpty())
+        throw MigrationFailure(MigrationReason::integrity_failed);
+}
 
 QList<CatalogObject> read_catalog_schema(CatalogQuery execute) {
     const auto rows = execute(
