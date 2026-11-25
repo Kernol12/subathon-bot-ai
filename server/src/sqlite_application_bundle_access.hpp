@@ -746,9 +746,9 @@ class Access {
                 shape(row, columns.size());
                 CapturedPlanRevision r;
                 if (v23 && enumeration(row, revision_columns.size(), 1) == 1) {
-                    // An exact ancestor contributes lineage only to this legacy result.
+                    // An unselected exact revision contributes only chain metadata.
                     r = revision_key(row, ref);
-                    if (r.revision >= wanted)
+                    if (r.revision == wanted)
                         fail(Reason::invalid_stored_data);
                     validate_revision_metadata(row, r);
                 } else {
