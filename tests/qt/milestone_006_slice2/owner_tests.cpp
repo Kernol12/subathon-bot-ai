@@ -4,6 +4,8 @@
 #include <subathon/server/milestone_playback_stop.hpp>
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 
+#include <thread>
+
 namespace {
 using namespace storage_027_fixture;
 using namespace subathon::server::testing;
@@ -240,6 +242,91 @@ class Milestone006OwnerTests final : public QObject {
     Q_OBJECT
 
   private slots:
+    void idleOwnerWorkRefusesWhileQueued() {
+        QTemporaryDir dir;
+        QVERIFY(dir.isValid());
+        bool ran = false;
+        bool completed = false;
+        SqliteWriter writer;
+        QCOMPARE(writer.open(dir.filePath("owner.sqlite")), StorageError::none);
+        QCOMPARE(writer.enqueue_work(
+                     [](auto context) {
+                         context.begin().commit();
+                         return QVariant(1);
+                     },
+                     [&](auto) { completed = true; }),
+                 StorageError::none);
+        const auto result = writer.run_idle_owner_work([&](auto) {
+            ran = true;
+            return QVariant{};
+        });
+        QCOMPARE(result.transaction, TransactionOutcome::not_started);
+        QCOMPARE(result.error, WorkError::busy);
+        QVERIFY(!ran && !completed);
+        QTRY_VERIFY(completed);
+    }
+
+    void idleOwnerWorkRefusesOnForeignThreadAndDuringShutdown() {
+        QTemporaryDir dir;
+        QVERIFY(dir.isValid());
+        bool ran = false;
+        bool stopped = false;
+        SqliteWriter writer;
+        QCOMPARE(writer.open(dir.filePath("owner.sqlite")), StorageError::none);
+        const auto work = [&](auto) {
+            ran = true;
+            return QVariant{};
+        };
+        SqliteWorkResult foreign{};
+        std::thread caller([&] { foreign = writer.run_idle_owner_work(work); });
+        caller.join();
+        QCOMPARE(foreign.transaction, TransactionOutcome::not_started);
+        QCOMPARE(foreign.error, WorkError::wrong_thread);
+        QVERIFY(!ran);
+
+        QCOMPARE(writer.shutdown([&] { stopped = true; }), StorageError::none);
+        const auto stopping = writer.run_idle_owner_work(work);
+        QCOMPARE(stopping.transaction, TransactionOutcome::not_started);
+        QCOMPARE(stopping.error, WorkError::writer_unavailable);
+        QVERIFY(!ran);
+        QTRY_VERIFY(stopped);
+    }
+
+    void idleOwnerWorkReschedulesAfterFinalization() {
+        QTemporaryDir dir;
+        QVERIFY(dir.isValid());
+        SqliteWorkSession session;
+        bool ran_after_revocation = false;
+        std::optional<SqliteWorkResult> queued;
+        SqliteWriter writer;
+        QCOMPARE(writer.open(dir.filePath("owner.sqlite")), StorageError::none);
+        StorageError admitted{};
+        const auto immediate = writer.run_idle_owner_work([&](auto context) {
+            session = context.begin();
+            admitted = writer.enqueue_work(
+                [&](auto next_context) {
+                    try {
+                        (void)session.execute({"SELECT 1", {}});
+                    } catch (const SqliteWorkFailure &error) {
+                        ran_after_revocation = error.error() == WorkError::stale_session;
+                    }
+                    next_context.begin().commit();
+                    return QVariant(2);
+                },
+                [&](auto result) { queued = std::move(result); });
+            session.commit();
+            return QVariant(1);
+        });
+        QCOMPARE(admitted, StorageError::none);
+        QCOMPARE(immediate.transaction, TransactionOutcome::committed);
+        QCOMPARE(immediate.error, WorkError::none);
+        QVERIFY(!queued);
+        QTRY_VERIFY(queued.has_value());
+        QCOMPARE(queued->transaction, TransactionOutcome::committed);
+        QCOMPARE(queued->error, WorkError::none);
+        QVERIFY(ran_after_revocation);
+    }
+
     void r1CachedReleaseSelectsEffectiveCapture() {
         check([] {
             Populated f({.edit_slots = 2, .middle_bonus = true});

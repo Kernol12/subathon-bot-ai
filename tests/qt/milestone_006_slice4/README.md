@@ -59,7 +59,8 @@ and owning entry together while preserving inputs and assertions.
   retention leaves the old definition current. The product owns inserting
   the v21 definition version and targets and advancing its head. The
   existing target-edit owner demonstrates these storage relations.
-- `capture_later_group` maps to `capture_published_milestone_group`.
+- `capture_later_group` reads the published target for the synthetic crossing and
+  stages its receipt, delivery job and group through the application stores.
   This separate normal writer turn receives the exact receipt and
   occurrence identity plus score operands. It receives no selected
   milestone, target threshold, action, payload, sender, or revision.

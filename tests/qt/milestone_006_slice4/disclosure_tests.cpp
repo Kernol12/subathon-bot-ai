@@ -254,21 +254,45 @@ struct ScoreCrossing {
 void capture_later_group(const SqliteWorkSession &session, CurrentConfiguration &owner,
                          const ContributionReceipt &receipt, const ApplicationPlanKey &plan,
                          const Occurrence &occurrence, ScoreCrossing score) {
-    (void)capture_published_milestone_group(
-        session,
-        [&](const auto &s, const MilestoneDefinitionBinding &binding,
-            const subathon::core::MilestoneTarget &target)
-            -> std::optional<PublishedMilestoneAutomation> {
-            auto found = owner.resolve_automation(
-                s, {binding.track, binding.revision, binding.configuration}, target);
-            if (!found)
-                return std::nullopt;
-            auto &capture = found->capture;
-            return PublishedMilestoneAutomation{
-                std::move(capture.definition), {std::move(capture.format), std::move(capture.payload)},
-                found->sender_selection, std::move(capture.route), std::move(capture.sender)};
-        },
-        receipt, plan, occurrence, score.before, score.after);
+    // This specimen supplies a single synthetic crossing to the application
+    // capture stores. The definition and target come from the published head.
+    const auto selected = session.execute(
+        {"SELECT definition_revision,configuration_ref,milestone_ref,target_micro_points "
+         "FROM main.subathon_milestone_definition_heads JOIN "
+         "main.subathon_milestone_definition_versions "
+         "USING(installation_ref,track_ref,definition_revision) JOIN "
+         "main.subathon_milestone_definition_targets "
+         "USING(installation_ref,track_ref,definition_revision) "
+         "WHERE installation_ref=? AND track_ref=? AND target_micro_points>? "
+         "AND target_micro_points<=? ORDER BY ordinal LIMIT 2",
+         {QByteArray::fromStdString(occurrence.track.installation_ref),
+          QByteArray::fromStdString(occurrence.track.track_ref), score.before, score.after}});
+    require(selected.size() == 1, "The synthetic crossing selects one published target");
+    const auto &row = selected.front();
+    const DefinitionBinding binding{occurrence.track, row[0].toByteArray().toStdString(),
+                                    row[1].toByteArray().toStdString()};
+    const subathon::core::MilestoneTarget target{row[2].toByteArray().toStdString(),
+                                                row[3].toLongLong()};
+    const auto action = owner.resolve_automation(session, binding, target);
+    require(action.has_value(), "The capture owner resolves the published target");
+    const auto &capture = action->capture;
+    const auto &operation = std::get<ApplicationOperationKey>(occurrence.origin);
+    auto bundle = finance::File::receipt_application(session, receipt, operation.operation_ref);
+    bundle.intent.operation = operation;
+    bundle.intent.plan = plan;
+    const auto job = operation.operation_ref + "-job";
+    bundle.jobs.push_back({job, {}, occurrence.occurrence.ref, 1, {capture.format, capture.payload}});
+    require(SqliteDeliveryJobStore(session)
+                    .stage(bundle, {{job, capture.route, action->sender_selection, capture.sender,
+                                     capture.definition.action_ref, capture.definition.version_ref}})
+                    .disposition == SqliteBundleStageDisposition::staged,
+            "The application capture stages its receipt and delivery job");
+    const subathon::core::MilestoneCompletion completion{
+        target.milestone_ref, binding.revision, target.target_micro_points, score.after,
+        receipt.arrival.modifier_context_ref};
+    SqliteMilestoneGroupStore(session).stage(
+        operation, {{{completion, {capture.definition}, {}, occurrence.occurrence},
+                     {{1, {operation, job}}}}});
 }
 
 struct DisclosureFixture {
