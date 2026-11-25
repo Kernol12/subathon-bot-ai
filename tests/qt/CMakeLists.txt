@@ -417,8 +417,10 @@ if(SUBATHON_BUILD_STORAGE_021_STAGE1)
         storage_021/v23_inspection_fixture.cpp)
     target_include_directories(server_storage_021_stage1_controls PRIVATE
         "${PROJECT_SOURCE_DIR}/server/src")
+    target_compile_definitions(server_storage_021_stage1_controls PRIVATE
+        STORAGE_021_CAPTURE_VECTOR="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_reference_capture_vectors.json")
     target_link_libraries(server_storage_021_stage1_controls PRIVATE
-        subathon_sqlite_v23_rebuild subathon_contribution_review Qt6::Sql Qt6::Test)
+        subathon_sqlite_v23_rebuild subathon_contribution_review subathon_sqlite_rate_overrides Qt6::Sql Qt6::Test)
     subathon_target_options(server_storage_021_stage1_controls)
 
     add_executable(server_storage_021_stage1_negative

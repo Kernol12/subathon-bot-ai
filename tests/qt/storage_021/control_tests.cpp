@@ -1,11 +1,23 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "../storage_003/constraint_specimen.hpp"
+#include "../../fixtures/valuation_snapshot_codec_vectors.hpp"
 #include "contribution_review_writer_access.hpp"
 #include "fake_ops02_update_hold.hpp"
 #include "sqlite_v23_rebuild.hpp"
+#include "sqlite_terminal_partition.hpp"
 #include "v23_inspection_fixture.hpp"
 
 #include <QCoreApplication>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <subathon/server/contribution_review.hpp>
+#include <subathon/server/sqlite_application_plans.hpp>
+#include <subathon/server/sqlite_financial_refunds.hpp>
+#include <subathon/server/sqlite_milestone_groups.hpp>
+#include <subathon/server/sqlite_modifier_activations.hpp>
+#include <subathon/server/sqlite_rate_overrides.hpp>
+#include <subathon/server/sqlite_reference_capture.hpp>
 #include <QScopeGuard>
 #include <QStorageInfo>
 #include <QTest>
@@ -377,6 +389,359 @@ void w1_refuses_v23(Fixture &f) {
     expect_rows(read_stopped(f.file, "SELECT revision FROM subathon_clock_evidence", 2), {},
                 "W1 leaves the evidence empty");
     require_not_v22(f.file);
+}
+
+namespace core = subathon::core;
+const ReferenceInitialCapture capture{
+    {"I", {{"synthetic.reference.v1", "A"}, "N", "E"}}, {7}, {0}, "C", "X", "V", {"P", 1}, "Y"};
+
+template <class Body> void committed_work(SqliteWriter &writer, Body body) {
+    std::exception_ptr problem;
+    const auto result = writer.run_idle_owner_work([&](auto context) {
+        const auto session = context.begin();
+        try {
+            body(session);
+            session.commit();
+            return QVariant(1);
+        } catch (...) {
+            problem = std::current_exception();
+            throw;
+        }
+    });
+    if (problem)
+        std::rethrow_exception(problem);
+    expect_commit(result);
+}
+
+template <class Failure, class Reason, class Body>
+void refused_work(SqliteWriter &writer, Reason reason, Body body) {
+    bool returned = false;
+    std::optional<Reason> caught;
+    const auto result = writer.run_idle_owner_work([&](auto context) {
+        const auto session = context.begin();
+        try {
+            body(session);
+            returned = true;
+            session.commit();
+            return QVariant(1);
+        } catch (const Failure &failure) {
+            caught = failure.reason();
+            throw;
+        }
+    });
+    require(!returned && caught == reason && !result.value &&
+                result.transaction == TransactionOutcome::rolled_back &&
+                result.error == WorkError::work_exception,
+            QString("Expected typed rollback without a result; reason %1 (expected %2), work %3")
+                .arg(caught ? int(*caught) : -1)
+                .arg(int(reason))
+                .arg(int(result.error)));
+}
+
+// Use the independently frozen reference capture A SQL for intake and plan/SRX
+// prerequisites. The normal typed port admits the capture index.
+void seed_capture_rows(const SqliteWorkSession &session) {
+    QFile file(STORAGE_021_CAPTURE_VECTOR);
+    require(file.open(QIODevice::ReadOnly), "Open frozen reference capture vectors");
+    const auto a = QJsonDocument::fromJson(file.readAll()).object()["captures"].toObject()["A"].toObject();
+    for (auto part : {"intake", "capture"}) {
+        for (const auto value : a[part].toArray()) {
+            const auto row = value.toObject();
+            SqlStatement statement{row["sql"].toString(), {}};
+            for (const auto binding : row["bindings"].toArray()) {
+                const auto cell = binding.toObject();
+                const auto type = cell["type"].toString();
+                require(type == "null" || type == "blob" || type == "integer", "Frozen binding type");
+                statement.bindings.append(
+                    type == "null" ? QVariant{} : type == "blob"
+                        ? QVariant(QByteArray::fromHex(cell["hex"].toString().toLatin1()))
+                        : QVariant(cell["decimal"].toString().toLongLong()));
+            }
+            (void)session.execute(statement);
+        }
+    }
+}
+
+void seed_owning_ports(Fixture &f) {
+    require(attempt_w1(f.writer) == decltype(attempt_w1(f.writer)){SqliteBundleInitialDisposition::inserted},
+            "Ordinary W1 installs the v22 application state");
+    committed_work(f.writer, [](const auto &session) {
+        seed_capture_rows(session);
+        require(SqliteReferenceCaptureStore(session).retain_initial(capture) ==
+                    ReferenceCaptureRetainDisposition::inserted,
+                "Normal v22 reference capture admitted");
+        const SqliteApplicationPlanStore plans(session);
+        const auto initial = plans.find_revision("P", 1);
+        require(initial.has_value(), "Read the frozen initial plan");
+        auto next = initial->revision;
+        next.override_decision = core::PlanOverrideDecision{
+            core::OverrideAuthority::authorized, "actor", "revision reason", "decision"};
+        for (std::uint64_t rev : {2, 3}) {
+            next.revision = rev;
+            next.parent_revision = rev - 1;
+            require(plans.append("P", rev - 1, next) == SqlitePlanAppendDisposition::appended,
+                    "Normal v22 legacy revision appended");
+            // The older refund guard prevents creating holds via the v22 facade.
+            const auto name = QString("X'%1'").arg(QString("hold-%1").arg(rev).toLatin1().toHex());
+            const QVariantList key{encode_plan_revision_uint64(rev)};
+            (void)session.execute({"INSERT INTO subathon_hold_mutations(mutation_ref,mutation_kind,"
+                                   "subject_kind,subject_id,expected_count,entry_count) VALUES(?,0,0,zeroblob(8),0,1)",
+                                   {QByteArray("hold-") + QByteArray::number(rev)}});
+            (void)session.execute({
+                QString("INSERT INTO subathon_hold_causes(hold_ref,subject_kind,subject_id,contribution_id,"
+                        "source_receipt_id,event_ref,root_event_ref,configuration_ref,arrival_context_ref,command_scope,"
+                        "command_ref,command_format_ref,command_document,cause_kind,first_detection_ref,plan_evidence_kind,"
+                        "plan_ref,plan_revision,extent,occurrence_count,missing_policy_reason) "
+                        "VALUES(%1,0,zeroblob(8),zeroblob(8),X'0000000000000007',X'56',X'56',X'43',X'58',X'73',"
+                        "%1,X'69',X'',2,%1,0,X'50',?,0,1,X'70')").arg(name), key});
+            for (auto sql : {
+                "INSERT INTO subathon_hold_cause_observations VALUES(%1,X'41',X'6F',X'',NULL,NULL,NULL,NULL,NULL,NULL)",
+                "INSERT INTO subathon_hold_detections VALUES(%1,%1,NULL,X'7631',X'61',X'')",
+                "INSERT INTO subathon_hold_detection_observations VALUES(%1,X'41',X'6F',X'',NULL,NULL,NULL,NULL,NULL,NULL)",
+                "INSERT INTO subathon_hold_versions VALUES(%1,X'7631',1,NULL,0,%1,NULL,NULL)",
+                "INSERT INTO subathon_hold_heads VALUES(%1,X'7631',1)"})
+                (void)session.execute({QString::fromLatin1(sql).arg(name), {}});
+            (void)session.execute({
+                QString("INSERT INTO subathon_hold_occurrences SELECT %1,ordinal,action_ref,action_version_ref,"
+                        "rule_ref,target_ref,unit,exact_numerator,exact_denominator,requested_units,"
+                        "calculation_explanation FROM subathon_plan_requests WHERE plan_ref=X'50' AND revision=?")
+                    .arg(name), key});
+        }
+    });
+}
+
+// EVK1 links frozen RSV1-02, where EUR to USD is exactly 6/5.
+const QByteArray snapshot_key("S\0\xff", 3);
+const QByteArray snapshot_evk = QByteArray::fromHex(
+    "45564b31000000015200000002313000000003455552000000035553440000000136000000013501000000035300ff");
+const QByteArray exact_key_format("subathon.internal.exact-valuation-key.v1");
+void install_exact(const DisposableFile &file, std::uint64_t revision, bool wrong_fk_control) {
+    const auto name = QUuid::createUuid().toString(QUuid::WithoutBraces);
+    auto db = QSqlDatabase::addDatabase("QSQLITE", name);
+    const auto remove = qScopeGuard([&] {
+        db = {};
+        QSqlDatabase::removeDatabase(name);
+    });
+    db.setDatabaseName(file.path());
+    require(db.open(), "Open detached disposable successor specimen");
+    QSqlQuery q(db);
+    require(q.exec("PRAGMA foreign_keys=ON") && q.exec("PRAGMA foreign_keys") && q.next() &&
+                q.value(0).toInt() == 1,
+            "Detached fixture enforces foreign keys");
+    const auto update = [&](const QVariant &snapshot) {
+        require(q.prepare("UPDATE subathon_plan_revisions SET valuation_format=1,valuation_state=2,"
+                          "monetary=1,original_decimal=X'3130',currency=X'455552',resolution_ref=X'52',"
+                          "exact_format_ref=?,exact_document=?,exact_snapshot_ref=? "
+                          "WHERE plan_ref=X'50' AND revision=?"),
+                "Prepare exact specimen with otherwise identical update");
+        q.addBindValue(exact_key_format);
+        q.addBindValue(snapshot_evk);
+        q.addBindValue(snapshot);
+        q.addBindValue(encode_plan_revision_uint64(revision));
+        return q.exec();
+    };
+    if (wrong_fk_control) {
+        require(!update(QByteArray("absent-snapshot")) &&
+                    q.lastError().databaseText().contains("FOREIGN KEY constraint failed"),
+                "r3: a missing exact snapshot target refuses through the enforced FK");
+        require(q.exec("SELECT sum(valuation_format) FROM subathon_plan_revisions WHERE plan_ref=X'50'") &&
+                    q.next() && q.value(0).toInt() == 0,
+                "Wrong FK attempt left no exact row");
+        for (const QString table : {"subathon_receipts", "subathon_receipt_attempts"})
+            require(q.exec("UPDATE " + table + " SET money_original_decimal=X'3130',"
+                           "money_currency=X'455552' WHERE receipt_id=X'0000000000000007'") &&
+                        q.numRowsAffected() == 1,
+                    "Exact valuation source has matching observed EUR 10");
+        constexpr auto document = subathon::test::valuation_snapshot::populated_document;
+        require(q.exec(QString("INSERT INTO subathon_valuation_snapshots VALUES(X'5300ff',"
+                               "CAST('subathon.internal.valuation-snapshot.v1' AS BLOB),X'%1')")
+                           .arg(QByteArray(document.data(), qsizetype(document.size())).toHex())),
+                "Install independently frozen RSV1-02 snapshot");
+    }
+    require(update(snapshot_key) && q.numRowsAffected() == 1, "Install canonical snapshot-linked valuation");
+}
+void verify_exact(const DisposableFile &file, const char *tags) {
+    expect_v23_inspection(file, MigrationReason::none);
+    expect_rows(read_stopped(file, "SELECT group_concat(valuation_format,'') FROM "
+                                  "(SELECT valuation_format FROM subathon_plan_revisions "
+                                  "WHERE plan_ref=X'50' ORDER BY revision)", 1),
+                {{QString::fromLatin1(tags)}}, "Exact expected legacy/exact revision order");
+    const auto rows = read_stopped(file, "SELECT exact_format_ref,exact_document,exact_snapshot_ref,"
+                                         "historical_resolution_ref,effective_rate_decimal "
+                                         "FROM subathon_plan_revisions WHERE plan_ref=X'50' "
+                                         "AND valuation_format=1", 3);
+    for (const auto &row : rows)
+        expect_rows({row}, {{blob(exact_key_format), blob(snapshot_evk), blob(snapshot_key), {}, {}}},
+                    "Exact BLOBs, linked snapshot and absent legacy valuation scalars");
+}
+
+using Port = void (*)(const SqliteWorkSession &, std::uint64_t, bool);
+void plan_port(const SqliteWorkSession &s, std::uint64_t rev, bool chain) {
+    const SqliteApplicationPlanStore store(s);
+    if (chain) {
+        (void)store.find("P");
+        return;
+    }
+    const auto value = store.find_revision("P", rev);
+    require(value && value->plan_ref == "P" && value->revision.revision == rev &&
+                value->revision.parent_revision == (rev == 1 ? std::nullopt : std::optional{rev - 1}) &&
+                value->revision.captured.valuation.state == core::PlanValuationState::not_applicable &&
+                value->revision.captured.requested_effects.size() == 1 &&
+                value->revision.captured.requested_effects.front().requested_units == 600000,
+            "Plan returns authoritative selected legacy body and parent key");
+}
+void bundle_port(const SqliteWorkSession &s, std::uint64_t rev, bool) {
+    const auto value = SqliteApplicationBundleStore(s).read_inputs(
+        {"P", rev}, ApplicationSubjectKind::contribution);
+    require(value.disposition == SqliteBundleInputDisposition::ready && value.inputs &&
+                value.inputs->selected_plan.revision == rev &&
+                value.inputs->selected_plan.captured.requested_effects.size() == 1 &&
+                value.inputs->selected_plan.captured.requested_effects.front().requested_units == 600000 &&
+                value.inputs->current_state.token == "A" && value.inputs->current_contribution,
+            "Bundle returns authoritative legacy inputs and W1 head");
+}
+void hold_port(const SqliteWorkSession &s, std::uint64_t rev, bool) {
+    const auto name = "hold-" + std::to_string(rev);
+    const auto value = SqliteApplicationHoldStore(s).find(name);
+    require(value && value->current_version.locator.hold_ref == name &&
+                value->current_version.locator.version_ref == "v1" && value->cause.plan_evidence.plan &&
+                value->cause.plan_evidence.plan->revision == rev &&
+                value->cause.plan_evidence.occurrences.size() == 1 &&
+                value->cause.plan_evidence.occurrences.front().finalized_units == 600000,
+            "Hold returns the retained finalized occurrence and its authority");
+}
+void capture_port(const SqliteWorkSession &s, std::uint64_t, bool) {
+    const auto value = SqliteReferenceCaptureStore(s).find(capture.key);
+    require(value && value->key.source == capture.key.source &&
+                value->key.installation_ref == "I" && value->receipt_id.value == 7 &&
+                value->contribution_id.value == 0 && value->configuration_ref == "C" &&
+                value->arrival_context_ref == "X" && value->event_ref == "V" &&
+                value->plan.plan_ref == "P" && value->plan.revision == 1 &&
+                value->execution_context_ref == "Y",
+            "Reference capture returns the complete authoritative initial legacy binding");
+}
+
+struct PortCase {
+    const char *name;
+    Port read;
+    void (*refuse)(SqliteWriter &, Port, std::uint64_t, bool);
+};
+template <class Failure, class Reason>
+void refuse_exact(SqliteWriter &writer, Port read, std::uint64_t rev, bool chain) {
+    refused_work<Failure>(writer, Reason::invalid_stored_data,
+                          [&](const auto &s) { read(s, rev, chain); });
+}
+const PortCase owning_ports[] = {
+    {"plan", plan_port, refuse_exact<SqlitePlanStorageFailure, SqlitePlanStorageReason>},
+    {"bundle", bundle_port, refuse_exact<SqliteBundleStorageFailure, SqliteBundleStorageReason>},
+    {"hold", hold_port, refuse_exact<SqliteHoldStorageFailure, SqliteHoldStorageReason>},
+    {"reference capture", capture_port, refuse_exact<ReferenceCaptureStorageFailure, ReferenceCaptureStorageReason>},
+};
+
+class ReviewGrant final : public ContributionReviewFacts {
+  public:
+    AccessDecision check(const ApplicationReferenceReadView &, const ReviewAuthorityQuery &q) override {
+        checks.push_back(q.use);
+        return ApplicationAccessAllowed{"permission"};
+    }
+    std::optional<ReviewPolicyFacts> policy(const ApplicationReferenceReadView &,
+                                           const ReviewSelector &) override {
+        ++policy_calls;
+        return std::nullopt;
+    }
+    std::vector<ReviewAuthorityUse> checks;
+    int policy_calls = 0;
+};
+
+void review_refusal(SqliteWriter &writer) {
+    ReviewGrant grant;
+    ContributionReview review(writer, grant);
+    const auto result = std::make_shared<std::optional<ContributionReview::PreviewResult>>();
+    ReviewEntryIntent entry;
+    entry.selector = {{0}, {7}};
+    review.preview({{ApplicationPrincipalKind::account, "I", "reviewer"}, {entry}}, "proof",
+                   [result](auto outcome) { *result = std::move(outcome); });
+    require(QTest::qWaitFor([result] { return result->has_value(); }, 10000),
+            "Review preview delivers a completion");
+    const auto *reason = std::get_if<ReviewRefusal>(&**result);
+    require(reason && *reason == ReviewRefusal::unavailable &&
+                grant.checks == std::vector{ReviewAuthorityUse::session, ReviewAuthorityUse::batch_key} &&
+                grant.policy_calls == 0,
+            "Authorized Contribution Review reaches catalog refusal before policy projection");
+}
+
+void reader_refusals(auto run) {
+    using BF = SqliteBundleStorageFailure;
+    constexpr auto invalid_data = SqliteBundleStorageReason::invalid_stored_data;
+    run("terminal partition", [&](auto &w) {
+        refused_work<BF>(w, invalid_data, [](const auto &s) { (void)terminal_partition::selected(s); });
+    });
+    run("Contribution Review", review_refusal);
+    run("milestone", [&](auto &w) {
+        refused_work<BF>(w, invalid_data, [](const auto &s) { (void)SqliteMilestoneGroupStore(s).pending(); });
+    });
+    run("refund", [&](auto &w) {
+        refused_work<BF>(w, invalid_data, [](const auto &s) {
+            (void)SqliteFinancialRefundStore(s).lookup({"scope", "refund"});
+        });
+    });
+    run("modifier", [](auto &w) {
+        refused_work<SqliteModifierStorageFailure>(w, SqliteModifierStorageReason::invalid_stored_data,
+            [](const auto &s) { (void)SqliteModifierActivationStore(s).current_definition("modifier"); });
+    });
+    run("rates", [](auto &w) {
+        committed_work(w, [](const auto &s) {
+            const auto result = SqliteRateOverrideUnit(s).head();
+            const auto *reason = std::get_if<RateStoreRefusal>(&result);
+            require(reason && *reason == RateStoreRefusal::unavailable, "Rate head refuses with the exact variant");
+        });
+    });
+}
+
+void owning_port_controls(Fixture &f) {
+    seed_owning_ports(f);
+    commit_v23(f);
+    shutdown_writer(f.writer);
+    expect_v23_inspection(f.file, MigrationReason::none);
+    bool passed = true;
+    const auto run = [&](const char *name, const char *stage, auto body) {
+        try {
+            const auto before = f.file_state();
+            SqliteWriter writer;
+            require(writer.open(f.file.path(), setup_profile) == StorageError::none, "Normal v23 reopen");
+            std::exception_ptr failure;
+            try {
+                body(writer);
+            } catch (...) {
+                failure = std::current_exception();
+            }
+            shutdown_writer(writer);
+            f.require_unchanged(before);
+            if (failure)
+                std::rethrow_exception(failure);
+            qInfo().noquote() << name << stage << "passed";
+        } catch (const std::exception &failure) {
+            qCritical().noquote() << name << stage << failure.what();
+            passed = false;
+        }
+    };
+    for (const auto &p : owning_ports)
+        run(p.name, "legacy", [&](auto &w) { committed_work(w, [&](auto s) { p.read(s, 3, false); }); });
+    reader_refusals([&](auto name, auto body) { run(name, "reader refusal", body); });
+
+    install_exact(f.file, 2, true);
+    verify_exact(f.file, "010");
+    for (const auto &p : std::span(owning_ports).first<3>())
+        run(p.name, "mixed", [&](auto &w) { committed_work(w, [&](auto s) { p.read(s, 3, false); }); });
+    run("plan", "exact-dependent complete history", [&](auto &w) { owning_ports[0].refuse(w, plan_port, 2, true); });
+    run("hold", "exact-dependent captured revision", [&](auto &w) { owning_ports[2].refuse(w, hold_port, 2, false); });
+    install_exact(f.file, 3, false);
+    verify_exact(f.file, "011");
+    run("bundle", "exact-dependent current revision", [&](auto &w) { owning_ports[1].refuse(w, bundle_port, 3, false); });
+    install_exact(f.file, 1, false);
+    verify_exact(f.file, "111");
+    run("reference capture", "exact-dependent initial revision", [&](auto &w) { owning_ports[3].refuse(w, capture_port, 1, false); });
+    require(passed, "All v23 owning-port and reader controls");
 }
 
 QByteArray cancelled_main_bytes(const QString &path) {
@@ -867,5 +1232,6 @@ int main(int argc, char **argv) {
         w1_refuses_v23(f);
         qInfo("Passed v23 W1 staging refusal control");
     });
+    run("v23 port and reader controls", owning_port_controls);
     return passed ? 0 : 1;
 }
