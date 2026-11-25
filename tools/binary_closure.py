@@ -17,9 +17,11 @@ discovery may list GoogleTest cases first):
         --build-dir build/sqlite-reference-capture-debug --root QT_PREFIX="$QT_PREFIX"
 
 On failure (CI-004) the gate writes a `git apply` patch to --patch-out that adds or
-re-points only the missing or changed entries, and prints the error lines followed by
-that patch on stdout alone. CI uploads the patch as an artifact; the job still fails,
-and a reviewed PR commits the patch. The check itself is unchanged.
+re-points only the missing or changed entries. Its log is just that patch on stdout;
+only differences no list edit can fix print `error:` lines, before any patch. CI
+uploads the patch as an artifact; the job still fails, and a reviewed PR commits the
+patch. The check itself is unchanged. Errors that stop the check (loader diagnostics,
+unresolved names, unsupported registrations) are reported as a single error line.
 Dynamically loaded Qt plugins are outside DT_NEEDED and are not covered here.
 """
 from __future__ import annotations
@@ -137,6 +139,7 @@ def _programs(ctest: dict, build_dir: Path) -> dict[Path, set[tuple[str, ...]]]:
 @dataclass
 class TreeResult:
     errors: list[str] = field(default_factory=list)
+    unfixable: list[str] = field(default_factory=list)  # errors no list edit can fix
     closures: dict[str, list[str] | str] = field(default_factory=dict)
     digests: dict[str, str] = field(default_factory=dict)
 
@@ -161,7 +164,9 @@ def check_tree(ctest: dict, expected: dict, build_dir: Path, repo: Path,
             seen.append(sorted(name if name == path else f"{name} => {portable(path, roots)}"
                                for name, path in libraries.items()))
         if any(item != seen[0] for item in seen):
-            result.errors.append(f"{key}: closure differs between its test environments")
+            error = f"{key}: closure differs between its test environments"
+            result.errors.append(error)
+            result.unfixable.append(error)
         closures[key] = seen[0]
 
     listed = expected.get("programs", {})
@@ -267,7 +272,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{key} sha256={digest} profile={listed[key]}")
         print(f"{len(result.digests)} programs match {args.expected}")
         return 0
-    output = "".join(f"error: {error}\n" for error in result.errors)
+    output = "".join(f"error: {error}\n" for error in result.unfixable)
     fixed = render(fix_expected(expected, result.closures))
     if fixed != text:
         patch_text = make_patch(list_path.relative_to(repo).as_posix(), text, fixed)

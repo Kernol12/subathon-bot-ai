@@ -264,11 +264,17 @@ class PatchOnFailure(unittest.TestCase):
         listing = json.dumps({"tests": self.tests})
         stdout, stderr = io.StringIO(), io.StringIO()
         with patch.object(bc.subprocess, "check_output", return_value=listing), \
-                patch.object(bc, "run_ldd", lambda program, environment: self.ldd[program]), \
+                patch.object(bc, "run_ldd", self.fake_ldd), \
                 redirect_stdout(stdout), redirect_stderr(stderr):
             code = bc.main(["--expected", self.LIST, "--build-dir", "build/qt",
                             "--root", "QT_PREFIX=/opt/qt", "--patch-out", str(self.patch_out)])
         return code, stdout.getvalue(), stderr.getvalue()
+
+    def fake_ldd(self, program, environment):
+        if isinstance(self.ldd, _SwitchedLdd) and program == self.ldd.program \
+                and environment.get("CLOSURE_TEST_SWITCH"):
+            return self.ldd.switched
+        return self.ldd[program]
 
     def apply_patch(self):
         subprocess.run(["git", "apply", str(self.patch_out)], cwd=self.repo, check=True)
@@ -286,7 +292,7 @@ class PatchOnFailure(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertEqual(stderr, "")
         patch_text = self.patch_out.read_text(encoding="utf-8")
-        self.assertEqual(stdout, "error: build/qt/tests/child_helper: registered but not listed\n" + patch_text)
+        self.assertEqual(stdout, patch_text)
         self.assertTrue(patch_text.startswith(f"diff --git a/{self.LIST} b/{self.LIST}\n"))
         self.assertEqual(self.changed_lines(patch_text),
                          (['+    "build/qt/tests/child_helper": "static",'], []))
@@ -295,6 +301,21 @@ class PatchOnFailure(unittest.TestCase):
         self.patch_out.unlink()
         self.assertEqual(self.run_gate()[0], 0)
         self.assertFalse(self.patch_out.exists())
+
+    def test_unfixable_differences_print_their_errors_before_the_patch(self):
+        self.write_list(STARTING_LIST)
+        moved = LDD_QT.replace("/opt/qt/lib/libQt6Core.so.6", "/elsewhere/libQt6Core.so.6")
+        self.tests.append({"name": "b", "command": [str(self.writer)], "properties": [
+            {"name": "ENVIRONMENT", "value": ["CLOSURE_TEST_SWITCH=1"]}]})
+        ldd = self.ldd
+        self.ldd = _SwitchedLdd(ldd, str(self.writer), moved)
+        code, stdout, stderr = self.run_gate()
+        self.assertEqual((code, stderr), (1, ""))
+        patch_text = self.patch_out.read_text(encoding="utf-8")
+        self.assertEqual(stdout, "error: build/qt/tests/writer_tests: closure differs between"
+                                 " its test environments\n" + patch_text)
+        self.assertTrue(patch_text.startswith("diff --git "))
+        self.assertIn('+    "build/qt/tests/child_helper": "static",', patch_text)
 
     def test_changed_closure_gets_a_new_profile_and_leaves_the_shared_one(self):
         self.write_list(LIST_WITH_CHILD)
@@ -340,6 +361,14 @@ class PatchOnFailure(unittest.TestCase):
                 with self.assertRaises(bc.ClosureError):
                     self.run_gate()
                 self.assertFalse(self.patch_out.exists())
+
+
+class _SwitchedLdd(dict):
+    """Fake loader answers; one program resolves differently under CLOSURE_TEST_SWITCH."""
+
+    def __init__(self, answers, program, switched):
+        super().__init__(answers)
+        self.program, self.switched = program, switched
 
 
 STARTING_LIST = """{
