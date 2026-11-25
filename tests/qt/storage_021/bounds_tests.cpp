@@ -8,6 +8,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QStorageInfo>
+#include <QTextStream>
 
 namespace {
 using namespace storage_003_fixture;
@@ -98,6 +99,22 @@ void verify_extent(const FixtureSql &sql, int pages) {
             "Exact donor page size, extent and auto-vacuum mode");
 }
 
+void verify_runtime_prerequisites(const DisposableFile &donor) {
+    FixtureSql sql(donor.path(), true);
+    sql.open();
+    verify_extent(sql, 1024);
+    const auto version = sql.scalar("SELECT sqlite_version()").toString();
+    const auto source = sql.scalar("SELECT sqlite_source_id()").toString();
+    require(sql.scalar("SELECT sqlite_compileoption_used('TEMP_STORE=1') OR "
+                       "sqlite_compileoption_used('TEMP_STORE=2') OR "
+                       "sqlite_compileoption_used('TEMP_STORE=3')")
+                    .toInt() == 1,
+            "QSQLITE runtime admits MEMORY temporary storage");
+    QTextStream(stderr) << "QSQLITE version=" << version << " source_id=" << source
+                        << " page_size=4096 auto_vacuum=0 TEMP_STORE admitted"
+                        << Qt::endl;
+}
+
 void assemble_donor(const DisposableFile &file, int pages) {
     file.create_blank();
     const auto manifest = compiled_successor();
@@ -180,8 +197,10 @@ void check_bounds(const DisposableFile &donor, const BoundCase &test) {
     QByteArray before;
     {
         SqliteWriter writer;
+        // Successful open includes the owner's readbacks of WAL, FULL,
+        // foreign_keys=ON and busy_timeout=0 on its actual connection.
         require(writer.open(file.path(), setup_profile) == StorageError::none,
-                "Open ordinary owner on the authenticated donor");
+                "Open verifies ordinary owner settings on the authenticated donor");
         require(QFileInfo(file.path() + "-wal").size() == 0 &&
                     QFileInfo(file.path() + "-shm").size() == 0 &&
                     !QFileInfo::exists(file.path() + "-journal"),
@@ -279,6 +298,7 @@ int main(int argc, char **argv) {
                    "729cec12d8abada51bb92459f5bb1f8b4580a236c585be29cf6ce08669218d11", smaller);
         load_donor("v22-1025.sqlite",
                    "e34c69cbaa282f18f173b52e4051688c6523e7f2f9315f271bffb59ca85b01da", larger);
+        verify_runtime_prerequisites(smaller);
         bool passed = true;
         for (const auto &test : cases) {
             try {
