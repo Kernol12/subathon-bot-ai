@@ -298,24 +298,21 @@ void refuse_v23_reopen(const DisposableFile &file, MigrationReason expected) {
     const auto before = file.seal();
     SqliteWriter owner;
     const auto opened = owner.open(file.path(), setup_profile);
-    require(opened == StorageError::none || opened == StorageError::open_failed,
-            "Normal open either refuses or permits inspection only");
-    if (opened == StorageError::none) {
-        const auto calls = std::make_shared<int>(0);
-        const auto admission = SqliteMigrationRunner::enqueue(
-            owner, request(MigrationMode::advance, compiled_successor()),
-            [calls](auto) { ++*calls; });
-        bool ran = false;
-        const auto work = owner.run_idle_owner_work([&](auto) {
-            ran = true;
-            return 1;
-        });
-        shutdown_writer(owner);
-        expect_admission(admission, {StorageError::invalid_options, expected});
-        require(*calls == 0 && !ran && work.error == WorkError::protocol_error &&
-                    work.transaction == TransactionOutcome::not_started && !work.value,
-                "Unusable store runs no ordinary migration or idle work");
-    }
+    require(opened == StorageError::none, "Normal open permits typed inspection-only refusal");
+    const auto calls = std::make_shared<int>(0);
+    const auto admission = SqliteMigrationRunner::enqueue(
+        owner, request(MigrationMode::advance, compiled_successor()),
+        [calls](auto) { ++*calls; });
+    bool ran = false;
+    const auto work = owner.run_idle_owner_work([&](auto) {
+        ran = true;
+        return 1;
+    });
+    shutdown_writer(owner);
+    expect_admission(admission, {StorageError::invalid_options, expected});
+    require(*calls == 0 && !ran && work.error == WorkError::protocol_error &&
+                work.transaction == TransactionOutcome::not_started && !work.value,
+            "Unusable store runs no ordinary migration or idle work");
     require(file.seal() == before && !QFileInfo::exists(file.path() + "-journal"),
             "Refused reopen leaves the stopped store unchanged");
 }
