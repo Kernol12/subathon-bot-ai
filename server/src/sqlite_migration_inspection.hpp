@@ -56,6 +56,22 @@ class ClockAdvanceExecution final {
         SqliteWriter &, MigrationRequest, const ClockPreOpenWitness &, ClockAdvanceCompletion);
 };
 
+class CatalogWriterAccess final {
+  public:
+    // Private queue policy runs before the migration body, with the live mode.
+    // False skips the body and delivers the default not-started work result.
+    // The migration completion adapter supplies the request's refusal reason.
+    using DequeueCheck = std::function<bool(bool governing)>;
+    [[nodiscard]] static bool verified_v22(const SqliteWorkSession &);
+
+  private:
+    friend class MigrationExecution;
+    static MigrationAdmission enqueue(SqliteWriter &, MigrationMode, bool governing_allowed,
+                                      SqliteWriter::Work, SqliteWriter::WorkCompletion,
+                                      DequeueCheck);
+    static void verified_advance(const SqliteWorkSession &);
+};
+
 inline constexpr qint32 clock_predecessor_version = 21;
 using ClockInspectionQuery = std::function<SqlRows(ClockProbeQuery, const QString &)>;
 

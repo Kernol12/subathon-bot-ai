@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "task_id": "RATES-014",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 843
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/RATES-014.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/843",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/858",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/843#issuecomment-7150987050",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/858#pullrequestreview-6052870420",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/858#pullrequestreview-6052835181",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45553717786/job/139000661477",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45556122463/job/139008476061"
+  ],
+  "limitations": [
+    "The independent test packet at 5bfd9546 produced two intended behavioral failures and three passing controls with zero skips. Its historical CMake registration is documented in the tests receipt; the surviving test source provides the current path binding.",
+    "The independent initial implementation review approved 12bf63bd. Owner-object segregation passed 47/47. Local attempts 1\u20133 stopped on harness defects; attempt 4 passed fixture 4/0/0 and controls 5/0/0, both exit 0. Exact-head Qt CI passed both enrollment programs and the existing rate writer and catalog suites, with 69 closure matches.",
+    "All seven required checks passed at 452f3acb in run 45556122463. Qt tested merge commit 5675af8a. The newer main revision 0bb9d3d6 changes only ADR documentation.",
+    "Synthetic extension evidence uses disposable SQLite. Real extension enrollment, cross-revision execution and enrolled-extension authorization controls remain with #221. No live or platform verification is claimed."
+  ],
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "revision": "5bfd9546e350157cc49f6726358ac08a1f168446",
+        "authors": [
+          "codex:RATES-014-tests-author"
+        ],
+        "paths": [
+          "tests/qt/sqlite_rate_catalog_enrollment_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:RATES-014-tests-initial",
+            "revision": "c879615951f668fcea680ef67b6cf834257e5b96",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/858#pullrequestreview-6052870420",
+            "findings": [
+              "B1"
+            ],
+            "blocking_findings": [
+              "B1"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/verify_843_tests_5bfd9546",
+            "revision": "5bfd9546e350157cc49f6726358ac08a1f168446",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/858#pullrequestreview-6052870420",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:RATES-014-tests-closing",
+            "revision": "5bfd9546e350157cc49f6726358ac08a1f168446",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/858#pullrequestreview-6052870420",
+            "findings": [
+              "843-TC-1",
+              "843-TC-2",
+              "843-TC-3"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "revision": "452f3acb8fa100d5f2d34d8737835ca49a04808f",
+        "authors": [
+          "codex:RATES-014-implementation-author",
+          "codex:RATES-014-coordinator"
+        ],
+        "paths": [
+          ".github/workflows/ci.yml",
+          "docs/tasks/RATES-014.md",
+          "server/include/subathon/server/sqlite_rate_overrides.hpp",
+          "server/src/sqlite_rate_overrides.cpp",
+          "tests/qt/CMakeLists.txt",
+          "tests/qt/sqlite_rate_catalog_enrollment_tests.cpp",
+          "tools/binary_closures/sqlite-reference-capture-debug.json"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:RATES-014-implementation-initial",
+            "revision": "12bf63bd3834984eea917f7a2efbab50d801dece",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/858#pullrequestreview-6052835181",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/verify_843_452f3ac",
+            "revision": "452f3acb8fa100d5f2d34d8737835ca49a04808f",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/858#pullrequestreview-6052835181",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:RATES-014-implementation-closing",
+            "revision": "452f3acb8fa100d5f2d34d8737835ca49a04808f",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/858#pullrequestreview-6052835181",
+            "findings": [
+              "G1",
+              "G2",
+              "N1",
+              "N2"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  }
+}

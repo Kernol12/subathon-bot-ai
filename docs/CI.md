@@ -26,7 +26,10 @@ for focused local runs; `core-acceptance-debug` selects the same suites together
   `tools/binary_closures/<build tree>.json` and fails on any difference
   ([ADR-0013](decisions/0013-ci-test-program-admission.md)). CTest's discovery may
   list GoogleTest cases first. Update the list in the PR that changes a program's
-  libraries or a prefix.
+  libraries or a prefix. On failure the gate logs only a `git apply` patch containing
+  the missing or changed entries; differences no list edit can fix log `error:` lines
+  first. The job uploads the patch as the `closure-patches-core` or
+  `closure-patches-qt` artifact (CI-004) and still fails.
 - Never use `WILL_FAIL`, continue-on-error, skips or failure inversion to hide a
   failure. Every stable suite fails on empty discovery. The `core` job checks that
   each of its twelve suites is discovered with its labels and timeouts intact.

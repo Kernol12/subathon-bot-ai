@@ -2,6 +2,8 @@
 #include "permission_graph_codec.hpp"
 #include "sqlite_rate_override_codec.hpp"
 
+#include <QCryptographicHash>
+
 #include <algorithm>
 #include <array>
 #include <limits>
@@ -98,7 +100,49 @@ namespace {
 using namespace rate_sql;
 constexpr auto invalid_input = Refusal::invalid_proposal;
 constexpr auto rate_operation = "rates.override.edit.v1";
-constexpr auto rate_catalog = "permission-rates-v1";
+// Reviewed rate operations have one resource slot, no quantities and no helper.
+struct RateOperationShape {
+    std::string_view operation;
+    core::PermissionOperationClass classification;
+    std::string_view resource_slot;
+
+    bool operator==(const RateOperationShape &) const = default;
+
+    bool matches(const core::PermissionOperationDefinition &definition) const {
+        return definition.operation == operation && definition.classification == classification &&
+               definition.resource_slots.size() == 1 &&
+               definition.resource_slots.front() == resource_slot &&
+               definition.quantity_slots.empty() && !definition.helper_target_slot;
+    }
+};
+
+constexpr RateOperationShape rate_edit_v1_shape{rate_operation,
+                                                core::PermissionOperationClass::ordinary, "pair"};
+
+struct RateCatalogEnrollment {
+    std::string_view revision;
+    const char *trust_sha256_hex;
+    RateOperationShape shape;
+};
+
+// Append reviewed revisions with their canonical full-trust SHA-256 and operation shape.
+// Existing entries are immutable because retained audits store only the revision.
+constexpr RateCatalogEnrollment rate_catalog_enrollments[]{
+    {"permission-rates-v1", "5a3cca3bc37dd2d9db60065352145ae4561112441e9bd45f0be01cccb6352ce0",
+     rate_edit_v1_shape},
+#ifdef SUBATHON_RATE_CATALOG_ENROLLMENT_FIXTURE
+    {"permission-rates-fixture-843",
+     "3cf08fb4299e4f4ee6f6882f016d60b709eccf3828dbcc2d8e6fc529a6c420f8", rate_edit_v1_shape},
+#endif
+};
+
+const RateCatalogEnrollment *rate_catalog_enrollment(std::string_view revision) {
+    const auto *entry =
+        std::ranges::find(rate_catalog_enrollments, revision, &RateCatalogEnrollment::revision);
+    return entry != std::end(rate_catalog_enrollments) && entry->shape == rate_edit_v1_shape
+               ? entry
+               : nullptr;
+}
 
 std::string pair_scope(std::string_view left, std::string_view right) {
     if (byte_less(right, left))
@@ -211,19 +255,34 @@ AuthorityAudit authorize(const SqliteWorkSession &session, RateAuthoritySource &
     require(graph.revision > 0 && graph.use.state == PermissionFactsState::complete &&
                 graph.grant.state == PermissionFactsState::complete,
             Refusal::unavailable);
-    auto expected = reference_permission_graph_trust();
-    expected.catalog.revision = rate_catalog;
-    expected.catalog.operations.push_back(
-        {rate_operation, PermissionOperationClass::ordinary, {"pair"}, {}, {}});
-    const PermissionGraphLimits graph_limits;
-    const auto matches = [](const auto &candidate, const QByteArray &canonical) {
-        permission_graph::Encoder check{view(canonical)};
-        check(candidate);
-        check.finish();
+    const auto expected = reference_permission_graph_trust();
+    const auto binding_matches = [](const auto &candidate, const auto &reviewed) {
+        return candidate.operation == reviewed.operation &&
+               candidate.target_slot == reviewed.target_slot;
     };
+    require(binding_matches(trust.role_edit, expected.role_edit) &&
+                binding_matches(trust.membership_edit, expected.membership_edit) &&
+                binding_matches(trust.override_edit, expected.override_edit),
+            Refusal::unavailable);
+    const PermissionGraphLimits graph_limits;
     try {
-        matches(trust, permission_graph::encode(expected, graph_limits));
-        matches(graph.catalog, permission_graph::encode(expected.catalog, graph_limits));
+        const auto canonical_trust = permission_graph::encode(trust, graph_limits);
+        permission_graph::Encoder comparison{view(canonical_trust)};
+        // The persisted full trust starts with its catalog. Compare that prefix against
+        // the snapshot, then consume the management bindings to verify the whole encoding.
+        comparison(graph.catalog, trust.role_edit, trust.membership_edit, trust.override_edit);
+        comparison.finish();
+
+        const auto *enrollment = rate_catalog_enrollment(graph.catalog.revision);
+        require(enrollment &&
+                    QCryptographicHash::hash(canonical_trust, QCryptographicHash::Sha256).toHex() ==
+                        enrollment->trust_sha256_hex,
+                Refusal::unavailable);
+        const auto operation = std::ranges::find(graph.catalog.operations, rate_operation,
+                                                 &PermissionOperationDefinition::operation);
+        require(operation != graph.catalog.operations.end() &&
+                    enrollment->shape.matches(*operation),
+                Refusal::unavailable);
         // Bound both borrowed policy channels before inspecting or projecting them.
         permission_graph::Projection projection{graph_limits, graph_limits.selected_bytes};
         projection(graph.use, graph.grant, graph.current_installation, graph.current_accounts);
@@ -760,7 +819,7 @@ bool matches_decision_row(const SqlRow &row, const auto &audit) {
            view(row[2].toByteArray()) == audit.operation &&
            view(row[3].toByteArray()) == audit.base &&
            view(row[4].toByteArray()) == audit.successor &&
-           audit.authority.catalog == rate_catalog && audit.authority.graph_revision > 0 &&
+           rate_catalog_enrollment(audit.authority.catalog) && audit.authority.graph_revision > 0 &&
            audit.base != audit.successor && audit.successor != "E";
 }
 

@@ -29,33 +29,21 @@ while continuing independent work not blocked. Pre-build/test CI infrastructure
 allows one recorded rerun; routine in-scope choices, self-caught mistakes and
 filing planned issues are not stops.
 
-**Standing test-binary admission.** Since [ADR-0013](../docs/decisions/0013-ci-test-program-admission.md)
-(trial for ten tasks), CI admits programs of suites that a CI job runs; credited
-passes are CI on the reviewed head and intended red is one plain local run. The
-procedure below applies only to credited local runs of suites that no CI job runs.
-Apply it to each such Qt or GoogleTest binary using its own closure. Record passive ELF/ABI and dependency
-hashes for the exact binary. Run the first real test with bounded loader and
-plugin logs, reconcile all loaded objects and their hashes before crediting the
-result, then check hashes again. Any mismatch voids the run. Changes to the procedure, tooling, modes or
-native-supervisor debug variables require the owner under rule 4(e).
+**Test runs.** Since [ADR-0014](../docs/decisions/0014-plain-test-runs-and-leaner-tasks.md)
+a credited pass is required CI on the reviewed head and intended red is one plain
+local run recorded in the PR with commit, command and failure summary. A suite that
+no CI job runs joins a CI job in its implementation PR. The former standing
+test-binary admission, its `readelf` rules and the pinned local runs are retired;
+their records keep their recorded meaning. No merge hold or pin is set for a test
+run. The #588 merge hold of 2026-11-25 is released.
 
 Before the first review packet for either stage, run each candidate suite once
-([AGENT_WORKFLOW](../docs/AGENT_WORKFLOW.md)); these runs earn no test evidence
-and need no admission. For a suite that no CI job runs, admit each reviewed
-binary before its credited local run.
+([AGENT_WORKFLOW](../docs/AGENT_WORKFLOW.md)); these runs earn no test evidence.
 
-Apply log size caps only to captured log files, including admission logs.
 Test processes and their children run without a process file-size limit.
 The owner’s BUILD-002 diagnostic reproduced SIGXFSZ at a 1,048,576-byte
-SQLite WAL under the inherited cap. The original
+SQLite WAL under an inherited cap. The original
 `example8_twoEvents` observation remains in the ledger as a harness fault.
-
-Record `readelf` checks of both `.dynsym` and `.symtab` for Drogon
-`native_profile` Session symbols. The consumer Session RTTI export check applies
-if either table contains a defined or imported Session symbol. Retain all other
-checks, including imports, versions, SONAMEs, selected SDK identity and exports,
-the SDK's own Session RTTI and marker, hashes and loader reconciliation. External
-compiler and system-header pre-build hashes are outside this procedure.
 
 ### Structure review of `199dc02` (owner decision 2026-11-18)
 
@@ -157,7 +145,7 @@ The owner stopped #715 after its [one hosted experiment](https://github.com/Kern
 - The board carries work status and the [root instructions](../AGENTS.md) set
   slot limits. Keep concurrent tasks out of each other's owned files. The
   coordinator owns shared CMake, CI, acceptance map and checkpoint.
-- Serialize local test execution and exact-binary admission. Builds and
+- Serialize local test execution. Builds and
   reviews may overlap. At a provider limit, pause and retry the same provider
   on the next active turn.
 - Main CI stops new work on a build or test failure. A failure in
@@ -328,8 +316,8 @@ running sessions, completed reviews and receipts retain their original models.
   This supersedes the old9+1 pending101 tuple criterion, whose evidence is retained.
   C017-V1 cleanup-loss finding was resolved and reviewed at `d9875341`
   ([closing](https://github.com/Kernol12/subathon-bot-ai/pull/690#issuecomment-6943014022)).
-- Loaded sampling restarts from the beginning after an approved amendment and
-  fresh admission. **No builds or other heavy work anywhere on the machine during
+- Loaded sampling restarts from the beginning after an approved amendment; the
+  former fresh admission before it is retired by ADR-0014. **No builds or other heavy work anywhere on the machine during
   loaded sampling**; earlier concurrent CPU2/3 build permission is superseded.
   Keep inner setup attempts/misses separate from established product outcomes.
   Any product assertion or exhausted-witness failure stops for owner; no outer retry.
@@ -339,13 +327,14 @@ running sessions, completed reviews and receipts retain their original models.
   tooling required a separate owner decision before authoring.
 - The control-only launcher is ignored evidence, never committed and unused by
   CI. Retain its hash-bound bytes outside #690 to preserve the completed sample's
-  evidence. The advisor may approve a run script for one task's run with
-  independent review before execution. It must stay in that task's ignored
-  build folder, remain uncommitted and unused by CI, derive from a reviewed
-  script or be small glue, and preserve every check, isolation boundary and
-  assertion. Name it in the report for the advisor's digest. Escalate reusable
-  tools, anything under `tools/`, committed scripts or tooling, and CI changes
-  to the owner before authoring. See [the advisor rule](../docs/ADVISOR.md).
+  evidence. Since ADR-0014 a run script for one task needs no approval when it
+  is routine run mechanics as [the advisor page](../docs/ADVISOR.md) defines
+  them (it changes no test's isolation, needs no sandbox exception and weakens
+  no check or assertion), stays in that task's ignored build folder and remains
+  uncommitted and unused by CI. Escalate reusable tools, anything under
+  `tools/`, committed scripts or tooling, and CI changes to the owner before
+  authoring. The one exception is adding a suite to its existing CI job with
+  its library-list entry, which is routine task work.
 - The owner authorized the completed fresh N5 scenario/sampling investigation
   and unchanged 20-run historical diagnosis in parallel, with paired delivery.
   These diagnostic results do not resume acceptance or authorize the proposed

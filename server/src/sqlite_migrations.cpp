@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "sqlite_migration_inspection.hpp"
+#include "sqlite_v22_catalog.hpp"
 
 #include <QCryptographicHash>
 #include <QSet>
@@ -116,6 +117,24 @@ QList<QByteArray> preflight(MigrationRequest &request) {
     return hashes;
 }
 
+// Preflight binds each canonical step's SQL, ID and projection to its digest.
+bool canonical_v22(const MigrationManifest &manifest, const QList<QByteArray> &hashes) {
+    const auto &head = detail::sqlite_v22_catalog();
+    const auto count = static_cast<qsizetype>(head.steps.size());
+    if (manifest.catalog_format != head.format ||
+        manifest.store_identity != QLatin1StringView(head.store.data(), head.store.size()) ||
+        hashes.size() != count || manifest.supported_starting_versions.size() != count + 1)
+        return false;
+    for (qsizetype i = 0; i < count; ++i) {
+        const auto hex = head.steps[static_cast<std::size_t>(i)].content_sha256_hex;
+        if (manifest.supported_starting_versions[i + 1] != i + 1 ||
+            hashes[i] != QByteArray::fromHex(QByteArray::fromRawData(
+                             hex.data(), static_cast<qsizetype>(hex.size()))))
+            return false;
+    }
+    return true;
+}
+
 struct GuardedAdvance {
     detail::ClockPreOpenWitness witness;
     const MigrationManifest compiled_manifest;
@@ -127,6 +146,7 @@ struct GuardedAdvance {
 struct RequestState {
     std::optional<GuardedAdvance> guard;
     MigrationReason reason{MigrationReason::none};
+    bool inspect_current_only{false};
     std::optional<MigrationReport> report;
     void remember(MigrationReason value) noexcept {
         if (reason == MigrationReason::none)
@@ -180,6 +200,31 @@ class MigrationExecution final {
     }
 
   public:
+    static MigrationAdmission enqueue(SqliteWriter &writer, const MigrationRequest &request,
+                                      const QList<QByteArray> &hashes,
+                                      const std::shared_ptr<RequestState> &state,
+                                      SqliteWriter::Work work,
+                                      SqliteWriter::WorkCompletion completion) {
+        const auto mode = request.mode;
+        const bool generic_advance = mode == MigrationMode::advance && !state->guard;
+        const bool governing_allowed = !generic_advance || canonical_v22(request.manifest, hashes);
+        CatalogWriterAccess::DequeueCheck check;
+        if (generic_advance) {
+            check = [state, governing_allowed](bool governing) noexcept {
+                if (!governing)
+                    return true;
+                if (!governing_allowed) {
+                    state->remember(MigrationReason::invalid_manifest);
+                    return false;
+                }
+                state->inspect_current_only = true;
+                return true;
+            };
+        }
+        return CatalogWriterAccess::enqueue(writer, mode, governing_allowed, std::move(work),
+                                            std::move(completion), std::move(check));
+    }
+
     MigrationExecution(const MigrationRequest &request, const QList<QByteArray> &hashes,
                        RequestState &state)
         : request_(request), hashes_(hashes), state_(state) {}
@@ -191,9 +236,12 @@ class MigrationExecution final {
             const auto old_version =
                 state_.guard ? inspect_guarded_predecessor(*state_.guard)
                              : inspect_store(request_.manifest, hashes_, catalog_query());
+            const auto target = static_cast<qint32>(request_.manifest.steps.size());
+            if (state_.inspect_current_only && old_version != target)
+                throw MigrationFailure(MigrationReason::catalog_mismatch);
             qint32 final_version = old_version;
             qsizetype applied = 0;
-            if (request_.mode == MigrationMode::advance) {
+            if (request_.mode == MigrationMode::advance && !state_.inspect_current_only) {
                 const auto *compiled = state_.guard ? &state_.guard->compiled_manifest : nullptr;
                 if (old_version == 0)
                     bootstrap();
@@ -220,8 +268,9 @@ class MigrationExecution final {
             if (state_.guard && applied != 0)
                 verify_empty_checkpoint();
             probe(MigrationCheckpoint::before_commit, final_version, 0);
+            if (state_.guard && applied != 0)
+                CatalogWriterAccess::verified_advance(session_);
             session_.commit();
-            const auto target = static_cast<qint32>(request_.manifest.steps.size());
             MigrationReport report{final_version == 0       ? CatalogState::fresh
                                    : final_version < target ? CatalogState::upgrade_required
                                                             : CatalogState::current,
@@ -424,10 +473,15 @@ MigrationAdmission enqueue_migration(SqliteWriter &writer, MigrationRequest requ
         return {StorageError::invalid_work, MigrationReason::none};
     if (!state)
         state = std::make_shared<RequestState>();
-    auto error = writer.enqueue_work(
-        [request = std::move(request), hashes = std::move(hashes),
-         state](SqliteWorkContext context) {
-            return detail::MigrationExecution(request, hashes, *state).run(context);
+    struct Input {
+        MigrationRequest request;
+        QList<QByteArray> hashes;
+    };
+    const auto input = std::make_shared<const Input>(Input{std::move(request), std::move(hashes)});
+    return detail::MigrationExecution::enqueue(
+        writer, input->request, input->hashes, state,
+        [input, state](SqliteWorkContext context) {
+            return detail::MigrationExecution(input->request, input->hashes, *state).run(context);
         },
         [state, completion = std::move(completion)](SqliteWorkResult work) {
             auto reason = state->reason;
@@ -443,7 +497,6 @@ MigrationAdmission enqueue_migration(SqliteWriter &writer, MigrationRequest requ
                 report = state->report;
             completion({std::move(work), reason, std::move(report)});
         });
-    return {error, MigrationReason::none};
 }
 } // namespace
 
