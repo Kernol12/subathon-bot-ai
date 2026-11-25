@@ -29,6 +29,9 @@ struct V23FixtureEstimate {
     std::uint64_t memory_bytes;
 };
 
+[[nodiscard]] std::optional<std::uint64_t>
+estimate_v23_fixture_scan_pages(std::uint64_t donor_pages, std::uint64_t successor_pages) noexcept;
+
 // The owner supplies observed facts from its authenticated stopped donor.
 // An absent estimate refuses the fixture prior to any connection control.
 [[nodiscard]] std::optional<V23FixtureEstimate>

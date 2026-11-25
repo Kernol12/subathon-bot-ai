@@ -17,6 +17,11 @@ constexpr std::uint64_t journal_header_reserve = 65'536;
 
 } // namespace
 
+std::optional<std::uint64_t> estimate_v23_fixture_scan_pages(std::uint64_t,
+                                                             std::uint64_t) noexcept {
+    return std::nullopt;
+}
+
 std::optional<V23FixtureEstimate> admit_v23_fixture_bounds(const V23FixtureFacts &facts,
                                                            V23FixtureBudget budget) noexcept {
     const auto disk_limit = budget.disk_bytes.value_or(fixture_disk_bytes);

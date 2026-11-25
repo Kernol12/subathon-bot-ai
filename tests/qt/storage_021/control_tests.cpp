@@ -10,6 +10,7 @@
 #include <QStorageInfo>
 #include <QTest>
 
+#include <limits>
 #include <thread>
 #include <type_traits>
 
@@ -678,6 +679,19 @@ int main(int argc, char **argv) {
         return 1;
     }
     bool passed = true;
+    constexpr auto max_pages = std::numeric_limits<std::uint64_t>::max();
+    if (estimate_v23_fixture_scan_pages(donor_pages, staged_extent) != exact_scan_pages) {
+        qCritical("Scan calculator must count the donor and successor passes");
+        passed = false;
+    }
+    if (estimate_v23_fixture_scan_pages(0, max_pages / 5) != max_pages) {
+        qCritical("Scan calculator must admit an exact UINT64_MAX result");
+        passed = false;
+    }
+    if (estimate_v23_fixture_scan_pages(1, max_pages / 5).has_value()) {
+        qCritical("Scan calculator must refuse when the sum overflows");
+        passed = false;
+    }
     const auto run = [&](const char *name, auto check, bool scan_control = false) {
         try {
             Fixture fixture(args[1], scan_control);
