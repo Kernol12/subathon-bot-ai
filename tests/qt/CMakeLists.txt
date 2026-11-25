@@ -165,7 +165,7 @@ if(SUBATHON_BUILD_SQLITE_RATE_OVERRIDE_WRITER_TESTS)
                 ${PROJECT_SOURCE_DIR}/server/src/sqlite_rate_overrides.cpp
             LIBRARIES subathon_sqlite_credential_catalog subathon_sqlite_permission_graph
                 subathon_valuation_snapshot_codec subathon_rate_overrides subathon_session_resolution
-            LABELS "sqlite-rate-catalog-enrollment-fixture;acceptance;qt;server;intentional-red" TIMEOUT 180)
+            LABELS "sqlite-rate-catalog-enrollment-fixture;acceptance;qt;server" TIMEOUT 180)
         target_compile_definitions(server_sqlite_rate_catalog_enrollment_fixture
             PRIVATE SUBATHON_RATE_CATALOG_ENROLLMENT_FIXTURE)
 
