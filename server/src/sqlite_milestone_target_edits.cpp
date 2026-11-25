@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include <subathon/server/sqlite_milestone_interruption.hpp>
 #include <subathon/server/sqlite_milestone_target_edits.hpp>
 
 #include "sqlite_milestone_track_read.hpp"
@@ -852,6 +853,65 @@ bool initialize_milestone_track(const SqliteWorkSession &s, const MilestoneTrack
         advance_head(s, seed.track, true, seed.definition_revision);
         advance_head(s, seed.track, false, seed.prefix_revision);
         return true;
+    });
+}
+
+milestone_interruption::Disposition
+milestone_interruption::publish_milestone_definitions(const SqliteWorkSession &s,
+                                                      const MilestoneDefinitionAuthority &authority,
+                                                      const MilestoneDefinitionEdit &request) {
+    using Result = milestone_interruption::Disposition;
+    return guarded(s, [&] {
+        if (!authority || request.operation.isEmpty() || request.operation.size() > 4096 ||
+            !reference_fields({request.track.installation_ref, request.track.track_ref,
+                               request.actor.actor_ref, request.actor.session_lineage,
+                               request.expected_revision, request.proposed_configuration}))
+            return Result::refused;
+        const auto admitted = authority(s, request);
+        if (!admitted)
+            return Result::unavailable;
+        if (admitted->binding.track != request.track ||
+            admitted->binding.configuration != request.proposed_configuration ||
+            !bounded_ref(admitted->binding.revision) ||
+            admitted->targets.size() > std::size_t(collection_limit))
+            return Result::refused;
+        if (catalog(s) != Catalog::edits)
+            return Result::unavailable;
+        const auto current = definition(s, request.track);
+        const auto earned = prefix(s, request.track);
+        if (!current || !earned)
+            return Result::unavailable;
+        if (current->revision != request.expected_revision ||
+            definition(s, request.track, admitted->binding.revision))
+            return Result::conflict;
+        if (admitted->targets.size() < earned->members.size() ||
+            current->targets.size() < earned->members.size())
+            return Result::refused;
+        std::set<std::string_view> seen;
+        for (std::size_t i = 0; i < admitted->targets.size(); ++i) {
+            const auto &target = admitted->targets[i];
+            if (!bounded_ref(target.milestone_ref) ||
+                target.milestone_ref.size() > core::MilestoneProgressionLimits{}.reference_bytes ||
+                !seen.insert(target.milestone_ref).second ||
+                (i > 0 &&
+                 admitted->targets[i - 1].target_micro_points >= target.target_micro_points))
+                return Result::refused;
+            if (i < earned->members.size() &&
+                std::tie(target.milestone_ref, target.target_micro_points) !=
+                    std::tie(current->targets[i].milestone_ref,
+                             current->targets[i].target_micro_points))
+                return Result::refused;
+        }
+        const auto retained = s.execute(
+            {"SELECT 1 FROM main.subathon_retained_configurations WHERE reference=? LIMIT 1",
+             {blob(request.proposed_configuration)}});
+        if (retained.empty())
+            return Result::unavailable;
+        insert_definition(s, request.track,
+                          {admitted->binding.revision, admitted->binding.configuration,
+                           current->revision, admitted->targets});
+        advance_head(s, request.track, true, admitted->binding.revision, current->revision);
+        return Result::committed;
     });
 }
 

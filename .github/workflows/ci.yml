@@ -435,6 +435,9 @@ jobs:
           -DSUBATHON_BUILD_STORAGE_033_STAGE1=ON
           -DSUBATHON_BUILD_STORAGE_026_STAGE1=ON
           -DSUBATHON_BUILD_STORAGE_027_STAGE1=ON
+          -DSUBATHON_BUILD_MILESTONE_006_STAGE1=ON
+          -DSUBATHON_BUILD_MILESTONE_006_SLICE2=ON
+          -DSUBATHON_BUILD_MILESTONE_006_SLICE3=ON
           -DSUBATHON_BUILD_RATE_CATALOG_ENROLLMENT_STAGE1=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
@@ -447,6 +450,10 @@ jobs:
           python3 tools/binary_closure.py --expected tools/binary_closures/sqlite-reference-capture-debug.json
           --build-dir build/sqlite-reference-capture-debug --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
           --patch-out "$RUNNER_TEMP/closure-patches/sqlite-reference-capture-debug.patch"
+      - name: Run milestone replacement and interruption acceptance
+        run: >-
+          ctest --preset sqlite-reference-capture-debug
+          -L '^milestone-006(-slice[2-6])?$' --no-tests=error --verbose
       - name: Build and run the reviewed diagnostics acceptance suite
         run: |
           cmake -S tests/qt/release_002 -B build/release-002-acceptance -G Ninja \
@@ -519,7 +526,7 @@ jobs:
           expected = {
               "storage-003-catalog.suite": "32",
               "storage-003-w1-writer.suite": "8",
-              "storage-003-w1-open-admission.suite": "8",
+              "storage-003-w1-open-admission.suite": "9",
               "storage-003-w1-admission-supplement.suite": "4",
               "storage-033-stage1.suite": "53",
           }

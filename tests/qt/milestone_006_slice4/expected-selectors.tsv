@@ -1,0 +1,9 @@
+suite	selector	data_tag	type	source	qt_line	call_line	throw_line	description
+disclosure	r1OrdinaryPublicationAffectsOnlyLaterCapture		fail	disclosure_tests.cpp	18	393	207	R1: publish ordinary milestone definitions under current authority
+disclosure	r7OrderedDisclosureConsumesExactConfirm	original-held	fail	disclosure_tests.cpp	18	311	128	R7: produce authorized ordered replacement disclosure
+disclosure	r7OrderedDisclosureConsumesExactConfirm	reopened-chain-released	fail	disclosure_tests.cpp	18	311	128	R7: produce authorized ordered replacement disclosure
+disclosure	r7ChangedCurrentModeStalesDisclosure		fail	disclosure_tests.cpp	18	311	128	R7: produce authorized ordered replacement disclosure
+disclosure	r7DisclosureAndCompatibilityFailClosed	revoked-disclosure	fail	disclosure_tests.cpp	18	605	128	R7: produce authorized ordered replacement disclosure
+disclosure	r7DisclosureAndCompatibilityFailClosed	absent-authoritative-facts	fail	disclosure_tests.cpp	18	605	128	R7: produce authorized ordered replacement disclosure
+disclosure	r7DisclosureAndCompatibilityFailClosed	incompatible-profile	fail	disclosure_tests.cpp	18	605	128	R7: produce authorized ordered replacement disclosure
+disclosure	r7DisclosureAndCompatibilityFailClosed	unproved-profile	fail	disclosure_tests.cpp	18	605	128	R7: produce authorized ordered replacement disclosure

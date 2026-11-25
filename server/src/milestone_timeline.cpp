@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <subathon/server/milestone_timeline.hpp>
 
+#include <algorithm>
 #include <iterator>
 #include <list>
 #include <type_traits>
@@ -28,6 +29,24 @@ struct PresentationWindow {
     Milliseconds started_at;
     Milliseconds duration;
     Milliseconds gap;
+    std::optional<MilestoneOccurrenceKey> occurrence;
+    std::optional<MilestoneEditKey> edit;
+    std::optional<MilestoneApplicationOrigin> application;
+};
+
+bool matches(const MilestoneTimelineOccurrence &target,
+             const std::optional<MilestoneOccurrenceKey> &occurrence,
+             const std::optional<MilestoneEditKey> &edit,
+             const std::optional<MilestoneApplicationOrigin> &application) {
+    // Legacy committed groups can carry only a globally unique occurrence.
+    return occurrence == target.occurrence && target.edit == edit &&
+           (!application || application == target.application);
+}
+
+struct StopKey {
+    MilestoneTimelineOccurrence target;
+    std::string operation;
+    bool operator==(const StopKey &) const = default;
 };
 
 } // namespace
@@ -64,7 +83,7 @@ struct MilestoneTimeline::State {
         }
 
         if (queue_paused || (settings.follow_countdown_pause && countdown_paused) ||
-            release_uncertain)
+            release_uncertain || !uncertain_stops.empty() || !interruption_holds.empty())
             return;
 
         while (!pending.empty()) {
@@ -75,10 +94,18 @@ struct MilestoneTimeline::State {
                 break;
             }
             const auto disposition = release.occurrence_disposition(*head.occurrence);
-            if (disposition == MilestoneHeadDisposition::ready)
-                break;
-            if (disposition != MilestoneHeadDisposition::skipped)
+            const auto edit =
+                head.edit_membership ? std::optional{head.edit_membership->origin} : std::nullopt;
+            // The head port reads the current independent holds on every turn.
+            if (disposition == MilestoneHeadDisposition::ready) {
+                const auto stopped = std::ranges::any_of(stops, [&](const auto &entry) {
+                    return matches(entry.target, head.occurrence, edit, head.application_origin);
+                });
+                if (!stopped)
+                    break;
+            } else if (disposition != MilestoneHeadDisposition::skipped) {
                 return;
+            }
             pending.pop_front();
         }
         if (pending.empty())
@@ -86,9 +113,14 @@ struct MilestoneTimeline::State {
         const auto &head = pending.front();
 
         // Start on the actual owner turn, with a full presentation for this group.
-        PresentationWindow next{head.achievement.milestone_ref, now,
+        PresentationWindow next{head.achievement.milestone_ref,
+                                now,
                                 head.timing.presentation.value_or(settings.presentation),
-                                head.timing.gap.value_or(settings.gap)};
+                                head.timing.gap.value_or(settings.gap),
+                                head.occurrence,
+                                head.edit_membership ? std::optional{head.edit_membership->origin}
+                                                     : std::nullopt,
+                                head.application_origin};
         auto captured = head;
         // A throwing port may already have scheduled work. Keep the head and
         // block further starts in this lifetime rather than retry or pass it.
@@ -107,6 +139,10 @@ struct MilestoneTimeline::State {
     bool queue_paused{false};
     bool countdown_paused{false};
     bool release_uncertain{false};
+    std::vector<StopKey> stops;
+    std::vector<StopKey> uncertain_stops;
+    std::vector<MilestoneTimelineCause> interruption_holds;
+    std::vector<MilestoneTimelineCause> resolved_interruption_holds;
 };
 
 MilestoneTimelineNotImplemented::MilestoneTimelineNotImplemented(const char *entry)
@@ -135,6 +171,81 @@ void MilestoneTimeline::restore_committed(std::vector<CommittedMilestoneGroup> g
 void MilestoneTimeline::advance(Milliseconds now) {
     state_->check_sample(now);
     state_->advance_to(now);
+}
+
+void MilestoneTimeline::adopt_stop(Milliseconds now, const MilestoneTimelineOccurrence &target,
+                                   const std::string &operation,
+                                   std::optional<MilestoneTimelineCause> hold) {
+    state_->check_sample(now);
+    StopKey key{target, operation};
+    const bool first_seen = std::ranges::find(state_->stops, key) == state_->stops.end();
+    if (first_seen) {
+        state_->stops.reserve(state_->stops.size() + 1);
+        if (hold &&
+            std::ranges::find(state_->interruption_holds, *hold) ==
+                state_->interruption_holds.end() &&
+            std::ranges::find(state_->resolved_interruption_holds, *hold) ==
+                state_->resolved_interruption_holds.end()) {
+            state_->interruption_holds.push_back(std::move(*hold));
+        }
+        if (auto &window = state_->window;
+            window && matches(target, window->occurrence, window->edit, window->application) &&
+            ticks_since(now, window->started_at) <
+                static_cast<TickDistance>(window->duration.count())) {
+            window->started_at = now;
+            window->duration = Milliseconds::zero();
+        }
+    }
+    std::erase(state_->uncertain_stops, key);
+    if (first_seen)
+        state_->stops.push_back(std::move(key));
+    state_->last_sample = now;
+}
+
+void MilestoneTimeline::observe_stop_completion(Milliseconds now,
+                                                const MilestoneTimelineOccurrence &target,
+                                                const std::string &operation, bool uncertain,
+                                                bool reconciled) {
+    state_->check_sample(now);
+    const StopKey key{target, operation};
+    if (reconciled)
+        std::erase(state_->uncertain_stops, key);
+    if (uncertain &&
+        std::ranges::find(state_->stops, key) == state_->stops.end() &&
+        std::ranges::find(state_->uncertain_stops, key) == state_->uncertain_stops.end())
+        state_->uncertain_stops.push_back(key);
+    state_->last_sample = now;
+}
+
+void MilestoneTimeline::adopt_resume(Milliseconds now,
+                                     const std::vector<MilestoneTimelineCause> &resolved) {
+    state_->check_sample(now);
+    // Resume can reconcile before an earlier Stop acknowledgement. An
+    // already resolved cause must never be reintroduced by Stop readback.
+    for (const auto &cause : resolved)
+        if (std::ranges::find(state_->resolved_interruption_holds, cause) ==
+            state_->resolved_interruption_holds.end())
+            state_->resolved_interruption_holds.push_back(cause);
+    std::erase_if(state_->interruption_holds, [&](const auto &hold) {
+        return std::ranges::find(resolved, hold) != resolved.end();
+    });
+    state_->last_sample = now;
+}
+
+void MilestoneTimeline::adopt_ordered_stop(std::chrono::milliseconds now,
+                                           const MilestoneTimelineOccurrence &target,
+                                           const std::string &operation,
+                                           std::vector<MilestoneTimelineCause> active_holds) {
+    adopt_stop(now, target, operation, {});
+    std::erase_if(active_holds, [&](const auto &hold) {
+        return std::ranges::find(state_->resolved_interruption_holds, hold) !=
+               state_->resolved_interruption_holds.end();
+    });
+    std::erase_if(state_->interruption_holds,
+                  [&](const auto &hold) { return hold.track == target.track; });
+    state_->interruption_holds.insert(state_->interruption_holds.end(),
+                                      std::make_move_iterator(active_holds.begin()),
+                                      std::make_move_iterator(active_holds.end()));
 }
 
 void MilestoneTimeline::set_queue_paused(bool paused, Milliseconds now) {
