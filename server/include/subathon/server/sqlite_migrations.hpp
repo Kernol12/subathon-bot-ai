@@ -5,34 +5,12 @@
 #include <QString>
 #include <functional>
 #include <optional>
-#include <stdexcept>
+#include <subathon/server/sqlite_migration_manifest.hpp>
 #include <subathon/server/sqlite_writer.hpp>
 
 namespace subathon::server {
 // Internal revision 2: docs/contracts/migration-catalog-v1.md. These DTOs grant
 // no update/backup/maintenance authority. Trusted callers satisfy OPS-02 first.
-struct CatalogObject {
-    QString type;
-    QString name;
-    QString table_name;
-    std::optional<QString> sql;
-    bool operator==(const CatalogObject &) const = default;
-};
-
-struct MigrationStep {
-    qint32 version{0};
-    QString id;
-    QList<QString> sql;
-    QList<CatalogObject> expected_schema;
-};
-
-struct MigrationManifest {
-    qint32 catalog_format{1};
-    QString store_identity{"subathon.sqlite-store"};
-    QList<MigrationStep> steps;
-    QList<qint32> supported_starting_versions;
-};
-
 struct MigrationLimits {
     qsizetype versions{256};
     // Migration IDs only: effective cap min(id_bytes,128); the fixed 21-byte
@@ -53,37 +31,6 @@ struct MigrationProgress {
     // One-based before_statement; zero for before_begin/before_commit. At
     // before_history, this is the completed SQL count for that version.
     qsizetype statement;
-};
-
-enum class MigrationReason {
-    none,
-    feature_not_implemented,
-    invalid_manifest,
-    cancelled,
-    foreign_store,
-    catalog_mismatch,
-    unsupported_catalog_format,
-    unsupported_version,
-    unsupported_encoding,
-    schema_mismatch,
-    integrity_failed,
-    inspection_failed,
-    busy,
-    sql_failure,
-    resource_limit,
-    callback_failure,
-    uncertain_outcome,
-    writer_unavailable
-};
-
-class MigrationFailure final : public std::runtime_error {
-  public:
-    explicit MigrationFailure(MigrationReason reason)
-        : std::runtime_error("SQLite migration operation failed"), reason_(reason) {}
-    [[nodiscard]] MigrationReason reason() const noexcept { return reason_; }
-
-  private:
-    MigrationReason reason_;
 };
 
 enum class CatalogState { fresh, upgrade_required, current };
