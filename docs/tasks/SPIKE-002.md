@@ -35,8 +35,9 @@ This design can operate directly between the installation and Twitch.
 [Twitch app registration](https://dev.twitch.tv/docs/authentication/register-app/) ·
 [Twitch token flows](https://dev.twitch.tv/docs/authentication/getting-tokens-oauth/)
 
-A registered public client can obtain a user token through Device Code Grant
-without holding a secret. It cannot obtain an app token through client
+Twitch documents Device Code Grant for both confidential and public clients.
+A registered public client can obtain a user token through that flow without
+holding a secret. It cannot obtain an app token through client
 credentials. A public refresh token is single-use and expires 30 days after
 issuance. Public Device Code Grant is therefore a candidate for user-token
 operations only. Registration-free onboarding, refresh recovery after a lost
@@ -47,8 +48,8 @@ response, and operation-by-operation compatibility remain open.
 EventSub WebSocket subscriptions use a user token. Webhook subscriptions use
 an app token. Chat operations depend on the token type, actor, and scopes for
 the specific operation. Optional Twitch sign-in is separate from connector
-consent. An OIDC ID token can convey identity and does not authorize a Helix
-call or establish either connector grant.
+consent. An OIDC ID token can convey identity. Helix requires an OAuth access token,
+and optional sign-in establishes no connector grant.
 [EventSub](https://dev.twitch.tv/docs/eventsub/) ·
 [Chat authorization](https://dev.twitch.tv/docs/chat/authenticating/) ·
 [Twitch OIDC](https://dev.twitch.tv/docs/authentication/getting-tokens-oidc/)
@@ -56,12 +57,15 @@ call or establish either connector grant.
 ## Proposed offline qualification cases
 
 These fake-adapter cases describe expected behavior for follow-on qualification.
-They have not been implemented or run.
+They have not been implemented or run. Twitch documents a polling interval
+and pending consent. Denial, device-code expiry, throttling, and whether a lost
+refresh response consumed the token have unverified wire behavior. Fakes leave
+these provider results unclassified until verified.
 
 | Simulated provider result | Expected installation result |
 | --- | --- |
 | Device consent pending, then approved | Respect the polling interval and install the grant after validating the client, actor and required scopes |
-| Consent denied or expired | Stop polling, preserve any existing connection and report the outcome |
+| Local consent deadline expires | Stop polling, preserve any existing connection and report the timeout |
 | Validation returns an unexpected client, actor or scope set | Refuse the requested binding |
 | Concurrent refresh requests for one public grant | Serialize ownership of the current single-use token |
 | Refresh returns a replacement token | Durably retain the new generation before publishing the refreshed grant |
