@@ -816,6 +816,21 @@ class Milestone006OwnerTests final : public QObject {
                     "Authority failures do not prove Stop absence");
             require(restore_proves_absence(absent) == !at_successor,
                     "Only a normally acknowledged missing Stop proves Stop absence");
+            require(!restore_durable_holds(unavailable) && !restore_durable_holds(denied),
+                    "Authority failures publish no durable Holds");
+            if (at_successor) {
+                const auto committed = read(f.seed.db, authority.base, f.command);
+                require(committed.disposition == Disposition::replay &&
+                            committed.added_causes.size() == 1,
+                        "The committed Stop has one exact Hold");
+                require(restore_durable_holds(absent) ==
+                            std::vector<ScopedCause>{{f.command.track,
+                                                      committed.added_causes.front()}},
+                        "Missing successor still returns the committed Stop's exact Hold");
+            } else {
+                require(!restore_durable_holds(absent),
+                        "Proven missing Stop publishes no Holds from another Stop");
+            }
         });
     }
 
@@ -900,16 +915,18 @@ class Milestone006OwnerTests final : public QObject {
                 seed.db.writer(), authority, stopped, next, playback, missing_next, no_playback);
             const std::vector<ScopedCause> expected_holds{
                 {stopped.track, decision.added_causes.front()}};
+            finance::normal(restored.work);
             require(restore_durable_holds(restored) == expected_holds,
                     "Cold restore recovers the exact active Hold independently of optional inputs");
-            finance::normal(restored.work);
+            const bool refused = missing_successor || missing == "invalid-playback" ||
+                                 missing == "unmatched-playback";
             require(restore_disposition(restored) ==
-                            (missing_successor ? Disposition::refused : Disposition::replay) &&
+                            (refused ? Disposition::refused : Disposition::replay) &&
                         !restore_proves_absence(restored),
-                    "Successor refusal does not establish Stop absence");
-            if (no_successor || missing_successor) {
+                    "An optional input refusal does not establish Stop absence");
+            if (no_successor || refused) {
                 require(!restored.queue,
-                        "Without a successor there is no composite queue projection");
+                        "An omitted successor or refused input publishes no composite queue");
             } else {
                 require(restored.queue && !restored.queue->selected.empty() &&
                             !restored.queue->presentation && !restored.queue->prior_handoff,
@@ -921,6 +938,11 @@ class Milestone006OwnerTests final : public QObject {
                         seed.db.rows("SELECT outcome FROM "
                                      "main.subathon_milestone_playback_evidence").empty(),
                     "Restore writes no marker or playback evidence and has no adapter port");
+            require(seed.db.rows(
+                        "SELECT cause FROM main.subathon_milestone_interruption_causes "
+                        "WHERE stop=? AND resume IS NULL",
+                        {stopped.operation}) == active,
+                    "Restore preserves the exact durable active Hold");
         });
     }
 
@@ -979,6 +1001,10 @@ class Milestone006OwnerTests final : public QObject {
 
             require(!restore_disposition(busy) && !restore_disposition(unknown),
                     "Abnormal completion publishes no readback disposition");
+            require(!restore_durable_holds(busy) && !restore_durable_holds(unknown),
+                    "Abnormal completion publishes no durable Holds");
+            require(restore_durable_holds(recovered) == recovered.queue->holds,
+                    "Acknowledged recovery exposes the exact Holds from the restored queue");
         });
     }
 
