@@ -222,6 +222,13 @@ auto restore_with_optional_inputs(SqliteWriter &writer, CommandAuthority &author
     }
 }
 
+template <class Completion>
+std::optional<std::vector<ScopedCause>> restore_durable_holds(const Completion &result) {
+    if constexpr (requires { result.durable_holds; })
+        return result.durable_holds;
+    return std::nullopt;
+}
+
 struct RestoreAuthority final : CommandAuthority {
     Authority base;
     QByteArray restricted_operation;
@@ -817,6 +824,7 @@ class Milestone006OwnerTests final : public QObject {
         QTest::newRow("invalid-playback") << QString("invalid-playback");
         QTest::newRow("unmatched-playback") << QString("unmatched-playback");
         QTest::newRow("no-successor") << QString("no-successor");
+        QTest::newRow("missing-successor") << QString("missing-successor");
         QTest::newRow("no-playback-history") << QString("no-playback-history");
     }
 
@@ -850,6 +858,9 @@ class Milestone006OwnerTests final : public QObject {
             auto absent_target = target;
             absent_target.occurrence = MilestoneOccurrenceKey{"unrecorded-successor"};
             const auto missing_next = stop("select-missing-next", absent_target);
+            const bool missing_successor = missing == "missing-successor";
+            if (missing_successor)
+                next = missing_next;
             const PlaybackHandoff no_playback{
                 {edit::track, stopped.operation,
                  {target, 1, {}, 2, "audio-adapter", "X", "generation-X",
@@ -889,15 +900,21 @@ class Milestone006OwnerTests final : public QObject {
                 seed.db.writer(), authority, stopped, next, playback, missing_next, no_playback);
             const std::vector<ScopedCause> expected_holds{
                 {stopped.track, decision.added_causes.front()}};
-            require(restored.queue && restored.queue->holds == expected_holds,
+            require(restore_durable_holds(restored) == expected_holds,
                     "Cold restore recovers the exact active Hold independently of optional inputs");
             finance::normal(restored.work);
-            require(restore_disposition(restored) == Disposition::replay &&
+            require(restore_disposition(restored) ==
+                            (missing_successor ? Disposition::refused : Disposition::replay) &&
                         !restore_proves_absence(restored),
-                    "The recovered Stop is an acknowledged replay");
-            require(restored.queue->selected.empty() == no_successor &&
-                        !restored.queue->presentation && !restored.queue->prior_handoff,
-                    "Restore selects only an existing successor and starts no presentation");
+                    "Successor refusal does not establish Stop absence");
+            if (no_successor || missing_successor) {
+                require(!restored.queue,
+                        "Without a successor there is no composite queue projection");
+            } else {
+                require(restored.queue && !restored.queue->selected.empty() &&
+                            !restored.queue->presentation && !restored.queue->prior_handoff,
+                        "Restore selects the existing successor without starting presentation");
+            }
             require(seed.db.rows("SELECT activation,typeof(handoff) FROM "
                                  "main.subathon_milestone_playback_instances ORDER BY ordinal") ==
                             instances &&
