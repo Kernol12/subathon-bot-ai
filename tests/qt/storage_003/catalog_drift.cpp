@@ -5,6 +5,8 @@
 #include <QCryptographicHash>
 #include <QDebug>
 
+#include <algorithm>
+
 int main() {
     using namespace subathon::server;
     const auto built = detail::clock_checkpoint_manifest();
@@ -18,6 +20,22 @@ int main() {
         manifest->supported_starting_versions.front() != 0 ||
         manifest->steps.back().expected_schema.size() != seal.projection_objects) {
         qCritical("Compiled v22 catalog identity or projection size differs from the seal");
+        return 1;
+    }
+
+    const auto projection = detail::sqlite_v22_projection();
+    QList<CatalogObject> expected_schema;
+    expected_schema.reserve(static_cast<qsizetype>(projection.size()));
+    for (const auto &object : projection) {
+        expected_schema.append(
+            {QString::fromUtf8(object.type), QString::fromUtf8(object.name),
+             QString::fromUtf8(object.table_name),
+             object.sql ? std::optional{QString::fromUtf8(*object.sql)} : std::nullopt});
+    }
+    const auto &built_schema = manifest->steps.back().expected_schema;
+    if (!std::is_permutation(expected_schema.cbegin(), expected_schema.cend(),
+                             built_schema.cbegin(), built_schema.cend())) {
+        qCritical("Built v22 catalog tuples differ from the sealed projection");
         return 1;
     }
 
