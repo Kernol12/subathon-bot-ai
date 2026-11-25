@@ -35,3 +35,11 @@ subathon_add_qt_suite(server_storage_003_w1_writer
     LABELS "storage-003-w1-writer;acceptance;qt;server" TIMEOUT 240)
 target_compile_definitions(server_storage_003_w1_writer PRIVATE
     SUBATHON_STORAGE_003_IMPLEMENTED_W1)
+
+option(SUBATHON_BUILD_STORAGE_033_STAGE1 "Build the STORAGE-033 local acceptance baseline" OFF)
+if(SUBATHON_BUILD_STORAGE_033_STAGE1)
+    subathon_add_qt_suite(server_storage_033_stage1
+        NAME storage-033-stage1 SOURCES ../storage_033/writer_policy_tests.cpp
+        LIBRARIES subathon_storage_003_fixture_owner subathon_contribution_review
+        LABELS "storage-033;acceptance;qt;server;intentional-red" TIMEOUT 240)
+endif()
