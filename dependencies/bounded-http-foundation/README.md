@@ -8,8 +8,8 @@ native44 also passes against the original candidate4 SDK. The source, allocation
 inventory, R4 interface, recipe/gate and CI review record is in
 [PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664).
 
-Revision R4 comprises corrections 1–19; 1–18 were reviewed in PR #664 and 19 (API-024,
-interface only) in #685. Its numbered
+Revision R4 comprises corrections 1–19; 1–18 were reviewed in PR #664 and 19 (API-024)
+in #685. Its numbered
 **Contract corrections** and **Final R4 interface** sections identify their scope.
 Corrections 1–18 changed no first-party public header or reviewed oracle. These results establish
 no release, platform or security verification; the ABI marker alone admits no binary.

@@ -2,7 +2,7 @@
 
 Revision R4 comprises corrections 1–18, implemented in API-016 and reviewed in
 [PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664), and correction 19
-(API-024), whose interface lands with its tests stage. The #664 record covers
+(API-024, #685). The #664 record covers
 the source/interface, allocation inventory, artifact/recipe/gate and selected Linux
 CI evidence. First-party declarations and the reviewed baseline remain unchanged.
 This evidence establishes no release, platform or security verification.
@@ -1060,14 +1060,18 @@ precedence, record fields and the outcome script follow the #685 Release packets
 (ABI fix 2 and fixture/baseline r2). `passive_observation` is also reachable from the
 `boundedPoll` refresh. First-party additions: `seal_listener_registration` closes the
 cold arm windows before any SDK registration. By contract `register_listeners` and the
-Host call it first, so `register_listeners` may also return `unavailable`; the
-tests-stage stub does not call it yet, the implementation does.
+Host call it first, so `register_listeners` may also return `unavailable`.
 `testing::Access::arm_listener_observer` arms the record cold on the creating thread.
 `arm_first_wire` checks the seal before it consumes the process-global one-shot gate,
 and refuses once the seal is set. Advisor ruling C1: `Runtime::arm_first_wire` runs
 under Core's mutex, the one stated exception to no SDK call under the new critical
-sections. Either arm returns `unavailable` if taking its own lock throws. The tests
-stage ships this interface only: the arm returns NI until implementation.
+sections. Either arm returns `unavailable` if taking its own lock throws.
+Implementation (patch 0003 contents, the adapter and the Host call): the 50 ms
+listener hold and owner-turn recovery, listening and registration guards with
+poller changes only on actual interest changes, the outcome script and the
+observer facts. Only bounded `Acceptor` code reads its channel's actual poller
+state, through one added `friend` in installed `Channel.h`; `TcpServer` publishes
+retirement through the Producer. No export changes.
 
 Import, do not reopen, the parent numeric-address/data-endpoint observation,
 public enableReusePort(true) probe bypass plus pre-listen SO_REUSEPORT clear and

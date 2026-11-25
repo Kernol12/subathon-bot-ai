@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "task_id": "API-024",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 685
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/API-024.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/685",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/847",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/853",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/685#issuecomment-7141059047",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/685#issuecomment-7148824880",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/847#issuecomment-7144876768",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/847#issuecomment-7144879605",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/847#issuecomment-7144881092",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/853#pullrequestreview-6049947732",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/853#pullrequestreview-6049948766",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/853#pullrequestreview-6049949409",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/853#pullrequestreview-6049948295",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/853#pullrequestreview-6050281152",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45527324709"
+  ],
+  "limitations": [
+    "Release SDK only. Debug qualification stays with #812. Source-only obligations and declared gaps are listed in PR #853.",
+    "Owner route 1 A authorized fresh independent Claude sessions for the verification role; actual provider and model are recorded. The linked track receipts record that authorization.",
+    "Credited intended red at 3511a83b had one passing control and 15 expected stub stops, log 1d496696\u2026 . Credited green at 08380c96 passed 16/16 listener cases, 44/44 native cases and 37/37 foundation cases, listener log ae7055052ce93790303b92a311ecf76014d4b52c8df8196027cd35187bc14f0e.",
+    "The listener suite stays opt-in with its frozen intentional-red label under I685-I2. ADR-0013 item 4 keeps it on standing local admission.",
+    "Main ffc71de5 integrated at d1a6c67a with no credited-input change. CI passed all seven required checks on the integration head. Historical test bindings cover the retained test files; implementation-stage paths bind updated packaging and source."
+  ],
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "revision": "3511a83bcfc249f512a637a45978b9ad8c588cb7",
+        "authors": [
+          "claude:API-024-tests-author",
+          "claude:API-024-tests-fix-round-1-author"
+        ],
+        "paths": [
+          "docs/tasks/API-024.md",
+          "server/include/subathon/server/bounded_http.hpp",
+          "server/include/subathon/server/testing/bounded_http_observers.hpp",
+          "tests/bounded_http_foundation/CMakeLists.txt",
+          "tests/bounded_http_foundation/bounded_http_probe.cpp",
+          "tests/bounded_http_foundation/test_api024_listener.py"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:API-024-tests-initial",
+            "revision": "c58ef25d0a717715c1a39ab388643710c00f9f87",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/847#issuecomment-7144876768",
+            "findings": [
+              "T685-I1"
+            ],
+            "blocking_findings": [
+              "T685-I1"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:API-024-tests-verification",
+            "revision": "3511a83bcfc249f512a637a45978b9ad8c588cb7",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/847#issuecomment-7144879605",
+            "findings": [],
+            "blocking_findings": [],
+            "owner_authorization": "https://github.com/Kernol12/subathon-bot-ai/issues/685#issuecomment-7141059047"
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:API-024-tests-closing",
+            "revision": "3511a83bcfc249f512a637a45978b9ad8c588cb7",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/847#issuecomment-7144881092",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "revision": "08380c961e322edf6301220ffdd23c5a21e68903",
+        "authors": [
+          "claude:API-024-implementation-author",
+          "claude:API-024-implementation-fix-round-1-author"
+        ],
+        "paths": [
+          "dependencies/bounded-http-foundation/0003-trantor-bounded-http.patch",
+          "dependencies/bounded-http-foundation/README.md",
+          "dependencies/bounded-http-foundation/RESOURCE_ACCOUNTING.md",
+          "dependencies/bounded-http-foundation/manifest.json",
+          "docs/TEST_STRATEGY.md",
+          "docs/contracts/bounded-http-foundation-v1.md",
+          "server/src/api_host_drogon.cpp",
+          "server/src/bounded_http_sdk_adapter.cpp",
+          "tests/release_manifest/receipt_fixtures.py"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:API-024-implementation-initial",
+            "revision": "15e713d907ee41917943d8c4b509895ababc1a33",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/853#pullrequestreview-6049947732",
+            "findings": [
+              "I685-I1",
+              "I685-I4"
+            ],
+            "blocking_findings": [
+              "I685-I1",
+              "I685-I4"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:API-024-implementation-verification",
+            "revision": "08380c961e322edf6301220ffdd23c5a21e68903",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/853#pullrequestreview-6049948766",
+            "findings": [],
+            "blocking_findings": [],
+            "owner_authorization": "https://github.com/Kernol12/subathon-bot-ai/issues/685#issuecomment-7148824880"
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:API-024-implementation-closing",
+            "revision": "08380c961e322edf6301220ffdd23c5a21e68903",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/853#pullrequestreview-6049949409",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  }
+}
