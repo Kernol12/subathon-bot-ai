@@ -195,6 +195,33 @@ std::optional<Disposition> restore_disposition(const Completion &result) {
     return std::nullopt;
 }
 
+template <class Completion>
+bool restore_proves_absence(const Completion &result) {
+    if constexpr (requires { result.authoritative_absence; })
+        return result.authoritative_absence;
+    return false;
+}
+
+// The optional-input entry can reconcile a Stop with no successor or playback.
+// On the parent revision, send unmatched exact inputs through the legacy entry
+// so these cases still exercise the real writer and reach the missing behavior.
+template <class Selector, class Handoff>
+auto restore_with_optional_inputs(SqliteWriter &writer, CommandAuthority &authority,
+                                  const Command &stopped, const std::optional<Selector> &next,
+                                  const std::optional<Handoff> &playback,
+                                  const Command &missing_next, const PlaybackHandoff &no_playback) {
+    if constexpr (requires {
+                      restore_interrupted_milestone_queue(writer, authority, stopped, next,
+                                                          playback);
+                  }) {
+        return restore_interrupted_milestone_queue(writer, authority, stopped, next, playback);
+    } else {
+        return restore_interrupted_milestone_queue(writer, authority, stopped,
+                                                   next.value_or(missing_next),
+                                                   playback.value_or(no_playback));
+    }
+}
+
 struct RestoreAuthority final : CommandAuthority {
     Authority base;
     QByteArray restricted_operation;
@@ -778,6 +805,105 @@ class Milestone006OwnerTests final : public QObject {
                     "Known disclosure denial is reported as denied");
             require(restore_disposition(absent) == Disposition::refused,
                     "An authoritative missing record is reported as refused");
+            require(!restore_proves_absence(unavailable) && !restore_proves_absence(denied),
+                    "Authority failures do not prove Stop absence");
+            require(restore_proves_absence(absent) == !at_successor,
+                    "Only a normally acknowledged missing Stop proves Stop absence");
+        });
+    }
+
+    void coldRestoreRetainsHoldWithoutPlaybackOrSuccessor_data() {
+        QTest::addColumn<QString>("missing");
+        QTest::newRow("invalid-playback") << QString("invalid-playback");
+        QTest::newRow("unmatched-playback") << QString("unmatched-playback");
+        QTest::newRow("no-successor") << QString("no-successor");
+        QTest::newRow("no-playback-history") << QString("no-playback-history");
+    }
+
+    void coldRestoreRetainsHoldWithoutPlaybackOrSuccessor() {
+        QFETCH(QString, missing);
+        check([&] {
+            const bool never_played = missing == "no-playback-history";
+            const bool no_successor = missing == "no-successor";
+            std::optional<PlaybackFixture> played;
+            std::optional<Populated> unplayed;
+            Authority owner;
+            if (never_played)
+                unplayed.emplace(ProducerOptions{.third_target = true, .audio_job = true});
+            else
+                played.emplace(true, true);
+            auto &seed = never_played ? *unplayed : played->seed;
+            const auto stopped = never_played ? stop("stop-no-playback", edited(seed))
+                                              : played->command;
+            if (never_played) {
+                advance_fixture(seed.db);
+                const auto decision = commit(seed.db, owner, stopped, Disposition::committed);
+                require(decision.playback_intents.empty(),
+                        "Stop commits before release or any playback observation");
+            }
+
+            std::optional<Command> next;
+            if (!no_successor)
+                next = stop("select-existing-next",
+                            {edit::track, edit::c, seed.add_third_occurrence(true)});
+            const auto &target = std::get<StopIntent>(stopped.intent).target;
+            auto absent_target = target;
+            absent_target.occurrence = MilestoneOccurrenceKey{"unrecorded-successor"};
+            const auto missing_next = stop("select-missing-next", absent_target);
+            const PlaybackHandoff no_playback{
+                {edit::track, stopped.operation,
+                 {target, 1, {}, 2, "audio-adapter", "X", "generation-X",
+                  StopCapability::supported}},
+                "unrecorded-playback"};
+            std::optional<PlaybackHandoff> playback;
+            if (!never_played) {
+                playback = played->exact;
+                if (missing == "invalid-playback")
+                    playback->selected.instance.runtime_generation.clear();
+                if (missing == "unmatched-playback")
+                    playback->intent = "unrecorded-playback";
+            }
+
+            const auto instances = seed.db.rows(
+                "SELECT activation,typeof(handoff) FROM main.subathon_milestone_playback_instances "
+                "ORDER BY ordinal");
+            require(instances == (never_played
+                                      ? SqlRows{}
+                                      : SqlRows{{QByteArray("X"), QString("null")},
+                                                {QByteArray("Y"), QString("null")}}),
+                    "Fixture retains exactly the intended playback history");
+            seed.db.reopen(profile());
+            const auto decision = read(seed.db, owner, stopped);
+            require(decision.disposition == Disposition::replay &&
+                        decision.added_causes.size() == 1,
+                    "Exact authoritative replay confirms the committed Stop and its Hold");
+            const auto active = seed.db.rows(
+                "SELECT cause FROM main.subathon_milestone_interruption_causes "
+                "WHERE stop=? AND resume IS NULL",
+                {stopped.operation});
+            require(active == SqlRows{{decision.added_causes.front()}},
+                    "The exact Hold remains durably active after reopening");
+
+            RestoreAuthority authority;
+            const auto restored = restore_with_optional_inputs(
+                seed.db.writer(), authority, stopped, next, playback, missing_next, no_playback);
+            const std::vector<ScopedCause> expected_holds{
+                {stopped.track, decision.added_causes.front()}};
+            require(restored.queue && restored.queue->holds == expected_holds,
+                    "Cold restore recovers the exact active Hold independently of optional inputs");
+            finance::normal(restored.work);
+            require(restore_disposition(restored) == Disposition::replay &&
+                        !restore_proves_absence(restored),
+                    "The recovered Stop is an acknowledged replay");
+            require(restored.queue->selected.empty() == no_successor &&
+                        !restored.queue->presentation && !restored.queue->prior_handoff,
+                    "Restore selects only an existing successor and starts no presentation");
+            require(seed.db.rows("SELECT activation,typeof(handoff) FROM "
+                                 "main.subathon_milestone_playback_instances ORDER BY ordinal") ==
+                            instances &&
+                        seed.db.rows("SELECT outcome FROM "
+                                     "main.subathon_milestone_playback_evidence").empty(),
+                    "Restore writes no marker or playback evidence and has no adapter port");
         });
     }
 
