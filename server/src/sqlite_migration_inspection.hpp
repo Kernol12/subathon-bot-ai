@@ -58,12 +58,14 @@ class ClockAdvanceExecution final {
 
 class CatalogWriterAccess final {
   public:
+    using DequeueCheck = std::function<bool(bool governing)>;
     [[nodiscard]] static bool verified_v22(const SqliteWorkSession &);
 
   private:
     friend class MigrationExecution;
-    static MigrationAdmission enqueue(SqliteWriter &, MigrationMode, SqliteWriter::Work,
-                                      SqliteWriter::WorkCompletion);
+    static MigrationAdmission enqueue(SqliteWriter &, MigrationMode, bool governing_allowed,
+                                      SqliteWriter::Work, SqliteWriter::WorkCompletion,
+                                      DequeueCheck);
     static void verified_advance(const SqliteWorkSession &);
 };
 
