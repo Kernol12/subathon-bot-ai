@@ -239,15 +239,15 @@ int main(int argc, char **argv) {
     try {
         const auto args = application.arguments();
         const bool export_donors = args.size() == 3 && args[1] == "--assemble";
-        require(args.size() == 1 || export_donors,
-                "Usage: server_storage_021_stage1_bounds [--assemble existing-directory]");
-        if (export_donors)
-            require(QDir(args[2]).exists(), "Export directory already exists");
+        const bool use_donors = args.size() == 3 && args[1] == "--donors";
+        require(export_donors || use_donors,
+                "Usage: server_storage_021_stage1_bounds (--assemble|--donors) existing-directory");
+        require(QDir(args[2]).exists(), "Donor directory already exists");
         DisposableFile smaller;
         DisposableFile larger;
-        assemble_donor(smaller, 1024);
-        assemble_donor(larger, 1025);
         if (export_donors) {
+            assemble_donor(smaller, 1024);
+            assemble_donor(larger, 1025);
             const QDir directory(args[2]);
             const auto small_path = directory.filePath("v22-1024.sqlite");
             const auto large_path = directory.filePath("v22-1025.sqlite");
@@ -258,6 +258,27 @@ int main(int argc, char **argv) {
                     "Export stopped donors for independent inspection");
             return 0;
         }
+        const QDir directory(args[2]);
+        // Pins from independent read-only inspection of the stopped v22 exports.
+        const auto load_donor = [&](const QString &name, const QByteArray &expected,
+                                    const DisposableFile &copy) {
+            const auto path = directory.filePath(name);
+            require(!QFileInfo::exists(path + "-wal") && !QFileInfo::exists(path + "-shm") &&
+                        !QFileInfo::exists(path + "-journal"),
+                    "Pinned donor has no sidecars");
+            QFile source(path);
+            QCryptographicHash hash(QCryptographicHash::Sha256);
+            require(source.open(QIODevice::ReadOnly) && hash.addData(&source) &&
+                        hash.result().toHex() == expected,
+                    "Stopped donor matches its independent SHA-256 pin");
+            source.close();
+            require(QFile::copy(path, copy.path()) && copy.seal().toHex() == expected,
+                    "Disposable copy matches the pinned donor");
+        };
+        load_donor("v22-1024.sqlite",
+                   "729cec12d8abada51bb92459f5bb1f8b4580a236c585be29cf6ce08669218d11", smaller);
+        load_donor("v22-1025.sqlite",
+                   "e34c69cbaa282f18f173b52e4051688c6523e7f2f9315f271bffb59ca85b01da", larger);
         bool passed = true;
         for (const auto &test : cases) {
             try {
