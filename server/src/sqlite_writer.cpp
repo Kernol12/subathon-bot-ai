@@ -23,7 +23,11 @@
 #include <vector>
 
 namespace subathon::server {
+namespace detail {
+bool allowed_governing_sql(QStringView sql);
+}
 namespace {
+using detail::allowed_governing_sql;
 using detail::ClockStatementLedger;
 using detail::Connection;
 using detail::consume;
@@ -102,6 +106,7 @@ class WriterSqlTokens {
     }
 
     bool name() const { return name_; }
+    bool at_end() const { return !name_ && text_.isEmpty(); }
 
     bool take(QLatin1StringView word) {
         if (!keyword(word))
@@ -121,7 +126,7 @@ class WriterSqlTokens {
         if (!take(u'('))
             return false;
         qsizetype depth = 1;
-        while (name_ || !text_.isEmpty()) {
+        while (!at_end()) {
             if (take(u')')) {
                 if (--depth == 0)
                     return true;
@@ -142,13 +147,19 @@ class WriterSqlTokens {
             if (sql_.isEmpty())
                 return;
             const auto ch = sql_.front();
-            if (ch == u' ' || ch == u'\t' || ch == u'\n' || ch == u'\r' || ch == u'\f' ||
-                ch == QChar::ByteOrderMark) {
+            if (starts_whitespace(ch)) {
+                // SQLite accepts VT only after another character started the whitespace run.
+                qsizetype width = 1;
+                while (width < sql_.size() &&
+                       (starts_whitespace(sql_[width]) || sql_[width] == u'\v'))
+                    ++width;
+                sql_.slice(width);
+            } else if (ch == QChar::ByteOrderMark) {
                 sql_.slice(1);
             } else if (sql_.startsWith(u"--")) {
                 const auto end = sql_.indexOf(u'\n');
                 sql_ = end < 0 ? QStringView{} : sql_.sliced(end + 1);
-            } else if (sql_.startsWith(u"/*")) {
+            } else if (sql_.size() > 2 && sql_.startsWith(u"/*")) {
                 const auto end = sql_.indexOf(u"*/", 2);
                 sql_ = end < 0 ? QStringView{} : sql_.sliced(end + 2);
             } else {
@@ -170,12 +181,13 @@ class WriterSqlTokens {
                 }
                 end += 2;
             }
+            text_ = sql_.first(1);
             sql_ = {};
             return;
         }
 
         qsizetype width = 1;
-        name_ = identifier_character(ch);
+        name_ = identifier_character(ch) && ch != u'$' && !(ch >= u'0' && ch <= u'9');
         if (name_) {
             while (width < sql_.size() && identifier_character(sql_[width]))
                 ++width;
@@ -185,6 +197,10 @@ class WriterSqlTokens {
     }
 
   private:
+    static bool starts_whitespace(QChar ch) {
+        return ch == u' ' || ch == u'\t' || ch == u'\n' || ch == u'\r' || ch == u'\f';
+    }
+
     static bool identifier_character(QChar ch) {
         const auto value = ch.unicode();
         return (value >= 'a' && value <= 'z') || (value >= 'A' && value <= 'Z') ||
@@ -218,7 +234,60 @@ bool skip_writer_ctes(WriterSqlTokens &tokens) {
     return true;
 }
 
-bool allowed_governing_sql(QStringView sql) {
+enum class MutationVerb { insert, replace, update, erase };
+
+std::optional<MutationVerb> take_mutation_verb(WriterSqlTokens &tokens) {
+    using namespace Qt::Literals::StringLiterals;
+    if (tokens.take("insert"_L1))
+        return MutationVerb::insert;
+    if (tokens.take("replace"_L1))
+        return MutationVerb::replace;
+    if (tokens.take("update"_L1))
+        return MutationVerb::update;
+    if (tokens.take("delete"_L1))
+        return MutationVerb::erase;
+    return std::nullopt;
+}
+
+bool valid_target_continuation(WriterSqlTokens &tokens, MutationVerb verb) {
+    using namespace Qt::Literals::StringLiterals;
+    if (tokens.take("as"_L1)) {
+        if (!tokens.name())
+            return false;
+        tokens.next();
+    }
+
+    if (verb == MutationVerb::insert || verb == MutationVerb::replace) {
+        if (tokens.take(u'(')) {
+            do {
+                if (!tokens.name())
+                    return false;
+                tokens.next();
+            } while (tokens.take(u','));
+            if (!tokens.take(u')'))
+                return false;
+        }
+        if (tokens.take("default"_L1))
+            return tokens.keyword("values"_L1);
+        return tokens.keyword("values"_L1) || tokens.keyword("select"_L1) ||
+               tokens.keyword("with"_L1);
+    }
+
+    if (tokens.take("indexed"_L1)) {
+        if (!tokens.take("by"_L1) || !tokens.name())
+            return false;
+        tokens.next();
+    } else if (tokens.take("not"_L1) && !tokens.take("indexed"_L1)) {
+        return false;
+    }
+    if (verb == MutationVerb::update)
+        return tokens.keyword("set"_L1);
+    return tokens.at_end() || tokens.keyword("where"_L1) || tokens.keyword("returning"_L1) ||
+           tokens.keyword("order"_L1) || tokens.keyword("limit"_L1);
+}
+} // namespace
+
+bool detail::allowed_governing_sql(QStringView sql) {
     using namespace Qt::Literals::StringLiterals;
     // Embedded NUL is outside the tokenized interface and may truncate driver SQL.
     if (sql.contains(u'\0'))
@@ -229,33 +298,47 @@ bool allowed_governing_sql(QStringView sql) {
     if (tokens.keyword("select"_L1) || tokens.keyword("pragma"_L1))
         return true;
 
-    const bool insert = tokens.take("insert"_L1);
-    const bool update = !insert && tokens.take("update"_L1);
-    if ((insert || update) && tokens.take("or"_L1)) {
+    const auto verb = take_mutation_verb(tokens);
+    if (!verb)
+        return false;
+    if ((*verb == MutationVerb::insert || *verb == MutationVerb::update) && tokens.take("or"_L1)) {
         if (!tokens.take("rollback"_L1) && !tokens.take("abort"_L1) && !tokens.take("replace"_L1) &&
             !tokens.take("fail"_L1) && !tokens.take("ignore"_L1))
             return false;
     }
-    if (insert || tokens.take("replace"_L1)) {
+    switch (*verb) {
+    case MutationVerb::insert:
+    case MutationVerb::replace:
         if (!tokens.take("into"_L1))
             return false;
-    } else if (!update && (!tokens.take("delete"_L1) || !tokens.take("from"_L1))) {
-        return false;
+        break;
+    case MutationVerb::erase:
+        if (!tokens.take("from"_L1))
+            return false;
+        break;
+    case MutationVerb::update:
+        break;
     }
+
     if (!tokens.name())
         return false;
-    const bool main_schema = tokens.matches("main"_L1);
     const auto reserved = [&] {
         return tokens.matches("subathon_catalog"_L1) ||
                tokens.matches("subathon_migration_history"_L1);
     };
-    const bool bare_reserved = reserved();
+    const bool main_schema = tokens.matches("main"_L1);
+    bool reserved_target = reserved();
     tokens.next();
-    if (tokens.take(u'.'))
-        return tokens.name() && (!main_schema || !reserved());
-    return !bare_reserved;
+    if (tokens.take(u'.')) {
+        if (!tokens.name())
+            return false;
+        reserved_target = main_schema && reserved();
+        tokens.next();
+    }
+    return !reserved_target && valid_target_continuation(tokens, *verb);
 }
 
+namespace {
 bool valid_limits(const StorageLimits &limits) {
     return limits.pending_batches > 0 && limits.statements_per_batch > 0 &&
            limits.statement_utf8_bytes > 0 && limits.bound_value_bytes > 0 &&

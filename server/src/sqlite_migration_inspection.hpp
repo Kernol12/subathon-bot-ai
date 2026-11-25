@@ -58,6 +58,9 @@ class ClockAdvanceExecution final {
 
 class CatalogWriterAccess final {
   public:
+    // Private queue policy runs before the migration body, with the live mode.
+    // False skips the body and delivers the default not-started work result.
+    // The migration completion adapter supplies the request's refusal reason.
     using DequeueCheck = std::function<bool(bool governing)>;
     [[nodiscard]] static bool verified_v22(const SqliteWorkSession &);
 
