@@ -168,10 +168,15 @@ struct BoundCase {
     bool permit;
 };
 
+// SQLite 3.53.4 maps one WAL-index page on the recognition read (#609.13).
+constexpr qint64 recognition_shm_bytes = 32'768;
+constexpr qint64 disk_fit_budget = 33'562'624;
+constexpr qint64 disk_one_less_budget = disk_fit_budget - 1;
+
 constexpr BoundCase cases[]{
-    {"disk-fit", 1024, 33'529'856, 4'268'032, {33'529'856, 184'549'376}, true},
-    {"disk-one-less", 1024, 33'529'856, 4'268'032, {33'529'855, 184'549'376}, false},
-    {"disk-larger", 1025, 33'546'248, 4'272'136, {33'529'855, 184'549'376}, false},
+    {"disk-fit", 1024, 33'529'856, 4'268'032, {disk_fit_budget, 184'549'376}, true},
+    {"disk-one-less", 1024, 33'529'856, 4'268'032, {disk_one_less_budget, 184'549'376}, false},
+    {"disk-larger", 1025, 33'546'248, 4'272'136, {disk_one_less_budget, 184'549'376}, false},
     {"memory-fit", 1024, 33'529'856, 4'268'032, {83'886'080, 58'720'256}, true},
     {"memory-one-less", 1024, 33'529'856, 4'268'032, {83'886'080, 58'720'255}, false},
     {"memory-larger", 1025, 33'546'248, 4'272'136, {83'886'080, 58'720'255}, false},
@@ -181,8 +186,9 @@ void check_bounds(const DisposableFile &donor, const BoundCase &test) {
     DisposableFile file;
     donor.copy_to(file);
     const auto stopped_seal = file.seal();
+    const auto disk_estimate = test.disk_estimate + recognition_shm_bytes;
     const QStorageInfo volume(QFileInfo(file.path()).absolutePath());
-    require(volume.isValid() && volume.isReady() && volume.bytesAvailable() > test.disk_estimate,
+    require(volume.isValid() && volume.isReady() && volume.bytesAvailable() > disk_estimate,
             "Measured free space exceeds this case's disk estimate");
     {
         FixtureSql sql(file.path(), true);
@@ -202,9 +208,9 @@ void check_bounds(const DisposableFile &donor, const BoundCase &test) {
         require(writer.open(file.path(), setup_profile) == StorageError::none,
                 "Open verifies ordinary owner settings on the authenticated donor");
         require(QFileInfo(file.path() + "-wal").size() == 0 &&
-                    QFileInfo(file.path() + "-shm").size() == 0 &&
+                    QFileInfo(file.path() + "-shm").size() == recognition_shm_bytes &&
                     !QFileInfo::exists(file.path() + "-journal"),
-                "Zero charged sidecar bytes at the ordinary entry");
+                "One WAL-index page, empty WAL and no rollback journal at the ordinary entry");
         // Normal open selects WAL. Seal after that transition so refusals
         // compare against the bytes at the actual admission boundary.
         before = file.seal();
@@ -232,7 +238,7 @@ void check_bounds(const DisposableFile &donor, const BoundCase &test) {
     require(!QFileInfo::exists(file.path() + "-journal"), "No rollback journal remains");
     if (test.permit) {
         expect_current(completion, 23, 1);
-        require(QFileInfo(file.path()).size() <= test.disk_estimate - test.journal_reserve,
+        require(QFileInfo(file.path()).size() <= disk_estimate - test.journal_reserve,
                 "Committed main file fits the post-transaction estimate");
         FixtureSql sql(file.path(), true);
         sql.open();
