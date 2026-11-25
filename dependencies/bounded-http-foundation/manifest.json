@@ -30,7 +30,7 @@
     {
       "file": "0003-trantor-bounded-http.patch",
       "apply_at": "trantor",
-      "sha256": "576bcbbb3a489b02b66f390fd4e7f35a291e2ae997014824ed2b84700292a20e"
+      "sha256": "08249407fe9fa4a95860152d657ed2c440e74305561d0cd925a05d5eab28e5a4"
     },
     {
       "file": "0004-drogon-bounded-http.patch",
@@ -50,6 +50,6 @@
   },
   "allocation_inventory": {
     "file": "RESOURCE_ACCOUNTING.md",
-    "sha256": "551902bc370fd56f6a67bfa95ad56ae2e5f3842e2ef946df9b03f2b773a9e6f6"
+    "sha256": "86533737a38da6668cb117c5c19ed233f786af1dfcb296c288806cd81dbc9238"
   }
 }

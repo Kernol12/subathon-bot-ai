@@ -174,8 +174,9 @@ SDK lanes. No first-party public declaration or frozen test/oracle was changed;
 these results establish no release, platform or security verification.
 Correction 19 (API-024) adds first-party declarations and insertion-only probe
 actions keyed on an `api024` argument; every frozen selector is unchanged. Its
-suite `api-024.listener` is opt-in under `SUBATHON_BUILD_API_024_STAGE1`, labelled
-`intentional-red` and kept out of passing CI until implementation.
+suite `api-024.listener` is opt-in under `SUBATHON_BUILD_API_024_STAGE1` and not run
+in CI, so its credited local runs keep the standing admission (ADR-0013 item 4). Its
+frozen `intentional-red` label predates the implementation.
 
 ## Running relevant checks
 
