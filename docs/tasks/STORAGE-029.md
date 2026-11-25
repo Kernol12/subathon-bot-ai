@@ -1,5 +1,5 @@
 Task ID: STORAGE-029
-Work type: implementation
+Work type: cleanup
 Issue: https://github.com/Kernol12/subathon-bot-ai/issues/850
 
 Decisions 850.1–850.3 seal the v22 catalog and projection identities and
