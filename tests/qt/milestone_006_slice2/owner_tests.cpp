@@ -186,6 +186,40 @@ ColdQueueState restore_committed_queue(SqliteWriter &writer, CommandAuthority &a
             restored.prior_handoff};
 }
 
+// The pinned implementation exposes only an optional projection. Compare its
+// observable result until the owner returns a typed readback disposition.
+template <class Completion>
+bool same_restore_disposition(const Completion &left, const Completion &right) {
+    if constexpr (requires { left.disposition; })
+        return left.disposition == right.disposition;
+    else
+        return left.queue.has_value() == right.queue.has_value();
+}
+
+struct RestoreAuthority final : CommandAuthority {
+    Authority base;
+    QByteArray restricted_operation;
+    bool facts_available{true};
+    std::vector<QByteArray> reads;
+
+    std::optional<Facts> select(const SqliteWorkSession &session, const Command &command) override {
+        reads.push_back(command.operation);
+        auto facts = base.select(session, command);
+        if (facts && command.operation == restricted_operation) {
+            if (!facts_available)
+                return std::nullopt;
+            facts->can_disclose = false;
+        }
+        return facts;
+    }
+
+    std::optional<qint64> historical_bonus_amount(const SqliteWorkSession &session,
+                                                  const Occurrence &target,
+                                                  const Replacement &replacement) override {
+        return base.historical_bonus_amount(session, target, replacement);
+    }
+};
+
 struct PlaybackFixture {
     Populated seed{{.third_target = true, .audio_job = true, .edit_slots = 3}};
     Authority owner;
@@ -680,6 +714,135 @@ class Milestone006OwnerTests final : public QObject {
             }
         });
     }
+    void coldRestoreDistinguishesAuthorityFromAbsence_data() {
+        QTest::addColumn<bool>("at_successor");
+        QTest::newRow("stop-readback") << false;
+        QTest::newRow("successor-selection") << true;
+    }
+
+    void coldRestoreDistinguishesAuthorityFromAbsence() {
+        QFETCH(bool, at_successor);
+        check([&] {
+            PlaybackFixture f(true, true);
+            const Occurrence successor{edit::track, edit::c, f.seed.add_third_occurrence(true)};
+            f.seed.db.reopen(profile());
+            RestoreAuthority authority;
+            const auto next = stop("select-existing-next", successor);
+            const auto restore = [&](const Command &wanted_stop, const Command &wanted_next,
+                                     const PlaybackHandoff &handoff) {
+                authority.reads.clear();
+                auto result = restore_interrupted_milestone_queue(
+                    f.seed.db.writer(), authority, wanted_stop, wanted_next, handoff);
+                finance::normal(result.work);
+                return result;
+            };
+            const auto positive = restore(f.command, next, f.exact);
+            require(positive.queue && positive.queue->holds.size() == 1 &&
+                        !positive.queue->selected.empty() && !positive.queue->presentation,
+                    "Normally acknowledged restore publishes the durable Hold and selection");
+
+            auto missing_stop = f.command;
+            auto missing_handoff = f.exact;
+            auto missing_next = next;
+            if (at_successor) {
+                auto target = successor;
+                target.occurrence = MilestoneOccurrenceKey{"unrecorded-successor"};
+                missing_next = stop("select-missing-next", std::move(target));
+            } else {
+                missing_stop.operation = "no-recorded-stop";
+                missing_handoff.selected.stop = missing_stop.operation;
+            }
+            const auto absent = restore(missing_stop, missing_next, missing_handoff);
+            const auto absent_operation =
+                at_successor ? missing_next.operation : missing_stop.operation;
+            require(!absent.queue && std::ranges::find(authority.reads, absent_operation) !=
+                                         authority.reads.end(),
+                    "Authoritative lookup reaches the exact missing record without a projection");
+
+            authority.restricted_operation = at_successor ? next.operation : f.command.operation;
+            authority.facts_available = false;
+            const auto unavailable = restore(f.command, next, f.exact);
+            require(!unavailable.queue &&
+                        std::ranges::find(authority.reads, authority.restricted_operation) !=
+                            authority.reads.end(),
+                    "Missing authority is reached without publishing an empty queue");
+            authority.facts_available = true;
+            const auto denied = restore(f.command, next, f.exact);
+            require(!denied.queue &&
+                        std::ranges::find(authority.reads, authority.restricted_operation) !=
+                            authority.reads.end(),
+                    "Known disclosure denial is reached without publishing an empty queue");
+
+            require(!same_restore_disposition(absent, unavailable),
+                    "Missing authority is distinguishable from acknowledged absence");
+            require(!same_restore_disposition(absent, denied),
+                    "Known denial is distinguishable from acknowledged absence");
+            require(!same_restore_disposition(unavailable, denied),
+                    "Missing authority is distinguishable from known denial");
+        });
+    }
+
+    void coldRestoreDistinguishesWriterUncertaintyFromAbsence() {
+        check([] {
+            PlaybackFixture f(true, true);
+            const Occurrence successor{edit::track, edit::c, f.seed.add_third_occurrence(true)};
+            f.seed.db.reopen(profile());
+            RestoreAuthority authority;
+            const auto next = stop("select-existing-next", successor);
+            const auto restore = [&](const Command &wanted_stop, const PlaybackHandoff &handoff) {
+                authority.reads.clear();
+                return restore_interrupted_milestone_queue(f.seed.db.writer(), authority,
+                                                           wanted_stop, next, handoff);
+            };
+            auto missing = f.command;
+            missing.operation = "no-recorded-stop";
+            auto missing_handoff = f.exact;
+            missing_handoff.selected.stop = missing.operation;
+            const auto absent = restore(missing, missing_handoff);
+            finance::normal(absent.work);
+            require(!absent.queue && authority.reads == std::vector{missing.operation},
+                    "Acknowledged absence was looked up with authority");
+
+            bool drained = false;
+            auto &writer = f.seed.db.writer();
+            require(writer.enqueue_work(
+                        [](auto context) {
+                            context.begin().commit();
+                            return QVariant(1);
+                        },
+                        [&](auto) { drained = true; }) == StorageError::none,
+                    "A queued writer unit prevents inline restore");
+            const auto busy = restore(f.command, f.exact);
+            QTRY_VERIFY(drained);
+            require(busy.work.transaction == TransactionOutcome::not_started &&
+                        busy.work.error == WorkError::busy && !busy.queue &&
+                        authority.reads.empty(),
+                    "Busy writer begins no read and publishes no projection");
+
+            require(SqliteWriterWorkAccess::inject_next_control_ack_loss(
+                        writer, WorkControlFault::lose_next_commit_ack) == StorageError::none,
+                    "The exact restore transaction will lose acknowledgement");
+            const auto unknown = restore(f.command, f.exact);
+            require(unknown.work.transaction == TransactionOutcome::outcome_unknown &&
+                        unknown.work.error == WorkError::uncertain_outcome && !unknown.queue &&
+                        std::ranges::find(authority.reads, next.operation) != authority.reads.end(),
+                    "Lost acknowledgement suppresses the projection after successor selection");
+            f.seed.db.reopen(profile());
+            const auto recovered = restore(f.command, f.exact);
+            finance::normal(recovered.work);
+            require(recovered.queue && recovered.queue->holds.size() == 1 &&
+                        !recovered.queue->selected.empty() && !recovered.queue->presentation,
+                    "Fresh acknowledged readback recovers the durable Hold and selection");
+
+            require(!same_restore_disposition(absent, busy),
+                    "Busy writer is distinguishable from acknowledged absence");
+            require(!same_restore_disposition(absent, unknown),
+                    "Unknown writer result is distinguishable from acknowledged absence");
+            require(!same_restore_disposition(busy, unknown),
+                    "Busy writer is distinguishable from an unknown transaction outcome");
+        });
+    }
+
     void t2ColdRestoreSelectionHoldAndMarkedPlayback_data() {
         QTest::addColumn<bool>("has_marker");
         QTest::newRow("marked") << true;
