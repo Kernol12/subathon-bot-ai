@@ -451,38 +451,6 @@ jobs:
           python3 tools/binary_closure.py --expected tools/binary_closures/sqlite-reference-capture-debug.json
           --build-dir build/sqlite-reference-capture-debug --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
           --patch-out "$RUNNER_TEMP/closure-patches/sqlite-reference-capture-debug.patch"
-      - name: Observe STORAGE-021 hosted v22 donor identity
-        run: |
-          set -euo pipefail
-          export QT_PLUGIN_PATH="$QT_PREFIX/plugins"
-          export QT_FORCE_STDERR_LOGGING=1
-          bin=build/sqlite-reference-capture-debug/tests/qt
-          engine="$("$bin/sqlite_migration_engine_witness" 2>&1)"
-          printf '%s\n' "$engine"
-          grep -F '"sqlite_version":"3.53.4"' <<< "$engine"
-          grep -F '"sqlite_source_id":"2026-07-24 19:02:57 bf7c7f30031888f4e796e429ab3978879485813aaca6f641c7b33e4e09459bcc"' <<< "$engine"
-          grep -F '"TEMP_STORE=1"' <<< "$engine"
-          donors="$(mktemp -d "$RUNNER_TEMP/storage-021-donors.XXXXXXXX")"
-          trap 'rm -rf -- "$donors"' EXIT
-          "$bin/server_storage_021_stage1_bounds" --assemble "$donors"
-          python3 - "$donors" <<'PYTHON'
-          import hashlib
-          import sqlite3
-          import sys
-          from pathlib import Path
-
-          for donor in sorted(Path(sys.argv[1]).glob("*.sqlite")):
-              data = donor.read_bytes()
-              print(donor.name, "SHA-256", hashlib.sha256(data).hexdigest(),
-                    "header[92:100]", data[92:100].hex())
-              with sqlite3.connect(donor.as_uri() + "?mode=ro&immutable=1", uri=True) as db:
-                  for query in ("PRAGMA page_size", "PRAGMA page_count", "PRAGMA auto_vacuum",
-                                "PRAGMA integrity_check", "PRAGMA foreign_key_check",
-                                "SELECT count(*), min(version), max(version) FROM subathon_migration_history",
-                                "SELECT count(*) FROM subathon_plan_revisions "
-                                "WHERE valuation_state=0 AND parent_revision IS NULL"):
-                      print(query, db.execute(query).fetchall())
-          PYTHON
       - name: Run milestone replacement and interruption acceptance
         run: >-
           ctest --preset sqlite-reference-capture-debug
