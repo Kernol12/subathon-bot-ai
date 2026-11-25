@@ -48,12 +48,15 @@ checks are not completion: name the remaining work or the concrete blocker.
   `link_pull_request`. A runner that requires a branch-bound PR tool needs a
   thread on the target branch.
 - Keep builds and results in durable directories, outside `/tmp`.
-- Decide run mechanics yourself: paths, sandbox details, environment, ref
-  refreshes, rebuilds and merge-conflict resolutions. Note a choice in the PR when
-  a reader needs it.
+- Decide routine run mechanics yourself: paths, environment, ref refreshes,
+  rebuilds and merge-conflict resolutions. A choice is routine when it changes no
+  test's isolation, needs no sandbox exception and weakens no check or assertion.
+  Isolation changes go to the advisor and sandbox exceptions to the owner. Note a
+  choice in the PR when a reader needs it.
 - Test runs follow [ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md):
   required CI for a credited pass, one plain local run for intended red. Set no
-  merge hold and create no pin for a test run.
+  merge hold and create no pin for a test run. Add a suite to its existing CI job
+  in the implementation PR without asking.
 - Keep security-flagged material out of the coordinator context and refer the
   step to a Claude track through the advisor.
 - After a restart, verify the checkout, branch and PR head before running anything.

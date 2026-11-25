@@ -143,11 +143,12 @@ the live branch rules, not by a workflow's existence.
 The host Qt cases are the exception to one-process-per-suite registration: the
 native profile installs once per process. Each literal `method[:row]` from
 `tests/qt/api_host_cases.cmake` runs in its own process with Qt's normal init/cleanup
-and assertions. Compare that complete inventory with admitted Qt data-tag discovery
+and assertions. Compare that complete inventory with Qt data-tag discovery
 before running bodies. API-027 adds 70 lease selectors to the 87 existing cases:
 six serial controls and 32 isolated trials in each of the two concurrent rows.
-The host baseline CI job checks registration. Local admitted runtime evidence for
-the lease selectors is recorded on the issue. Other Qt suites retain their
+The host baseline CI job checks registration. The local runtime evidence recorded
+for the lease selectors on the issue predates
+[ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md) and keeps its recorded meaning. Other Qt suites retain their
 existing registration.
 
 The `bounded-http-foundation-debug` test preset filters its own label; the native

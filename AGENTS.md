@@ -48,7 +48,7 @@ Use the [project board](https://github.com/users/Kernol12/projects/1) for task
 selection. Take Ready tasks without `owner-hold`, `end-phase` or
 `security-blocked`, and prefer work that unblocks other tasks. Start contract
 stages during the day where possible; at night, prefer tasks whose contract is
-settled. Decide run mechanics yourself; send other questions to the advisor under
+settled. Decide routine run mechanics yourself; send other questions to the advisor under
 [docs/ADVISOR.md](docs/ADVISOR.md), which decides them or escalates them to the owner.
 Keep permanent rules here, task status and prerequisites on GitHub and review
 receipts in the PR.
@@ -58,7 +58,8 @@ only Ready tasks labelled `mvp`. The MVP is the server on Linux, the Twitch API 
 chat and StreamElements integrations, the browser overlay for OBS, the desktop
 management application on Linux, English, and Frankfurter as the rate provider. The
 release scope is unchanged: everything else in the specification follows after the
-MVP and is not dropped.
+MVP and is not dropped. The rule applies by day and at night to picking Ready work.
+Tasks that were already In progress or Parked on that day may be finished.
 
 Keep at most two In progress in different modules, including work waiting for CI
 or merge, and at most one migration at a time. During the day, In progress plus
@@ -93,7 +94,7 @@ test review and fresh intended red.
 Review depth follows the three tiers in `docs/AGENT_WORKFLOW.md`: the full
 Claude → Codex → Claude cycle for accounting, authentication, migrations and
 concurrency; one independent review for other code, tests and contracts; CI only for
-documentation. An author never approves their own work. At most two fix rounds per
+documentation that changes no requirement, test, build or evidence claim. An author never approves their own work. At most two fix rounds per
 review; rounds three to five need the advisor's approval and a sixth needs the owner.
 
 The issue body is the task brief. The default contract is the public header or

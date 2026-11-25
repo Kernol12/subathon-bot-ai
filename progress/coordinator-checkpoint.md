@@ -316,8 +316,8 @@ running sessions, completed reviews and receipts retain their original models.
   This supersedes the old9+1 pending101 tuple criterion, whose evidence is retained.
   C017-V1 cleanup-loss finding was resolved and reviewed at `d9875341`
   ([closing](https://github.com/Kernol12/subathon-bot-ai/pull/690#issuecomment-6943014022)).
-- Loaded sampling restarts from the beginning after an approved amendment and
-  fresh admission. **No builds or other heavy work anywhere on the machine during
+- Loaded sampling restarts from the beginning after an approved amendment; the
+  former fresh admission before it is retired by ADR-0014. **No builds or other heavy work anywhere on the machine during
   loaded sampling**; earlier concurrent CPU2/3 build permission is superseded.
   Keep inner setup attempts/misses separate from established product outcomes.
   Any product assertion or exhausted-witness failure stops for owner; no outer retry.

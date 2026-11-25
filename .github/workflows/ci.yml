@@ -1258,6 +1258,6 @@ jobs:
           PYTHON
       - name: Check existing infrastructure and tooling
         run: ctest --preset api-host-native-debug -L '^scaffold$' --no-tests=error --verbose
-      # No new consumer is launched here. Local separately reviewed native
-      # admission precedes intended red; this lane proves compilation/registration.
+      # No new consumer is launched here. Intended red is one plain local run
+      # (ADR-0014); this lane proves compilation/registration.
       # Existing green product suites retain their own ordinary acceptance jobs.

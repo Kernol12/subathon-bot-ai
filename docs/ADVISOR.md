@@ -15,7 +15,8 @@ coordinator works under [AGENTS.md](../AGENTS.md) and
 - An owner answer applies to the same kind of step later in the same task,
   in the same context with the same safeguards. This includes a rebuild, a
   re-check after a reviewed fix and a credited run after a trial run. Escalate
-  a different kind of step or a wider context.
+  a different kind of step or a wider context. This concerns steps that needed the
+  owner's answer; routine run mechanics need no answer at all.
 - The owner can reverse any advisor decision. A reversal applies from then on and
   never relabels evidence that was already recorded.
 
@@ -36,11 +37,14 @@ unchecked.
 
 ## Not the advisor's
 
-Run mechanics belong to the coordinator
-([ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md)): paths, sandbox
-details, environment, ref refreshes, rebuilds, merge-conflict resolutions and scripts
-that stay in a task's ignored build folder. The coordinator decides these without
-asking. Send such a question back with that answer.
+Routine run mechanics belong to the coordinator
+([ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md)): paths,
+environment, ref refreshes, rebuilds, merge-conflict resolutions and scripts that
+stay in a task's ignored build folder. A choice is routine when it changes no
+test's isolation, needs no sandbox exception and weakens no check or assertion. The
+coordinator decides these without asking; send such a question back with that
+answer. Isolation changes and sandbox exceptions are not routine and stay where the
+lists below put them.
 
 ## The advisor decides
 
@@ -49,12 +53,13 @@ asking. Send such a question back with that answer.
   Record the decision in the owner's digest for review.
 - **Fail-closed answers:** refuse what is unknown or unproved.
 - **Contract changes** within the issue's goal, compatible growth of a merged
-  contract, and splitting extra work into a new Planned issue.
+  contract, and splitting extra work into a new Planned issue under the split rule
+  in [the workflow](AGENT_WORKFLOW.md).
 - **Revised test baselines** for a genuine test defect, with an independent test
   review and fresh intended red.
 - **Isolation changes** that keep the setup at least as strict.
 - **Fix rounds three to five.** From round three, also check whether the task
-  should be split.
+  should be split under that rule.
 - **Order and priority** within the standing limits.
 
 ## Escalated to the owner
@@ -62,7 +67,9 @@ asking. Send such a question back with that answer.
 1. A specification contradiction or a gap without an applicable sibling rule.
 2. A new dependency or a provider change outside the standing Claude track.
 3. Process changes, reusable tools, anything under `tools/`, committed scripts or
-   tooling, and CI changes. Escalate before authoring any of these.
+   tooling, and CI changes. Escalate before authoring any of these. Adding a suite
+   to its existing CI job, with its library-list entry, is routine task work and is
+   not escalated.
 4. An incompatible change to a merged contract: stored data, a wire format or an
    existing caller breaks.
 5. Streamer-visible behavior without an applicable specification or sibling rule.
@@ -111,7 +118,9 @@ require separate authorization.
 
 ## Night
 
-- The coordinator picks Ready tasks and prefers tasks whose contract is settled.
+- The coordinator picks Ready tasks under the selection rules in
+  [AGENTS.md](../AGENTS.md), including the MVP rule, and prefers tasks whose
+  contract is settled.
 - A task that waits on an escalation parks, and the next one starts. The combined
   limit is lifted at night.
 - Start contract stages during the day where possible.
@@ -134,7 +143,7 @@ require separate authorization.
    exact task, scope and safeguards, and require independent
    reviews before and after. For restricted material, report
    pass or fail and checksums only, and keep raw listings private. Record the run
-   in the owner's daily digest. Each provider's safeguards still apply.
+   in the owner's next digest. Each provider's safeguards still apply.
 3. **Escalate after a Claude decline.** Stop without retrying or rewording and
    escalate to the owner. Explain the options in plain language, such as redesign,
    `end-phase`, dropping the scope or outside expertise.
@@ -149,8 +158,9 @@ require separate authorization.
 
 ## Provider usage limits
 
-When a provider reports a usage limit, the advisor notifies the owner once
-and attempts a short resume every hour. Resume on the existing allocation
+When a provider reports a usage limit, the advisor tells the owner once, in the
+next digest or at once when all work is stopped, and attempts a short resume every
+hour. Resume on the existing allocation
 with the same provider.
 
 ## Review

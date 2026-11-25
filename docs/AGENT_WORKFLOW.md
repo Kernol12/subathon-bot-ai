@@ -22,12 +22,19 @@ observed intended red → implementation → independent code review → relevan
 - Test programs are admitted in CI ([ADR-0013](decisions/0013-ci-test-program-admission.md)):
   the `core` and `qt` jobs compare every program's library closure with its list in
   `tools/binary_closures/`. The credited passing run is required CI on the reviewed
-  PR head; the PR names the commit and links the run. Intended red is one local run
-  on the reviewed commit, recorded in the PR with its command and failure summary.
-  A suite that no CI job runs joins a CI job in its implementation PR. A test that
-  cannot run on a hosted runner is run locally with its ordinary command and
-  recorded the same way. Test runs need no pin, seal, approval record or merge hold
-  ([ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md)).
+  PR head; the PR names the head commit and the tested merge commit and links the
+  run. Intended red is one plain local run on the reviewed tests commit, recorded in
+  the PR with its commit, command and failure summary.
+- A suite that no CI job runs joins a CI job in its implementation PR
+  ([ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md)). Adding a suite
+  to its existing job, with its entry in `tools/binary_closures/`, is part of the
+  task and needs no owner decision. Only when a test cannot run on a hosted runner
+  at all is its credited pass one plain local run on the reviewed head: the PR
+  records the commit, the command, the result and the reason CI cannot run it, and
+  the code reviewer reads that record before approving.
+- A local test run needs no pin, seal, approval record or owner confirmation, and
+  no merge hold is set for it. Seals and identity checks that a CI job performs
+  itself, such as the `native` job's SDK gate, are unchanged.
 - Expected values come from the specification, never from the implementation.
 - Do not delete, skip or weaken reviewed assertions to make code pass. Correct a
   genuine test defect only with specification-based reasoning and a separate reviewer
@@ -42,9 +49,17 @@ a short tracked pointer file under `docs/tasks` with one line each for `Task ID`
 the pointer in a complete reviewed stage for publication.
 
 An imported issue may name a separate `…TEST-nnn` baseline task. Read that as
-the tests stage of the same issue. A tier B task uses one PR for both stages: push
-the reviewed tests commit first, observe intended red on it, then add the
-implementation commits. A tier A task uses one PR per stage.
+the tests stage of the same issue. A tier A task uses one PR per stage. A tier B
+task uses one PR for both stages:
+
+1. The tests are reviewed on the local commit; unreviewed test source stays local.
+2. After that review approves, observe intended red locally, push the reviewed
+   tests commit and open the draft PR. Post the tests review and the red record as
+   its first comments.
+3. Add the implementation commits to the same PR and post the code review there.
+4. Keep the new tests behind the task's default-OFF build option until the
+   implementation commits enrol them in their CI job, so that no required check
+   runs them red. Only the final head, with every required check passing, merges.
 
 The tests stage adds at most 800 lines of tests and fixtures unless the issue names
 a larger number and the reason. Write one test per row of the examples table and
@@ -58,8 +73,12 @@ sets the review tier, integrates shared files and merges. Authors produce bounde
 and factual evidence. Reviewers stay read-only and assess requirements, oracles,
 implementation and gaps.
 
-- The coordinator decides run mechanics itself: paths, sandbox details, environment,
-  ref refreshes, rebuilds and merge-conflict resolutions. It asks nobody for these.
+- The coordinator decides routine run mechanics itself: paths, environment, ref
+  refreshes, rebuilds and merge-conflict resolutions. A choice is routine when it
+  changes no test's isolation, needs no sandbox exception and weakens no check or
+  assertion. Isolation changes go to the advisor and sandbox exceptions to the
+  owner, and a standing owner rule in the checkpoint that stops a particular
+  conflict for the owner still applies.
 - An author never approves their own work. A reviewer who writes a fix cannot approve
   that fix.
 - The default split is Codex authors and Claude reviewers. The coordinator chooses the
@@ -204,7 +223,9 @@ subdirectory per session.
 
 ## Continuous integration
 
-Add a suite to [the CI workflow](CI.md) when its module lands. Keep actions and
+Add a suite to [the CI workflow](CI.md) when its module lands. Adding a suite to its
+existing job, with its library-list entry, is routine task work; any other CI or
+`tools/` change needs the owner first. Keep actions and
 dependencies pinned and permissions limited. Intentional-red baselines and live
 credential checks stay out of passing gates. Never use `WILL_FAIL`,
 continue-on-error or skips to hide a failure. Renaming or removing a required job
