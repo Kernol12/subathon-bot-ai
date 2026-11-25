@@ -1069,8 +1069,9 @@ sections. Either arm returns `unavailable` if taking its own lock throws.
 Implementation (patch 0003 contents, the adapter and the Host call): the 50 ms
 listener hold and owner-turn recovery, listening and registration guards with
 poller changes only on actual interest changes, the outcome script and the
-observer facts. Bounded `Acceptor` and `TcpServer` code reads its channel's actual
-poller state through one added `friend` in installed `Channel.h`; no export changes.
+observer facts. Only bounded `Acceptor` code reads its channel's actual poller
+state, through one added `friend` in installed `Channel.h`; `TcpServer` publishes
+retirement through the Producer. No export changes.
 
 Import, do not reopen, the parent numeric-address/data-endpoint observation,
 public enableReusePort(true) probe bypass plus pre-listen SO_REUSEPORT clear and
