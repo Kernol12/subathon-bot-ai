@@ -16,3 +16,8 @@ foreach(case catalog writer)
         LIBRARIES subathon_storage_003_fixture_owner subathon_contribution_review
         LABELS "storage-003;acceptance;qt;server;intentional-red" TIMEOUT 240)
 endforeach()
+
+subathon_add_qt_suite(server_storage_003_w1_open_admission
+    NAME storage-003-w1-open-admission SOURCES w1_open_admission_tests.cpp
+    LIBRARIES subathon_storage_003_fixture_owner subathon_contribution_review
+    LABELS "storage-003-w1-open-admission;acceptance;qt;server;intentional-red" TIMEOUT 240)
