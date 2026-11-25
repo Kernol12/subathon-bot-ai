@@ -98,6 +98,11 @@ if(TARGET Qt6::Core AND TARGET Qt6::Sql)
     add_library(subathon_sqlite_v22_catalog STATIC src/sqlite_v22_catalog.cpp)
     subathon_target_options(subathon_sqlite_v22_catalog)
 
+    # Sealed v23 step data. The writer recognizes the v23 head from this leaf;
+    # only the private rebuild owner applies it.
+    add_library(subathon_sqlite_v23_step STATIC src/v23_executor/step_data.cpp)
+    subathon_target_options(subathon_sqlite_v23_step)
+
     add_library(subathon_sqlite_catalog_inspection STATIC src/sqlite_catalog_inspection.cpp)
     target_include_directories(subathon_sqlite_catalog_inspection PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_catalog_inspection PRIVATE Qt6::Sql)
@@ -106,7 +111,8 @@ if(TARGET Qt6::Core AND TARGET Qt6::Sql)
     add_library(subathon_sqlite_writer STATIC src/sqlite_writer.cpp)
     target_include_directories(subathon_sqlite_writer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_writer PUBLIC Qt6::Core Qt6::Sql
-        PRIVATE subathon_sqlite_v22_catalog subathon_sqlite_catalog_inspection)
+        PRIVATE subathon_sqlite_v22_catalog subathon_sqlite_v23_step
+            subathon_sqlite_catalog_inspection)
     subathon_target_options(subathon_sqlite_writer)
 
     if(TARGET subathon_credential_record)
@@ -275,9 +281,11 @@ if(TARGET subathon_sqlite_credential_catalog AND TARGET subathon_sqlite_permissi
     subathon_target_options(subathon_contribution_review)
 
     add_library(subathon_sqlite_v23_rebuild STATIC EXCLUDE_FROM_ALL
-        src/sqlite_clock_checkpoint.cpp src/sqlite_v23_rebuild.cpp)
+        src/sqlite_clock_checkpoint.cpp src/sqlite_v23_rebuild.cpp
+        src/v23_executor/fixture_bounds.cpp src/v23_executor/copy_comparison.cpp)
     target_link_libraries(subathon_sqlite_v23_rebuild PRIVATE
-        subathon_contribution_review subathon_sqlite_v22_catalog subathon_sqlite_catalog_inspection)
+        subathon_contribution_review subathon_sqlite_v22_catalog subathon_sqlite_v23_step
+        subathon_sqlite_catalog_inspection)
     subathon_target_options(subathon_sqlite_v23_rebuild)
 endif()
 

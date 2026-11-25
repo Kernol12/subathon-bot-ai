@@ -313,14 +313,15 @@ template <class E> constexpr unsigned tag_max() {
         return std::max({unsigned(E::before_begin), unsigned(E::before_statement),
                          unsigned(E::before_history), unsigned(E::before_commit)});
     if constexpr (std::is_same_v<E, subathon::server::MigrationReason>)
-        return std::max(
-            {unsigned(E::none), unsigned(E::feature_not_implemented), unsigned(E::invalid_manifest),
-             unsigned(E::cancelled), unsigned(E::foreign_store), unsigned(E::catalog_mismatch),
-             unsigned(E::unsupported_catalog_format), unsigned(E::unsupported_version),
-             unsigned(E::unsupported_encoding), unsigned(E::schema_mismatch),
-             unsigned(E::integrity_failed), unsigned(E::inspection_failed), unsigned(E::busy),
-             unsigned(E::sql_failure), unsigned(E::resource_limit), unsigned(E::callback_failure),
-             unsigned(E::uncertain_outcome), unsigned(E::writer_unavailable)});
+        return std::max({unsigned(E::none), unsigned(E::feature_not_implemented),
+                         unsigned(E::invalid_manifest), unsigned(E::cancelled),
+                         unsigned(E::foreign_store), unsigned(E::catalog_mismatch),
+                         unsigned(E::unsupported_catalog_format), unsigned(E::unsupported_version),
+                         unsigned(E::unsupported_encoding), unsigned(E::schema_mismatch),
+                         unsigned(E::integrity_failed), unsigned(E::inspection_failed),
+                         unsigned(E::busy), unsigned(E::sql_failure), unsigned(E::resource_limit),
+                         unsigned(E::callback_failure), unsigned(E::uncertain_outcome),
+                         unsigned(E::writer_unavailable), unsigned(E::committed_restore_failed)});
     if constexpr (std::is_same_v<E, subathon::server::CatalogState>)
         return std::max({unsigned(E::fresh), unsigned(E::upgrade_required), unsigned(E::current)});
     if constexpr (std::is_same_v<E, subathon::server::PermissionGraphFailure>)
