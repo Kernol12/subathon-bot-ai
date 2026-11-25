@@ -15,8 +15,6 @@ using subathon::server::detail::testing::FakeOps02UpdateHoldIssuer;
 
 constexpr MigrationAdmission invalid{StorageError::invalid_options,
                                      MigrationReason::invalid_manifest};
-constexpr MigrationAdmission inert{StorageError::feature_not_implemented,
-                                   MigrationReason::feature_not_implemented};
 
 void expect_admission(MigrationAdmission actual, MigrationAdmission expected) {
     require(actual.error == expected.error && actual.reason == expected.reason,
@@ -91,12 +89,6 @@ class Fixture final {
                 "Main and WAL bytes are unchanged and no rollback journal remains");
     }
 
-    void reach_inert(V23StoppedWriterLease lease, Ops02UpdateHold hold,
-                     V23RebuildBudget budget = {}) {
-        reject(std::move(lease), std::move(hold), inert, budget);
-        auto replacement = reserve();
-    }
-
     void reject(V23StoppedWriterLease lease, Ops02UpdateHold hold, MigrationAdmission expected,
                 V23RebuildBudget budget = {}, bool null_completion = false) {
         const auto before = file_state();
@@ -116,6 +108,39 @@ class Fixture final {
     V22PreOpenWitness witness;
     SqliteWriter writer;
 };
+
+void cancel_before_begin(Fixture &f, V23StoppedWriterLease lease, Ops02UpdateHold hold,
+                         V23RebuildBudget budget = {}) {
+    const auto before = f.file_state();
+    struct Observation {
+        QList<MigrationCheckpoint> checkpoints;
+        int completions = 0;
+        std::optional<MigrationResult> result;
+    };
+    auto observed = std::make_shared<Observation>();
+    expect_admission(enqueue_v23_rebuild(
+                         f.witness, std::move(hold), std::move(lease), budget,
+                         [observed](const MigrationProgress &progress) {
+                             observed->checkpoints.append(progress.checkpoint);
+                             return true;
+                         },
+                         [observed](auto result) {
+                             ++observed->completions;
+                             observed->result = std::move(result);
+                         }),
+                     {});
+    require(QTest::qWaitFor([observed] { return observed->result.has_value(); }, 10000),
+            "Admitted rebuild delivers cancellation completion");
+    QCoreApplication::processEvents();
+    const auto &result = *observed->result;
+    require(observed->checkpoints == QList{MigrationCheckpoint::before_begin} &&
+                observed->completions == 1 && result.reason == MigrationReason::cancelled &&
+                result.work.transaction == TransactionOutcome::not_started && !result.report &&
+                !result.work.value,
+            "One before_begin probe and one cancelled completion without a transaction or value");
+    f.require_unchanged(before);
+    auto replacement = f.reserve();
+}
 
 void zero_budget(Fixture &f, V23RebuildBudget budget) {
     const auto before = f.file_state();
@@ -143,7 +168,7 @@ void zero_budget(Fixture &f, V23RebuildBudget budget) {
     auto replacement = f.reserve();
 }
 
-enum class OrdinaryCase { advance, changed_starts, changed_prefix, inspect };
+enum class OrdinaryCase { advance, changed_starts, changed_prefix, caller_id, inspect };
 
 void ordinary_v23(Fixture &f, OrdinaryCase specimen) {
     auto manifest = compiled_successor();
@@ -151,6 +176,8 @@ void ordinary_v23(Fixture &f, OrdinaryCase specimen) {
     // identical and the only v23 SQL is a read-only statement.
     const auto schema = manifest.steps.back().expected_schema;
     manifest.steps.append({23, "exact-valuation-parent-rebuild-v1", {"SELECT 1"}, schema});
+    if (specimen == OrdinaryCase::caller_id)
+        manifest.steps.back().id = "caller-owned-v23";
     manifest.supported_starting_versions.append(23);
     if (specimen == OrdinaryCase::changed_starts)
         manifest.supported_starting_versions.removeAt(1);
@@ -268,13 +295,14 @@ int main(int argc, char **argv) {
         }
     };
 
-    run("both omitted",
-        [](Fixture &f) { f.reach_inert(f.reserve(), FakeOps02UpdateHoldIssuer::issue()); });
+    run("both omitted", [](Fixture &f) {
+        cancel_before_begin(f, f.reserve(), FakeOps02UpdateHoldIssuer::issue());
+    });
     run("disk omitted", [](Fixture &f) {
-        f.reach_inert(f.reserve(), FakeOps02UpdateHoldIssuer::issue(), {{}, 184'549'376});
+        cancel_before_begin(f, f.reserve(), FakeOps02UpdateHoldIssuer::issue(), {{}, 184'549'376});
     });
     run("memory omitted", [](Fixture &f) {
-        f.reach_inert(f.reserve(), FakeOps02UpdateHoldIssuer::issue(), {83'886'080, {}});
+        cancel_before_begin(f, f.reserve(), FakeOps02UpdateHoldIssuer::issue(), {83'886'080, {}});
     });
     run("disk compiled plus one", [](Fixture &f) {
         f.reject(f.reserve(), FakeOps02UpdateHoldIssuer::issue(), invalid, {83'886'081, {}});
@@ -290,7 +318,7 @@ int main(int argc, char **argv) {
         auto source = f.reserve();
         auto owner = std::move(source);
         f.reject(std::move(source), FakeOps02UpdateHoldIssuer::issue(), invalid);
-        f.reach_inert(std::move(owner), FakeOps02UpdateHoldIssuer::issue());
+        cancel_before_begin(f, std::move(owner), FakeOps02UpdateHoldIssuer::issue());
     });
     run("destroyed writer lease", [&](Fixture &f) {
         V23StoppedWriterLease stale;
@@ -323,7 +351,7 @@ int main(int argc, char **argv) {
         auto source = FakeOps02UpdateHoldIssuer::issue();
         auto owner = std::move(source);
         f.reject(f.reserve(), std::move(source), invalid);
-        f.reach_inert(f.reserve(), std::move(owner));
+        cancel_before_begin(f, f.reserve(), std::move(owner));
     });
     run("null completion", [](Fixture &f) {
         f.reject(f.reserve(), FakeOps02UpdateHoldIssuer::issue(),
@@ -361,6 +389,8 @@ int main(int argc, char **argv) {
         [](Fixture &f) { ordinary_v23(f, OrdinaryCase::changed_starts); });
     run("ordinary v23 advance with changed prefix",
         [](Fixture &f) { ordinary_v23(f, OrdinaryCase::changed_prefix); });
+    run("ordinary v23 advance with caller-chosen ID",
+        [](Fixture &f) { ordinary_v23(f, OrdinaryCase::caller_id); });
     run("ordinary v23 inspect", [](Fixture &f) { ordinary_v23(f, OrdinaryCase::inspect); });
     run("mutual exclusion", exclusion);
     run("shutdown revokes reservation", [](Fixture &f) {
