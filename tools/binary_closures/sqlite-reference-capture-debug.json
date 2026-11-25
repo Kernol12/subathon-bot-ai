@@ -137,6 +137,8 @@
     "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_modifier_activations_acceptance": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_original_claim_acceptance": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_permission_graph_acceptance": "qt-sql-test",
+    "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_rate_catalog_enrollment_controls": "qt-sql-test",
+    "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_rate_catalog_enrollment_fixture": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_rate_override_catalog_acceptance": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_rate_override_writer_acceptance": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_receipts_acceptance": "qt-sql-test",
