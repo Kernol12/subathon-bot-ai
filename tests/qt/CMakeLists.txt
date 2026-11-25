@@ -413,7 +413,8 @@ if(SUBATHON_BUILD_STORAGE_021_STAGE1)
     subathon_target_options(server_storage_021_stage1_bounds)
 
     add_executable(server_storage_021_stage1_controls
-        storage_021/control_tests.cpp storage_021/fake_ops02_update_hold.cpp)
+        storage_021/control_tests.cpp storage_021/fake_ops02_update_hold.cpp
+        storage_021/v23_inspection_fixture.cpp)
     target_include_directories(server_storage_021_stage1_controls PRIVATE
         "${PROJECT_SOURCE_DIR}/server/src")
     target_link_libraries(server_storage_021_stage1_controls PRIVATE

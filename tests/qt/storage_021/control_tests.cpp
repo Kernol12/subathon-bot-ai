@@ -3,6 +3,7 @@
 #include "contribution_review_writer_access.hpp"
 #include "fake_ops02_update_hold.hpp"
 #include "sqlite_v23_rebuild.hpp"
+#include "v23_inspection_fixture.hpp"
 
 #include <QCoreApplication>
 #include <QScopeGuard>
@@ -131,7 +132,8 @@ constexpr auto v23_prefix = "cbadf8cc4def9035e315c94af7174f87e4abba3dfca4e797052
 void expect_v23_inspection(const DisposableFile &file, MigrationReason expected) {
     const auto before = file.seal();
     const auto path = file.path();
-    const auto inspected = inspect_v23_pre_open(path, setup_profile);
+    const auto inspected =
+        subathon::server::detail::testing::V23InspectionFixture::inspect(path);
     require(file.seal() == before && !QFileInfo::exists(path + "-journal"),
             "Private v23 inspection leaves the stopped database unchanged");
     if (const auto *reason = std::get_if<MigrationReason>(&inspected)) {

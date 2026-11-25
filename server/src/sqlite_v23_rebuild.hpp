@@ -30,6 +30,18 @@ struct V23PreOpenObservation {
 [[nodiscard]] std::variant<V23PreOpenObservation, MigrationReason>
 inspect_v23_pre_open(const QString &path, StorageLimits limits);
 
+namespace testing {
+class V23InspectionFixture;
+}
+
+class V23InspectionAccess final {
+  private:
+    [[nodiscard]] static std::variant<V23PreOpenObservation, MigrationReason>
+    inspect_with_limits(const QString &path, StorageLimits limits);
+
+    friend class testing::V23InspectionFixture;
+};
+
 inline constexpr std::uint64_t v23_fixture_disk_bytes = 83'886'080;
 inline constexpr std::uint64_t v23_fixture_memory_bytes = 184'549'376;
 

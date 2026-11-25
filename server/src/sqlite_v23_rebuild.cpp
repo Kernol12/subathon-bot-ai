@@ -588,6 +588,11 @@ std::variant<V23PreOpenObservation, MigrationReason> inspect_v23_pre_open(const 
     }
 }
 
+std::variant<V23PreOpenObservation, MigrationReason>
+V23InspectionAccess::inspect_with_limits(const QString &path, StorageLimits limits) {
+    return inspect_v23_pre_open(path, limits);
+}
+
 MigrationAdmission enqueue_v23_rebuild(V22PreOpenWitness witness, Ops02UpdateHold hold,
                                        V23StoppedWriterLease lease, V23RebuildBudget budget,
                                        V23Cancellation cancel,
