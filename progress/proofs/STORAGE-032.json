@@ -1,0 +1,206 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-032",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 834
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/STORAGE-032.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/834",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/860",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/834#issuecomment-7153828740",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053086734",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053087420",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45556042244/job/139008211295",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45559931304/job/139020930808",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/859",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053136548",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45563994127",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/861",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053626549"
+  ],
+  "limitations": [
+    "W1 only. Deferred w1RuntimeRecipeDenials and W2\u2013W5 remain with #834 follow-up. #609 owns v23 executor and integrates shared writer/migration files after W1 merges.",
+    "Reviewed plain local runs at 99826b04 and 5c9bb70e produced six and two intended admission mismatches respectively, zero skips. ADR-0013 point 3, clarified by #859, supersedes 834.16 local standing admission. Historical CMake registration is documented; the two authored test sources survive byte-identically.",
+    "Qt run 45559931304 tested 37acb605 from 61ded0b5 and main 0bb9d3d6. All seven required checks passed. The admission list matched 72 programs and the four selected W1 suites passed 32/8/8/4 with zero failures, skips or blacklisted cases.",
+    "The frozen Writer source adds a macro guard only. The default runner still builds all seven methods; CI runs the separate runner with six. Three passing suites retain intentional-red metadata and are selected by anchored name.",
+    "Recognition coverage for unreadable row one, future production lineage and malformed count remains static. No live or platform verification claimed.",
+    "Decision 834.18 assigns W1 the distinct STORAGE-032 identity; the #318 historical proof is preserved. Seven required checks passed on the identity-only head. Governing-mode DDL and reserved-history protection is split to #861 under 777.5.",
+    "After #858 merged, the clean integration at 0e095567 combined the two Qt selections and all 74 closure programs. Fresh focused verification and closing bind the changed workflow and closure files. The previous proof 122c1192 is superseded. Combined exact-head CI is a separate merge gate."
+  ],
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "revision": "5c9bb70e71ac434afa430b0fa55900efed35157d",
+        "authors": [
+          "codex:STORAGE-003-W1-author"
+        ],
+        "paths": [
+          "tests/qt/storage_003/w1_admission_supplement_tests.cpp",
+          "tests/qt/storage_003/w1_open_admission_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:STORAGE-003-tests-initial",
+            "revision": "99826b048ced7feb68c06dc0d4feecea0ca77a59",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053086734",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/verify_834_61ded0b",
+            "revision": "5c9bb70e71ac434afa430b0fa55900efed35157d",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053086734",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:STORAGE-003-tests-closing",
+            "revision": "5c9bb70e71ac434afa430b0fa55900efed35157d",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053086734",
+            "findings": [
+              "T-1",
+              "T-2",
+              "T-3"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "revision": "0e0955670d4e0ff0d3e72cafd2d346d6eb3a1999",
+        "authors": [
+          "codex:STORAGE-003-W1-author",
+          "codex:STORAGE-003-coordinator"
+        ],
+        "paths": [
+          ".github/workflows/ci.yml",
+          "docs/tasks/STORAGE-032.md",
+          "server/include/subathon/server/sqlite_writer.hpp",
+          "server/src/sqlite_application_bundle.cpp",
+          "server/src/sqlite_clock_checkpoint.cpp",
+          "server/src/sqlite_migration_inspection.hpp",
+          "server/src/sqlite_migrations.cpp",
+          "server/src/sqlite_writer.cpp",
+          "tests/qt/storage_003/CMakeLists.txt",
+          "tests/qt/storage_003/w1_admission_supplement_tests.cpp",
+          "tests/qt/storage_003/w1_open_admission_tests.cpp",
+          "tests/qt/storage_003/writer_tests.cpp",
+          "tools/binary_closures/sqlite-reference-capture-debug.json"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:STORAGE-003-implementation-initial",
+            "revision": "75a12434751d14f20d19b1672be4b3680544fbcd",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053087420",
+            "findings": [
+              "B1",
+              "B2",
+              "B3"
+            ],
+            "blocking_findings": [
+              "B1",
+              "B2",
+              "B3"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/verify_834_61ded0b",
+            "revision": "61ded0b5544911b9f3a2111ca9173a44dff9a04c",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053087420",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:STORAGE-003-implementation-closing",
+            "revision": "61ded0b5544911b9f3a2111ca9173a44dff9a04c",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053087420",
+            "findings": [
+              "I-1",
+              "I-2",
+              "I-3",
+              "I-4",
+              "I-5",
+              "I-6"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/verify_834_storage032",
+            "revision": "3a973d8c8c1620fb6f6211b38d16a33f87d0b3b1",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053136548",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:STORAGE-032-identity-closing",
+            "revision": "3a973d8c8c1620fb6f6211b38d16a33f87d0b3b1",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053136548",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/verify_860_0e095567",
+            "revision": "0e0955670d4e0ff0d3e72cafd2d346d6eb3a1999",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053626549",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:STORAGE-032-integration-closing",
+            "revision": "0e0955670d4e0ff0d3e72cafd2d346d6eb3a1999",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/860#pullrequestreview-6053626549",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  }
+}
