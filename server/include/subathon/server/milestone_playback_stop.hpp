@@ -44,12 +44,16 @@ struct RestoredMilestoneQueueCompletion {
     SqliteWorkResult work;
     std::optional<RestoredMilestoneQueue> queue;
     std::optional<Disposition> disposition;
+    std::optional<std::vector<ScopedCause>> durable_holds;
+    bool authoritative_absence{false};
 };
 
-// Only a normally acknowledged replay provides a queue to adopt. Keep
-// scheduling fenced on abnormal work until a fresh writer readback succeeds.
+// Acknowledged Stop readback can recover its active Holds independently of the
+// queue projection. Keep scheduling fenced when authority or writer acknowledgement
+// is unavailable, until a fresh authoritative readback succeeds.
 [[nodiscard]] RestoredMilestoneQueueCompletion
 restore_interrupted_milestone_queue(SqliteWriter &, CommandAuthority &, const Command &stop,
-                                    const Command &next, const PlaybackHandoff &);
+                                    const std::optional<Command> &next,
+                                    const std::optional<PlaybackHandoff> &);
 
 } // namespace subathon::server::milestone_interruption

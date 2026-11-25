@@ -402,11 +402,9 @@ lookup_playback_evidence(const SqliteWorkSession &s, CommandAuthority &authority
 namespace {
 
 std::optional<PlaybackOutcome> retained_handoff(const SqliteWorkSession &s,
-                                                const PlaybackHandoff &wanted) {
+                                                const PlaybackHandoff &wanted,
+                                                const Instance &selected) {
     const auto &request = wanted.selected;
-    const auto selected = find_instance(s, request, nullptr);
-    if (!handoff_matches(selected, wanted))
-        return {};
     auto args = stop_key(request.track, request.stop);
     args.append(wanted.intent);
     const auto rows = s.execute(
@@ -415,10 +413,10 @@ std::optional<PlaybackOutcome> retained_handoff(const SqliteWorkSession &s,
          "LIMIT 1",
          args});
     if (rows.empty())
-        return selected->claimed ? std::optional{PlaybackOutcome::uncertain} : std::nullopt;
+        return selected.claimed ? std::optional{PlaybackOutcome::uncertain} : std::nullopt;
     const auto outcome =
         milestone_edit_sql::enumeration(rows.front().front(), PlaybackOutcome::uncertain);
-    if (!selected->claimed && outcome != PlaybackOutcome::obsolete)
+    if (!selected.claimed && outcome != PlaybackOutcome::obsolete)
         corrupt();
     return outcome;
 }
@@ -430,7 +428,8 @@ void retire_obsolete(const SqliteWorkSession &s, const PlaybackHandoff &wanted,
         obsolete.observed_generation == request.instance.runtime_generation)
         return;
     const auto selected = find_instance(s, request, nullptr);
-    if (!handoff_matches(selected, wanted) || selected->claimed || retained_handoff(s, wanted))
+    if (!handoff_matches(selected, wanted) || selected->claimed ||
+        retained_handoff(s, wanted, *selected))
         return;
     auto args = stop_key(request.track, request.stop);
     args.append({wanted.intent, 1, int(PlaybackOutcome::obsolete), obsolete.observed_generation});
@@ -485,7 +484,7 @@ MilestonePlaybackCompletion process_milestone_playback_turn(SqliteWriter &writer
                 const auto instance = find_instance(s, wanted.selected, nullptr);
                 if (handoff_matches(instance, wanted)) {
                     disposition = Disposition::replay;
-                    (void)retained_handoff(s, wanted);
+                    (void)retained_handoff(s, wanted, *instance);
                 }
             }
             break;
@@ -517,44 +516,66 @@ MilestonePlaybackCompletion process_milestone_playback_turn(SqliteWriter &writer
 
 RestoredMilestoneQueueCompletion
 restore_interrupted_milestone_queue(SqliteWriter &writer, CommandAuthority &authority,
-                                    const Command &stop, const Command &next,
-                                    const PlaybackHandoff &handoff) {
+                                    const Command &stop, const std::optional<Command> &next,
+                                    const std::optional<PlaybackHandoff> &handoff) {
+    RestoredMilestoneQueueCompletion completion;
     const auto *intent = std::get_if<StopIntent>(&stop.intent);
-    if (!intent || !valid_late(handoff.selected) || !ref(handoff.intent) ||
-        stop.track != next.track || stop.track != handoff.selected.track ||
-        stop.operation != handoff.selected.stop ||
-        !same(intent->target, handoff.selected.instance.target))
-        return {};
-    std::optional<RestoredMilestoneQueue> result;
-    auto disposition = Disposition::refused;
-    auto work = writer.run_idle_owner_work([&](auto ctx) -> QVariant {
+    if (!intent)
+        return completion;
+
+    completion.work = writer.run_idle_owner_work([&](auto ctx) -> QVariant {
         const auto s = ctx.begin();
         const auto stopped = read_command(s, authority, stop);
-        disposition = stopped.disposition;
-        if (disposition == Disposition::replay)
-            disposition = Disposition::refused;
-        if (stopped.disposition == Disposition::replay &&
-            std::ranges::find(stopped.playback_intents, handoff.intent) !=
-                stopped.playback_intents.end() &&
-            validate_stop(s, handoff.selected, origin(intent->target, nullptr))) {
-            auto read = read_occurrence_selection_with_disposition(s, authority, next);
-            if (const auto *failure = std::get_if<Disposition>(&read)) {
-                disposition = *failure;
-            } else {
-                auto &selected = std::get<OccurrenceSelection>(read);
-                disposition = Disposition::replay;
-                result.emplace();
-                result->selected = std::move(selected.selected_versions);
-                for (auto &hold : selected.interruption_holds)
-                    result->holds.push_back({stop.track, std::move(hold)});
-                result->prior_handoff = retained_handoff(s, handoff);
+        completion.disposition = stopped.disposition;
+        completion.authoritative_absence = stopped.authoritative_absence;
+        if (stopped.disposition == Disposition::replay) {
+            const auto rows = s.execute(
+                {"SELECT CASE WHEN typeof(cause)='blob' AND length(cause) BETWEEN 1 AND 4096 "
+                 "THEN cause END,resume IS NULL FROM main.subathon_milestone_interruption_causes "
+                 "WHERE installation=? AND track=? AND stop=? LIMIT 2",
+                 stop_key(stop.track, stop.operation)});
+            const auto *cause = unique(rows);
+            if (bool(cause) != !stopped.added_causes.empty() ||
+                (cause && verified_ref(cause->front()) != stopped.added_causes.front()))
+                corrupt();
+            completion.durable_holds.emplace();
+            if (cause && integer((*cause)[1]) == 1)
+                completion.durable_holds->push_back({stop.track, stopped.added_causes.front()});
+
+            std::optional<Instance> playback;
+            if (handoff && valid_late(handoff->selected) && ref(handoff->intent) &&
+                stop.track == handoff->selected.track && stop.operation == handoff->selected.stop &&
+                same(intent->target, handoff->selected.instance.target) &&
+                std::ranges::find(stopped.playback_intents, handoff->intent) !=
+                    stopped.playback_intents.end() &&
+                validate_stop(s, handoff->selected, origin(intent->target, nullptr))) {
+                playback = find_instance(s, handoff->selected, nullptr);
+            }
+            if ((handoff && !handoff_matches(playback, *handoff)) ||
+                (next && stop.track != next->track)) {
+                completion.disposition = Disposition::refused;
+            } else if (next) {
+                auto read = read_occurrence_selection_with_disposition(s, authority, *next);
+                if (const auto *failure = std::get_if<Disposition>(&read)) {
+                    completion.disposition = *failure;
+                    if (*failure == Disposition::denied || *failure == Disposition::unavailable)
+                        completion.durable_holds.reset();
+                } else {
+                    auto &selected = std::get<OccurrenceSelection>(read);
+                    auto &queue = completion.queue.emplace();
+                    queue.selected = std::move(selected.selected_versions);
+                    for (auto &hold : selected.interruption_holds)
+                        queue.holds.push_back({stop.track, std::move(hold)});
+                    if (handoff)
+                        queue.prior_handoff = retained_handoff(s, *handoff, *playback);
+                }
             }
         }
         s.commit();
-        return result.has_value();
+        return completion.queue.has_value();
     });
-    if (!normal(work))
-        return {std::move(work), {}, {}};
-    return {std::move(work), std::move(result), disposition};
+    if (!normal(completion.work))
+        return {std::move(completion.work), {}, {}, {}, false};
+    return completion;
 }
 } // namespace subathon::server::milestone_interruption
