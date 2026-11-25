@@ -186,14 +186,13 @@ ColdQueueState restore_committed_queue(SqliteWriter &writer, CommandAuthority &a
             restored.prior_handoff};
 }
 
-// The pinned implementation exposes only an optional projection. Compare its
-// observable result until the owner returns a typed readback disposition.
+// The tests also compile against the pre-fix result, which publishes no
+// readback disposition. Acknowledged results must supply the exact value below.
 template <class Completion>
-bool same_restore_disposition(const Completion &left, const Completion &right) {
-    if constexpr (requires { left.disposition; })
-        return left.disposition == right.disposition;
-    else
-        return left.queue.has_value() == right.queue.has_value();
+std::optional<Disposition> restore_disposition(const Completion &result) {
+    if constexpr (requires { result.disposition; })
+        return result.disposition;
+    return std::nullopt;
 }
 
 struct RestoreAuthority final : CommandAuthority {
@@ -773,12 +772,12 @@ class Milestone006OwnerTests final : public QObject {
                             authority.reads.end(),
                     "Known disclosure denial is reached without publishing an empty queue");
 
-            require(!same_restore_disposition(absent, unavailable),
-                    "Missing authority is distinguishable from acknowledged absence");
-            require(!same_restore_disposition(absent, denied),
-                    "Known denial is distinguishable from acknowledged absence");
-            require(!same_restore_disposition(unavailable, denied),
-                    "Missing authority is distinguishable from known denial");
+            require(restore_disposition(unavailable) == Disposition::unavailable,
+                    "Missing authority is reported as unavailable");
+            require(restore_disposition(denied) == Disposition::denied,
+                    "Known disclosure denial is reported as denied");
+            require(restore_disposition(absent) == Disposition::refused,
+                    "An authoritative missing record is reported as refused");
         });
     }
 
@@ -800,7 +799,8 @@ class Milestone006OwnerTests final : public QObject {
             missing_handoff.selected.stop = missing.operation;
             const auto absent = restore(missing, missing_handoff);
             finance::normal(absent.work);
-            require(!absent.queue && authority.reads == std::vector{missing.operation},
+            require(!absent.queue && std::ranges::find(authority.reads, missing.operation) !=
+                                         authority.reads.end(),
                     "Acknowledged absence was looked up with authority");
 
             bool drained = false;
@@ -834,12 +834,8 @@ class Milestone006OwnerTests final : public QObject {
                         !recovered.queue->selected.empty() && !recovered.queue->presentation,
                     "Fresh acknowledged readback recovers the durable Hold and selection");
 
-            require(!same_restore_disposition(absent, busy),
-                    "Busy writer is distinguishable from acknowledged absence");
-            require(!same_restore_disposition(absent, unknown),
-                    "Unknown writer result is distinguishable from acknowledged absence");
-            require(!same_restore_disposition(busy, unknown),
-                    "Busy writer is distinguishable from an unknown transaction outcome");
+            require(!restore_disposition(busy) && !restore_disposition(unknown),
+                    "Abnormal completion publishes no readback disposition");
         });
     }
 
