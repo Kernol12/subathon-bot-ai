@@ -157,9 +157,8 @@ if(SUBATHON_BUILD_SQLITE_RATE_OVERRIDE_WRITER_TESTS)
     option(SUBATHON_BUILD_RATE_CATALOG_ENROLLMENT_STAGE1
         "Build the isolated rate catalog enrollment baseline and controls" OFF)
     if(SUBATHON_BUILD_RATE_CATALOG_ENROLLMENT_STAGE1)
-        # Decision 843.2: compile the same rate owner in an isolated fixture executable.
-        # Once the reviewed compile-time enrollment exists, bind the synthetic entry
-        # to that mechanism here, exclusively on the fixture target.
+        # Decision 843.2: compile the rate owner with the synthetic enrollment only
+        # in the isolated fixture executable. The controls link the production owner.
         subathon_add_qt_suite(server_sqlite_rate_catalog_enrollment_fixture
             NAME sqlite-rate-catalog-enrollment-fixture
             SOURCES sqlite_rate_catalog_enrollment_tests.cpp
