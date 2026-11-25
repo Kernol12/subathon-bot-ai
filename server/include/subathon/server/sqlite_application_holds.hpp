@@ -315,6 +315,8 @@ struct ApplicationHoldMutationResult {
 class SqliteApplicationHoldStore final {
   public:
     explicit SqliteApplicationHoldStore(SqliteWorkSession session, SqliteHoldLimits limits = {});
+    // At authenticated v23, a captured legacy revision can have exact ancestors.
+    // A required exact plan body causes invalid_stored_data.
     [[nodiscard]] std::optional<ApplicationHoldView> find(const std::string &hold_ref) const;
     [[nodiscard]] ApplicationHoldActiveSet active(const ApplicationHoldSubject &subject) const;
     [[nodiscard]] ApplicationHoldHistoryResult

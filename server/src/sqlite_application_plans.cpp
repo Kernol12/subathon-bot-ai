@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "sqlite_migration_inspection.hpp"
 #include <algorithm>
 #include <array>
 #include <limits>
@@ -709,8 +710,9 @@ class Access final {
             fail(Reason::invalid_stored_data);
         return enumeration(row, 2, 1) != 0;
     }
-    CapturedPlanRevision scalar(const SqlRow &row, const std::string &ref, const Header &h) {
-        shape(row, 34);
+    CapturedPlanRevision scalar(const SqlRow &row, const std::string &ref, const Header &h,
+                                qsizetype columns = 34) {
+        shape(row, columns);
         CapturedPlanRevision r;
         r.revision = id(row, 1, true);
         key(row, ref, r.revision);
@@ -762,16 +764,38 @@ class Access final {
         return r;
     }
     std::optional<CapturedPlanRevision> selected_scalar(const std::string &ref,
-                                                        std::uint64_t revision, const Header &h) {
+                                                        std::uint64_t revision, const Header &h,
+                                                        bool v23 = false,
+                                                        bool initial_anchor = false) {
+        auto columns = revision_columns;
+        if (v23)
+            columns.append("valuation_format");
         const auto rows = execute(
-            {"SELECT " + projection(revision_columns) +
+            {"SELECT " + projection(columns) +
                  " FROM main.subathon_plan_revisions WHERE plan_ref=? AND revision=? LIMIT 2",
              {bytes(ref), encode_plan_revision_uint64(revision)}});
         if (rows.isEmpty())
             return std::nullopt;
         if (rows.size() != 1)
             fail(Reason::invalid_stored_data);
-        auto r = scalar(rows.front(), ref, h);
+        const auto &row = rows.front();
+        if (v23) {
+            shape(row, columns.size());
+            if (enumeration(row, revision_columns.size(), 1) == 1) {
+                if (!initial_anchor)
+                    fail(Reason::invalid_stored_data);
+                key(row, ref, 1);
+                if (!null(row, 2))
+                    fail(Reason::invalid_stored_data);
+                for (qsizetype i = 30; i < 34; ++i)
+                    if (!null(row, i))
+                        fail(Reason::invalid_stored_data);
+                CapturedPlanRevision anchor;
+                anchor.revision = 1;
+                return anchor;
+            }
+        }
+        auto r = scalar(row, ref, h, columns.size());
         if (r.revision != revision)
             fail(Reason::invalid_stored_data);
         return r;
@@ -885,11 +909,12 @@ class Access final {
         summary(ref, *h);
         if (h->head > std::uint64_t(limits_.revisions_per_full_find))
             fail(Reason::result_limit);
+        const bool v23 = detail::CatalogWriterAccess::verified_v23(session_);
         ApplicationPlan result{ref, {}};
         result.revisions.reserve(size_t(h->head));
         std::uintmax_t total = 0;
         for (std::uint64_t n = 1;; ++n) {
-            auto r = selected_scalar(ref, n, *h);
+            auto r = selected_scalar(ref, n, *h, v23);
             if (!r)
                 fail(Reason::invalid_stored_data);
             body(ref, *r);
@@ -911,10 +936,11 @@ class Access final {
         if (!h)
             return std::nullopt;
         selected_max(ref, *h);
-        const auto initial = selected_scalar(ref, 1, *h);
+        const bool v23 = detail::CatalogWriterAccess::verified_v23(session_);
+        const auto initial = selected_scalar(ref, 1, *h, v23, revision != 1);
         if (!initial)
             fail(Reason::invalid_stored_data);
-        auto r = revision == 1 ? initial : selected_scalar(ref, revision, *h);
+        auto r = revision == 1 ? initial : selected_scalar(ref, revision, *h, v23);
         if (!r)
             return std::nullopt;
         parent_target(ref, *r);

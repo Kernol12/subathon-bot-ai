@@ -4,6 +4,7 @@
 #include "contribution_review_writer_access.hpp"
 #include "sqlite_application_bundle_values.hpp"
 #include "sqlite_financial_catalog.hpp"
+#include "sqlite_migration_inspection.hpp"
 #include "sqlite_selected_record_read.hpp"
 #include <algorithm>
 #include <array>
@@ -286,6 +287,7 @@ class Access {
     bool wrote_{false};
     enum class ReadPolicy { legacy, selected };
     ReadPolicy policy_;
+    bool owning_plan_read_{false};
     bool review_history_{false};
     // Only enabled for composed reads without writes between consumers.
     bool immutable_reads_{false};
@@ -635,13 +637,33 @@ class Access {
             fail(Reason::invalid_stored_data);
         return enumeration(row, 2, 1) != 0;
     }
-    CapturedPlanRevision scalar(const SqlRow &row, const std::string &ref, const Header &h) {
-        shape(row, 34);
+    CapturedPlanRevision revision_key(const SqlRow &row, const std::string &ref) {
         CapturedPlanRevision r;
         r.revision = id(row, 1, true);
         key(row, ref, r.revision);
         if (!null(row, 2))
             r.parent_revision = id(row, 2, true);
+        return r;
+    }
+    void validate_revision_metadata(const SqlRow &row, CapturedPlanRevision &r) {
+        if (r.revision == 1) {
+            if (r.parent_revision)
+                fail(Reason::invalid_stored_data);
+            for (qsizetype i = 30; i < 34; ++i)
+                if (!null(row, i))
+                    fail(Reason::invalid_stored_data);
+        } else {
+            if (!r.parent_revision || *r.parent_revision != r.revision - 1 ||
+                enumeration(row, 30, 2) != 2)
+                fail(Reason::invalid_stored_data);
+            r.override_decision = PlanOverrideDecision{
+                OverrideAuthority::authorized, string(row, 31, limits_.reference_bytes, true),
+                string(row, 32, limits_.value_bytes, true),
+                string(row, 33, limits_.reference_bytes, true)};
+        }
+    }
+    CapturedPlanRevision scalar(const SqlRow &row, const std::string &ref, const Header &h) {
+        auto r = revision_key(row, ref);
         r.captured.event = h.event;
         r.captured.contribution_state = {static_cast<PaymentEvidence>(enumeration(row, 3, 3)),
                                          read_conditions(row, 4)};
@@ -668,21 +690,7 @@ class Access {
             for (qsizetype i = 19; i < 30; ++i)
                 if (!null(row, i))
                     fail(Reason::invalid_stored_data);
-        if (r.revision == 1) {
-            if (r.parent_revision)
-                fail(Reason::invalid_stored_data);
-            for (qsizetype i = 30; i < 34; ++i)
-                if (!null(row, i))
-                    fail(Reason::invalid_stored_data);
-        } else {
-            if (!r.parent_revision || *r.parent_revision != r.revision - 1 ||
-                enumeration(row, 30, 2) != 2)
-                fail(Reason::invalid_stored_data);
-            r.override_decision = PlanOverrideDecision{
-                OverrideAuthority::authorized, string(row, 31, limits_.reference_bytes, true),
-                string(row, 32, limits_.value_bytes, true),
-                string(row, 33, limits_.reference_bytes, true)};
-        }
+        validate_revision_metadata(row, r);
         if (!valid_valuation(v, h.event, dependent(ref, r.revision), limits_))
             fail(Reason::invalid_stored_data);
         return r;
@@ -697,6 +705,7 @@ class Access {
             return std::nullopt;
         if (rows.size() != 1)
             fail(Reason::invalid_stored_data);
+        shape(rows.front(), revision_columns.size());
         auto r = scalar(rows.front(), ref, h);
         if (r.revision != revision)
             fail(Reason::invalid_stored_data);
@@ -717,12 +726,16 @@ class Access {
     // Bounded keyset pages audit old structural metadata only. They do not load
     // or certify historical child strings/ordinals/rationals, nor impose read caps.
     std::optional<CapturedPlanRevision> audit(const std::string &ref, const Header &h,
-                                              std::uint64_t wanted) {
+                                              std::uint64_t wanted, bool owning_read) {
         summary(ref, h);
+        const bool v23 = owning_read && detail::CatalogWriterAccess::verified_v23(session_);
+        auto columns = revision_columns;
+        if (v23)
+            columns.append("valuation_format");
         std::optional<CapturedPlanRevision> result;
         std::uint64_t previous = 0;
         for (;;) {
-            const auto rows = execute({"SELECT " + projection(revision_columns) +
+            const auto rows = execute({"SELECT " + projection(columns) +
                                            " FROM main.subathon_plan_revisions WHERE plan_ref=? "
                                            "AND revision>? ORDER BY revision LIMIT 65",
                                        {bytes(ref), encode_plan_revision_uint64(previous)}});
@@ -730,7 +743,17 @@ class Access {
                 break;
             for (qsizetype index = 0; index < std::min<qsizetype>(64, rows.size()); ++index) {
                 const auto &row = rows[index];
-                auto r = scalar(row, ref, h);
+                shape(row, columns.size());
+                CapturedPlanRevision r;
+                if (v23 && enumeration(row, revision_columns.size(), 1) == 1) {
+                    // An exact ancestor contributes lineage only to this legacy result.
+                    r = revision_key(row, ref);
+                    if (r.revision >= wanted)
+                        fail(Reason::invalid_stored_data);
+                    validate_revision_metadata(row, r);
+                } else {
+                    r = scalar(row, ref, h);
+                }
                 if (previous == std::numeric_limits<std::uint64_t>::max() ||
                     r.revision != previous + 1)
                     fail(Reason::invalid_stored_data);
@@ -1054,7 +1077,8 @@ class Access {
         CapturedPlanRevision selected;
         std::uint64_t head;
     };
-    std::optional<Plan> plan(const ApplicationPlanKey &key_, bool current_only = false) {
+    std::optional<Plan> plan(const ApplicationPlanKey &key_, bool current_only = false,
+                             bool owning_read = false) {
         auto h = header(key_.plan_ref);
         if (!h)
             return std::nullopt;
@@ -1062,7 +1086,7 @@ class Access {
         if (selected())
             selected_max(key_.plan_ref, *h);
         else
-            r = audit(key_.plan_ref, *h, key_.revision);
+            r = audit(key_.plan_ref, *h, key_.revision, owning_read);
         if (current_only && h->head != key_.revision)
             return Plan{{}, h->head};
         if (selected())
@@ -1216,7 +1240,7 @@ class Access {
             checked_arrival_.reset();
             checked_receipt_.reset();
         }
-        auto p = plan(key_, true);
+        auto p = plan(key_, true, owning_plan_read_);
         if (review_plan_cost)
             *review_plan_cost = before - remaining();
         if (!p)

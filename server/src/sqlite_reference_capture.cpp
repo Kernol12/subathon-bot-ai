@@ -795,6 +795,8 @@ void Access::closure(const ReferenceInitialCapture &r, bool indexed) {
     match(source == r.key.source && cfg_ref == r.configuration_ref &&
               arrival_ref == r.arrival_context_ref,
           indexed);
+    // The reference profile has no monetary receipt fields. An indexed
+    // capture backed by an exact valuation's monetary receipt fails this match.
     bool absent_receipt_fields = true;
     for (std::size_t i = 8; i <= 15; ++i)
         absent_receipt_fields &= receipt.fields[i].null;

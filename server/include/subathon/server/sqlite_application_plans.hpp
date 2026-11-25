@@ -117,6 +117,8 @@ class SqliteApplicationPlanStore final {
     explicit SqliteApplicationPlanStore(SqliteWorkSession session, SqlitePlanLimits limits = {});
     [[nodiscard]] SqlitePlanInitialDisposition
     retain_initial(const std::string &plan_ref, const core::CapturedPlanRevision &initial) const;
+    // At authenticated v23, selected legacy revisions remain readable. Exact
+    // bodies required by either read cause invalid_stored_data.
     [[nodiscard]] std::optional<core::ApplicationPlan> find(const std::string &plan_ref) const;
     [[nodiscard]] std::optional<SqlitePlanRevisionSnapshot>
     find_revision(const std::string &plan_ref, std::uint64_t revision) const;

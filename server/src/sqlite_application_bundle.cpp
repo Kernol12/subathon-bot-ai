@@ -242,6 +242,7 @@ SqliteApplicationBundleStore::read_inputs(const ApplicationPlanKey &p,
     if (int(k) < 0 || int(k) > 1)
         throw SqliteBundleInputFailure(SqliteBundleInputError::invalid_source);
     Access a(session_, limits_);
+    a.owning_plan_read_ = true;
     return a.guarded([&] { return a.inputs(p, k); });
 }
 std::optional<RecordedApplicationBundle>

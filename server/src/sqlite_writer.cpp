@@ -603,12 +603,12 @@ class SqliteWorkState final {
   public:
     SqliteWorkState(Connection &connection, StorageLimits limits,
                     std::function<WorkControlReply(WorkControl)> control,
-                    std::function<void()> fail_close, bool governing, bool verified_v22)
+                    std::function<void()> fail_close, qint32 verified_catalog_head)
         : owner_(QThread::currentThread()), connection_(&connection), control_(std::move(control)),
           fail_close_(std::move(fail_close)), limits_(limits),
           statements_left_(limits.statements_per_batch), bindings_left_(limits.bound_value_bytes),
           rows_left_(limits.result_rows), values_left_(limits.result_value_bytes),
-          governing_(governing), verified_v22_(verified_v22) {}
+          verified_catalog_head_(verified_catalog_head) {}
 
     bool on_owner() const noexcept { return QThread::currentThread() == owner_; }
     void require_live() const {
@@ -622,7 +622,7 @@ class SqliteWorkState final {
         if (phase_ != WorkPhase::active)
             fail(WorkError::session_closed);
     }
-    bool verified_v22() { require_active(); return verified_v22_; }
+    qint32 verified_catalog_head() { require_active(); return verified_catalog_head_; }
     void verified_advance() { require_active(); verified_advance_ = true; }
     bool advanced() const { return verified_advance_ && phase_ == WorkPhase::committed; }
     void begin() {
@@ -673,7 +673,7 @@ class SqliteWorkState final {
     SqlRows execute(const SqlStatement &statement, ClockStatementLedger *clock = nullptr) {
         return execute_metered(statement, clock, [&] {
             if (!allowed_writer_sql(statement.sql) ||
-                (governing_ && !allowed_governing_sql(statement.sql)))
+                (verified_catalog_head_ != 0 && !allowed_governing_sql(statement.sql)))
                 fail(WorkError::invalid_statement);
         });
     }
@@ -789,8 +789,7 @@ class SqliteWorkState final {
     std::optional<ReviewSqlAllowance> review_;
     RetainedAuthorityAllowance retained_authority_;
     bool in_retained_authority_{};
-    bool governing_;
-    bool verified_v22_;
+    qint32 verified_catalog_head_;
     bool verified_advance_{};
     WorkPhase phase_{WorkPhase::not_started};
     WorkError first_error_{WorkError::none};
@@ -1188,7 +1187,7 @@ class SqliteWriter::Impl {
                 stopping_ = true;
                 close();
             },
-            catalog_.governing(), catalog_.head == 22);
+            catalog_.head);
         QVariant value;
         bool body_exception = false;
         try {
@@ -1287,7 +1286,11 @@ void detail::CatalogWriterAccess::verified_advance(const SqliteWorkSession &sess
 }
 
 bool detail::CatalogWriterAccess::verified_v22(const SqliteWorkSession &session) {
-    return live_work_state(session.state_)->verified_v22();
+    return live_work_state(session.state_)->verified_catalog_head() == 22;
+}
+
+bool detail::CatalogWriterAccess::verified_v23(const SqliteWorkSession &session) {
+    return live_work_state(session.state_)->verified_catalog_head() == 23;
 }
 
 SqliteWriter::SqliteWriter(QObject *parent)

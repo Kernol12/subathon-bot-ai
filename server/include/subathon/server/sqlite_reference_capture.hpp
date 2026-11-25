@@ -58,6 +58,8 @@ class SqliteReferenceCaptureStore final {
 
     // Use the caller's active revocable session; results stay provisional until
     // its acknowledged commit and normal work completion.
+    // The nonmonetary legacy capture remains readable at v23. A capture that
+    // requires an exact initial valuation causes invalid_stored_data.
     [[nodiscard]] std::optional<ReferenceInitialCapture> find(const ReferenceCaptureKey &) const;
     [[nodiscard]] ReferenceCaptureRetainDisposition
     retain_initial(const ReferenceInitialCapture &) const;

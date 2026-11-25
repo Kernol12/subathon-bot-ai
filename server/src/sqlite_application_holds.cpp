@@ -759,7 +759,7 @@ class HoldAccess : public Access {
         } else if (subject_id(s.subject) != s.receipt_id.value)
             reference_failure(incoming);
         if (c.plan_evidence.plan) {
-            auto p = Access::plan(*c.plan_evidence.plan);
+            auto p = Access::plan(*c.plan_evidence.plan, false, owning_plan_read_);
             if (!p)
                 reference_failure(incoming, true);
             Access::result_size(Access::plan_items(p->selected),
@@ -2072,6 +2072,7 @@ SqliteApplicationHoldStore::SqliteApplicationHoldStore(SqliteWorkSession s, Sqli
 std::optional<ApplicationHoldView> SqliteApplicationHoldStore::find(const std::string &h) const {
     hold_detail::validate_find(h, limits_);
     HoldAccess a(session_, limits_);
+    a.owning_plan_read_ = true;
     return a.guarded([&] {
         auto v = a.find_output(h);
         a.returned(v);

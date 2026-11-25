@@ -64,6 +64,7 @@ class CatalogWriterAccess final {
     // The migration completion adapter supplies the request's refusal reason.
     using DequeueCheck = std::function<bool(qint32 governing_head)>;
     [[nodiscard]] static bool verified_v22(const SqliteWorkSession &);
+    [[nodiscard]] static bool verified_v23(const SqliteWorkSession &);
 
   private:
     friend class MigrationExecution;
