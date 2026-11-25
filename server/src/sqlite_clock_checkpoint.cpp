@@ -350,10 +350,4 @@ MigrationAdmission enqueue_clock_checkpoint_advance(SqliteWriter &writer, Migrat
         std::move(completion));
 }
 
-std::variant<SqliteBundleInitialDisposition, WorkError>
-stage_clock_checkpoint_initial(const SqliteWorkSession &, const RetainedDocument &,
-                               const ApplicationStateSnapshot &, const ClockInitialCheckpoint &) {
-    return WorkError::feature_not_implemented;
-}
-
 } // namespace subathon::server::detail

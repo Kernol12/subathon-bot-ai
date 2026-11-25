@@ -107,6 +107,7 @@ struct SqliteWorkResult {
 namespace detail {
 class SqliteWorkState;
 class MigrationExecution;
+class CatalogWriterAccess;
 struct ClockStatementLedger;
 class ContributionReviewWriterAccess;
 } // namespace detail
@@ -137,6 +138,7 @@ class SqliteWorkSession final {
     std::weak_ptr<detail::SqliteWorkState> state_;
     friend class detail::ContributionReviewWriterAccess;
     friend class detail::MigrationExecution;
+    friend class detail::CatalogWriterAccess;
     friend class SqliteWorkContext;
     friend class SqliteWriter;
 };
@@ -176,6 +178,7 @@ class SqliteWriter final : public QObject {
     class Impl;
     std::unique_ptr<Impl> impl_;
     friend class testing::SqliteWriterWorkAccess;
+    friend class detail::CatalogWriterAccess;
     friend class detail::ContributionReviewWriterAccess;
 };
 

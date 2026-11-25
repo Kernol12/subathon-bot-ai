@@ -259,6 +259,7 @@ class Storage003WriterTests final : public QObject {
         });
     }
 
+#ifndef SUBATHON_STORAGE_003_IMPLEMENTED_W1
     void w1RuntimeRecipeDenials() {
         check([] {
             DisposableFile source;
@@ -356,6 +357,7 @@ class Storage003WriterTests final : public QObject {
             expect_seed(file);
         });
     }
+#endif
 };
 
 QTEST_GUILESS_MAIN(Storage003WriterTests)
