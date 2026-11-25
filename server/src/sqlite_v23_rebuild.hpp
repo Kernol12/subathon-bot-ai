@@ -37,7 +37,7 @@ class V23InspectionFixture;
 class V23InspectionAccess final {
   private:
     [[nodiscard]] static std::variant<V23PreOpenObservation, MigrationReason>
-    inspect_with_limits(const QString &path, StorageLimits limits);
+    inspect_with_limits(const QString &path, qint64 max_store_bytes, StorageLimits limits);
 
     friend class testing::V23InspectionFixture;
 };

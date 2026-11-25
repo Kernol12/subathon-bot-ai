@@ -589,7 +589,7 @@ std::variant<V23PreOpenObservation, MigrationReason> inspect_v23_pre_open(const 
 }
 
 std::variant<V23PreOpenObservation, MigrationReason>
-V23InspectionAccess::inspect_with_limits(const QString &path, StorageLimits limits) {
+V23InspectionAccess::inspect_with_limits(const QString &path, qint64, StorageLimits limits) {
     return inspect_v23_pre_open(path, limits);
 }
 
