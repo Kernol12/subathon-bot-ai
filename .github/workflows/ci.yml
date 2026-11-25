@@ -526,7 +526,7 @@ jobs:
           expected = {
               "storage-003-catalog.suite": "32",
               "storage-003-w1-writer.suite": "8",
-              "storage-003-w1-open-admission.suite": "8",
+              "storage-003-w1-open-admission.suite": "9",
               "storage-003-w1-admission-supplement.suite": "4",
               "storage-033-stage1.suite": "53",
           }
