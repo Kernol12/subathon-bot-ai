@@ -331,8 +331,8 @@ void idle_owner_work_exclusion(Fixture &f) {
         auto lease = f.reserve();
         const auto refused = f.writer.run_idle_owner_work(work);
         require(refused.transaction == TransactionOutcome::not_started &&
-                    refused.error == WorkError::busy,
-                QString("Live reservation must refuse idle owner work as not_started/busy "
+                    refused.error == WorkError::protocol_error,
+                QString("Live reservation must refuse idle owner work as not_started/protocol_error "
                         "(transaction=%1, error=%2, body calls=%3)")
                     .arg(static_cast<int>(refused.transaction))
                     .arg(static_cast<int>(refused.error))
