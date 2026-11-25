@@ -441,12 +441,16 @@ class Milestone006ReplaceTests final : public QObject {
                             !read_occurrence_selection(s, f.owner, stop("withheld-selection", f.b)),
                         "Revoked current disclosure reveals neither the result nor selection");
             });
+            require(confirm(f.file, f.owner, command, preview.get()).disposition ==
+                            Disposition::denied &&
+                        f.snapshot() == saved,
+                    "Revoked retry writes nothing on either origin");
             f.owner.disclosure = true;
             f.owner.command = false;
             require(confirm(f.file, f.owner, command, preview.get()).disposition ==
                             Disposition::denied &&
                         f.snapshot() == saved,
-                    "Revoked retry writes nothing on either origin");
+                    "Command revocation denies exact retry without writes on either origin");
         });
     }
 
