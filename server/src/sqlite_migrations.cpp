@@ -180,6 +180,13 @@ class MigrationExecution final {
     }
 
   public:
+    static MigrationAdmission enqueue(SqliteWriter &writer, MigrationMode mode,
+                                      SqliteWriter::Work work,
+                                      SqliteWriter::WorkCompletion completion) {
+        return CatalogWriterAccess::enqueue(writer, mode, std::move(work),
+                                            std::move(completion));
+    }
+
     MigrationExecution(const MigrationRequest &request, const QList<QByteArray> &hashes,
                        RequestState &state)
         : request_(request), hashes_(hashes), state_(state) {}
@@ -220,6 +227,8 @@ class MigrationExecution final {
             if (state_.guard && applied != 0)
                 verify_empty_checkpoint();
             probe(MigrationCheckpoint::before_commit, final_version, 0);
+            if (state_.guard && applied != 0)
+                CatalogWriterAccess::verified_advance(session_);
             session_.commit();
             const auto target = static_cast<qint32>(request_.manifest.steps.size());
             MigrationReport report{final_version == 0       ? CatalogState::fresh
@@ -424,7 +433,9 @@ MigrationAdmission enqueue_migration(SqliteWriter &writer, MigrationRequest requ
         return {StorageError::invalid_work, MigrationReason::none};
     if (!state)
         state = std::make_shared<RequestState>();
-    auto error = writer.enqueue_work(
+    const auto mode = request.mode;
+    return detail::MigrationExecution::enqueue(
+        writer, mode,
         [request = std::move(request), hashes = std::move(hashes),
          state](SqliteWorkContext context) {
             return detail::MigrationExecution(request, hashes, *state).run(context);
@@ -443,7 +454,6 @@ MigrationAdmission enqueue_migration(SqliteWriter &writer, MigrationRequest requ
                 report = state->report;
             completion({std::move(work), reason, std::move(report)});
         });
-    return {error, MigrationReason::none};
 }
 } // namespace
 
