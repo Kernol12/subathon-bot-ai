@@ -63,9 +63,8 @@ void adopt_ordered_milestone_selection(MilestoneTimeline &timeline, std::chrono:
     holds.reserve(selected.interruption_holds.size());
     for (const auto &hold : selected.interruption_holds)
         holds.push_back({selected.target.track, hold.toStdString()});
-    timeline.adopt_ordered_stop(
-        now, detail::timeline_target(selected.target), selected.stop.toStdString(),
-        !selected.skipped && !selected.independent_holds.empty(), std::move(holds));
+    timeline.adopt_ordered_stop(now, detail::timeline_target(selected.target),
+                                selected.stop.toStdString(), std::move(holds));
 }
 
 namespace detail {
@@ -1177,27 +1176,24 @@ Decision stop(const SqliteWorkSession &s, const Command &cmd, const CommandAutho
 } // namespace
 
 namespace {
-Disposition admission(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
-                      const std::optional<CommandAuthority::Facts> &facts,
-                      bool classify_unavailable) {
+Disposition admission(const std::optional<CommandAuthority::Facts> &facts) {
     if (!facts)
-        return classify_unavailable && !owner.denies_actor(s, cmd) ? Disposition::unavailable
-                                                                   : Disposition::denied;
+        return Disposition::unavailable;
     if (!facts->can_command || !facts->can_disclose)
         return Disposition::denied;
     if (!ref(facts->grant_revision) || !ref(facts->configuration_revision) ||
         !ref(facts->capability_revision) || !ref(facts->decision))
-        return classify_unavailable ? Disposition::unavailable : Disposition::denied;
+        return Disposition::unavailable;
     return Disposition::committed;
 }
 
 Preview preview_replacement(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
-                            const AdmissionProfile *profile, bool classify_unavailable) {
+                            const AdmissionProfile *profile) {
     if (!valid_command(cmd) || command_kind(cmd) != Kind::replace)
         return Disposition::refused;
     return guarded(s, [&]() -> Preview {
         const auto facts = owner.select(s, cmd);
-        const auto gate = admission(s, owner, cmd, facts, classify_unavailable);
+        const auto gate = admission(facts);
         if (gate != Disposition::committed)
             return gate;
         require_catalog(s);
@@ -1214,17 +1210,16 @@ Preview preview_replacement(const SqliteWorkSession &s, CommandAuthority &owner,
 }
 
 Decision stage(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
-               const ReplacePreview *preview, const AdmissionProfile *profile,
-               bool classify_unavailable) {
+               const ReplacePreview *preview, const AdmissionProfile *profile) {
     if (!valid_command(cmd))
         return answer(Disposition::refused);
     return guarded(s, [&] {
         const auto facts = owner.select(s, cmd);
-        if (classify_unavailable && preview &&
+        if (preview &&
             (preview->actor.actor_ref != cmd.actor.actor_ref ||
              preview->actor.session_lineage != cmd.actor.session_lineage))
             return answer(Disposition::denied);
-        const auto gate = admission(s, owner, cmd, facts, classify_unavailable);
+        const auto gate = admission(facts);
         if (gate != Disposition::committed)
             return answer(gate);
         require_catalog(s);
@@ -1251,12 +1246,12 @@ Decision stage(const SqliteWorkSession &s, CommandAuthority &owner, const Comman
 
 Preview preview_replace(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
                         const AdmissionProfile *profile) {
-    return preview_replacement(s, owner, cmd, profile, false);
+    return preview_replacement(s, owner, cmd, profile);
 }
 
 Preview preview_milestone_replacement(const SqliteWorkSession &s, CommandAuthority &owner,
                                       const Command &cmd) {
-    return preview_replacement(s, owner, cmd, nullptr, true);
+    return preview_replacement(s, owner, cmd, nullptr);
 }
 
 MilestoneReplacementDisclosureReply
@@ -1267,7 +1262,7 @@ preview_milestone_replacement_disclosure(const SqliteWorkSession &s, CommandAuth
         return Disposition::refused;
     return guarded(s, [&]() -> MilestoneReplacementDisclosureReply {
         const auto facts = owner.select(s, cmd);
-        const auto gate = admission(s, owner, cmd, facts, true);
+        const auto gate = admission(facts);
         if (gate != Disposition::committed)
             return gate;
         if (!profile.compatible || !profile.sender_selection)
@@ -1288,14 +1283,14 @@ preview_milestone_replacement_disclosure(const SqliteWorkSession &s, CommandAuth
 
 Decision stage_command(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
                        const ReplacePreview *preview, const AdmissionProfile *profile) {
-    return stage(s, owner, cmd, preview, profile, false);
+    return stage(s, owner, cmd, preview, profile);
 }
 
 Decision confirm_milestone_replacement(const SqliteWorkSession &s, CommandAuthority &owner,
                                        const Command &cmd, const ReplacePreview &preview) {
     if (command_kind(cmd) != Kind::replace)
         return answer(Disposition::refused);
-    return stage(s, owner, cmd, &preview, nullptr, true);
+    return stage(s, owner, cmd, &preview, nullptr);
 }
 
 Decision read_command(const SqliteWorkSession &s, CommandAuthority &owner, const Command &cmd,
@@ -1303,9 +1298,10 @@ Decision read_command(const SqliteWorkSession &s, CommandAuthority &owner, const
     if (!valid_command(cmd))
         return answer(Disposition::refused);
     return guarded(s, [&] {
-        const auto facts = access(s, owner, cmd);
-        if (!facts)
-            return answer(Disposition::denied);
+        const auto facts = owner.select(s, cmd);
+        const auto gate = admission(facts);
+        if (gate != Disposition::committed)
+            return answer(gate);
         require_catalog(s);
         return journal(s, owner, cmd, *facts, false).value_or(answer(Disposition::refused));
     });
@@ -1571,7 +1567,7 @@ StrandedReplacementPage stranded_replacement_attempts(const SqliteWorkSession &s
     });
 }
 
-std::optional<EffectiveMilestoneRelease>
+EffectiveMilestoneReleaseCompletion
 select_effective_milestone_release(SqliteWriter &writer, const CommittedMilestoneGroup &cached,
                                    const Occurrence &occurrence) {
     const auto cached_edit =
@@ -1582,7 +1578,7 @@ select_effective_milestone_release(SqliteWriter &writer, const CommittedMileston
         (cached.application_origin && cached.application_origin != exact.application))
         return {};
     std::optional<EffectiveMilestoneRelease> result;
-    const auto work = writer.run_idle_owner_work([&](auto ctx) -> QVariant {
+    auto work = writer.run_idle_owner_work([&](auto ctx) -> QVariant {
         const auto s = ctx.begin();
         require_catalog(s);
         const auto key = origin(occurrence, nullptr);
@@ -1622,7 +1618,9 @@ select_effective_milestone_release(SqliteWriter &writer, const CommittedMileston
         s.commit();
         return result.has_value();
     });
-    return acknowledged(work) ? result : std::nullopt;
+    if (!acknowledged(work))
+        result.reset();
+    return {std::move(work), std::move(result)};
 }
 
 void publish_acknowledged_replacement_claim(const SqliteWorkResult &work, Disposition disposition,
@@ -1687,55 +1685,6 @@ Disposition claim_replacement(const SqliteWorkSession &s, const Occurrence &o,
         append_attempt(s, o, version, revision, DeliveryJobState::sending);
         return Disposition::committed;
     });
-}
-
-StorageError dispatch_replacement_job(SqliteWriter &writer, Occurrence occurrence,
-                                      SelectedVersion version, qint64 revision,
-                                      std::shared_ptr<ReplacementDispatchAuthority> authority,
-                                      std::shared_ptr<ReplacementDeliveryAdapter> adapter,
-                                      ReplacementDispatchCallback completed) {
-    if (!authority || !adapter || !completed || !valid_version(occurrence, version, revision) ||
-        revision == std::numeric_limits<qint64>::max())
-        return StorageError::invalid_work;
-    struct Claim final : ReplacementDispatchAuthority {
-        explicit Claim(std::shared_ptr<ReplacementDispatchAuthority> owner)
-            : authority(std::move(owner)) {}
-
-        bool allows(const ReplacementJob &job) override {
-            if (!authority->allows(job))
-                return false;
-            owned = job;
-            return true;
-        }
-
-        std::shared_ptr<ReplacementDispatchAuthority> authority;
-        std::optional<ReplacementJob> owned;
-        std::optional<Disposition> provisional;
-    };
-    auto claim = std::make_shared<Claim>(std::move(authority));
-    return writer.enqueue_work(
-        [claim, occurrence = std::move(occurrence), version = std::move(version),
-         revision](auto context) -> QVariant {
-            const auto session = context.begin();
-            claim->provisional = claim_replacement(session, occurrence, version, revision, *claim);
-            session.commit();
-            return 1;
-        },
-        [claim, adapter = std::move(adapter), completed = std::move(completed),
-         revision](SqliteWorkResult work) {
-            ReplacementDispatchCompletion result{std::move(work), {}};
-            if (acknowledged(result.work)) {
-                result.disposition = claim->provisional;
-                if (auto job = acknowledged_claim(result.work, result.disposition, claim->owned)) {
-                    try {
-                        adapter->start(std::move(*job), revision + 1);
-                    } catch (...) {
-                        result.adapter_threw = true;
-                    }
-                }
-            }
-            completed(std::move(result));
-        });
 }
 
 Disposition retry_replacement(const SqliteWorkSession &s, const Occurrence &o,

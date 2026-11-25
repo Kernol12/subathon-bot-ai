@@ -515,7 +515,7 @@ MilestonePlaybackCompletion process_milestone_playback_turn(SqliteWriter &writer
     return result;
 }
 
-std::optional<RestoredMilestoneQueue>
+RestoredMilestoneQueueCompletion
 restore_interrupted_milestone_queue(SqliteWriter &writer, CommandAuthority &authority,
                                     const Command &stop, const Command &next,
                                     const PlaybackHandoff &handoff) {
@@ -526,7 +526,7 @@ restore_interrupted_milestone_queue(SqliteWriter &writer, CommandAuthority &auth
         !same(intent->target, handoff.selected.instance.target))
         return {};
     std::optional<RestoredMilestoneQueue> result;
-    const auto work = writer.run_idle_owner_work([&](auto ctx) -> QVariant {
+    auto work = writer.run_idle_owner_work([&](auto ctx) -> QVariant {
         const auto s = ctx.begin();
         const auto stopped = read_command(s, authority, stop);
         if (stopped.disposition == Disposition::replay &&
@@ -544,6 +544,8 @@ restore_interrupted_milestone_queue(SqliteWriter &writer, CommandAuthority &auth
         s.commit();
         return result.has_value();
     });
-    return normal(work) ? result : std::nullopt;
+    if (!normal(work))
+        result.reset();
+    return {std::move(work), std::move(result)};
 }
 } // namespace subathon::server::milestone_interruption

@@ -163,7 +163,6 @@ class MilestoneTimeline final {
                       const std::vector<MilestoneTimelineCause> &resolved);
     void adopt_ordered_stop(std::chrono::milliseconds now,
                             const MilestoneTimelineOccurrence &target, const std::string &operation,
-                            bool independently_held,
                             std::vector<MilestoneTimelineCause> active_holds);
 
     // Manual pause and an optionally linked countdown pause gate new starts.

@@ -110,10 +110,9 @@ class CommandAuthority {
         std::optional<PresentationObservation> presentation{};
     };
     virtual ~CommandAuthority() = default;
+    // Report known revocation with present facts and can_command=false.
+    // Missing authoritative facts return nullopt and are unavailable.
     virtual std::optional<Facts> select(const SqliteWorkSession &, const Command &) = 0;
-    // Where actor/session mismatch is known, report denial even when select()
-    // cannot return command facts. Unknown identity evidence stays unavailable.
-    virtual bool denies_actor(const SqliteWorkSession &, const Command &) { return false; }
     // The owner may qualify a retained decision beyond the current scoped grant.
     virtual bool discloses_retained(const SqliteWorkSession &, const Command &, const Facts &facts,
                                     const QByteArray &retained_decision) {
@@ -213,25 +212,6 @@ Disposition publish_milestone_definitions(const SqliteWorkSession &,
                                           const MilestoneDefinitionAuthority &,
                                           const MilestoneDefinitionEdit &);
 
-struct PublishedMilestoneAutomation {
-    MilestoneAction action;
-    ApplicationEnvelope envelope;
-    DeliverySenderSelection sender_selection;
-    std::string route;
-    std::string qualified_sender;
-};
-using PublishedMilestoneConfiguration = std::function<std::optional<PublishedMilestoneAutomation>(
-    const SqliteWorkSession &, const MilestoneDefinitionBinding &, const core::MilestoneTarget &)>;
-
-// The trusted application owner supplies the already admitted receipt plan
-// and exact score operands. This is an internal capture turn for one newly
-// earned occurrence, with no additional application effects.
-Disposition capture_published_milestone_group(const SqliteWorkSession &,
-                                              const PublishedMilestoneConfiguration &,
-                                              const ContributionReceipt &,
-                                              const ApplicationPlanKey &, const Occurrence &,
-                                              qint64 score_before, qint64 score_after);
-
 // An unused Replace key requires a current preview. A committed key uses the
 // journal's bound preview after authority and exact typed target/patch checks.
 Decision stage_command(const SqliteWorkSession &, CommandAuthority &, const Command &,
@@ -292,9 +272,6 @@ inline void adopt_milestone_timeline_update(MilestoneTimeline &timeline,
                                             const TimelineUpdate &update) {
     if (const auto *stop = std::get_if<AcknowledgedStop>(&update)) {
         const auto target = detail::timeline_target(stop->target);
-        if (stop->source != MilestoneStopCompletionSource::command &&
-            stop->source != MilestoneStopCompletionSource::readback)
-            return;
         if (stop->presentation && detail::timeline_target(stop->presentation->target) != target)
             return;
         timeline.adopt_stop(now, target, stop->operation.toStdString(),
@@ -405,9 +382,15 @@ struct EffectiveMilestoneRelease {
     std::vector<ReplacementJob> replacement_jobs;
 };
 
-// Re-read the selected versions in the writer; cached action definitions can
-// lag replacement, but the occurrence and its immutable ordinal layout cannot.
-std::optional<EffectiveMilestoneRelease>
+struct EffectiveMilestoneReleaseCompletion {
+    SqliteWorkResult work;
+    std::optional<EffectiveMilestoneRelease> selection;
+};
+
+// Re-read the selected versions in the writer. A normal commit with no selection
+// means no eligible occurrence was found. Abnormal work fences scheduling until
+// a fresh, normally acknowledged readback.
+[[nodiscard]] EffectiveMilestoneReleaseCompletion
 select_effective_milestone_release(SqliteWriter &, const CommittedMilestoneGroup &,
                                    const Occurrence &);
 
@@ -457,26 +440,6 @@ class ReplacementDispatchAuthority {
     virtual bool allows(const ReplacementJob &) = 0;
     virtual std::optional<QByteArray> retry_decision(const ReplacementJob &) { return {}; }
 };
-
-class ReplacementDeliveryAdapter {
-  public:
-    virtual ~ReplacementDeliveryAdapter() = default;
-    // Owned capture on the serial owner after normal claim acknowledgement.
-    // The attempt revision is the sending event's exact revision.
-    virtual void start(ReplacementJob, qint64 attempt_revision) = 0;
-};
-struct ReplacementDispatchCompletion {
-    SqliteWorkResult work;
-    std::optional<Disposition> disposition;
-    bool adapter_threw{false};
-};
-using ReplacementDispatchCallback = std::function<void(ReplacementDispatchCompletion)>;
-
-[[nodiscard]] StorageError dispatch_replacement_job(SqliteWriter &, Occurrence, SelectedVersion,
-                                                    qint64 queued_revision,
-                                                    std::shared_ptr<ReplacementDispatchAuthority>,
-                                                    std::shared_ptr<ReplacementDeliveryAdapter>,
-                                                    ReplacementDispatchCallback);
 
 Disposition claim_replacement(const SqliteWorkSession &, const Occurrence &,
                               const SelectedVersion &, qint64, ReplacementDispatchAuthority &);

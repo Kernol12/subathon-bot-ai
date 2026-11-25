@@ -40,7 +40,14 @@ struct RestoredMilestoneQueue {
     std::optional<PlaybackOutcome> prior_handoff;
 };
 
-std::optional<RestoredMilestoneQueue>
+struct RestoredMilestoneQueueCompletion {
+    SqliteWorkResult work;
+    std::optional<RestoredMilestoneQueue> queue;
+};
+
+// Only a normally acknowledged replay provides a queue to adopt. Keep
+// scheduling fenced on abnormal work until a fresh writer readback succeeds.
+[[nodiscard]] RestoredMilestoneQueueCompletion
 restore_interrupted_milestone_queue(SqliteWriter &, CommandAuthority &, const Command &stop,
                                     const Command &next, const PlaybackHandoff &);
 

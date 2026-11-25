@@ -7,7 +7,6 @@
 
 #include <QDataStream>
 #include <QIODevice>
-#include <QUuid>
 #include <algorithm>
 #include <limits>
 #include <map>
@@ -912,104 +911,6 @@ milestone_interruption::publish_milestone_definitions(const SqliteWorkSession &s
                           {admitted->binding.revision, admitted->binding.configuration,
                            current->revision, admitted->targets});
         advance_head(s, request.track, true, admitted->binding.revision, current->revision);
-        return Result::committed;
-    });
-}
-
-milestone_interruption::Disposition milestone_interruption::capture_published_milestone_group(
-    const SqliteWorkSession &s, const PublishedMilestoneConfiguration &configuration,
-    const ContributionReceipt &receipt, const ApplicationPlanKey &plan, const Occurrence &target,
-    qint64 before, qint64 after) {
-    using Result = milestone_interruption::Disposition;
-    return guarded(s, [&] {
-        const auto *operation = std::get_if<ApplicationOperationKey>(&target.origin);
-        if (!configuration || !operation || before >= after ||
-            !reference_fields({target.track.installation_ref, target.track.track_ref,
-                               target.occurrence.ref, operation->operation_scope,
-                               operation->operation_ref, plan.plan_ref}) ||
-            plan.revision == 0)
-            return Result::refused;
-        if (catalog(s) != Catalog::edits)
-            return Result::unavailable;
-        const auto admitted =
-            SqliteApplicationBundleStore(s).read_inputs(plan, ApplicationSubjectKind::receipt);
-        if (admitted.disposition != SqliteBundleInputDisposition::ready || !admitted.inputs)
-            return Result::unavailable;
-        const auto &inputs = *admitted.inputs;
-        const auto &captured = inputs.selected_plan.captured;
-        const auto &event = captured.event;
-        if (inputs.plan.plan_ref != plan.plan_ref || inputs.actual_plan_head != plan.revision ||
-            event.receipt_id != receipt.id || event.identity != receipt.identity ||
-            event.facts != receipt.facts || event.arrival != receipt.arrival ||
-            event.contribution_id || !captured.requested_effects.empty())
-            return Result::refused;
-        const auto current = definition(s, target.track);
-        auto earned = prefix(s, target.track);
-        if (!current || !earned)
-            return Result::unavailable;
-        if (earned->members.size() >= current->targets.size())
-            return Result::refused;
-        const auto ordinal = earned->members.size();
-        const auto &next = current->targets[ordinal];
-        if (next.target_micro_points <= before || next.target_micro_points > after ||
-            (ordinal + 1 < current->targets.size() &&
-             current->targets[ordinal + 1].target_micro_points <= after))
-            return Result::refused;
-        const auto action =
-            configuration(s, {target.track, current->revision, current->configuration}, next);
-        if (!action)
-            return Result::unavailable;
-        if (action->action.kind != MilestoneActionKind::automation ||
-            action->envelope.format_ref != delivery_job_format ||
-            !reference_fields({action->action.action_ref, action->action.version_ref, action->route,
-                               action->qualified_sender}))
-            return Result::refused;
-
-        const auto token = QUuid::createUuid().toString(QUuid::WithoutBraces).toStdString();
-        auto job_ref = token + "-job";
-        PreparedApplicationBundle bundle;
-        bundle.intent = {*operation,
-                         ApplicationOperationKind::original,
-                         ApplicationSubjectKind::receipt,
-                         receipt.id,
-                         {},
-                         plan,
-                         inputs.current_state.token,
-                         {},
-                         action->envelope,
-                         {}};
-        bundle.advanced_before = inputs.current_state;
-        bundle.after = inputs.current_state;
-        bundle.after.token = token;
-        bundle.jobs.push_back({job_ref, {}, target.occurrence.ref, 1, action->envelope});
-        // This receipt-only application has one operation result: the
-        // exact admitted capture. The storage owner retains the same bytes.
-        bundle.result = action->envelope;
-        bundle.audit = {{}, {}, {}, action->envelope};
-        const DeliveryCapture delivery{job_ref,
-                                       action->route,
-                                       action->sender_selection,
-                                       action->qualified_sender,
-                                       action->action.action_ref,
-                                       action->action.version_ref};
-        if (SqliteDeliveryJobStore(s).stage(bundle, {delivery}).disposition !=
-            SqliteBundleStageDisposition::staged)
-            return Result::conflict;
-
-        const core::MilestoneCompletion completion{next.milestone_ref, current->revision,
-                                                   next.target_micro_points, after,
-                                                   event.arrival.modifier_context_ref};
-        SqliteMilestoneGroupStore(s).stage(*operation,
-                                           {{{completion, {action->action}, {}, target.occurrence},
-                                             {{1, {*operation, std::move(job_ref)}}}}});
-        const auto prior = earned->revision;
-        earned->revision = token;
-        earned->members.push_back(completion);
-        earned->origins.append(SqlRow{0, blob(operation->operation_scope),
-                                      blob(operation->operation_ref), blob(target.occurrence.ref),
-                                      QVariant{}, QVariant{}});
-        insert_prefix(s, target.track, *earned);
-        advance_head(s, target.track, false, earned->revision, prior);
         return Result::committed;
     });
 }

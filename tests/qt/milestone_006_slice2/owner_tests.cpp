@@ -83,8 +83,10 @@ struct PendingCaptureSelection {
 
 std::vector<ReplacementJob> select_effective_release(SqliteWriter &writer,
                                                      const PendingCaptureSelection &selection) {
-    return select_effective_milestone_release(writer, selection.cached, selection.committed.target)
-        .value().replacement_jobs;
+    auto completed =
+        select_effective_milestone_release(writer, selection.cached, selection.committed.target);
+    finance::normal(completed.work);
+    return std::move(completed.selection.value().replacement_jobs);
 }
 
 struct PreviewAuthority final : CommandAuthority {
@@ -177,7 +179,9 @@ struct ColdQueueState {
 ColdQueueState restore_committed_queue(SqliteWriter &writer, CommandAuthority &authority,
                                        const Command &stop, const Command &next,
                                        const PlaybackHandoff &handoff, PlaybackStopAdapter &) {
-    auto restored = restore_interrupted_milestone_queue(writer, authority, stop, next, handoff).value();
+    auto completed = restore_interrupted_milestone_queue(writer, authority, stop, next, handoff);
+    finance::normal(completed.work);
+    auto &restored = completed.queue.value();
     return {std::move(restored.holds), std::move(restored.selected), restored.presentation,
             restored.prior_handoff};
 }

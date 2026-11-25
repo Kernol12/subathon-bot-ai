@@ -49,11 +49,6 @@ struct StopKey {
     bool operator==(const StopKey &) const = default;
 };
 
-struct CommittedFence {
-    StopKey key;
-    std::optional<bool> independently_held;
-};
-
 } // namespace
 
 struct MilestoneTimeline::State {
@@ -101,21 +96,16 @@ struct MilestoneTimeline::State {
             const auto disposition = release.occurrence_disposition(*head.occurrence);
             const auto edit =
                 head.edit_membership ? std::optional{head.edit_membership->origin} : std::nullopt;
-            const auto stopped = std::ranges::find_if(stops, [&](const auto &entry) {
-                return matches(entry.key.target, head.occurrence, edit, head.application_origin);
-            });
-            if (stopped != stops.end()) {
-                if (disposition != MilestoneHeadDisposition::skipped &&
-                    stopped->independently_held.value_or(disposition !=
-                                                         MilestoneHeadDisposition::ready))
-                    return;
-                pending.pop_front();
-                continue;
-            }
-            if (disposition == MilestoneHeadDisposition::ready)
-                break;
-            if (disposition != MilestoneHeadDisposition::skipped)
+            // The head port reads the current independent holds on every turn.
+            if (disposition == MilestoneHeadDisposition::ready) {
+                const auto stopped = std::ranges::any_of(stops, [&](const auto &entry) {
+                    return matches(entry.target, head.occurrence, edit, head.application_origin);
+                });
+                if (!stopped)
+                    break;
+            } else if (disposition != MilestoneHeadDisposition::skipped) {
                 return;
+            }
             pending.pop_front();
         }
         if (pending.empty())
@@ -149,7 +139,7 @@ struct MilestoneTimeline::State {
     bool queue_paused{false};
     bool countdown_paused{false};
     bool release_uncertain{false};
-    std::vector<CommittedFence> stops;
+    std::vector<StopKey> stops;
     std::vector<StopKey> uncertain_stops;
     std::vector<MilestoneTimelineCause> interruption_holds;
     std::vector<MilestoneTimelineCause> resolved_interruption_holds;
@@ -188,8 +178,7 @@ void MilestoneTimeline::adopt_stop(Milliseconds now, const MilestoneTimelineOccu
                                    std::optional<MilestoneTimelineCause> hold) {
     state_->check_sample(now);
     StopKey key{target, operation};
-    const bool first_seen =
-        std::ranges::find(state_->stops, key, &CommittedFence::key) == state_->stops.end();
+    const bool first_seen = std::ranges::find(state_->stops, key) == state_->stops.end();
     if (first_seen) {
         state_->stops.reserve(state_->stops.size() + 1);
         if (hold &&
@@ -209,7 +198,7 @@ void MilestoneTimeline::adopt_stop(Milliseconds now, const MilestoneTimelineOccu
     }
     std::erase(state_->uncertain_stops, key);
     if (first_seen)
-        state_->stops.push_back({std::move(key), {}});
+        state_->stops.push_back(std::move(key));
     state_->last_sample = now;
 }
 
@@ -222,7 +211,7 @@ void MilestoneTimeline::observe_stop_completion(Milliseconds now,
     if (reconciled)
         std::erase(state_->uncertain_stops, key);
     if (uncertain &&
-        std::ranges::find(state_->stops, key, &CommittedFence::key) == state_->stops.end() &&
+        std::ranges::find(state_->stops, key) == state_->stops.end() &&
         std::ranges::find(state_->uncertain_stops, key) == state_->uncertain_stops.end())
         state_->uncertain_stops.push_back(key);
     state_->last_sample = now;
@@ -245,12 +234,13 @@ void MilestoneTimeline::adopt_resume(Milliseconds now,
 
 void MilestoneTimeline::adopt_ordered_stop(std::chrono::milliseconds now,
                                            const MilestoneTimelineOccurrence &target,
-                                           const std::string &operation, bool independently_held,
+                                           const std::string &operation,
                                            std::vector<MilestoneTimelineCause> active_holds) {
     adopt_stop(now, target, operation, {});
-    const StopKey key{target, operation};
-    std::ranges::find(state_->stops, key, &CommittedFence::key)->independently_held =
-        independently_held;
+    std::erase_if(active_holds, [&](const auto &hold) {
+        return std::ranges::find(state_->resolved_interruption_holds, hold) !=
+               state_->resolved_interruption_holds.end();
+    });
     std::erase_if(state_->interruption_holds,
                   [&](const auto &hold) { return hold.track == target.track; });
     state_->interruption_holds.insert(state_->interruption_holds.end(),
