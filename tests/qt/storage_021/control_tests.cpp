@@ -2,28 +2,30 @@
 #include "../storage_003/constraint_specimen.hpp"
 #include "contribution_review_writer_access.hpp"
 #include "fake_ops02_update_hold.hpp"
+#include "sqlite_v23_rebuild.hpp"
 
 #include <QCoreApplication>
 #include <QScopeGuard>
 #include <QTest>
 
 #include <thread>
-
-namespace subathon::server::detail {
-
-// A dependent call picks up the proposed private overload through ADL when
-// declared in the private header. The candidate can run without that overload.
-struct V23InspectionTestPath {
-    const QString &path;
-    operator const QString &() const { return path; }
-};
-
-} // namespace subathon::server::detail
+#include <type_traits>
 
 namespace {
 using namespace storage_003_fixture;
 using namespace subathon::server::detail;
 using subathon::server::detail::testing::FakeOps02UpdateHoldIssuer;
+
+using RebuildEntry = decltype(&enqueue_v23_rebuild);
+template <class Witness>
+constexpr bool can_enqueue_rebuild =
+    std::is_invocable_v<RebuildEntry, Witness, Ops02UpdateHold, V23StoppedWriterLease,
+                        V23RebuildBudget, V23Cancellation, SqliteMigrationRunner::Completion>;
+
+static_assert(can_enqueue_rebuild<V22PreOpenWitness>);
+static_assert(!can_enqueue_rebuild<V23PreOpenObservation>);
+static_assert(!std::is_convertible_v<V23PreOpenObservation, V22PreOpenWitness>);
+static_assert(!std::is_constructible_v<V22PreOpenWitness, V23PreOpenObservation>);
 
 constexpr MigrationAdmission invalid{StorageError::invalid_options,
                                      MigrationReason::invalid_manifest};
@@ -126,19 +128,10 @@ constexpr auto v23_id = "exact-valuation-plan-revisions-rebuild-and-snapshots-v1
 constexpr auto v23_digest = "236e900671482ea7b73162b45c78b9bd576f46cdf20191414748bc7e4632de28";
 constexpr auto v23_prefix = "cbadf8cc4def9035e315c94af7174f87e4abba3dfca4e7970523e0e1ca7376d9";
 
-template <class Path> auto inspect_v23_candidate(Path path) {
-    if constexpr (requires { inspect_v23_pre_open(path, setup_profile); }) {
-        return inspect_v23_pre_open(path, setup_profile);
-    } else {
-        return std::variant<V22PreOpenWitness, MigrationReason>{
-            MigrationReason::feature_not_implemented};
-    }
-}
-
 void expect_v23_inspection(const DisposableFile &file, MigrationReason expected) {
     const auto before = file.seal();
     const auto path = file.path();
-    const auto inspected = inspect_v23_candidate(V23InspectionTestPath{path});
+    const auto inspected = inspect_v23_pre_open(path, setup_profile);
     require(file.seal() == before && !QFileInfo::exists(path + "-journal"),
             "Private v23 inspection leaves the stopped database unchanged");
     if (const auto *reason = std::get_if<MigrationReason>(&inspected)) {
@@ -147,10 +140,10 @@ void expect_v23_inspection(const DisposableFile &file, MigrationReason expected)
                     .arg(static_cast<int>(*reason))
                     .arg(static_cast<int>(expected)));
     } else {
-        const auto &witness = std::get<0>(inspected);
-        require(expected == MigrationReason::none && witness.version == 23 &&
-                    witness.prefix == QByteArray::fromHex(v23_prefix) &&
-                    witness.projection_objects == 294,
+        const auto &observation = std::get<V23PreOpenObservation>(inspected);
+        require(expected == MigrationReason::none && observation.version == 23 &&
+                    observation.prefix == QByteArray::fromHex(v23_prefix) &&
+                    observation.projection_objects == 294,
                 "Private inspection returns the exact v23 identity only for the authentic store");
     }
 }
