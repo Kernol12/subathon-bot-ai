@@ -146,6 +146,7 @@
     "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_work_acceptance": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_writer_acceptance": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/server_sqlite_writer_ownership_regression": "qt-sql-test",
+    "build/sqlite-reference-capture-debug/tests/qt/server_v22_catalog_drift": "qt-sql",
     "build/sqlite-reference-capture-debug/tests/qt/sqlite_live_financial_refunds_tests": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/sqlite_migration_engine_witness": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/storage_026/server_storage_026_stage1_catalog": "qt-sql-test",
