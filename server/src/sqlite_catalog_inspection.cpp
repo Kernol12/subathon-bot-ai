@@ -136,23 +136,9 @@ class CatalogInspection final {
                       CatalogQuery execute)
         : manifest_(manifest), hashes_(hashes), execute_(execute) {}
 
-    qint32 inspect_store(bool legacy_prefix) {
+    qint32 inspect_store() {
         // The encoding gate must precede every raw-text/schema/catalog observation.
         verify_encoding();
-        if (legacy_prefix) {
-            // A recognized legacy prefix keeps its normal admission. The
-            // caller's migration manifest still owns its structural checks.
-            try {
-                const auto head = read_history_head();
-                if (head < manifest_.steps.size())
-                    return head;
-            } catch (const MigrationFailure &error) {
-                if (error.reason() != MigrationReason::catalog_mismatch &&
-                    error.reason() != MigrationReason::unsupported_version)
-                    throw;
-                // Retain the normal v22 comparison order and diagnostic.
-            }
-        }
         const auto schema = read_catalog_schema(execute_);
         if (schema.isEmpty()) {
             verify_integrity();
@@ -185,20 +171,6 @@ class CatalogInspection final {
         if (stored_text(row[2], row[5], row[6], MigrationReason::catalog_mismatch) !=
             store_identity)
             throw MigrationFailure(MigrationReason::foreign_store);
-        const auto head = read_history_head();
-        if (!manifest_.supported_starting_versions.contains(head))
-            throw MigrationFailure(MigrationReason::unsupported_version);
-        verify_catalog_schema(schema, manifest_.steps[head - 1].expected_schema);
-        verify_integrity();
-        return head;
-    }
-
-  private:
-    const MigrationManifest &manifest_;
-    const QList<QByteArray> &hashes_;
-    CatalogQuery execute_;
-
-    qint32 read_history_head() {
         const auto histories = execute_(
             Query::history,
             "SELECT version,migration_id,content_sha256,typeof(version),typeof(migration_id),"
@@ -228,8 +200,18 @@ class CatalogInspection final {
             ids.insert(id);
             head = static_cast<qint32>(version);
         }
+        if (!manifest_.supported_starting_versions.contains(head))
+            throw MigrationFailure(MigrationReason::unsupported_version);
+        verify_catalog_schema(schema, manifest_.steps[head - 1].expected_schema);
+        verify_integrity();
         return head;
     }
+
+  private:
+    const MigrationManifest &manifest_;
+    const QList<QByteArray> &hashes_;
+    CatalogQuery execute_;
+
     qint64 stored_integer(const QVariant &value, const QVariant &type) {
         if (!text_value(type) || type.toString() != "integer" || !integer_value(value))
             throw MigrationFailure(MigrationReason::catalog_mismatch);
@@ -281,8 +263,8 @@ QList<CatalogObject> read_catalog_schema(CatalogQuery execute) {
 }
 
 qint32 inspect_store(const MigrationManifest &manifest, const QList<QByteArray> &hashes,
-                     CatalogQuery execute, bool legacy_prefix) {
-    return CatalogInspection(manifest, hashes, execute).inspect_store(legacy_prefix);
+                     CatalogQuery execute) {
+    return CatalogInspection(manifest, hashes, execute).inspect_store();
 }
 
 } // namespace subathon::server::detail

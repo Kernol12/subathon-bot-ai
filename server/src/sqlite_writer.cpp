@@ -256,6 +256,16 @@ CatalogMode inspect_writer_catalog(Connection &connection) {
             first.front()[2].toByteArray() != first_digest)
             return {};
 
+        // 834.17 leaves catalogs below the v22 boundary with their existing
+        // owner checks. Count at most 22 rows on the same open snapshot.
+        const auto count = run("SELECT count(*) FROM (SELECT 1 FROM "
+                               "main.subathon_migration_history LIMIT 22)");
+        if (count.size() != 1 || count.front().size() != 1 ||
+            !detail::integer_value(count.front()[0]))
+            throw MigrationFailure(MigrationReason::inspection_failed);
+        if (count.front()[0].toLongLong() < 22)
+            return {};
+
         static const auto expected = [] {
             MigrationManifest manifest;
             QList<QByteArray> hashes;
@@ -275,7 +285,7 @@ CatalogMode inspect_writer_catalog(Connection &connection) {
             return std::pair{std::move(manifest), std::move(hashes)};
         }();
         const auto query = [&](detail::ClockProbeQuery, const QString &sql) { return run(sql); };
-        return {detail::inspect_store(expected.first, expected.second, query, true) ==
+        return {detail::inspect_store(expected.first, expected.second, query) ==
                     expected.first.steps.size(),
                 MigrationReason::none};
     } catch (const MigrationFailure &error) {

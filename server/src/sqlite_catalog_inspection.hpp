@@ -22,8 +22,7 @@ enum class ClockProbeQuery {
 using CatalogQuery = qxp::function_ref<SqlRows(ClockProbeQuery, const QString &) const>;
 
 [[nodiscard]] qint32 inspect_store(const MigrationManifest &manifest,
-                                   const QList<QByteArray> &hashes, CatalogQuery execute,
-                                   bool legacy_prefix = false);
+                                   const QList<QByteArray> &hashes, CatalogQuery execute);
 [[nodiscard]] QList<CatalogObject> read_catalog_schema(CatalogQuery execute);
 void verify_catalog_schema(const QList<CatalogObject> &actual,
                            const QList<CatalogObject> &expected);
