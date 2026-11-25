@@ -43,3 +43,10 @@ if(SUBATHON_BUILD_STORAGE_033_STAGE1)
         LIBRARIES subathon_storage_003_fixture_owner subathon_contribution_review
         LABELS "storage-033;acceptance;qt;server;intentional-red" TIMEOUT 240)
 endif()
+
+option(SUBATHON_BUILD_STORAGE_033_LEXER_TESTS "Build local STORAGE-033 lexer unit tests" OFF)
+if(SUBATHON_BUILD_STORAGE_033_LEXER_TESTS)
+    subathon_add_qt_suite(server_storage_033_writer_lexer
+        NAME storage-033-writer-lexer SOURCES ../storage_033/writer_lexer_tests.cpp
+        LIBRARIES subathon_sqlite_writer LABELS "storage-033-lexer;qt;server")
+endif()
