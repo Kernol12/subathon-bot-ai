@@ -26,6 +26,7 @@ struct V23PreOpenObservation {
     qsizetype projection_objects{};
 };
 
+// The caller keeps the store stopped with no writer for the duration of the call.
 [[nodiscard]] std::variant<V23PreOpenObservation, MigrationReason>
 inspect_v23_pre_open(const QString &path, StorageLimits limits);
 
