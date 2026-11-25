@@ -23,7 +23,11 @@
 #include <vector>
 
 namespace subathon::server {
+namespace detail {
+bool allowed_governing_sql(QStringView sql);
+}
 namespace {
+using detail::allowed_governing_sql;
 using detail::ClockStatementLedger;
 using detail::Connection;
 using detail::consume;
@@ -80,19 +84,275 @@ bool allowed_writer_sql(const QString &sql) {
            verb == "ALTER";
 }
 
+// The recognized schema has no indirect path to either reserved table. Scan
+// only the outer command and target, leaving the rest of SQL grammar to QSQLITE.
+class WriterSqlTokens {
+  public:
+    explicit WriterSqlTokens(QStringView sql) : sql_(sql) { next(); }
+
+    bool keyword(QLatin1StringView word) const { return name_ && quote_.isNull() && matches(word); }
+
+    bool matches(QLatin1StringView word) const {
+        if (!name_ || text_.size() != word.size())
+            return false;
+        for (qsizetype i = 0; i < text_.size(); ++i) {
+            auto ch = text_[i].unicode();
+            if (ch >= 'A' && ch <= 'Z')
+                ch += 'a' - 'A';
+            if (ch != word[i].unicode())
+                return false;
+        }
+        return true;
+    }
+
+    bool name() const { return name_; }
+    bool at_end() const { return !name_ && text_.isEmpty(); }
+
+    bool take(QLatin1StringView word) {
+        if (!keyword(word))
+            return false;
+        next();
+        return true;
+    }
+
+    bool take(QChar punctuation) {
+        if (name_ || text_.size() != 1 || text_.front() != punctuation)
+            return false;
+        next();
+        return true;
+    }
+
+    bool group() {
+        if (!take(u'('))
+            return false;
+        qsizetype depth = 1;
+        while (!at_end()) {
+            if (take(u')')) {
+                if (--depth == 0)
+                    return true;
+            } else if (take(u'(')) {
+                ++depth;
+            } else {
+                next();
+            }
+        }
+        return false;
+    }
+
+    void next() {
+        text_ = {};
+        name_ = false;
+        quote_ = {};
+        for (;;) {
+            if (sql_.isEmpty())
+                return;
+            const auto ch = sql_.front();
+            if (starts_whitespace(ch)) {
+                // SQLite accepts VT only after another character started the whitespace run.
+                qsizetype width = 1;
+                while (width < sql_.size() &&
+                       (starts_whitespace(sql_[width]) || sql_[width] == u'\v'))
+                    ++width;
+                sql_.slice(width);
+            } else if (ch == QChar::ByteOrderMark) {
+                sql_.slice(1);
+            } else if (sql_.startsWith(u"--")) {
+                const auto end = sql_.indexOf(u'\n');
+                sql_ = end < 0 ? QStringView{} : sql_.sliced(end + 1);
+            } else if (sql_.size() > 2 && sql_.startsWith(u"/*")) {
+                const auto end = sql_.indexOf(u"*/", 2);
+                sql_ = end < 0 ? QStringView{} : sql_.sliced(end + 2);
+            } else {
+                break;
+            }
+        }
+
+        const auto ch = sql_.front();
+        if (ch == u'\'' || ch == u'"' || ch == u'`' || ch == u'[') {
+            quote_ = ch;
+            const QChar closing = ch == u'[' ? QChar(u']') : ch;
+            qsizetype end = 1;
+            while ((end = sql_.indexOf(closing, end)) >= 0) {
+                if (ch == u'[' || end + 1 == sql_.size() || sql_[end + 1] != closing) {
+                    text_ = sql_.sliced(1, end - 1);
+                    sql_.slice(end + 1);
+                    name_ = true;
+                    return;
+                }
+                end += 2;
+            }
+            text_ = sql_.first(1);
+            sql_ = {};
+            return;
+        }
+
+        qsizetype width = 1;
+        name_ = identifier_character(ch) && ch != u'$' && !(ch >= u'0' && ch <= u'9');
+        if (name_) {
+            while (width < sql_.size() && identifier_character(sql_[width]))
+                ++width;
+        }
+        text_ = sql_.first(width);
+        sql_.slice(width);
+    }
+
+  private:
+    static bool starts_whitespace(QChar ch) {
+        return ch == u' ' || ch == u'\t' || ch == u'\n' || ch == u'\r' || ch == u'\f';
+    }
+
+    static bool identifier_character(QChar ch) {
+        const auto value = ch.unicode();
+        return (value >= 'a' && value <= 'z') || (value >= 'A' && value <= 'Z') ||
+               (value >= '0' && value <= '9') || value == '_' || value == '$' || value >= 0x80;
+    }
+
+    QStringView sql_;
+    QStringView text_;
+    QChar quote_;
+    bool name_{false};
+};
+
+bool skip_writer_ctes(WriterSqlTokens &tokens) {
+    using namespace Qt::Literals::StringLiterals;
+    tokens.take("recursive"_L1);
+    do {
+        if (!tokens.name())
+            return false;
+        tokens.next();
+        if (!tokens.take("as"_L1) && (!tokens.group() || !tokens.take("as"_L1)))
+            return false;
+        if (tokens.take("not"_L1)) {
+            if (!tokens.take("materialized"_L1))
+                return false;
+        } else {
+            tokens.take("materialized"_L1);
+        }
+        if (!tokens.group())
+            return false;
+    } while (tokens.take(u','));
+    return true;
+}
+
+enum class MutationVerb { insert, replace, update, erase };
+
+std::optional<MutationVerb> take_mutation_verb(WriterSqlTokens &tokens) {
+    using namespace Qt::Literals::StringLiterals;
+    if (tokens.take("insert"_L1))
+        return MutationVerb::insert;
+    if (tokens.take("replace"_L1))
+        return MutationVerb::replace;
+    if (tokens.take("update"_L1))
+        return MutationVerb::update;
+    if (tokens.take("delete"_L1))
+        return MutationVerb::erase;
+    return std::nullopt;
+}
+
+bool valid_target_continuation(WriterSqlTokens &tokens, MutationVerb verb) {
+    using namespace Qt::Literals::StringLiterals;
+    if (tokens.take("as"_L1)) {
+        if (!tokens.name())
+            return false;
+        tokens.next();
+    }
+
+    if (verb == MutationVerb::insert || verb == MutationVerb::replace) {
+        if (tokens.take(u'(')) {
+            do {
+                if (!tokens.name())
+                    return false;
+                tokens.next();
+            } while (tokens.take(u','));
+            if (!tokens.take(u')'))
+                return false;
+        }
+        if (tokens.take("default"_L1))
+            return tokens.keyword("values"_L1);
+        return tokens.keyword("values"_L1) || tokens.keyword("select"_L1) ||
+               tokens.keyword("with"_L1);
+    }
+
+    if (tokens.take("indexed"_L1)) {
+        if (!tokens.take("by"_L1) || !tokens.name())
+            return false;
+        tokens.next();
+    } else if (tokens.take("not"_L1) && !tokens.take("indexed"_L1)) {
+        return false;
+    }
+    if (verb == MutationVerb::update)
+        return tokens.keyword("set"_L1);
+    return tokens.at_end() || tokens.keyword("where"_L1) || tokens.keyword("returning"_L1) ||
+           tokens.keyword("order"_L1) || tokens.keyword("limit"_L1);
+}
+} // namespace
+
+bool detail::allowed_governing_sql(QStringView sql) {
+    using namespace Qt::Literals::StringLiterals;
+    // Embedded NUL is outside the tokenized interface and may truncate driver SQL.
+    if (sql.contains(u'\0'))
+        return false;
+    WriterSqlTokens tokens(sql);
+    if (tokens.take("with"_L1) && !skip_writer_ctes(tokens))
+        return false;
+    if (tokens.keyword("select"_L1) || tokens.keyword("pragma"_L1))
+        return true;
+
+    const auto verb = take_mutation_verb(tokens);
+    if (!verb)
+        return false;
+    if ((*verb == MutationVerb::insert || *verb == MutationVerb::update) && tokens.take("or"_L1)) {
+        if (!tokens.take("rollback"_L1) && !tokens.take("abort"_L1) && !tokens.take("replace"_L1) &&
+            !tokens.take("fail"_L1) && !tokens.take("ignore"_L1))
+            return false;
+    }
+    switch (*verb) {
+    case MutationVerb::insert:
+    case MutationVerb::replace:
+        if (!tokens.take("into"_L1))
+            return false;
+        break;
+    case MutationVerb::erase:
+        if (!tokens.take("from"_L1))
+            return false;
+        break;
+    case MutationVerb::update:
+        break;
+    }
+
+    if (!tokens.name())
+        return false;
+    const auto reserved = [&] {
+        return tokens.matches("subathon_catalog"_L1) ||
+               tokens.matches("subathon_migration_history"_L1);
+    };
+    const bool main_schema = tokens.matches("main"_L1);
+    bool reserved_target = reserved();
+    tokens.next();
+    if (tokens.take(u'.')) {
+        if (!tokens.name())
+            return false;
+        reserved_target = main_schema && reserved();
+        tokens.next();
+    }
+    return !reserved_target && valid_target_continuation(tokens, *verb);
+}
+
+namespace {
 bool valid_limits(const StorageLimits &limits) {
     return limits.pending_batches > 0 && limits.statements_per_batch > 0 &&
            limits.statement_utf8_bytes > 0 && limits.bound_value_bytes > 0 &&
            limits.result_rows > 0 && limits.result_value_bytes > 0;
 }
 
-bool valid_batch(const WriteBatch &batch, const StorageLimits &limits) {
+bool valid_batch(const WriteBatch &batch, const StorageLimits &limits, bool governing) {
     if (batch.isEmpty() || batch.size() > limits.statements_per_batch)
         return false;
     qsizetype remaining = limits.bound_value_bytes;
     for (const auto &statement : batch) {
         if (statement.sql.toUtf8().size() > limits.statement_utf8_bytes ||
-            !allowed_writer_sql(statement.sql))
+            (!allowed_writer_sql(statement.sql) ||
+             (governing && !allowed_governing_sql(statement.sql))))
             return false;
         for (const auto &value : statement.bindings)
             if (!consume_value(remaining, value))
@@ -385,7 +645,8 @@ class SqliteWorkState final {
 
     SqlRows execute(const SqlStatement &statement, ClockStatementLedger *clock = nullptr) {
         return execute_metered(statement, clock, [&] {
-            if (!allowed_writer_sql(statement.sql))
+            if (!allowed_writer_sql(statement.sql) ||
+                (verified_v22_ && !allowed_governing_sql(statement.sql)))
                 fail(WorkError::invalid_statement);
         });
     }
@@ -685,7 +946,8 @@ class SqliteWriter::Impl {
             return StorageError::shutting_down;
         if (!connection_.is_open())
             return StorageError::not_open;
-        if (catalog_.refusal != MigrationReason::none || !completion || !valid_batch(batch, limits_))
+        if (catalog_.refusal != MigrationReason::none || !completion ||
+            !valid_batch(batch, limits_, catalog_.v22))
             return StorageError::invalid_batch;
         const auto outstanding = static_cast<qsizetype>(queue_.size()) + (active_ ? 1 : 0);
         if (outstanding >= limits_.pending_batches)
@@ -694,7 +956,8 @@ class SqliteWriter::Impl {
         schedule();
         return StorageError::none;
     }
-    StorageError enqueue_work(Work work, WorkCompletion completion, bool inspect = false) {
+    StorageError enqueue_work(Work work, WorkCompletion completion, bool inspect = false,
+                              detail::CatalogWriterAccess::DequeueCheck migration_check = {}) {
         if (!on_owner())
             return StorageError::wrong_thread;
         if (stopping_)
@@ -706,7 +969,8 @@ class SqliteWriter::Impl {
         const auto outstanding = static_cast<qsizetype>(queue_.size()) + (active_ ? 1 : 0);
         if (outstanding >= limits_.pending_batches)
             return StorageError::queue_full;
-        queue_.push_back({{}, {}, std::move(work), std::move(completion)});
+        queue_.push_back(
+            {{}, {}, std::move(work), std::move(completion), std::move(migration_check)});
         schedule();
         return StorageError::none;
     }
@@ -741,6 +1005,7 @@ class SqliteWriter::Impl {
         Completion completion;
         Work work;
         WorkCompletion work_completion;
+        detail::CatalogWriterAccess::DequeueCheck migration_check{};
     };
     SqliteWriter *writer_;
     QThread *const owner_;
@@ -771,6 +1036,10 @@ class SqliteWriter::Impl {
             return {StorageError::invalid_batch, {}};
         if (!connection_.is_open())
             return {StorageError::sql_failure, {}};
+        if (catalog_.v22 && !std::ranges::all_of(batch, [](const auto &statement) {
+                return allowed_governing_sql(statement.sql);
+            }))
+            return {StorageError::invalid_batch, {}};
         auto error = control(connection_, "BEGIN IMMEDIATE");
         if (error != StorageError::none)
             return {error, {}};
@@ -854,7 +1123,9 @@ class SqliteWriter::Impl {
             Pending pending = std::move(queue_.front());
             queue_.pop_front();
             if (pending.work) {
-                SqliteWorkResult result = execute_work(pending.work);
+                SqliteWorkResult result;
+                if (!pending.migration_check || pending.migration_check(catalog_.v22))
+                    result = execute_work(pending.work);
                 active_ = false;
                 if (!queue_.empty() || (stopping_ && !shutdown_completions_.empty()))
                     schedule();
@@ -880,15 +1151,20 @@ class SqliteWriter::Impl {
     }
 };
 
-MigrationAdmission detail::CatalogWriterAccess::enqueue(
-    SqliteWriter &writer, MigrationMode mode, SqliteWriter::Work work,
-    SqliteWriter::WorkCompletion completion) {
+MigrationAdmission detail::CatalogWriterAccess::enqueue(SqliteWriter &writer, MigrationMode mode,
+                                                        bool governing_allowed,
+                                                        SqliteWriter::Work work,
+                                                        SqliteWriter::WorkCompletion completion,
+                                                        DequeueCheck check) {
     auto &impl = *writer.impl_;
     if (impl.on_owner() && !impl.stopping_ && impl.connection_.is_open() &&
         mode == MigrationMode::advance && impl.catalog_.refusal != MigrationReason::none)
         return {StorageError::invalid_options, impl.catalog_.refusal};
+    if (impl.on_owner() && !impl.stopping_ && impl.connection_.is_open() && impl.catalog_.v22 &&
+        !governing_allowed)
+        return {StorageError::invalid_options, MigrationReason::invalid_manifest};
     return {impl.enqueue_work(std::move(work), std::move(completion),
-                              mode == MigrationMode::inspect),
+                              mode == MigrationMode::inspect, std::move(check)),
             MigrationReason::none};
 }
 
