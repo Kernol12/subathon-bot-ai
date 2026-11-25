@@ -728,6 +728,27 @@ int main(int argc, char **argv) {
         require(QTest::qWaitFor([stopped] { return *stopped == 1; }), "Shutdown completed once");
     });
     run("normal v23 reopen", normal_v23_reopen);
+    run("v23 inspection without a fixture profile", [](Fixture &f) {
+        commit_and_stop_v23(f);
+        const auto path = f.file.path();
+        const auto before = f.file.seal();
+        const auto missing = path + "/absent.sqlite";
+        require(QFileInfo(path).isFile() && !QFileInfo::exists(missing),
+                "The stopped main file cannot contain a child database");
+
+        const auto ordinary = inspect_v23_pre_open(path, StorageLimits{});
+        const auto absent = inspect_v23_pre_open(missing, StorageLimits{});
+        require(f.file.seal() == before && !QFileInfo::exists(path + "-journal"),
+                "Ordinary inspection leaves the stopped database unchanged");
+        const auto *ordinary_reason = std::get_if<MigrationReason>(&ordinary);
+        const auto *absent_reason = std::get_if<MigrationReason>(&absent);
+        require(ordinary_reason && *ordinary_reason == MigrationReason::resource_limit &&
+                    absent_reason && *absent_reason == MigrationReason::resource_limit,
+                QString("Missing production limits must refuse before inspecting either path "
+                        "(stopped database reason %1, absent path reason %2; -1 is an observation)")
+                    .arg(ordinary_reason ? static_cast<int>(*ordinary_reason) : -1)
+                    .arg(absent_reason ? static_cast<int>(*absent_reason) : -1));
+    });
     run("private read-only v23 inspection", [](Fixture &f) {
         commit_and_stop_v23(f);
         expect_v23_inspection(f.file, MigrationReason::none);
