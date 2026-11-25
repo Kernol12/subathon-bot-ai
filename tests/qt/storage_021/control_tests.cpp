@@ -738,6 +738,7 @@ int main(int argc, char **argv) {
 
         const auto ordinary = inspect_v23_pre_open(path, StorageLimits{});
         const auto absent = inspect_v23_pre_open(missing, StorageLimits{});
+        const auto fixture_limits = inspect_v23_pre_open(path, setup_profile);
         require(f.file.seal() == before && !QFileInfo::exists(path + "-journal"),
                 "Ordinary inspection leaves the stopped database unchanged");
         const auto *ordinary_reason = std::get_if<MigrationReason>(&ordinary);
@@ -748,6 +749,9 @@ int main(int argc, char **argv) {
                         "(stopped database reason %1, absent path reason %2; -1 is an observation)")
                     .arg(ordinary_reason ? static_cast<int>(*ordinary_reason) : -1)
                     .arg(absent_reason ? static_cast<int>(*absent_reason) : -1));
+        require(std::get_if<MigrationReason>(&fixture_limits) &&
+                    std::get<MigrationReason>(fixture_limits) == MigrationReason::resource_limit,
+                "Ordinary inspection refuses even with the fixture's limits");
     });
     run("private read-only v23 inspection", [](Fixture &f) {
         commit_and_stop_v23(f);
