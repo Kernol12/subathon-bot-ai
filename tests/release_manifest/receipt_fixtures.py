@@ -20,7 +20,7 @@ DROGON_NOTICES = ("share/licenses/drogon/LICENSE", "share/licenses/drogon/orm_li
 PATCHES = (
     ("0001-trantor-native-io.patch", PARENT, "3d6738d658f4ef8cee7c06bd338e1a4e08a55da51a935cb07487661765a1e988"),
     ("0002-drogon-native-dispatch.patch", PARENT, "10e950f63492627ca4b148d79f59630bbf41e47e52361d8aa4ef88bf4ef14852"),
-    ("0003-trantor-bounded-http.patch", SUCCESSOR, "a68badebe62e3b9ada32bb5fbae08b9c97b381cd066b60c8350d39b68195385e"),
+    ("0003-trantor-bounded-http.patch", SUCCESSOR, "08249407fe9fa4a95860152d657ed2c440e74305561d0cd925a05d5eab28e5a4"),
     ("0004-drogon-bounded-http.patch", SUCCESSOR, "cfe4f4545094a5fe7531bfd9660e57330a14119ade8be5236d110297a19ef0ea"),
     ("0005-native-source-binding.patch", SUCCESSOR, "ca4b44419e11f3eea0fc3e7f4333ed9ffb0cb1e0d9edf37cd1aa1d15d5a77919"),
 )

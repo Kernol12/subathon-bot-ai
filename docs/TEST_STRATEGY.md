@@ -167,11 +167,16 @@ or capability. All 34 foundation methods and 44 unchanged native methods pass
 locally against one prepared successor. Both run as ordinary passing suites in the
 existing `native` job, behind separate gates. The preserved candidate4 NI target
 remains a historical compile/link baseline; it supplies no successor behavior.
-Revision R4 comprises corrections 1–18, reviewed in
+Revision R4 comprises corrections 1–19; corrections 1–18 were reviewed in
 [PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664), which records the
 frozen baseline and passing selected Linux CI for foundation34 and both native44
 SDK lanes. No first-party public declaration or frozen test/oracle was changed;
 these results establish no release, platform or security verification.
+Correction 19 (API-024) adds first-party declarations and insertion-only probe
+actions keyed on an `api024` argument; every frozen selector is unchanged. Its
+suite `api-024.listener` is opt-in under `SUBATHON_BUILD_API_024_STAGE1` and not run
+in CI, so its credited local runs keep the standing admission (ADR-0013 item 4). Its
+frozen `intentional-red` label predates the implementation.
 
 ## Running relevant checks
 

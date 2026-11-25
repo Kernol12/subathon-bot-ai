@@ -19,6 +19,7 @@ option(SUBATHON_BUILD_RATES_012_STAGE1 "Build the reviewed RATES-012 acceptance 
 option(SUBATHON_BUILD_RULES_004_STAGE1 "Build the reviewed RULES-004 acceptance suite" OFF)
 option(SUBATHON_BUILD_RULES_005_STAGE1 "Build the reviewed RULES-005 acceptance suite" OFF)
 option(SUBATHON_BUILD_EVENT_ANNOUNCEMENT_STAGE1 "Build the event announcement intentional-red suite" OFF)
+option(SUBATHON_BUILD_API_024_STAGE1 "Build the API-024 listener intentional-red suite" OFF)
 option(SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE "Build the ACCT-007 Qt acceptance suite explicitly" OFF)
 option(SUBATHON_BUILD_MODIFIER_005_STAGE1 "Build the reviewed MODIFIER-005 acceptance suite" OFF)
 option(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE "Build the modifier-clock acceptance suite explicitly" OFF)
@@ -104,6 +105,11 @@ if(SUBATHON_SODIUM_ROOT OR (BUILD_TESTING AND (SUBATHON_BUILD_PASSWORD_HASHING_T
         OR SUBATHON_BUILD_RATE_CREDENTIALS_TESTS OR SUBATHON_BUILD_API_031_TESTS
         OR (sbt_bounded_http_successor AND SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS))))
     include(cmake/SodiumDependency.cmake)
+endif()
+# API-024 Stage 1 extends the successor foundation probe; it is never a standalone suite.
+if(SUBATHON_BUILD_API_024_STAGE1 AND NOT (BUILD_TESTING AND sbt_bounded_http_successor
+        AND SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS))
+    message(FATAL_ERROR "SUBATHON_BUILD_API_024_STAGE1 requires the successor bounded HTTP foundation suite")
 endif()
 include(cmake/ProjectOptions.cmake)
 add_subdirectory(core)

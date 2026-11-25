@@ -55,6 +55,15 @@ rounded sum <=32768. The native build copy checks registration object/control
 storage before installation. Its retained original native Context/pools remain
 separately charged under API-012, not erased from either source inventory.
 
+API-024 (R4 correction 19) adds no allocation, FD, channel, timer, task or poller
+registration. Each Acceptor carries its fixed listener record (phase, hold deadline,
+listen and interest facts, the owner-turn refresh flag `boundedPollRefresh_`, two
+saturating counters) inside its <=1024 bound; the
+selected local Release headers measure 384 -> 408 bytes. Core carries the
+registration seal, the scan snapshot and the lock-free atomic observer borrow inside
+the first-party share (debug consumer build: 18584 -> 18600 bytes). The 176-byte
+observer record is fixture-owned storage outside both shares.
+
 The private SDK bootstrap binding fixes the main loop at **16 records before its
 constructor**. `Runtime::install` reserves IO0's **P+8** event, active-pointer and
 (debug builds) FD/channel arrays before returning; the future IO0 constructor

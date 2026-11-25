@@ -95,9 +95,18 @@ if(TARGET Sodium::Sodium)
 endif()
 
 if(TARGET Qt6::Core AND TARGET Qt6::Sql)
+    add_library(subathon_sqlite_v22_catalog STATIC src/sqlite_v22_catalog.cpp)
+    subathon_target_options(subathon_sqlite_v22_catalog)
+
+    add_library(subathon_sqlite_catalog_inspection STATIC src/sqlite_catalog_inspection.cpp)
+    target_include_directories(subathon_sqlite_catalog_inspection PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_sqlite_catalog_inspection PRIVATE Qt6::Sql)
+    subathon_target_options(subathon_sqlite_catalog_inspection)
+
     add_library(subathon_sqlite_writer STATIC src/sqlite_writer.cpp)
     target_include_directories(subathon_sqlite_writer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_link_libraries(subathon_sqlite_writer PUBLIC Qt6::Core Qt6::Sql)
+    target_link_libraries(subathon_sqlite_writer PUBLIC Qt6::Core Qt6::Sql
+        PRIVATE subathon_sqlite_v22_catalog subathon_sqlite_catalog_inspection)
     subathon_target_options(subathon_sqlite_writer)
 
     if(TARGET subathon_credential_record)
@@ -116,7 +125,8 @@ if(TARGET Qt6::Core AND TARGET Qt6::Sql)
 
     add_library(subathon_sqlite_migrations STATIC src/sqlite_migrations.cpp)
     target_include_directories(subathon_sqlite_migrations PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_link_libraries(subathon_sqlite_migrations PUBLIC subathon_sqlite_writer Qt6::Core)
+    target_link_libraries(subathon_sqlite_migrations PUBLIC subathon_sqlite_writer Qt6::Core
+        PRIVATE subathon_sqlite_v22_catalog subathon_sqlite_catalog_inspection)
     subathon_target_options(subathon_sqlite_migrations)
 
     add_library(subathon_sqlite_retained_context STATIC src/sqlite_retained_context.cpp)

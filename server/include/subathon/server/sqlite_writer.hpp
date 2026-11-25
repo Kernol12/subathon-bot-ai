@@ -8,6 +8,7 @@
 #include <memory>
 #include <optional>
 #include <stdexcept>
+#include <subathon/server/sqlite_rows.hpp>
 #include <utility>
 
 namespace subathon::server {
@@ -36,8 +37,6 @@ struct SqlStatement {
     QString sql;
     QList<QVariant> bindings;
 };
-using SqlRow = QList<QVariant>;
-using SqlRows = QList<SqlRow>;
 using WriteBatch = QList<SqlStatement>;
 
 struct StorageLimits {

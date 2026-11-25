@@ -3,7 +3,9 @@
 
 #include <algorithm>
 #include <limits>
-#include <optional>
+#include <set>
+#include <tuple>
+#include <utility>
 
 namespace subathon::core {
 namespace {
@@ -64,112 +66,138 @@ void validate_preview(const RecurringSchedule &schedule, const ScheduleZoneRules
     }
 }
 
-struct LocalInterval {
-    std::int64_t first_ms;
-    std::int64_t last_ms;
-    std::int64_t offset_ms;
+enum class SegmentKind { inverse, gap };
 
-    bool contains(std::int64_t local_ms) const {
-        return first_ms <= local_ms && local_ms <= last_ms;
-    }
+// An end event is placed one millisecond past the closed interval, when that
+// millisecond is representable. Events at the same instant take effect together.
+struct LocalEvent {
+    std::int64_t at;
+    std::int64_t offset;
+    std::size_t segment;
+    SegmentKind kind;
+    bool begins;
 };
 
-using LocalIntervals = std::array<LocalInterval, schedule_zone_max_transitions + 1>;
+auto delivered_order(const ScheduleOccurrenceId &id) {
+    return std::pair{id.nominal_local_start, id.run};
+}
 
-// Project each constant-offset segment in UTC order. Clip to representable local
-// times so coverage itself can extend to either extreme of the UTC representation.
-std::size_t build_local_intervals(const ScheduleZoneRules &zone, LocalIntervals &intervals) {
-    if (zone.transitions.size() > schedule_zone_max_transitions) {
-        throw std::invalid_argument("Too many schedule zone transitions");
+} // namespace
+
+ScheduleTimeline::ScheduleTimeline(ScheduleZoneRules zone) : rules_(zone) {
+    if (zone.transitions.size() > max_transitions ||
+        zone.coverage_start_utc_ms > zone.coverage_end_utc_ms) {
+        throw std::invalid_argument("Invalid schedule zone coverage");
     }
 
-    std::size_t count = 0;
-    const auto append = [&](std::int64_t first, std::int64_t last, std::int64_t offset) {
-        if (offset < 0) {
-            first = std::max(first, min_ms - offset);
-        } else {
-            last = std::min(last, max_ms - offset);
+    std::vector<LocalEvent> events;
+    events.reserve(4 * zone.transitions.size() + 2);
+    const auto append = [&](std::int64_t first, std::int64_t last, std::int64_t offset,
+                            std::size_t segment, SegmentKind kind) {
+        events.push_back({first, offset, segment, kind, true});
+        if (last < max_ms) {
+            events.push_back({last + 1, offset, segment, kind, false});
         }
+    };
+    const auto inverse = [&](std::int64_t first, std::int64_t last, std::int64_t offset,
+                             std::size_t segment) {
+        first = std::max(first, min_ms - std::min(offset, std::int64_t{0}));
+        last = std::min(last, max_ms - std::max(offset, std::int64_t{0}));
         if (first <= last) {
-            intervals[count++] = {first + offset, last + offset, offset};
+            append(first + offset, last + offset, offset, segment, SegmentKind::inverse);
         }
     };
 
     auto segment_start = zone.coverage_start_utc_ms;
     auto offset = validated_offset_ms(zone.offset_at_start_seconds);
-    for (const auto &transition : zone.transitions) {
-        if (transition.at_utc_ms <= segment_start ||
-            transition.at_utc_ms > zone.coverage_end_utc_ms) {
+    for (std::size_t i = 0; i < zone.transitions.size(); ++i) {
+        const auto [change, new_offset] = zone.transitions[i];
+        if (change <= segment_start || change > zone.coverage_end_utc_ms) {
             throw std::invalid_argument(
                 "Schedule zone transitions are unordered or out of coverage");
         }
-        append(segment_start, transition.at_utc_ms - 1, offset);
-        segment_start = transition.at_utc_ms;
-        offset = validated_offset_ms(transition.offset_after_seconds);
+        const auto next_offset = validated_offset_ms(new_offset);
+        inverse(segment_start, change - 1, offset, i);
+        if (next_offset > offset) {
+            // Intersect [change + offset, change + next_offset - 1] with
+            // representable local times. The padding bounds gap inverses at query time.
+            const auto last = change - 1;
+            if (change <= max_ms - std::max(offset, std::int64_t{0}) &&
+                last >= min_ms - std::min(next_offset, std::int64_t{0})) {
+                const auto first_local =
+                    change < min_ms - std::min(offset, std::int64_t{0}) ? min_ms : change + offset;
+                const auto last_local = last > max_ms - std::max(next_offset, std::int64_t{0})
+                                            ? max_ms
+                                            : last + next_offset;
+                append(first_local, last_local, offset, i, SegmentKind::gap);
+            }
+        }
+        segment_start = change;
+        offset = next_offset;
     }
-    append(segment_start, zone.coverage_end_utc_ms, offset);
-    return count;
-}
+    inverse(segment_start, zone.coverage_end_utc_ms, offset, zone.transitions.size());
 
-void validate_local_overlaps(std::span<const LocalInterval> intervals) {
-    // Any triple overlap includes the first millisecond of at least one interval.
-    for (const auto &interval : intervals) {
-        const auto mappings = std::ranges::count_if(
-            intervals, [&](const auto &other) { return other.contains(interval.first_ms); });
-        if (mappings > 2) {
+    // Segment order is UTC order for inverses and crossing order for gaps.
+    using Active = std::set<std::pair<std::size_t, std::int64_t>>;
+    Active inverses;
+    Active gaps;
+    std::ranges::sort(events, {}, &LocalEvent::at);
+    bands_.reserve(events.size());
+    for (std::size_t first = 0; first < events.size();) {
+        const auto at = events[first].at;
+        do {
+            const auto &event = events[first++];
+            auto &active = event.kind == SegmentKind::inverse ? inverses : gaps;
+            const auto entry = std::pair{event.segment, event.offset};
+            if (event.begins) {
+                active.insert(entry);
+            } else {
+                active.erase(entry);
+            }
+        } while (first < events.size() && events[first].at == at);
+
+        if (inverses.size() > 2) {
             throw std::invalid_argument(
                 "Schedule zone maps a local time to more than two instants");
         }
-    }
-}
-
-ScheduleLocalTime project_local(const ScheduleZoneRules &zone, std::int64_t utc_ms) {
-    const auto next =
-        std::ranges::upper_bound(zone.transitions, utc_ms, {}, &ScheduleZoneTransition::at_utc_ms);
-    const auto offset = next == zone.transitions.begin() ? zone.offset_at_start_seconds
-                                                         : (next - 1)->offset_after_seconds;
-    return ScheduleLocalTime{milliseconds{checked_add(utc_ms, offset_ms(offset))}};
-}
-
-// A nominal time in a forward gap is at or after the transition under the old
-// offset and strictly before it under the new offset. Resolve against the old
-// offset. If gaps overlap, the last crossing keeps the resolved start forward:
-// a later fall below the nominal time would require another crossing back up.
-std::optional<std::int64_t> shifted_gap_start(const ScheduleZoneRules &zone,
-                                              std::int64_t nominal_ms) {
-    std::optional<std::int64_t> shifted;
-    auto before = offset_ms(zone.offset_at_start_seconds);
-    for (const auto &transition : zone.transitions) {
-        const auto after = offset_ms(transition.offset_after_seconds);
-        if (nominal_ms - before >= transition.at_utc_ms &&
-            nominal_ms - after < transition.at_utc_ms) {
-            shifted = nominal_ms - before;
+        LocalBand band{.first = at, .gap_offset = {}};
+        for (const auto &entry : inverses) {
+            band.offsets[band.inverse_count++] = entry.second;
         }
-        before = after;
+        if (!gaps.empty()) {
+            band.gap_offset = gaps.rbegin()->second;
+        }
+        bands_.push_back(band);
     }
-    return shifted;
 }
 
-bool was_delivered(std::span<const ScheduleOccurrenceId> delivered, ScheduleOccurrenceId id,
-                   bool two_runs) {
-    return std::ranges::any_of(delivered, [&](const auto &previous) {
-        return previous.nominal_local_start == id.nominal_local_start &&
-               (!two_runs || previous.run == id.run);
-    });
+std::optional<ScheduleLocalTime> ScheduleTimeline::local_at(std::int64_t utc_ms) const {
+    if (utc_ms < rules_.coverage_start_utc_ms || utc_ms > rules_.coverage_end_utc_ms) {
+        return {};
+    }
+    const auto next = std::ranges::upper_bound(rules_.transitions, utc_ms, {},
+                                               &ScheduleZoneTransition::at_utc_ms);
+    const auto offset =
+        offset_ms(next == rules_.transitions.begin() ? rules_.offset_at_start_seconds
+                                                     : (next - 1)->offset_after_seconds);
+    if (utc_ms < min_ms - std::min(offset, std::int64_t{0}) ||
+        utc_ms > max_ms - std::max(offset, std::int64_t{0})) {
+        return {};
+    }
+    return ScheduleLocalTime{milliseconds{utc_ms + offset}};
 }
-
-} // namespace
 
 std::vector<ScheduleOccurrence>
-preview_schedule_occurrences(const RecurringSchedule &schedule, const ScheduleZoneRules &zone,
-                             SchedulePreviewRange range,
-                             std::span<const ScheduleOccurrenceId> delivered) {
-    validate_preview(schedule, zone, range);
-    LocalIntervals storage{};
-    const auto count = build_local_intervals(zone, storage);
-    const std::span intervals{storage.data(), count};
-    validate_local_overlaps(intervals);
+ScheduleTimeline::starts(const RecurringSchedule &schedule, SchedulePreviewRange range,
+                         std::span<const ScheduleOccurrenceId> delivered) const {
+    validate_preview(schedule, rules_, range);
 
+    std::vector<ScheduleOccurrenceId> sorted_deliveries;
+    if (!std::ranges::is_sorted(delivered, {}, delivered_order)) {
+        sorted_deliveries.assign(delivered.begin(), delivered.end());
+        std::ranges::sort(sorted_deliveries, {}, delivered_order);
+        delivered = sorted_deliveries;
+    }
     // A nominal slot uses an offset within one day of its UTC start, including
     // when a gap uses the pre-transition offset. The 48-hour padding leaves
     // room for both rounding to a whole day and inverse offset arithmetic.
@@ -179,6 +207,8 @@ preview_schedule_occurrences(const RecurringSchedule &schedule, const ScheduleZo
     const auto last_day = floor<WideDays>(milliseconds{through_nominal_ms});
 
     std::vector<ScheduleOccurrence> occurrences;
+    // At most 369 dates and two starts per date, including both shoulders.
+    occurrences.reserve(2 * static_cast<std::size_t>((last_day - first_day).count() + 1));
     for (auto day = first_day; day <= last_day; ++day) {
         // Reduce by whole weeks before constructing a chrono weekday so large
         // millisecond instants need no conversion to a bounded calendar year.
@@ -192,17 +222,16 @@ preview_schedule_occurrences(const RecurringSchedule &schedule, const ScheduleZo
             continue;
         }
 
-        std::array<std::int64_t, 2> starts{};
-        std::size_t runs = 0;
-        for (const auto &interval : intervals) {
-            if (interval.contains(nominal_ms)) {
-                starts[runs++] = nominal_ms - interval.offset_ms;
-            }
+        const auto next = std::ranges::upper_bound(bands_, nominal_ms, {}, &LocalBand::first);
+        if (next == bands_.begin()) {
+            continue;
         }
-        if (runs == 0 && schedule.gap_policy == ScheduleGapPolicy::ShiftForward) {
-            if (const auto shifted = shifted_gap_start(zone, nominal_ms)) {
-                starts[runs++] = *shifted;
-            }
+        const auto &band = *(next - 1);
+        auto offsets = band.offsets;
+        auto runs = band.inverse_count;
+        if (runs == 0 && schedule.gap_policy == ScheduleGapPolicy::ShiftForward &&
+            band.gap_offset) {
+            offsets[runs++] = *band.gap_offset;
         }
 
         const bool two_runs = runs == 2 && schedule.fold_policy == ScheduleFoldPolicy::RunTwice;
@@ -210,19 +239,46 @@ preview_schedule_occurrences(const RecurringSchedule &schedule, const ScheduleZo
             runs = 1;
         }
         for (std::size_t run = 0; run < runs; ++run) {
-            const auto start = starts[run];
+            const auto start = nominal_ms - offsets[run];
             const ScheduleOccurrenceId id{nominal, run == 0 ? ScheduleFoldRun::First
                                                             : ScheduleFoldRun::Second};
-            if (start > range.after_utc_ms && start <= range.through_utc_ms &&
-                !was_delivered(delivered, id, two_runs)) {
-                occurrences.push_back({id, start, project_local(zone, start)});
+            const auto previous = std::ranges::lower_bound(
+                delivered, delivered_order({nominal, two_runs ? id.run : ScheduleFoldRun::First}),
+                {}, delivered_order);
+            const bool was_delivered = previous != delivered.end() &&
+                                       previous->nominal_local_start == nominal &&
+                                       (!two_runs || previous->run == id.run);
+            if (start > range.after_utc_ms && start <= range.through_utc_ms && !was_delivered) {
+                // The range padding also makes every in-range UTC start representable locally.
+                occurrences.push_back({id, start, local_at(start).value()});
             }
         }
     }
 
     // A gap shift can carry a slot into a later nominal day's UTC ordering.
-    std::ranges::stable_sort(occurrences, {}, &ScheduleOccurrence::start_utc_ms);
+    std::ranges::sort(occurrences, {}, [](const ScheduleOccurrence &occurrence) {
+        return std::tuple{occurrence.start_utc_ms, occurrence.id.nominal_local_start,
+                          occurrence.id.run};
+    });
     return occurrences;
+}
+
+namespace {
+
+ScheduleTimeline legacy_timeline(const ScheduleZoneRules &zone) {
+    if (zone.transitions.size() > schedule_zone_max_transitions) {
+        throw std::invalid_argument("Too many schedule zone transitions");
+    }
+    return ScheduleTimeline{zone};
+}
+
+} // namespace
+
+std::vector<ScheduleOccurrence>
+preview_schedule_occurrences(const RecurringSchedule &schedule, const ScheduleZoneRules &zone,
+                             SchedulePreviewRange range,
+                             std::span<const ScheduleOccurrenceId> delivered) {
+    return legacy_timeline(zone).starts(schedule, range, delivered);
 }
 
 std::vector<ScheduledPauseOccurrence>
@@ -237,12 +293,17 @@ preview_scheduled_pauses(const RecurringSchedule &schedule, const ScheduleZoneRu
         throw std::invalid_argument("Schedule zone coverage ends before the latest pause end");
     }
 
-    const auto starts = preview_schedule_occurrences(schedule, zone, range, delivered);
+    const auto timeline = legacy_timeline(zone);
+    const auto starts = timeline.starts(schedule, range, delivered);
     std::vector<ScheduledPauseOccurrence> pauses;
     pauses.reserve(starts.size());
     for (const auto &start : starts) {
         const auto end = checked_add(start.start_utc_ms, duration.count());
-        pauses.push_back({start, end, project_local(zone, end)});
+        const auto local_end = timeline.local_at(end);
+        if (!local_end) {
+            throw std::invalid_argument("Schedule time is out of range");
+        }
+        pauses.push_back({start, end, *local_end});
     }
     return pauses;
 }

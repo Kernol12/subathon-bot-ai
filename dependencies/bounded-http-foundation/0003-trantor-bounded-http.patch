@@ -86,7 +86,7 @@
 +}
 --- /dev/null
 +++ b/trantor/net/BoundedIo.h
-@@ -0,0 +1,58 @@
+@@ -0,0 +1,91 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#pragma once
 +#include <array>
@@ -132,6 +132,37 @@
 +    virtual void native_retired() noexcept = 0;
 +    virtual void sdk_objects_released() noexcept = 0;
 +};
++// API-024 listener recovery, fixture observation and outcome script (R4 correction 19).
++// Data-only types: no member functions and no new exported symbol.
++enum class ListenerQuery : std::uint8_t { owner_turn_state, listener_hold_sample, passive_observation };
++enum class ListenerStatus : std::uint8_t {
++    valid, fenced, stopping, inactive, observer_present, observer_absent
++};
++enum class ListenerPhase : std::uint8_t { clear, held, time_fenced, stopped };
++// Fixture-owned record. The fixture writes script_length and script before the cold
++// arm; IO0 writes every other field. Script codes: 1 no_pending, 2 operational, 3 pass.
++struct ListenerObservation {
++    struct RoleRecord {
++        U64 no_pending, operational;
++        U64 interest_enables, poller_registrations, final_removals;
++        U64 listener_closes, idle_closes, acceptor_retirements;
++        U64 hold_deadline;     // ns, meaningful only while held
++        U64 owner_evaluations; // boundedPoll recovery evaluations of a live acceptor
++        std::uint8_t phase, interest, script_length, script_cursor;
++        std::uint8_t script[4];
++    };
++    RoleRecord roles[2]; // http, native
++};
++static_assert(sizeof(ListenerObservation::RoleRecord) == 88 &&
++              alignof(ListenerObservation::RoleRecord) == 8);
++static_assert(sizeof(ListenerObservation) == 176);
++// The tick is zero except for valid; observation is null except for observer_present.
++struct ListenerState {
++    ListenerStatus status;
++    U64 ns;
++    ListenerObservation *observation;
++};
++static_assert(sizeof(ListenerState) == 24 && alignof(ListenerState) == 8);
 +class Producer {
 +  public:
 +    virtual ~Producer() = default;
@@ -143,6 +174,8 @@
 +    virtual bool before_read(PeerStorage &, ReadWitness) noexcept = 0;
 +    virtual bool before_write(PeerStorage&) noexcept = 0;
 +    virtual void owner_turn() noexcept = 0;
++    // Appended once for #685; #684 adopts it. Modes and precedence: R4 correction 19.
++    virtual ListenerState listener_state(ListenerQuery) noexcept = 0;
 +};
 +} // namespace trantor::bounded_io
 --- /dev/null
@@ -246,6 +279,16 @@
 +};
 +struct TcpDelete { Slot *slot; void operator()(TcpConnectionImpl*) const noexcept; };
 +} // namespace trantor::bounded_io
+--- a/trantor/net/Channel.h
++++ b/trantor/net/Channel.h
+@@ -281,6 +281,7 @@
+     friend class EpollPoller;
+     friend class KQueue;
+     friend class PollPoller;
++    friend class Acceptor;  // bounded listener attribution (API-024)
+     void update();
+     void handleEvent();
+     void handleEventSafely();
 --- a/trantor/net/EventLoop.cc
 +++ b/trantor/net/EventLoop.cc
 @@ -1,3 +1,4 @@
@@ -428,7 +471,7 @@
      if (loop_->isInLoopThread())
      {
          acceptorPtr_.reset();
-@@ -253,4 +306,69 @@
+@@ -253,4 +306,83 @@
              }
          });
      }
@@ -448,12 +491,26 @@
 +    }
 +    if(loop_->boundedEpoch()<=boundedStopEpoch_) return false;
 +    acceptorPtr_.reset();
++    // API-024: the acceptor's retirement, published through the unchanged Producer.
++    if(boundedProducer_) {
++        const auto state=boundedProducer_->listener_state(
++            bounded_io::ListenerQuery::passive_observation);
++        if(state.status==bounded_io::ListenerStatus::observer_present && state.observation) {
++            auto &n=state.observation->roles[boundedRole_==bounded_io::Role::http ? 0 : 1]
++                        .acceptor_retirements;
++            if(n!=UINT64_MAX) ++n;
++        }
++    }
 +    if(!boundedHead_) boundedStopped_.store(true,std::memory_order_release);
 +    return true;
 +}
 +void TcpServer::boundedPoll() noexcept {
 +    loop_->assertInLoopThread();
-+    if(acceptorPtr_) acceptorPtr_->boundedRefresh();
++    if(acceptorPtr_) {
++        acceptorPtr_->boundedPollRefresh_=true;  // owner-turn recovery evaluation
++        acceptorPtr_->boundedRefresh();
++        acceptorPtr_->boundedPollRefresh_=false;
++    }
 +    auto **link=&boundedHead_;
 +    unsigned turns=0;
 +    while(*link && turns++<8) {
@@ -530,7 +587,58 @@
       *
 --- a/trantor/net/inner/Acceptor.cc
 +++ b/trantor/net/inner/Acceptor.cc
-@@ -45,23 +45,43 @@
+@@ -13,8 +13,50 @@
+  */
+
+ #include "Acceptor.h"
++#include <cerrno>
++#include <limits>
+ using namespace trantor;
+
++namespace
++{
++// API-024 helpers with internal linkage: no new exported symbol (R4 correction 19).
++using bounded_io::ListenerObservation;
++using bounded_io::ListenerPhase;
++using bounded_io::ListenerQuery;
++using bounded_io::ListenerStatus;
++constexpr std::uint64_t kHoldNs = 50000000;  // fixed 50 ms listener hold
++constexpr int kNewIndex = -1, kAddedIndex = 1;  // EpollPoller channel states
++constexpr std::uint8_t phase(ListenerPhase p) noexcept
++{
++    return static_cast<std::uint8_t>(p);
++}
++void saturating(std::uint64_t &n) noexcept
++{
++    if (n != std::numeric_limits<std::uint64_t>::max())
++        ++n;
++}
++// The armed fixture record of this role, if any (passive observation, bound IO0 only).
++ListenerObservation::RoleRecord *observed(bounded_io::Producer *p,
++                                          bounded_io::Role role) noexcept
++{
++    if (!p)
++        return nullptr;
++    const auto state = p->listener_state(ListenerQuery::passive_observation);
++    if (state.status != ListenerStatus::observer_present || !state.observation)
++        return nullptr;
++    return &state.observation->roles[role == bounded_io::Role::http ? 0 : 1];
++}
++void mirror(const Acceptor &a, ListenerObservation::RoleRecord *r) noexcept
++{
++    if (!r)
++        return;
++    r->phase = a.boundedPhase_;
++    r->interest = a.boundedInterest_ ? 1 : 0;
++    r->hold_deadline =
++        a.boundedPhase_ == phase(ListenerPhase::held) ? a.boundedHoldUntil_ : 0;
++}
++}  // namespace
++
+ #ifndef O_CLOEXEC
+ #define O_CLOEXEC O_NOINHERIT
+ #endif
+@@ -45,23 +87,78 @@
  }
  Acceptor::~Acceptor()
  {
@@ -558,18 +666,53 @@
 +    }
      sock_.listen();
 -    acceptChannel_.enableReading();
-+    if(boundedProducer_) boundedRefresh(); else acceptChannel_.enableReading();
++    // Correction 2 (C1): interest only after this acceptor actually listens.
++    if(boundedProducer_) { boundedListening_=true; boundedRefresh(); }
++    else acceptChannel_.enableReading();
  }
 
  void Acceptor::readCallback()
  {
 +    if(boundedProducer_) {
-+        if(boundedStopped_ || !boundedProducer_->accepting(boundedRole_)) { boundedRefresh(); return; }
++        // Gate order: stop and Foundation admission, then the role's hold or time fence,
++        // then T. A known block makes zero attempts and claims no token.
++        if(boundedStopped_ || !boundedProducer_->accepting(boundedRole_) ||
++           boundedPhase_!=phase(ListenerPhase::clear)) { boundedRefresh(); return; }
 +        if(!boundedProducer_->transient(true)) return;
 +        struct Token { bounded_io::Producer *p; ~Token(){p->transient(false);} } token{boundedProducer_};
 +        InetAddress peer;
-+        const int fd=sock_.accept(&peer);
-+        if(fd<0) return;
++        int fd=sock_.accept(&peer);
++        int error=fd<0 ? errno : 0;
++        auto *record=observed(boundedProducer_,boundedRole_);
++        // Finite fixture outcome script, consumed only by this actual attempt under T and
++        // before production classification: 1 no-pending, 2 operational, 3 pass.
++        if(record && record->script_length<=4 && record->script_cursor<record->script_length) {
++            const auto code=record->script[record->script_cursor];
++            if(code>=1 && code<=3) {
++                ++record->script_cursor;
++                if(code!=3) {
++                    if(fd>=0) ::close(fd);
++                    fd=-1; error=code==1 ? EAGAIN : EMFILE;
++                }
++            }
++        }
++        if(fd<0) {
++            const bool none=error==EAGAIN || error==EWOULDBLOCK;
++            saturating(none ? boundedNoPending_ : boundedOperational_);
++            if(record) saturating(none ? record->no_pending : record->operational);
++            // One fresh shared sample anchors the 50 ms hold. Stop or a latched source
++            // fault arms nothing; a hold-add overflow time-fences only this role.
++            const auto sample=boundedProducer_->listener_state(ListenerQuery::listener_hold_sample);
++            if(sample.status==ListenerStatus::valid) {
++                if(sample.ns>std::numeric_limits<std::uint64_t>::max()-kHoldNs) {
++                    boundedPhase_=phase(ListenerPhase::time_fenced); boundedHoldUntil_=0;
++                } else {
++                    boundedPhase_=phase(ListenerPhase::held); boundedHoldUntil_=sample.ns+kHoldNs;
++                }
++            }
++            boundedRefresh();  // interest only; no retry and no nested recovery turn
++            return;
++        }
 +        if(afterAcceptSetSockOptCallback_) afterAcceptSetSockOptCallback_(fd);
 +        if(newConnectionCallback_) newConnectionCallback_(fd,peer); else ::close(fd);
 +        boundedRefresh();
@@ -578,22 +721,63 @@
      InetAddress peer;
      int newsock = sock_.accept(&peer);
      if (newsock >= 0)
-@@ -99,3 +119,16 @@
+@@ -99,3 +196,57 @@
  #endif
      }
  }
 +
 +void trantor::Acceptor::boundedRefresh() noexcept {
 +    if(!boundedProducer_ || boundedStopped_) return;
-+    if(boundedProducer_->accepting(boundedRole_)) acceptChannel_.enableReading();
-+    else acceptChannel_.disableReading();
++    auto *record=observed(boundedProducer_,boundedRole_);
++    if(boundedPollRefresh_) {
++        // Owner-turn recovery evaluation (TcpServer::boundedPoll only): every call
++        // queries the turn's state and counts as the fixture's witness.
++        const auto state=boundedProducer_->listener_state(ListenerQuery::owner_turn_state);
++        if(record) saturating(record->owner_evaluations);
++        const bool held=boundedPhase_==phase(ListenerPhase::held);
++        if(held && (state.status==ListenerStatus::fenced ||
++                    (state.status==ListenerStatus::valid && state.ns>=boundedHoldUntil_))) {
++            // A latched source fence discards the hold; a due hold clears once.
++            boundedPhase_=phase(ListenerPhase::clear); boundedHoldUntil_=0;
++        }
++    }
++    // Clearing a hold and enabling interest are distinct: refresh rechecks admission.
++    const bool wanted=boundedListening_ && boundedPhase_==phase(ListenerPhase::clear) &&
++                      boundedProducer_->accepting(boundedRole_);
++    if(wanted!=boundedInterest_) {
++        // S3: poller state changes only on an actual interest change.
++        const int before=acceptChannel_.index();
++        if(wanted) acceptChannel_.enableReading(); else acceptChannel_.disableReading();
++        const int after=acceptChannel_.index();
++        boundedInterest_=wanted;
++        if(record) {
++            if(wanted) saturating(record->interest_enables);
++            if(after==kAddedIndex && before!=kAddedIndex) saturating(record->poller_registrations);
++        }
++    }
++    mirror(*this,record);
 +}
 +void trantor::Acceptor::boundedStop() noexcept {
 +    if(boundedStopped_) return;
++    auto *record=observed(boundedProducer_,boundedRole_);
 +    boundedStopped_=true;
-+    acceptChannel_.disableAll(); acceptChannel_.remove();
-+    sock_.closeNativeProfile();
-+    if(idleFd_>=0) { ::close(idleFd_); idleFd_=-1; }
++    boundedPhase_=phase(ListenerPhase::stopped); boundedHoldUntil_=0; boundedInterest_=false;
++    // Remove only an actual registration; a never-registered listener does neither.
++    // A suspended registered listener is removed without an extra update.
++    if(acceptChannel_.index()!=kNewIndex) {
++        if(!acceptChannel_.isNoneEvent()) acceptChannel_.disableAll();
++        acceptChannel_.remove();
++        if(record) saturating(record->final_removals);
++    }
++    if(sock_.fd()>=0) {
++        sock_.closeNativeProfile();
++        if(record) saturating(record->listener_closes);
++    }
++    if(idleFd_>=0) {
++        ::close(idleFd_); idleFd_=-1;
++        if(record) saturating(record->idle_closes);
++    }
++    mirror(*this,record);
 +}
 --- a/trantor/net/inner/Acceptor.h
 +++ b/trantor/net/inner/Acceptor.h
@@ -605,7 +789,7 @@
 
  #include <trantor/net/EventLoop.h>
  #include <trantor/utils/NonCopyable.h>
-@@ -42,6 +43,14 @@
+@@ -42,6 +43,19 @@
          newConnectionCallback_ = cb;
      };
      void listen();
@@ -617,6 +801,11 @@
 +    bool boundedStopped_{};
 +    bounded_io::Producer *boundedProducer_{};
 +    bounded_io::Role boundedRole_{};
++    // API-024 listener record (R4 correction 19), IO0 only: phase (ListenerPhase),
++    // hold deadline, listen and actual interest facts, consumed outcome counts.
++    std::uint8_t boundedPhase_{};
++    bool boundedListening_{}, boundedInterest_{}, boundedPollRefresh_{};
++    std::uint64_t boundedHoldUntil_{}, boundedNoPending_{}, boundedOperational_{};
 
      void setBeforeListenSockOptCallback(AcceptorSockOptCallback cb)
      {

@@ -1,19 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 
+#include "sqlite_catalog_inspection.hpp"
+
 #include <subathon/server/sqlite_migrations.hpp>
 
 namespace subathon::server::detail {
-
-enum class ClockProbeQuery {
-    encoding,
-    schema,
-    header,
-    history,
-    integrity,
-    foreign_keys,
-    legacy_guard
-};
 
 // Private STORAGE-003 Stage 1 boundaries. A pre-open candidate carries no
 // maintenance authority and must be rechecked in the migration transaction.
