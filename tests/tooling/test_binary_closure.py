@@ -4,6 +4,9 @@
 Synthetic ldd output and ctest JSON only; no real binary is inspected or run.
 Expected values follow the ADR rule: the observed set must equal the committed set.
 """
+from contextlib import redirect_stderr, redirect_stdout
+import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -105,7 +108,7 @@ class CheckTree(unittest.TestCase):
             "build/qt/tests/writer_tests": "qt-sql",
             "build/qt/tests/child_helper": "static"}))
         self.assertEqual(result.errors, [])
-        self.assertEqual(sorted(result.observed["programs"]),
+        self.assertEqual(sorted(result.closures),
                          ["build/qt/tests/child_helper", "build/qt/tests/writer_tests"])
 
     def test_extra_library_fails(self):
@@ -131,7 +134,7 @@ class CheckTree(unittest.TestCase):
         self.assertTrue(any("writer_tests" in error for error in result.errors))
         self.assertTrue(any("child_helper" in error for error in result.errors))
 
-    def test_observed_file_passes_as_expected_file_including_outside_programs(self):
+    def test_fixed_file_passes_as_expected_file_including_outside_programs(self):
         outside = tempfile.TemporaryDirectory()
         self.addCleanup(outside.cleanup)
         python = Path(outside.name) / "python3"
@@ -139,9 +142,10 @@ class CheckTree(unittest.TestCase):
         self.ldd[str(python.resolve())] = LDD_QT
         ctest = self.ctest({"name": "a", "command": [str(self.writer)]},
                            {"name": "py", "command": [str(python), "check.py"]})
-        first = self.check(ctest, {"format": 1, "profiles": {}, "programs": {}})
+        empty = {"format": 1, "profiles": {}, "programs": {}}
+        first = self.check(ctest, empty)
         self.assertEqual(len(first.errors), 2)
-        self.assertEqual(self.check(ctest, first.observed).errors, [])
+        self.assertEqual(self.check(ctest, bc.fix_expected(empty, first.closures)).errors, [])
 
     def test_built_children_are_checked_and_cmake_probes_are_not(self):
         launched = self.build / "server" / "dev-server"
@@ -205,13 +209,187 @@ class RunLdd(unittest.TestCase):
             bc.run_ldd("x", dict(os.environ))
 
 
-class ObservedFile(unittest.TestCase):
-    def test_observed_file_round_trips_as_an_expected_file(self):
-        observed = bc.observed_file({"b": QT_PROFILE, "a": QT_PROFILE, "c": bc.NOT_ELF})
-        self.assertEqual(observed["programs"]["a"], observed["programs"]["b"])
-        self.assertEqual(observed["programs"]["c"], bc.NOT_ELF)
-        self.assertEqual(observed["profiles"][observed["programs"]["a"]], QT_PROFILE)
-        json.dumps(observed)
+class FixExpected(unittest.TestCase):
+    """The list fix behind the patch, on hand-written closures."""
+
+    def test_new_programs_share_one_profile_and_not_elf_is_kept_as_such(self):
+        fixed = bc.fix_expected({"format": 1, "profiles": {}, "programs": {}},
+                                {"a": ["/lib/x.so"], "b": ["/lib/x.so"], "c": bc.NOT_ELF})
+        self.assertEqual(fixed["programs"]["a"], fixed["programs"]["b"])
+        self.assertEqual(fixed["profiles"], {fixed["programs"]["a"]: ["/lib/x.so"]})
+        self.assertEqual(fixed["programs"]["c"], bc.NOT_ELF)
+
+    def test_a_taken_profile_name_is_never_overwritten(self):
+        name = "observed-" + hashlib.sha256(b"b.so").hexdigest()[:12]
+        expected = {"format": 1, "profiles": {name: ["b.so", "c.so"]}, "programs": {"z": name}}
+        fixed = bc.fix_expected(expected, {"z": ["b.so", "c.so"], "x": ["b.so"]})
+        self.assertEqual(fixed["profiles"][name], ["b.so", "c.so"])
+        self.assertEqual(fixed["programs"]["x"], f"{name}-2")
+        self.assertEqual(fixed["profiles"][f"{name}-2"], ["b.so"])
+
+
+class PatchOnFailure(unittest.TestCase):
+    """CI-004: a failing tree writes a git-apply patch of only its missing or changed entries.
+
+    Runs main() end to end in a temporary Git repository with a fake ctest listing
+    and fake loader output; expected files are written out by hand below.
+    """
+
+    LIST = "tools/binary_closures/qt.json"
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.repo = Path(self.tmp.name)
+        subprocess.run(["git", "init", "-q", str(self.repo)], check=True)
+        self.build = self.repo / "build" / "qt"
+        (self.build / "tests").mkdir(parents=True)
+        self.writer = self.build / "tests" / "writer_tests"
+        self.child = self.build / "tests" / "child_helper"
+        for program in (self.writer, self.child):
+            program.write_bytes(b"\x7fELF fake")
+        self.ldd = {str(self.writer): LDD_QT, str(self.child): "\tstatically linked\n"}
+        self.tests = [{"name": "a", "command": [str(self.writer), str(self.child)]}]
+        self.patch_out = self.repo / "out" / "qt.patch"
+        cwd = os.getcwd()
+        os.chdir(self.repo)
+        self.addCleanup(os.chdir, cwd)
+
+    def write_list(self, text):
+        path = self.repo / self.LIST
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+
+    def run_gate(self):
+        listing = json.dumps({"tests": self.tests})
+        stdout, stderr = io.StringIO(), io.StringIO()
+        with patch.object(bc.subprocess, "check_output", return_value=listing), \
+                patch.object(bc, "run_ldd", self.fake_ldd), \
+                redirect_stdout(stdout), redirect_stderr(stderr):
+            code = bc.main(["--expected", self.LIST, "--build-dir", "build/qt",
+                            "--root", "QT_PREFIX=/opt/qt", "--patch-out", str(self.patch_out)])
+        return code, stdout.getvalue(), stderr.getvalue()
+
+    def fake_ldd(self, program, environment):
+        if isinstance(self.ldd, _SwitchedLdd) and program == self.ldd.program \
+                and environment.get("CLOSURE_TEST_SWITCH"):
+            return self.ldd.switched
+        return self.ldd[program]
+
+    def apply_patch(self):
+        subprocess.run(["git", "apply", str(self.patch_out)], cwd=self.repo, check=True)
+
+    @staticmethod
+    def changed_lines(patch_text):
+        lines = patch_text.splitlines()
+        added = [line for line in lines if line.startswith("+") and not line.startswith("+++")]
+        removed = [line for line in lines if line.startswith("-") and not line.startswith("---")]
+        return added, removed
+
+    def test_unlisted_program_gets_only_its_entry_and_the_log_is_the_patch(self):
+        self.write_list(STARTING_LIST)
+        code, stdout, stderr = self.run_gate()
+        self.assertEqual(code, 1)
+        self.assertEqual(stderr, "")
+        patch_text = self.patch_out.read_text(encoding="utf-8")
+        self.assertEqual(stdout, patch_text)
+        self.assertTrue(patch_text.startswith(f"diff --git a/{self.LIST} b/{self.LIST}\n"))
+        self.assertEqual(self.changed_lines(patch_text),
+                         (['+    "build/qt/tests/child_helper": "static",'], []))
+        self.apply_patch()
+        self.assertEqual((self.repo / self.LIST).read_text(encoding="utf-8"), LIST_WITH_CHILD)
+        self.patch_out.unlink()
+        self.assertEqual(self.run_gate()[0], 0)
+        self.assertFalse(self.patch_out.exists())
+
+    def test_unfixable_differences_print_their_errors_before_the_patch(self):
+        self.write_list(STARTING_LIST)
+        moved = LDD_QT.replace("/opt/qt/lib/libQt6Core.so.6", "/elsewhere/libQt6Core.so.6")
+        self.tests.append({"name": "b", "command": [str(self.writer)], "properties": [
+            {"name": "ENVIRONMENT", "value": ["CLOSURE_TEST_SWITCH=1"]}]})
+        ldd = self.ldd
+        self.ldd = _SwitchedLdd(ldd, str(self.writer), moved)
+        code, stdout, stderr = self.run_gate()
+        self.assertEqual((code, stderr), (1, ""))
+        patch_text = self.patch_out.read_text(encoding="utf-8")
+        self.assertEqual(stdout, "error: build/qt/tests/writer_tests: closure differs between"
+                                 " its test environments\n" + patch_text)
+        self.assertTrue(patch_text.startswith("diff --git "))
+        self.assertIn('+    "build/qt/tests/child_helper": "static",', patch_text)
+
+    def test_changed_closure_gets_a_new_profile_and_leaves_the_shared_one(self):
+        self.write_list(LIST_WITH_CHILD)
+        moved = LDD_QT.replace("/opt/qt/lib/libQt6Core.so.6", "/usr/lib/libQt6Core.so.6")
+        self.ldd[str(self.writer)] = moved
+        code, _, _ = self.run_gate()
+        self.assertEqual(code, 1)
+        added, removed = self.changed_lines(self.patch_out.read_text(encoding="utf-8"))
+        # The new profile follows "static", which therefore only gains a comma.
+        self.assertEqual(removed, ['-    "static": []', '-    "build/qt/tests/writer_tests": "qt-sql"'])
+        self.assertIn('+    "static": [],', added)
+        self.assertEqual(len([line for line in added if "writer_tests" in line]), 1)
+        self.apply_patch()
+        fixed = json.loads((self.repo / self.LIST).read_text(encoding="utf-8"))
+        name = fixed["programs"]["build/qt/tests/writer_tests"]
+        self.assertTrue(name.startswith("observed-"))
+        self.assertEqual(fixed["profiles"][name], [
+            "/lib64/ld-linux-x86-64.so.2",
+            "libQt6Core.so.6 => /usr/lib/libQt6Core.so.6",
+            "libQt6Sql.so.6 => $QT_PREFIX/lib/libQt6Sql.so.6",
+            "libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6",
+        ])
+        self.assertEqual(fixed["profiles"]["qt-sql"], QT_PROFILE)
+        self.patch_out.unlink()
+        self.assertEqual(self.run_gate()[0], 0)
+
+    def test_passing_tree_writes_no_patch(self):
+        self.write_list(LIST_WITH_CHILD)
+        code, stdout, stderr = self.run_gate()
+        self.assertEqual((code, stderr), (0, ""))
+        self.assertTrue(stdout.endswith(f"2 programs match {self.LIST}\n"))
+        self.assertFalse(self.patch_out.exists())
+
+    def test_malformed_input_fails_closed_without_a_patch(self):
+        cases = {
+            "loader line": (LIST_WITH_CHILD, "\tsomething unexpected\n"),
+            "list json": ('{"format": 1, "profiles": {', LDD_QT),
+        }
+        for label, (text, writer_ldd) in cases.items():
+            with self.subTest(label):
+                self.write_list(text)
+                self.ldd[str(self.writer)] = writer_ldd
+                with self.assertRaises(bc.ClosureError):
+                    self.run_gate()
+                self.assertFalse(self.patch_out.exists())
+
+
+class _SwitchedLdd(dict):
+    """Fake loader answers; one program resolves differently under CLOSURE_TEST_SWITCH."""
+
+    def __init__(self, answers, program, switched):
+        super().__init__(answers)
+        self.program, self.switched = program, switched
+
+
+STARTING_LIST = """{
+  "format": 1,
+  "profiles": {
+    "qt-sql": [
+      "/lib64/ld-linux-x86-64.so.2",
+      "libQt6Core.so.6 => $QT_PREFIX/lib/libQt6Core.so.6",
+      "libQt6Sql.so.6 => $QT_PREFIX/lib/libQt6Sql.so.6",
+      "libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6"
+    ],
+    "static": []
+  },
+  "programs": {
+    "build/qt/tests/writer_tests": "qt-sql"
+  }
+}
+"""
+LIST_WITH_CHILD = STARTING_LIST.replace(
+    '    "build/qt/tests/writer_tests": "qt-sql"',
+    '    "build/qt/tests/child_helper": "static",\n    "build/qt/tests/writer_tests": "qt-sql"')
 
 
 if __name__ == "__main__":
