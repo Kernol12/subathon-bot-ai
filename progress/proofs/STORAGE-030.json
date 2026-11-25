@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-030",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 852
+  },
+  "kind": "cleanup",
+  "brief": "docs/tasks/STORAGE-030.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/852",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/854",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/854#pullrequestreview-6050179866",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45526124225/job/138909815411"
+  ],
+  "limitations": [
+    "Existing behavior and tests were preserved. Local standalone migration acceptance compiled and linked; local drift configuration lacked a dependency. No local runtime checks are claimed. All seven checks passed on 279dc819, including the drift, migration acceptance and engine witness tests.",
+    "Writer-open integration and mode transitions belong to #834. Shared migration ownership with #609."
+  ],
+  "workflow": {
+    "required_stages": [
+      "implementation"
+    ],
+    "stages": {
+      "implementation": {
+        "revision": "279dc8199fdda90da7848705102cce9150af3dac",
+        "authors": [
+          "codex:STORAGE-030-author"
+        ],
+        "paths": [
+          "docs/tasks/STORAGE-030.md",
+          "server/CMakeLists.txt",
+          "server/include/subathon/server/sqlite_migration_manifest.hpp",
+          "server/include/subathon/server/sqlite_migrations.hpp",
+          "server/include/subathon/server/sqlite_rows.hpp",
+          "server/include/subathon/server/sqlite_writer.hpp",
+          "server/src/sqlite_catalog_inspection.cpp",
+          "server/src/sqlite_catalog_inspection.hpp",
+          "server/src/sqlite_migration_inspection.hpp",
+          "server/src/sqlite_migrations.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:STORAGE-030-initial",
+            "revision": "279dc8199fdda90da7848705102cce9150af3dac",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/854#pullrequestreview-6050179866",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/verify_852",
+            "revision": "279dc8199fdda90da7848705102cce9150af3dac",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/854#pullrequestreview-6050179866",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:STORAGE-030-closing",
+            "revision": "279dc8199fdda90da7848705102cce9150af3dac",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/854#pullrequestreview-6050179866",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  }
+}
