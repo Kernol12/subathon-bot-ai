@@ -461,7 +461,6 @@ void seed_capture_rows(const SqliteWorkSession &session) {
         }
     }
 }
-
 void seed_owning_ports(Fixture &f) {
     require(attempt_w1(f.writer) == decltype(attempt_w1(f.writer)){SqliteBundleInitialDisposition::inserted},
             "Ordinary W1 installs the v22 application state");
@@ -509,7 +508,6 @@ void seed_owning_ports(Fixture &f) {
         }
     });
 }
-
 // EVK1 links frozen RSV1-02, where EUR to USD is exactly 6/5.
 const QByteArray snapshot_key("S\0\xff", 3);
 const QByteArray snapshot_evk = QByteArray::fromHex(
@@ -574,7 +572,6 @@ void verify_exact(const DisposableFile &file, const char *tags) {
         expect_rows({row}, {{blob(exact_key_format), blob(snapshot_evk), blob(snapshot_key), {}, {}}},
                     "Exact BLOBs, linked snapshot and absent legacy valuation scalars");
 }
-
 using Port = void (*)(const SqliteWorkSession &, std::uint64_t, bool);
 void plan_port(const SqliteWorkSession &s, std::uint64_t rev, bool chain) {
     const SqliteApplicationPlanStore store(s);
@@ -620,7 +617,6 @@ void capture_port(const SqliteWorkSession &s, std::uint64_t, bool) {
                 value->execution_context_ref == "Y",
             "Reference capture returns the complete authoritative initial legacy binding");
 }
-
 struct PortCase {
     const char *name;
     Port read;
@@ -704,11 +700,12 @@ void owning_port_controls(Fixture &f) {
     shutdown_writer(f.writer);
     expect_v23_inspection(f.file, MigrationReason::none);
     bool passed = true;
-    const auto run = [&](const char *name, const char *stage, auto body) {
+    const auto run = [&](const char *name, const char *stage, auto body, const DisposableFile *copy = nullptr) {
         try {
-            const auto before = f.file_state();
+            const auto &file = copy ? *copy : f.file;
+            const FileState before{main_digest(file.path()), wal_bytes(file.path())};
             SqliteWriter writer;
-            require(writer.open(f.file.path(), setup_profile) == StorageError::none, "Normal v23 reopen");
+            require(writer.open(file.path(), setup_profile) == StorageError::none, "Normal v23 reopen");
             std::exception_ptr failure;
             try {
                 body(writer);
@@ -716,7 +713,8 @@ void owning_port_controls(Fixture &f) {
                 failure = std::current_exception();
             }
             shutdown_writer(writer);
-            f.require_unchanged(before);
+            require(FileState{main_digest(file.path()), wal_bytes(file.path())} == before &&
+                        !QFileInfo::exists(file.path() + "-journal"), "Main and WAL bytes are unchanged and no rollback journal remains");
             if (failure)
                 std::rethrow_exception(failure);
             qInfo().noquote() << name << stage << "passed";
@@ -728,7 +726,9 @@ void owning_port_controls(Fixture &f) {
     for (const auto &p : owning_ports)
         run(p.name, "legacy", [&](auto &w) { committed_work(w, [&](auto s) { p.read(s, 3, false); }); });
     reader_refusals([&](auto name, auto body) { run(name, "reader refusal", body); });
-
+    DisposableFile reference_exact;
+    f.file.copy_to(reference_exact);
+    install_exact(reference_exact, 1, true);
     install_exact(f.file, 2, true);
     verify_exact(f.file, "010");
     for (const auto &p : std::span(owning_ports).first<3>())
@@ -738,9 +738,8 @@ void owning_port_controls(Fixture &f) {
     install_exact(f.file, 3, false);
     verify_exact(f.file, "011");
     run("bundle", "exact-dependent current revision", [&](auto &w) { owning_ports[1].refuse(w, bundle_port, 3, false); });
-    install_exact(f.file, 1, false);
-    verify_exact(f.file, "111");
-    run("reference capture", "exact-dependent initial revision", [&](auto &w) { owning_ports[3].refuse(w, capture_port, 1, false); });
+    verify_exact(reference_exact, "100");
+    run("reference capture", "exact-dependent initial revision", [&](auto &w) { owning_ports[3].refuse(w, capture_port, 1, false); }, &reference_exact);
     require(passed, "All v23 owning-port and reader controls");
 }
 
