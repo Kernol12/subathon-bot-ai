@@ -156,7 +156,10 @@ profile is a compiled dependency, with separate consumer-admission/regression ga
 Its admission receipt defaults to `bounded-http-admission.json` under the binary
 directory and may be overridden with `SUBATHON_BOUNDED_HTTP_ADMISSION`. Configuration
 can precede the technical receipt contents; a missing runtime receipt is a setup
-failure, never intended red. The reviewed fixture remains frozen. Every new consumer
+failure, never intended red. The receipt is a technical input that the SDK gate
+writes for the fixture. It is not the local approval procedure retired by
+[ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md), and the `native` CI
+job's SDK gate is unchanged. The reviewed fixture remains frozen. Every new consumer
 must pass passive ELF/ABI closure before load, controlled identity, loaded-map checks
 and unchanged seals. The successor recipe's `--consumer foundation` gate writes a
 development receipt for this runner. Its frozen `review_receipt` key links the

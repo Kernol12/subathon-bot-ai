@@ -28,10 +28,13 @@ observed intended red → implementation → independent code review → relevan
 - A suite that no CI job runs joins a CI job in its implementation PR
   ([ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md)). Adding a suite
   to its existing job, with its entry in `tools/binary_closures/`, is part of the
-  task and needs no owner decision. Only when a test cannot run on a hosted runner
-  at all is its credited pass one plain local run on the reviewed head: the PR
-  records the commit, the command, the result and the reason CI cannot run it, and
-  the code reviewer reads that record before approving.
+  task and needs no owner decision. Only a test that cannot run on a hosted runner
+  at all has a recorded local run instead: one plain local run on the reviewed
+  head. It is not a credited pass. The PR records the commit, the command, the
+  result and the reason CI cannot run it, states the proof level as "implemented,
+  local run only" and lists the missing CI run under its remaining gates. The code
+  reviewer reads that record before approving. Required CI on the reviewed head
+  remains the merge gate and the only credited pass.
 - A local test run needs no pin, seal, approval record or owner confirmation, and
   no merge hold is set for it. Seals and identity checks that a CI job performs
   itself, such as the `native` job's SDK gate, are unchanged.

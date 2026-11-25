@@ -328,10 +328,13 @@ running sessions, completed reviews and receipts retain their original models.
 - The control-only launcher is ignored evidence, never committed and unused by
   CI. Retain its hash-bound bytes outside #690 to preserve the completed sample's
   evidence. Since ADR-0014 a run script for one task needs no approval when it
-  stays in that task's ignored build folder, remains uncommitted and unused by
-  CI and preserves every check and assertion. Escalate reusable
-  tools, anything under `tools/`, committed scripts or tooling, and CI changes
-  to the owner before authoring. See [the advisor rule](../docs/ADVISOR.md).
+  is routine run mechanics as [the advisor page](../docs/ADVISOR.md) defines
+  them (it changes no test's isolation, needs no sandbox exception and weakens
+  no check or assertion), stays in that task's ignored build folder and remains
+  uncommitted and unused by CI. Escalate reusable tools, anything under
+  `tools/`, committed scripts or tooling, and CI changes to the owner before
+  authoring. The one exception is adding a suite to its existing CI job with
+  its library-list entry, which is routine task work.
 - The owner authorized the completed fresh N5 scenario/sampling investigation
   and unchanged 20-run historical diagnosis in parallel, with paired delivery.
   These diagnostic results do not resume acceptance or authorize the proposed

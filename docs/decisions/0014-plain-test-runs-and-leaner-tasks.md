@@ -34,7 +34,7 @@ were caused by the procedure.
 
 ## Decision
 
-1. **One rule for test runs.** A task has three kinds of run and no others.
+1. **One rule for test runs.** A task has the following kinds of run and no others.
    - *Pre-review runs* are unchanged: each candidate suite runs once before the
      first review packet of a stage and earns no test evidence.
    - *Intended red* is one plain local run on the reviewed tests commit, recorded in
@@ -48,10 +48,13 @@ were caused by the procedure.
    is part of the task and needs no owner decision. Every other change to CI or to
    `tools/` still goes to the owner before it is written.
 
-   Only when a test cannot run on a hosted runner at all is its credited pass one
-   plain local run on the reviewed head. The PR records the commit, the command, the
-   result and the reason CI cannot run the test, and the stage's code reviewer reads
-   that record before approving. Nothing else is needed for it.
+   Only a test that cannot run on a hosted runner at all has a *recorded local run*
+   instead: one plain local run on the reviewed head. It is not a credited pass. The
+   PR records the commit, the command, the result and the reason CI cannot run the
+   test, states the proof level as "implemented, local run only" and lists the
+   missing CI run under its remaining gates. The stage's code reviewer reads that
+   record before approving. Required CI on the reviewed head remains the merge gate
+   for the PR and the only credited pass.
 
    The local procedure around these runs ends. A local test run needs no pin, seal,
    envelope, custody script, approval record, operator thread or owner confirmation.
@@ -69,9 +72,9 @@ were caused by the procedure.
    sandbox exception and weakens no check or assertion. Isolation changes still go
    to the advisor and sandbox exceptions to the owner, and a standing owner rule in
    the checkpoint that stops a particular conflict for the owner still applies. The
-   coordinator notes a choice in the PR when a reader needs it. A script that stays
-   in the task's ignored build folder, is never committed or used by CI and weakens
-   no check or assertion needs no approval. The advisor runs when the coordinator
+   coordinator notes a choice in the PR when a reader needs it. A script for one
+   task needs no approval when it is routine in this sense, stays in the task's
+   ignored build folder and is never committed or used by CI. The advisor runs when the coordinator
    ends a turn or asks, and once an hour otherwise. The owner receives two digests a
    day. Up to two Claude tracks may run at once when their material is separate.
 3. **Fewer and larger tasks.**
