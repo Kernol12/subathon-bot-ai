@@ -20,6 +20,7 @@ struct V23FixtureFacts {
 struct V23FixtureBudget {
     std::optional<std::uint64_t> disk_bytes;
     std::optional<std::uint64_t> memory_bytes;
+    std::optional<std::uint64_t> scan_pages{};
 };
 
 struct V23FixtureEstimate {

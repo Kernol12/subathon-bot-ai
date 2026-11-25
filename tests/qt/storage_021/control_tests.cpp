@@ -7,6 +7,7 @@
 
 #include <QCoreApplication>
 #include <QScopeGuard>
+#include <QStorageInfo>
 #include <QTest>
 
 #include <thread>
@@ -65,9 +66,21 @@ struct FileState {
     bool operator==(const FileState &) const = default;
 };
 
+SqlRows read_stopped(const DisposableFile &file, const QString &sql, qsizetype max_rows);
+
+void verify_scan_donor(const DisposableFile &file) {
+    expect_rows(read_stopped(file,
+                             "SELECT page_count, page_size, auto_vacuum, "
+                             "(SELECT count(*) FROM subathon_plan_revisions) "
+                             "FROM pragma_page_count(), pragma_page_size(), pragma_auto_vacuum()",
+                             1),
+                {{integer(1024), integer(4096), integer(0), integer(128)}},
+                "Pinned scan donor SQL extent, page size, auto-vacuum and copy row count");
+}
+
 class Fixture final {
   public:
-    explicit Fixture(const QString &donor) {
+    explicit Fixture(const QString &donor, bool scan_control = false) {
         require(!QFileInfo::exists(donor + "-wal") && !QFileInfo::exists(donor + "-shm") &&
                     !QFileInfo::exists(donor + "-journal"),
                 "Stopped donor has no sidecars");
@@ -80,6 +93,8 @@ class Fixture final {
         require(std::holds_alternative<V22PreOpenWitness>(inspected) && file.seal() == before,
                 "Authenticate v22 donor without changing its bytes");
         witness = std::get<V22PreOpenWitness>(std::move(inspected));
+        if (scan_control)
+            verify_scan_donor(file);
         open(writer);
     }
 
@@ -172,12 +187,12 @@ void shutdown_writer(SqliteWriter &writer) {
             "Writer closes before stopped-store inspection");
 }
 
-void commit_v23(Fixture &f) {
+void commit_v23(Fixture &f, V23RebuildBudget budget = {}) {
     require(f.witness.version == 22 && f.witness.prefix == QByteArray::fromHex(prefix22) &&
                 f.witness.projection_objects == 292,
             "Exact independent v22 predecessor identity");
     const auto result = collect_migration<MigrationResult>([&](auto done) {
-        return enqueue_v23_rebuild(f.witness, FakeOps02UpdateHoldIssuer::issue(), f.reserve(), {},
+        return enqueue_v23_rebuild(f.witness, FakeOps02UpdateHoldIssuer::issue(), f.reserve(), budget,
                                    {}, std::move(done));
     });
     require(result.reason == MigrationReason::none,
@@ -465,6 +480,60 @@ void zero_budget(Fixture &f, V23RebuildBudget budget) {
     auto replacement = f.reserve();
 }
 
+// Frozen r8 staging is max(2 * 1024, 4, 8 * 128) = 2048 pages.
+// The r3 schedule charges five donor and five post-staging extents.
+constexpr std::uint64_t donor_pages = 1024;
+constexpr std::uint64_t staged_extent = donor_pages + 2048;
+constexpr std::uint64_t exact_scan_pages = 5 * donor_pages + 5 * staged_extent;
+static_assert(staged_extent == 3072 && exact_scan_pages == 20'480);
+
+void scan_budget(Fixture &f, bool exact_fit) {
+    const QStorageInfo volume(QFileInfo(f.file.path()).absolutePath());
+    require(volume.isValid() && volume.isReady() && volume.bytesAvailable() > 33'562'624,
+            "Filesystem has headroom over the reviewed donor disk charge");
+    // Reviewed disk and memory charges are 33,562,624 and 58,720,256 bytes.
+    V23RebuildBudget budget{83'886'080, 184'549'376, exact_scan_pages};
+    if (exact_fit) {
+        commit_v23(f, budget);
+        shutdown_writer(f.writer);
+        authenticate_stopped_v23(f.file);
+        expect_v23_inspection(f.file, MigrationReason::none);
+        return;
+    }
+
+    budget.scan_pages = 20'479;
+    require_restored_owner(f.writer);
+    const auto before = f.file_state();
+    auto checkpoints = std::make_shared<QList<MigrationCheckpoint>>();
+    auto completions = std::make_shared<QList<MigrationResult>>();
+    expect_admission(enqueue_v23_rebuild(
+                         f.witness, FakeOps02UpdateHoldIssuer::issue(), f.reserve(), budget,
+                         [checkpoints](const MigrationProgress &progress) {
+                             checkpoints->append(progress.checkpoint);
+                             return true;
+                         },
+                         [completions](auto result) { completions->append(std::move(result)); }),
+                     {});
+    require(QTest::qWaitFor([completions] { return !completions->isEmpty(); }, 10000),
+            "One page below the scan allowance completes");
+    QCoreApplication::processEvents();
+    const auto &result = completions->front();
+    require(result.reason == MigrationReason::resource_limit,
+            QString("Expected scan resource_limit (%1), got reason %2 after %3 checkpoint(s)")
+                .arg(static_cast<int>(MigrationReason::resource_limit))
+                .arg(static_cast<int>(result.reason))
+                .arg(checkpoints->size()));
+    require(completions->size() == 1 && checkpoints->isEmpty() &&
+                result.work.transaction == TransactionOutcome::not_started && !result.report &&
+                !result.work.value,
+            "Scan refusal precedes the rebuild window and preserves empty transaction evidence");
+    f.require_unchanged(before);
+    {
+        auto replacement = f.reserve();
+    }
+    require_restored_owner(f.writer);
+}
+
 enum class OrdinaryCase { advance, changed_starts, changed_prefix, caller_id, inspect };
 
 void ordinary_v23(Fixture &f, OrdinaryCase specimen) {
@@ -609,9 +678,9 @@ int main(int argc, char **argv) {
         return 1;
     }
     bool passed = true;
-    const auto run = [&](const char *name, auto check) {
+    const auto run = [&](const char *name, auto check, bool scan_control = false) {
         try {
-            Fixture fixture(args[1]);
+            Fixture fixture(args[1], scan_control);
             check(fixture);
         } catch (const std::exception &failure) {
             qCritical().noquote() << name << failure.what();
@@ -636,6 +705,8 @@ int main(int argc, char **argv) {
     });
     run("zero disk", [](Fixture &f) { zero_budget(f, {0, {}}); });
     run("zero memory", [](Fixture &f) { zero_budget(f, {{}, 0}); });
+    run("scan exact fit", [](Fixture &f) { scan_budget(f, true); }, true);
+    run("scan one page less", [](Fixture &f) { scan_budget(f, false); }, true);
     run("invalid lease",
         [](Fixture &f) { f.reject({}, FakeOps02UpdateHoldIssuer::issue(), invalid); });
     run("moved lease", [](Fixture &f) {
