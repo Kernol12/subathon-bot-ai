@@ -13,15 +13,19 @@ For new behavior: contract/examples → authored tests → independent test revi
 observed intended red → implementation → independent code review → relevant checks.
 
 - Compile failures, missing dependencies and skipped tests are not red evidence.
-- Before sending the first review packet for either stage, admit each exact Qt or
-  GoogleTest candidate binary under the standing admission procedure and run its
-  suite once. In the tests stage, confirm setup and fixture reachability, including
+- Before sending the first review packet for either stage, run each candidate suite
+  once. In the tests stage, confirm setup and fixture reachability, including
   reaching the intended stub where applicable. Fix setup failures before review.
   In implementation, run the frozen tests against the candidate and fix any
   failures before review. Record the run in the handoff. These pre-review runs
-  earn no test evidence. After review, admit each reviewed binary again before
-  the credited run. A stage that already sent its first review packet continues
-  under its existing gates.
+  earn no test evidence.
+- Test programs are admitted in CI ([ADR-0013](decisions/0013-ci-test-program-admission.md)):
+  the `core` and `qt` jobs compare every program's library closure with its list in
+  `tools/binary_closures/`. The credited passing run is required CI on the reviewed
+  PR head; the PR names the commit and links the run. Intended red is one local run
+  on the reviewed commit, recorded in the PR with its command and failure summary.
+  Suites that no CI job runs keep the standing local admission in the
+  [checkpoint](../progress/coordinator-checkpoint.md) for credited runs.
 - Expected values come from the specification, never from the implementation.
 - Do not delete, skip or weaken reviewed assertions to make code pass. Correct a
   genuine test defect only with specification-based reasoning and a separate reviewer

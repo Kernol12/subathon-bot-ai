@@ -29,19 +29,20 @@ while continuing independent work not blocked. Pre-build/test CI infrastructure
 allows one recorded rerun; routine in-scope choices, self-caught mistakes and
 filing planned issues are not stops.
 
-**Standing test-binary admission.** Apply the procedure to every authorized Qt
-or GoogleTest binary using its own closure. Record passive ELF/ABI and dependency
+**Standing test-binary admission.** Since [ADR-0013](../docs/decisions/0013-ci-test-program-admission.md)
+(trial for ten tasks), CI admits programs of suites that a CI job runs; credited
+passes are CI on the reviewed head and intended red is one plain local run. The
+procedure below applies only to credited local runs of suites that no CI job runs.
+Apply it to each such Qt or GoogleTest binary using its own closure. Record passive ELF/ABI and dependency
 hashes for the exact binary. Run the first real test with bounded loader and
 plugin logs, reconcile all loaded objects and their hashes before crediting the
 result, then check hashes again. Any mismatch voids the run. Changes to the procedure, tooling, modes or
 native-supervisor debug variables require the owner under rule 4(e).
 
-Before the first review packet for either stage, admit each candidate binary
-and run its suite once. In the tests stage, fix setup failures before review.
-In implementation, run the frozen tests and fix any failures before review.
-These runs earn no test evidence. Admit each reviewed binary again before the
-credited run. Stages that already sent their first review packet keep their
-existing gates.
+Before the first review packet for either stage, run each candidate suite once
+([AGENT_WORKFLOW](../docs/AGENT_WORKFLOW.md)); these runs earn no test evidence
+and need no admission. For a suite that no CI job runs, admit each reviewed
+binary before its credited local run.
 
 Apply log size caps only to captured log files, including admission logs.
 Test processes and their children run without a process file-size limit.

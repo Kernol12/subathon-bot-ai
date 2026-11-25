@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "profiles": {
+    "system-python": [
+      "/lib64/ld-linux-x86-64.so.2",
+      "libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6",
+      "libexpat.so.1 => /lib/x86_64-linux-gnu/libexpat.so.1",
+      "libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6",
+      "libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1"
+    ],
+    "cxx-runtime": [
+      "/lib64/ld-linux-x86-64.so.2",
+      "libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6",
+      "libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6",
+      "libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6"
+    ],
+    "c-runtime": [
+      "/lib64/ld-linux-x86-64.so.2",
+      "libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6"
+    ]
+  },
+  "programs": {
+    "/usr/bin/python3.12": "system-python",
+    "build/core-acceptance-debug/subathon_scaffold_info": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_application_plan_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_chat_commands_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_credit_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_delegated_permissions_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_downtime_recovery_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_effective_permissions_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_exact_numeric_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_finished_timer_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_milestone_progression_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_milestone_target_edit_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_modifier_activation_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_pause_policy_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_rate_override_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_rate_snapshot_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_recurring_schedule_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_refund_entitlement_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_rule_actions_baseline": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_rule_definition_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_rule_selection_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_rules_004_stage1": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_time_debt_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_timer_editorial_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_timer_lifecycle_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/core_valuation_snapshot_codec_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/modifier_clock_baseline": "cxx-runtime",
+    "build/core-acceptance-debug/tests/modifier_stacking_baseline": "cxx-runtime",
+    "build/core-acceptance-debug/tests/scaffold_contract_smoke": "c-runtime",
+    "build/core-acceptance-debug/tests/server_contribution_evidence_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/server_rates_003_stage1": "cxx-runtime",
+    "build/core-acceptance-debug/tests/server_rates_004_stage1": "cxx-runtime",
+    "build/core-acceptance-debug/tests/server_receipt_intake_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/server_rules_005_stage1": "cxx-runtime",
+    "build/core-acceptance-debug/tests/server_scheduled_pause_acceptance": "cxx-runtime",
+    "build/core-acceptance-debug/tests/server_scheduled_pause_terminal_point_acceptance": "cxx-runtime"
+  }
+}
