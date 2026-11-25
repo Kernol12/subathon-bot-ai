@@ -105,6 +105,16 @@ if(SUBATHON_BUILD_SQLITE_MODIFIER_ACTIVATIONS_TESTS)
         LABELS "sqlite-modifier-activations;acceptance;qt;server" TIMEOUT 180)
 endif()
 
+if(SUBATHON_BUILD_SQLITE_MODIFIER_ACTIVATIONS_TESTS)
+    option(SUBATHON_BUILD_MODIFIER_007_STAGE1 "Build the pre-v25 modifier names baseline" OFF)
+    if(SUBATHON_BUILD_MODIFIER_007_STAGE1)
+        subathon_add_qt_suite(server_modifier_names_stage1
+            NAME modifier-names-stage1 SOURCES modifier_007/pre_v25_tests.cpp
+            LIBRARIES subathon_sqlite_modifier_activations subathon_original_application_service
+            LABELS "modifier-names-stage1;acceptance;qt;server;intentional-red")
+    endif()
+endif()
+
 if(SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE)
     subathon_add_qt_suite(sqlite_live_financial_refunds_tests
         NAME live-financial-refunds

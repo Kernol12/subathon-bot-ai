@@ -11,6 +11,12 @@
 namespace subathon::server {
 namespace {
 
+class SqliteModifierNamesNotImplemented final : public std::logic_error {
+  public:
+    explicit SqliteModifierNamesNotImplemented(const char *entry)
+        : std::logic_error(std::string("MODIFIER-007 modifier names NI: ") + entry) {}
+};
+
 using Reason = SqliteModifierStorageReason;
 using Lifetime = ModifierInstanceLifetime;
 using Operation = ModifierInstanceOperation;
@@ -634,6 +640,17 @@ SqliteModifierActivationStore::append_definition(const core::ModifierDefinition 
         });
         return result;
     });
+}
+
+SqliteModifierDefinitionRevision SqliteModifierActivationStore::append_definition(
+    const core::ModifierDefinition &, const std::optional<std::string> &,
+    const ModifierNameOperation &) const {
+    throw SqliteModifierNamesNotImplemented("append_definition");
+}
+
+std::optional<ModifierNameReadback> SqliteModifierActivationStore::definition_revision_name(
+    const std::string &, const std::string &) const {
+    throw SqliteModifierNamesNotImplemented("definition_revision_name");
 }
 
 core::ModifierActivationProposal

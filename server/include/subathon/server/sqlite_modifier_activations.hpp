@@ -3,6 +3,7 @@
 
 #include <subathon/core/modifier_activation.hpp>
 #include <subathon/server/sqlite_migrations.hpp>
+#include <variant>
 
 namespace subathon::server {
 
@@ -41,6 +42,32 @@ class SqliteModifierActivationsNotImplemented final : public std::logic_error {
     explicit SqliteModifierActivationsNotImplemented(const char *entry)
         : std::logic_error(std::string("MODIFIER-001 SQLite modifier activations NI: ") + entry) {}
 };
+
+struct KeepModifierName {
+    bool operator==(const KeepModifierName &) const = default;
+};
+struct ClearModifierName {
+    bool operator==(const ClearModifierName &) const = default;
+};
+struct SetModifierName {
+    std::string bytes;
+    bool operator==(const SetModifierName &) const = default;
+};
+using ModifierNameOperation =
+    std::variant<SetModifierName, KeepModifierName, ClearModifierName>;
+
+struct ModifierNameEvidenceMissing {
+    bool operator==(const ModifierNameEvidenceMissing &) const = default;
+};
+struct ModifierNameExplicitlyAbsent {
+    bool operator==(const ModifierNameExplicitlyAbsent &) const = default;
+};
+struct ModifierNamePresent {
+    std::string bytes;
+    bool operator==(const ModifierNamePresent &) const = default;
+};
+using ModifierNameReadback =
+    std::variant<ModifierNameEvidenceMissing, ModifierNameExplicitlyAbsent, ModifierNamePresent>;
 
 enum class ModifierInstanceLifetime { live, replaced, expired };
 enum class ModifierInstanceOperation { activation, checkpoint };
@@ -88,6 +115,15 @@ class SqliteModifierActivationStore final {
     [[nodiscard]] SqliteModifierDefinitionRevision
     append_definition(const core::ModifierDefinition &,
                       const std::optional<std::string> &expected_revision) const;
+
+    [[nodiscard]] SqliteModifierDefinitionRevision
+    append_definition(const core::ModifierDefinition &,
+                      const std::optional<std::string> &expected_revision,
+                      const ModifierNameOperation &) const;
+
+    [[nodiscard]] std::optional<ModifierNameReadback>
+    definition_revision_name(const std::string &definition_ref,
+                             const std::string &revision_ref) const;
 
     [[nodiscard]] core::ModifierActivationProposal
     activate(const std::string &definition_ref, const std::string &expected_definition_revision,
