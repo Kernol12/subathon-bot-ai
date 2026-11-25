@@ -16,12 +16,16 @@ discovery may list GoogleTest cases first):
         --expected tools/binary_closures/sqlite-reference-capture-debug.json \
         --build-dir build/sqlite-reference-capture-debug --root QT_PREFIX="$QT_PREFIX"
 
-On failure the observed file for that tree is printed; a reviewed PR may commit it.
+On failure (CI-004) the gate writes a `git apply` patch to --patch-out that adds or
+re-points only the missing or changed entries, and prints the error lines followed by
+that patch on stdout alone. CI uploads the patch as an artifact; the job still fails,
+and a reviewed PR commits the patch. The check itself is unchanged.
 Dynamically loaded Qt plugins are outside DT_NEEDED and are not covered here.
 """
 from __future__ import annotations
 
 import argparse
+import difflib
 import hashlib
 import json
 import os
@@ -133,7 +137,7 @@ def _programs(ctest: dict, build_dir: Path) -> dict[Path, set[tuple[str, ...]]]:
 @dataclass
 class TreeResult:
     errors: list[str] = field(default_factory=list)
-    observed: dict = field(default_factory=dict)
+    closures: dict[str, list[str] | str] = field(default_factory=dict)
     digests: dict[str, str] = field(default_factory=dict)
 
 
@@ -142,7 +146,7 @@ def check_tree(ctest: dict, expected: dict, build_dir: Path, repo: Path,
     """Compare one tree's programs with its expected file; never raises on a mere difference."""
     build_dir, repo = build_dir.resolve(), repo.resolve()
     result = TreeResult()
-    closures: dict[str, list[str] | str] = {}
+    closures = result.closures
     for program, environments in sorted(_programs(ctest, build_dir).items()):
         key = str(program.relative_to(repo)) if program.is_relative_to(repo) else portable(str(program), roots)
         result.digests[key] = hashlib.sha256(program.read_bytes()).hexdigest()
@@ -179,25 +183,49 @@ def check_tree(ctest: dict, expected: dict, build_dir: Path, repo: Path,
                 result.errors.append(f"{key}: profile {name!r} differs; unexpected {extra}, missing {missing}")
             else:
                 result.errors.append(f"{key}: expected {want!r}, observed {observed!r}")
-    result.observed = observed_file(closures)
     return result
 
 
-def observed_file(closures: dict[str, list[str] | str]) -> dict:
-    """Group identical closures into numbered profiles, in the expected-file format."""
-    profiles: dict[str, list[str]] = {}
-    programs: dict[str, str] = {}
-    for key in sorted(closures):
-        closure = closures[key]
+def fix_expected(expected: dict, closures: dict[str, list[str] | str]) -> dict:
+    """The expected file changed only where the observed closures differ from it.
+
+    A missing or mismatched program is pointed at an existing profile with the same
+    closure, or at a new profile named after a digest of its contents; a listed but
+    unregistered program is removed. Every other entry and every profile is kept.
+    """
+    profiles = {name: list(libs) for name, libs in expected.get("profiles", {}).items()}
+    programs = dict(expected.get("programs", {}))
+    for key in list(programs):
+        if key not in closures:
+            del programs[key]
+    for key, closure in closures.items():
+        current = programs.get(key)
+        want = NOT_ELF if current == NOT_ELF else profiles.get(current)
+        if want is not None and closure == (sorted(want) if isinstance(want, list) else want):
+            continue
         if closure == NOT_ELF:
             programs[key] = NOT_ELF
             continue
-        name = next((n for n, libs in profiles.items() if libs == closure), None)
+        name = next((n for n, libs in profiles.items() if sorted(libs) == closure), None)
         if name is None:
-            name = f"closure-{len(profiles) + 1}"
+            name = "observed-" + hashlib.sha256("\n".join(closure).encode()).hexdigest()[:12]
             profiles[name] = list(closure)
         programs[key] = name
-    return {"format": 1, "profiles": profiles, "programs": programs}
+    return {**expected, "profiles": profiles, "programs": dict(sorted(programs.items()))}
+
+
+def render(expected: dict) -> str:
+    """The canonical text of an expected file, as committed."""
+    return json.dumps(expected, indent=2) + "\n"
+
+
+def make_patch(path: str, old: str, new: str) -> str:
+    """A unified diff of one file that `git apply` accepts from the repository root."""
+    if old and not old.endswith("\n"):
+        raise ClosureError(f"{path}: list file must end with a newline")
+    hunks = difflib.unified_diff(old.splitlines(keepends=True), new.splitlines(keepends=True),
+                                 f"a/{path}", f"b/{path}")
+    return f"diff --git a/{path} b/{path}\n" + "".join(hunks)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -206,6 +234,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--build-dir", type=Path, required=True)
     parser.add_argument("--root", action="append", default=[], metavar="NAME=PATH",
                         help="named runner-specific root, written as $NAME in the lists")
+    parser.add_argument("--patch-out", type=Path,
+                        help="on failure, write the list fix here as a git-apply patch")
     args = parser.parse_args(argv)
     roots = {}
     for item in args.root:
@@ -213,22 +243,37 @@ def main(argv: list[str] | None = None) -> int:
         if not name or not path:
             raise ClosureError(f"--root {item!r} needs a name and a nonempty path")
         roots[name] = str(Path(path).resolve())
-    expected = json.loads(args.expected.read_text(encoding="utf-8"))
-    if expected.get("format") != 1:
+    text = args.expected.read_text(encoding="utf-8")
+    try:
+        expected = json.loads(text)
+    except json.JSONDecodeError as error:
+        raise ClosureError(f"{args.expected}: not valid JSON ({error})") from error
+    if not isinstance(expected, dict) or expected.get("format") != 1:
         raise ClosureError(f"{args.expected}: unsupported format")
+    repo = Path.cwd().resolve()
+    list_path = args.expected.resolve()
+    if not list_path.is_relative_to(repo):
+        raise ClosureError(f"{args.expected}: must be inside the repository")
     ctest = json.loads(subprocess.check_output(
         ["ctest", "--test-dir", str(args.build_dir), "--show-only=json-v1"], text=True))
-    result = check_tree(ctest, expected, args.build_dir, Path.cwd(), roots)
-    listed = expected.get("programs", {})
-    for key, digest in sorted(result.digests.items()):
-        print(f"{key} sha256={digest} profile={listed.get(key, 'unlisted')}")
-    if result.errors:
-        print("\n".join(f"error: {error}" for error in result.errors), file=sys.stderr)
-        print("Observed closure file for this tree:", file=sys.stderr)
-        print(json.dumps(result.observed, indent=2), file=sys.stderr)
-        return 1
-    print(f"{len(result.digests)} programs match {args.expected}")
-    return 0
+    result = check_tree(ctest, expected, args.build_dir, repo, roots, run_ldd)
+    if not result.errors:
+        listed = expected.get("programs", {})
+        for key, digest in sorted(result.digests.items()):
+            print(f"{key} sha256={digest} profile={listed[key]}")
+        print(f"{len(result.digests)} programs match {args.expected}")
+        return 0
+    output = "".join(f"error: {error}\n" for error in result.errors)
+    fixed = render(fix_expected(expected, result.closures))
+    if fixed != text:
+        patch_text = make_patch(list_path.relative_to(repo).as_posix(), text, fixed)
+        if args.patch_out:
+            args.patch_out.parent.mkdir(parents=True, exist_ok=True)
+            args.patch_out.write_text(patch_text, encoding="utf-8")
+        output += patch_text
+    sys.stdout.write(output)
+    sys.stdout.flush()
+    return 1
 
 
 if __name__ == "__main__":
