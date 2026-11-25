@@ -27,6 +27,31 @@ void expect_admission(MigrationAdmission actual, MigrationAdmission expected) {
                 .arg(static_cast<int>(expected.reason)));
 }
 
+QByteArray main_digest(const QString &path) {
+    QFile file(path);
+    QCryptographicHash hash(QCryptographicHash::Sha256);
+    require(file.open(QIODevice::ReadOnly) && hash.addData(&file), "Hash disposable main file");
+    return hash.result();
+}
+
+QByteArray wal_bytes(const QString &path) {
+    QFile wal(path + "-wal");
+    if (!wal.exists())
+        return {};
+    require(wal.open(QIODevice::ReadOnly), "Open disposable WAL for byte comparison");
+    auto bytes = wal.readAll();
+    require(wal.error() == QFileDevice::NoError && bytes.size() == wal.size(),
+            "Read all disposable WAL bytes");
+    return bytes;
+}
+
+struct FileState {
+    QByteArray main;
+    QByteArray wal;
+
+    bool operator==(const FileState &) const = default;
+};
+
 class Fixture final {
   public:
     explicit Fixture(const QString &donor) {
@@ -59,9 +84,22 @@ class Fixture final {
         return lease;
     }
 
+    FileState file_state() const { return {main_digest(file.path()), wal_bytes(file.path())}; }
+
+    void require_unchanged(const FileState &before) const {
+        require(file_state() == before && !QFileInfo::exists(file.path() + "-journal"),
+                "Main and WAL bytes are unchanged and no rollback journal remains");
+    }
+
+    void reach_inert(V23StoppedWriterLease lease, Ops02UpdateHold hold,
+                     V23RebuildBudget budget = {}) {
+        reject(std::move(lease), std::move(hold), inert, budget);
+        auto replacement = reserve();
+    }
+
     void reject(V23StoppedWriterLease lease, Ops02UpdateHold hold, MigrationAdmission expected,
                 V23RebuildBudget budget = {}, bool null_completion = false) {
-        const auto before = file.seal();
+        const auto before = file_state();
         auto calls = std::make_shared<int>(0);
         SqliteMigrationRunner::Completion completion;
         if (!null_completion)
@@ -70,9 +108,8 @@ class Fixture final {
                                              std::move(completion)),
                          expected);
         QCoreApplication::processEvents();
-        require(*calls == 0 && file.seal() == before &&
-                    !QFileInfo::exists(file.path() + "-journal"),
-                "Synchronous refusal leaves no callback, file change or rollback journal");
+        require(*calls == 0, "Synchronous refusal delivers no completion");
+        require_unchanged(before);
     }
 
     DisposableFile file;
@@ -81,7 +118,7 @@ class Fixture final {
 };
 
 void zero_budget(Fixture &f, V23RebuildBudget budget) {
-    const auto before = f.file.seal();
+    const auto before = f.file_state();
     struct Observation {
         int calls = 0;
         std::optional<MigrationResult> result;
@@ -100,9 +137,57 @@ void zero_budget(Fixture &f, V23RebuildBudget budget) {
     const auto &result = *observed->result;
     require(observed->calls == 1 && result.reason == MigrationReason::resource_limit &&
                 result.work.transaction == TransactionOutcome::not_started && !result.report &&
-                !result.work.value && f.file.seal() == before &&
-                !QFileInfo::exists(f.file.path() + "-journal"),
-            "Zero budget refuses before a transaction and leaves the donor unchanged");
+                !result.work.value,
+            "Zero budget refuses before a transaction");
+    f.require_unchanged(before);
+    auto replacement = f.reserve();
+}
+
+enum class OrdinaryCase { advance, changed_starts, changed_prefix, inspect };
+
+void ordinary_v23(Fixture &f, OrdinaryCase specimen) {
+    auto manifest = compiled_successor();
+    // Supply a structurally valid caller manifest. The projected schema stays
+    // identical and the only v23 SQL is a read-only statement.
+    const auto schema = manifest.steps.back().expected_schema;
+    manifest.steps.append({23, "exact-valuation-parent-rebuild-v1", {"SELECT 1"}, schema});
+    manifest.supported_starting_versions.append(23);
+    if (specimen == OrdinaryCase::changed_starts)
+        manifest.supported_starting_versions.removeAt(1);
+    if (specimen == OrdinaryCase::changed_prefix)
+        manifest.steps[21].id = "caller-edited-v22";
+    const auto mode =
+        specimen == OrdinaryCase::inspect ? MigrationMode::inspect : MigrationMode::advance;
+    auto command = request(mode, std::move(manifest));
+    struct Observation {
+        int probes = 0;
+        int completions = 0;
+    };
+    auto observed = std::make_shared<Observation>();
+    // An unexpected admission drains only this disposable writer job. Cancel
+    // before BEGIN to prevent even a migration-history write.
+    command.cancel = [observed](const auto &) {
+        ++observed->probes;
+        return true;
+    };
+    const auto before = f.file_state();
+    const auto admission = SqliteMigrationRunner::enqueue(
+        f.writer, std::move(command), [observed](auto) { ++observed->completions; });
+    const bool drained = admission.error != StorageError::none ||
+                         QTest::qWaitFor([observed] { return observed->completions > 0; }, 10000);
+    QCoreApplication::processEvents();
+    // Diagnose an admission regression at the admission boundary even if drain
+    // also timed out or the unexpected job changed the disposable copy.
+    if (admission.error == StorageError::none) {
+        qCritical() << "Unexpected ordinary admission, drained:" << drained
+                    << "probes:" << observed->probes << "completions:" << observed->completions
+                    << "file unchanged:" << (f.file_state() == before)
+                    << "journal exists:" << QFileInfo::exists(f.file.path() + "-journal");
+    }
+    expect_admission(admission, invalid);
+    require(observed->probes == 0 && observed->completions == 0,
+            "Ordinary refusal invokes neither cancellation nor completion");
+    f.require_unchanged(before);
 }
 
 void exclusion(Fixture &f) {
@@ -184,12 +269,12 @@ int main(int argc, char **argv) {
     };
 
     run("both omitted",
-        [](Fixture &f) { f.reject(f.reserve(), FakeOps02UpdateHoldIssuer::issue(), inert); });
+        [](Fixture &f) { f.reach_inert(f.reserve(), FakeOps02UpdateHoldIssuer::issue()); });
     run("disk omitted", [](Fixture &f) {
-        f.reject(f.reserve(), FakeOps02UpdateHoldIssuer::issue(), inert, {{}, 184'549'376});
+        f.reach_inert(f.reserve(), FakeOps02UpdateHoldIssuer::issue(), {{}, 184'549'376});
     });
     run("memory omitted", [](Fixture &f) {
-        f.reject(f.reserve(), FakeOps02UpdateHoldIssuer::issue(), inert, {83'886'080, {}});
+        f.reach_inert(f.reserve(), FakeOps02UpdateHoldIssuer::issue(), {83'886'080, {}});
     });
     run("disk compiled plus one", [](Fixture &f) {
         f.reject(f.reserve(), FakeOps02UpdateHoldIssuer::issue(), invalid, {83'886'081, {}});
@@ -205,7 +290,7 @@ int main(int argc, char **argv) {
         auto source = f.reserve();
         auto owner = std::move(source);
         f.reject(std::move(source), FakeOps02UpdateHoldIssuer::issue(), invalid);
-        f.reject(std::move(owner), FakeOps02UpdateHoldIssuer::issue(), inert);
+        f.reach_inert(std::move(owner), FakeOps02UpdateHoldIssuer::issue());
     });
     run("destroyed writer lease", [&](Fixture &f) {
         V23StoppedWriterLease stale;
@@ -217,7 +302,7 @@ int main(int argc, char **argv) {
     });
     run("foreign thread", [](Fixture &f) {
         auto lease = f.reserve();
-        const auto before = f.file.seal();
+        const auto before = f.file_state();
         MigrationAdmission admission;
         auto calls = std::make_shared<int>(0);
         auto witness = f.witness;
@@ -229,7 +314,8 @@ int main(int argc, char **argv) {
         foreign.join();
         expect_admission(admission, invalid);
         QCoreApplication::processEvents();
-        require(*calls == 0 && f.file.seal() == before, "Foreign call leaves the owner untouched");
+        require(*calls == 0, "Foreign call delivers no completion");
+        f.require_unchanged(before);
         auto replacement = f.reserve();
     });
     run("empty hold", [](Fixture &f) { f.reject(f.reserve(), {}, invalid); });
@@ -237,12 +323,45 @@ int main(int argc, char **argv) {
         auto source = FakeOps02UpdateHoldIssuer::issue();
         auto owner = std::move(source);
         f.reject(f.reserve(), std::move(source), invalid);
-        f.reject(f.reserve(), std::move(owner), inert);
+        f.reach_inert(f.reserve(), std::move(owner));
     });
     run("null completion", [](Fixture &f) {
         f.reject(f.reserve(), FakeOps02UpdateHoldIssuer::issue(),
                  {StorageError::invalid_work, MigrationReason::none}, {}, true);
     });
+    run("invalid authority precedes null completion",
+        [](Fixture &f) { f.reject({}, FakeOps02UpdateHoldIssuer::issue(), invalid, {}, true); });
+    run("null completion precedes over-ceiling budget", [](Fixture &f) {
+        f.reject(f.reserve(), FakeOps02UpdateHoldIssuer::issue(),
+                 {StorageError::invalid_work, MigrationReason::none}, {83'886'081, {}}, true);
+    });
+    run("tampered witness version", [](Fixture &f) {
+        ++f.witness.version;
+        f.reject(f.reserve(), FakeOps02UpdateHoldIssuer::issue(), invalid);
+    });
+    run("tampered witness prefix", [](Fixture &f) {
+        // Keep the original digest width and change one byte.
+        f.witness.prefix[0] = static_cast<char>(f.witness.prefix.at(0) ^ 1);
+        f.reject(f.reserve(), FakeOps02UpdateHoldIssuer::issue(), invalid);
+    });
+    run("tampered witness projection count", [](Fixture &f) {
+        ++f.witness.projection_objects;
+        f.reject(f.reserve(), FakeOps02UpdateHoldIssuer::issue(), invalid);
+    });
+    run("ordinary exact v22 advance", [](Fixture &f) {
+        expect_current(migrate(f.writer, request(MigrationMode::advance, compiled_successor())), 22,
+                       0);
+    });
+    run("ordinary exact v22 inspect", [](Fixture &f) {
+        expect_current(migrate(f.writer, request(MigrationMode::inspect, compiled_successor())), 22,
+                       0);
+    });
+    run("ordinary v23 advance", [](Fixture &f) { ordinary_v23(f, OrdinaryCase::advance); });
+    run("ordinary v23 advance with changed starts",
+        [](Fixture &f) { ordinary_v23(f, OrdinaryCase::changed_starts); });
+    run("ordinary v23 advance with changed prefix",
+        [](Fixture &f) { ordinary_v23(f, OrdinaryCase::changed_prefix); });
+    run("ordinary v23 inspect", [](Fixture &f) { ordinary_v23(f, OrdinaryCase::inspect); });
     run("mutual exclusion", exclusion);
     run("shutdown revokes reservation", [](Fixture &f) {
         auto lease = f.reserve();
