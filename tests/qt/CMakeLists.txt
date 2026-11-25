@@ -420,6 +420,18 @@ if(SUBATHON_BUILD_STORAGE_021_STAGE1)
     target_link_libraries(server_storage_021_stage1_controls PRIVATE
         subathon_sqlite_v23_rebuild subathon_contribution_review Qt6::Sql Qt6::Test)
     subathon_target_options(server_storage_021_stage1_controls)
+
+    add_executable(server_storage_021_stage1_negative
+        storage_021/negative_tests.cpp storage_021/v23_negative_fixture.cpp
+        storage_021/fake_ops02_update_hold.cpp
+        "${PROJECT_SOURCE_DIR}/server/src/sqlite_v23_rebuild.cpp")
+    target_compile_definitions(server_storage_021_stage1_negative PRIVATE
+        SUBATHON_V23_NEGATIVE_FIXTURE)
+    target_include_directories(server_storage_021_stage1_negative PRIVATE
+        "${PROJECT_SOURCE_DIR}/server/src" storage_021)
+    target_link_libraries(server_storage_021_stage1_negative PRIVATE
+        subathon_sqlite_v23_rebuild_support Qt6::Sql Qt6::Test)
+    subathon_target_options(server_storage_021_stage1_negative)
 endif()
 
 if(SUBATHON_BUILD_MILESTONE_006_STAGE1)

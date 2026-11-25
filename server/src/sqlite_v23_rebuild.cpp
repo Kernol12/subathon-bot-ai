@@ -9,6 +9,10 @@
 #include "v23_executor/copy_comparison.hpp"
 #include "v23_executor/step_data.hpp"
 
+#ifdef SUBATHON_V23_NEGATIVE_FIXTURE
+#include "v23_negative_fixture.hpp"
+#endif
+
 #include <QCryptographicHash>
 #include <QFileInfo>
 #include <QSqlRecord>
@@ -277,6 +281,12 @@ WorkError work_error(MigrationReason reason) {
 
 // One fenced v23 window on the writer's owned connection. Settings are entered
 // in r3 order and restored in reverse with a readback for each, per 609.9.
+#ifdef SUBATHON_V23_NEGATIVE_FIXTURE
+using RebuildConnection = testing::V23NegativeOwner;
+#else
+using RebuildConnection = V23OwnerConnection;
+#endif
+
 class V23Rebuild final {
   public:
     V23Rebuild(V23OwnerConnection &connection, const CompiledV23 &compiled, V23RebuildBudget budget,
@@ -326,7 +336,11 @@ class V23Rebuild final {
     }
 
   private:
-    V23OwnerConnection &connection_;
+#ifdef SUBATHON_V23_NEGATIVE_FIXTURE
+    RebuildConnection connection_;
+#else
+    RebuildConnection &connection_;
+#endif
     const CompiledV23 &compiled_;
     V23RebuildBudget budget_;
     const V23Cancellation &cancel_;
@@ -554,6 +568,9 @@ class V23Rebuild final {
                 });
         }
         probe(MigrationCheckpoint::before_history, version, step.sql.size());
+#ifdef SUBATHON_V23_NEGATIVE_FIXTURE
+        connection_.before_history();
+#endif
         const auto query = [this](ClockProbeQuery, const QString &sql) {
             return read(sql, MigrationReason::inspection_failed);
         };

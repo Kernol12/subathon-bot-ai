@@ -280,12 +280,16 @@ if(TARGET subathon_sqlite_credential_catalog AND TARGET subathon_sqlite_permissi
     target_link_libraries(subathon_contribution_review PUBLIC subathon_sqlite_milestone_target_edits)
     subathon_target_options(subathon_contribution_review)
 
-    add_library(subathon_sqlite_v23_rebuild STATIC EXCLUDE_FROM_ALL
-        src/sqlite_clock_checkpoint.cpp src/sqlite_v23_rebuild.cpp
+    add_library(subathon_sqlite_v23_rebuild_support STATIC EXCLUDE_FROM_ALL
+        src/sqlite_clock_checkpoint.cpp
         src/v23_executor/fixture_bounds.cpp src/v23_executor/copy_comparison.cpp)
-    target_link_libraries(subathon_sqlite_v23_rebuild PRIVATE
+    target_link_libraries(subathon_sqlite_v23_rebuild_support PUBLIC
         subathon_contribution_review subathon_sqlite_v22_catalog subathon_sqlite_v23_step
         subathon_sqlite_catalog_inspection)
+    subathon_target_options(subathon_sqlite_v23_rebuild_support)
+
+    add_library(subathon_sqlite_v23_rebuild STATIC EXCLUDE_FROM_ALL src/sqlite_v23_rebuild.cpp)
+    target_link_libraries(subathon_sqlite_v23_rebuild PRIVATE subathon_sqlite_v23_rebuild_support)
     subathon_target_options(subathon_sqlite_v23_rebuild)
 endif()
 
