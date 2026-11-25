@@ -1003,8 +1003,15 @@ class Milestone006OwnerTests final : public QObject {
                     "Abnormal completion publishes no readback disposition");
             require(!restore_durable_holds(busy) && !restore_durable_holds(unknown),
                     "Abnormal completion publishes no durable Holds");
-            require(restore_durable_holds(recovered) == recovered.queue->holds,
-                    "Acknowledged recovery exposes the exact Holds from the restored queue");
+            const auto committed = read(f.seed.db, authority.base, f.command);
+            require(committed.disposition == Disposition::replay &&
+                        committed.added_causes.size() == 1,
+                    "Independent replay identifies the committed Hold");
+            const std::vector<ScopedCause> expected_holds{
+                {f.command.track, committed.added_causes.front()}};
+            require(restore_durable_holds(recovered) == expected_holds &&
+                        recovered.queue->holds == expected_holds,
+                    "Acknowledged recovery exposes the exact committed Hold");
         });
     }
 
