@@ -435,25 +435,70 @@ TEST(ScheduleCommand, B1gDenialAndUnknownWinAtIssuePresentAndSave) {
     }
 }
 
-TEST(ScheduleCommand, B1fExactHorizonAndCrossedSelectors) {
-    for (const bool same_day : {false, true}) {
-        Rig r;
-        r.basis_s();
-        const ScheduleEdit first{keep_b, same_day ? noon + 60'000 : h1};
-        const ScheduleEdit second{keep_b, same_day ? noon + 120'000 : h2};
-        const auto p = r.publish(first);
-        const auto q = r.publish(second);
-        ASSERT_TRUE(p && q);
-        expect_publication_s(*p, first.through_utc_ms, same_day ? 0 : 1);
-        expect_publication_s(*q, second.through_utc_ms, same_day ? 0 : 2);
-        EXPECT_NE(p->confirm.issued.value, q->confirm.issued.value);
-        ASSERT_TRUE(p->confirm.shown && q->confirm.shown);
-        EXPECT_NE(p->confirm.shown->value, q->confirm.shown->value);
-        refuse_save(r, r.save(first, q->confirm), Refusal::fresh_preview_required);
-        refuse_save(r, r.save(first, {p->confirm.issued, q->confirm.shown, q->confirm.basis}),
-                    Refusal::fresh_preview_required);
-    }
+class ScheduleHorizonCase : public ::testing::TestWithParam<bool> {};
+TEST_P(ScheduleHorizonCase, B1fExactHorizonAndCrossedSelectors) {
+    const bool same_day = GetParam();
+    Rig r;
+    r.basis_s();
+    const ScheduleEdit first{keep_b, same_day ? noon + 60'000 : h1};
+    const ScheduleEdit second{keep_b, same_day ? noon + 120'000 : h2};
+    const auto p = r.publish(first);
+    const auto q = r.publish(second);
+    ASSERT_TRUE(p && q);
+    expect_publication_s(*p, first.through_utc_ms, same_day ? 0 : 1);
+    expect_publication_s(*q, second.through_utc_ms, same_day ? 0 : 2);
+    EXPECT_NE(p->confirm.issued.value, q->confirm.issued.value);
+    ASSERT_TRUE(p->confirm.shown && q->confirm.shown);
+    EXPECT_NE(p->confirm.shown->value, q->confirm.shown->value);
+    refuse_save(r, r.save(first, q->confirm), Refusal::fresh_preview_required);
+    refuse_save(r, r.save(first, {p->confirm.issued, q->confirm.shown, q->confirm.basis}),
+                Refusal::fresh_preview_required);
 }
+INSTANTIATE_TEST_SUITE_P(ScheduleCommand, ScheduleHorizonCase,
+                         ::testing::Values(false, true));
+
+TEST(ScheduleCommand, StaleIssueRetainsNoProof) {
+    Rig r;
+    r.basis_s();
+    const auto ref = r.preview({keep_b, h1});
+    r.state.snapshot_ref = "new-snapshot";
+    expect(issue_schedule_preview(ref, r.ports), Refusal::stale_observation);
+    EXPECT_TRUE(r.issues.empty());
+    EXPECT_TRUE(r.publications.empty());
+}
+
+enum class PresentationChange { basis, projection, foreign, evicted };
+class SchedulePresentationCase : public ::testing::TestWithParam<PresentationChange> {};
+TEST_P(SchedulePresentationCase, RechecksIdentityAndNeverPublishesRefusal) {
+    const auto change = GetParam();
+    Rig r;
+    r.basis_s();
+    const ScheduleEdit edit{keep_b, h1};
+    const auto ref = r.preview(edit);
+    const auto issuance = issue_schedule_preview(ref, r.ports);
+    const auto *issued = std::get_if<ScheduleIssuedRef>(&issuance);
+    ASSERT_NE(issued, nullptr);
+    if (change == PresentationChange::basis) {
+        r.advance(at(11h + 51min));
+        r.target(noon);
+    }
+    if (change == PresentationChange::projection) r.zone.fixed_revision = "Z2";
+    if (change == PresentationChange::evicted) r.issues.erase(issued->value);
+    r.calls.clear();
+    const bool foreign = change == PresentationChange::foreign;
+    expect(present_schedule_preview(r.preview(edit), foreign ? ScheduleIssuedRef{"foreign"} : *issued,
+                                    r.ports),
+           foreign ? Refusal::access_denied : Refusal::fresh_preview_required);
+    if (foreign) {
+        EXPECT_EQ(std::ranges::find(r.calls, "issued payload"), r.calls.end());
+    }
+    EXPECT_TRUE(r.shown.empty());
+    EXPECT_TRUE(r.publications.empty());
+    EXPECT_EQ(r.writer_calls, 0);
+}
+INSTANTIATE_TEST_SUITE_P(ScheduleCommand, SchedulePresentationCase,
+                         ::testing::Values(PresentationChange::basis, PresentationChange::projection,
+                                           PresentationChange::foreign, PresentationChange::evicted));
 
 TEST(ScheduleCommand, ProvenanceAndEviction) {
     Rig r;
@@ -540,136 +585,165 @@ TEST(ScheduleCommand, B1hChangedFactsAndExpiredRetainedEffect) {
     EXPECT_FALSE(r.ledger.deliveries[1].stop);
 }
 
-TEST(ScheduleCommand, AtomicCutoverAndWriterCertainty) {
-    for (const auto & [offset, outcome] : {std::pair{0ms, Outcome::acknowledged},
-            {1000ms, Outcome::acknowledged}, {0ms, Outcome::not_committed},
-            {0ms, Outcome::outcome_unacknowledged}}) {
-        Rig r;
+class ScheduleAtomicCase : public ::testing::TestWithParam<std::pair<milliseconds, Outcome>> {};
+TEST_P(ScheduleAtomicCase, AtomicCutoverAndWriterCertainty) {
+    const auto [offset, outcome] = GetParam();
+    Rig r;
+    r.basis_s();
+    const ScheduleEdit edit{keep_b, h1};
+    const auto p = r.publish(edit);
+    ASSERT_TRUE(p);
+    const auto cut = noon + offset.count();
+    r.target(cut);
+    const auto save = r.save(edit, p->confirm);
+    const auto competing = r.save(edit, p->confirm);
+    const auto before = image(r);
+    r.write_result = outcome;
+    expect(apply_schedule_save(save, r.ports), outcome);
+    ASSERT_EQ(r.writer_calls, 1);
+    ASSERT_TRUE(r.candidate);
+    EXPECT_GT(r.candidate_checks, 0);
+    EXPECT_EQ(r.publications.size(), 1U);
+    if (outcome == Outcome::not_committed) {
+        EXPECT_EQ(image(r), before);
+        EXPECT_FALSE(r.ledger.deliveries[0].stop);
+        return;
+    }
+    ASSERT_EQ(r.epochs.size(), 2U);
+    EXPECT_EQ(r.epochs[0].through_utc_ms, cut);
+    EXPECT_EQ(r.epochs[0].closed_zone_rules_revision, "Z1");
+    EXPECT_EQ(r.epochs[1].after_utc_ms, cut);
+    ASSERT_EQ(r.epochs[1].configuration.rules.size(), 1U);
+    EXPECT_EQ(r.epochs[1].configuration.rules[0].schedule_id, "B");
+    EXPECT_EQ(r.state.timer.main_remaining_ms, 900'000);
+    EXPECT_EQ(r.state.cursor.evaluated_through_utc_ms, cut);
+    EXPECT_EQ(r.state.pause.reasons, manual_schedule);
+    ASSERT_EQ(r.ledger.deliveries.size(), 2U);
+    ASSERT_TRUE(r.ledger.deliveries[0].stop);
+    const auto &stop = *r.ledger.deliveries[0].stop;
+    EXPECT_EQ(stop.cause, ScheduledPauseStopCause::deleted);
+    EXPECT_EQ(stop.effective_utc_ms, cut);
+    EXPECT_EQ(stop.reconciled_at.observation_ref, observation(cut).observation_ref);
+    EXPECT_FALSE(r.ledger.deliveries[1].stop);
+    EXPECT_EQ(r.ledger.deliveries[1].window.end_utc_ms, at(12h + 10min));
+    const auto &progress = std::get<ScheduledPauseCutover>(*r.candidate).progress;
+    EXPECT_TRUE(progress.new_deliveries.empty());
+    EXPECT_TRUE(progress.timer_transitions.empty());
+    expect(apply_schedule_save(competing, r.ports), Refusal::stale_observation);
+    EXPECT_EQ(r.writer_calls, 1);
+}
+INSTANTIATE_TEST_SUITE_P(ScheduleCommand, ScheduleAtomicCase,
+                         ::testing::Values(std::pair{0ms, Outcome::acknowledged},
+                                           std::pair{1000ms, Outcome::acknowledged},
+                                           std::pair{0ms, Outcome::not_committed},
+                                           std::pair{0ms, Outcome::outcome_unacknowledged}));
+
+class ScheduleSameCutCase : public ::testing::TestWithParam<Outcome> {};
+TEST_P(ScheduleSameCutCase, SameCutDueDeliveryAndDisableStop) {
+    const auto outcome = GetParam();
+    Rig r({"Fixed/Zero", {rule("A", 12h, 20min)}}, {});
+    r.basis_e();
+    const ScheduleEdit edit{{"Fixed/Zero", {rule("A", 12h, 20min, false)}}, at(36h)};
+    const auto p = r.publish(edit);
+    ASSERT_TRUE(p);
+    ASSERT_EQ(p->effects.size(), 1U);
+    EXPECT_EQ(p->effects[0].stop_at_save, ScheduledPauseStopCause::disabled);
+    EXPECT_EQ(p->effects[0].captured.start_utc_ms, noon);
+    EXPECT_EQ(p->effects[0].captured.end_utc_ms, at(12h + 20min));
+    r.write_result = outcome;
+    const auto before = image(r);
+    expect(apply_schedule_save(r.save(edit, p->confirm), r.ports), outcome);
+    if (outcome == Outcome::not_committed) {
+        EXPECT_EQ(image(r), before);
+        return;
+    }
+    ASSERT_EQ(r.ledger.deliveries.size(), 1U);
+    ASSERT_TRUE(r.ledger.deliveries[0].stop);
+    EXPECT_EQ(r.ledger.deliveries[0].stop->cause, ScheduledPauseStopCause::disabled);
+    EXPECT_EQ(r.ledger.deliveries[0].stop->effective_utc_ms, noon);
+    EXPECT_EQ(r.state.timer.main_remaining_ms, 899'999);
+    EXPECT_TRUE(r.state.pause.reasons.empty());
+    ASSERT_TRUE(r.candidate);
+    EXPECT_TRUE(std::get<ScheduledPauseCutover>(*r.candidate).progress.timer_transitions.empty());
+}
+INSTANTIATE_TEST_SUITE_P(ScheduleCommand, ScheduleSameCutCase,
+                         ::testing::Values(Outcome::acknowledged, Outcome::not_committed));
+
+class ScheduleEntryCase : public ::testing::TestWithParam<Kind> {};
+TEST_P(ScheduleEntryCase, EntryRetainsExactWindowsAndChecksHardEndBeforeZone) {
+    const auto kind = GetParam();
+    Rig r;
+    const auto deadline = at(12h + 4min);
+    r.state.timer_config.hard_end_utc_ms = deadline;
+    if (kind == Kind::reopen) {
         r.basis_s();
-        const ScheduleEdit edit{keep_b, h1};
-        const auto p = r.publish(edit);
-        ASSERT_TRUE(p);
-        const auto cut = noon + offset.count();
-        r.target(cut);
-        const auto save = r.save(edit, p->confirm);
-        const auto competing = r.save(edit, p->confirm);
-        const auto before = image(r);
-        r.write_result = outcome;
-        expect(apply_schedule_save(save, r.ports), outcome);
-        ASSERT_EQ(r.writer_calls, 1);
-        ASSERT_TRUE(r.candidate);
-        EXPECT_GT(r.candidate_checks, 0);
-        EXPECT_EQ(r.publications.size(), 1U);
-        if (outcome == Outcome::not_committed) {
-            EXPECT_EQ(image(r), before);
-            EXPECT_FALSE(r.ledger.deliveries[0].stop);
-            continue;
-        }
-        ASSERT_EQ(r.epochs.size(), 2U);
-        EXPECT_EQ(r.epochs[0].through_utc_ms, cut);
-        EXPECT_EQ(r.epochs[0].closed_zone_rules_revision, "Z1");
-        EXPECT_EQ(r.epochs[1].after_utc_ms, cut);
-        ASSERT_EQ(r.epochs[1].configuration.rules.size(), 1U);
-        EXPECT_EQ(r.epochs[1].configuration.rules[0].schedule_id, "B");
-        EXPECT_EQ(r.state.timer.main_remaining_ms, 900'000);
-        EXPECT_EQ(r.state.cursor.evaluated_through_utc_ms, cut);
-        EXPECT_EQ(r.state.pause.reasons, manual_schedule);
-        ASSERT_EQ(r.ledger.deliveries.size(), 2U);
-        ASSERT_TRUE(r.ledger.deliveries[0].stop);
-        const auto &stop = *r.ledger.deliveries[0].stop;
-        EXPECT_EQ(stop.cause, ScheduledPauseStopCause::deleted);
-        EXPECT_EQ(stop.effective_utc_ms, cut);
-        EXPECT_EQ(stop.reconciled_at.observation_ref, observation(cut).observation_ref);
-        EXPECT_FALSE(r.ledger.deliveries[1].stop);
-        EXPECT_EQ(r.ledger.deliveries[1].window.end_utc_ms, at(12h + 10min));
-        const auto &progress = std::get<ScheduledPauseCutover>(*r.candidate).progress;
-        EXPECT_TRUE(progress.new_deliveries.empty());
-        EXPECT_TRUE(progress.timer_transitions.empty());
-        expect(apply_schedule_save(competing, r.ports), Refusal::stale_observation);
-        EXPECT_EQ(r.writer_calls, 1);
+        r.advance(deadline);
+        ASSERT_EQ(r.state.timer.lifecycle, TimerLifecycle::Finished);
+        ASSERT_EQ(r.state.cursor.evaluated_through_utc_ms, at(11h + 50min));
     }
-}
-
-TEST(ScheduleCommand, SameCutDueDeliveryAndDisableStop) {
-    for (const auto outcome : {Outcome::acknowledged, Outcome::not_committed}) {
-        Rig r({"Fixed/Zero", {rule("A", 12h, 20min)}}, {});
-        r.basis_e();
-        const ScheduleEdit edit{{"Fixed/Zero", {rule("A", 12h, 20min, false)}}, at(36h)};
-        const auto p = r.publish(edit);
-        ASSERT_TRUE(p);
-        ASSERT_EQ(p->effects.size(), 1U);
-        EXPECT_EQ(p->effects[0].stop_at_save, ScheduledPauseStopCause::disabled);
-        EXPECT_EQ(p->effects[0].captured.start_utc_ms, noon);
-        EXPECT_EQ(p->effects[0].captured.end_utc_ms, at(12h + 20min));
-        r.write_result = outcome;
-        const auto before = image(r);
-        expect(apply_schedule_save(r.save(edit, p->confirm), r.ports), outcome);
-        if (outcome == Outcome::not_committed) {
-            EXPECT_EQ(image(r), before);
-            continue;
-        }
-        ASSERT_EQ(r.ledger.deliveries.size(), 1U);
-        ASSERT_TRUE(r.ledger.deliveries[0].stop);
-        EXPECT_EQ(r.ledger.deliveries[0].stop->cause, ScheduledPauseStopCause::disabled);
-        EXPECT_EQ(r.ledger.deliveries[0].stop->effective_utc_ms, noon);
-        EXPECT_EQ(r.state.timer.main_remaining_ms, 899'999);
-        EXPECT_TRUE(r.state.pause.reasons.empty());
-        ASSERT_TRUE(r.candidate);
-        EXPECT_TRUE(std::get<ScheduledPauseCutover>(*r.candidate).progress.timer_transitions.empty());
+    r.target(at(12h + 5min), true);
+    const auto entry = [&] { return r.command_ref(kind, ScheduleEntrySelection{"owning-intent"}); };
+    r.zone.reads = 0;
+    const auto permit = r.use;
+    r.use = ScheduleDenied{};
+    r.calls.clear();
+    call_refusal(r, kind, entry(), Refusal::access_denied);
+    EXPECT_EQ(r.calls, (std::vector<std::string>{"active", "command USE"}));
+    r.use = permit;
+    call_refusal(r, kind, entry(), Refusal::hard_end_reached);
+    EXPECT_EQ(r.zone.reads, 0);
+    EXPECT_EQ(r.writer_calls, 0);
+    if (kind == Kind::reopen) {
+        const auto revision = r.state.state_revision;
+        const auto removal = project_timer_editorial_command({
+            {revision, {r.state.timer, 0, {}, r.state.timer_config}},
+            {"remove deadline", revision, "X", {}, TimerDeadlineReplacement{}},
+            {TimerEditorialAccessState::allowed, "permission-1"},
+            {{1, deadline + 1, true}}, deadline + 1});
+        ASSERT_EQ(removal.data().disposition, TimerEditorialDisposition::accepted);
+        ASSERT_TRUE(removal.data().accepted_after);
+        r.advance(deadline + 1);
+        r.state.timer = removal.data().accepted_after->timer;
+        r.state.timer_config = removal.data().accepted_after->config;
     }
-}
-
-TEST(ScheduleCommand, EntryRetainsExactWindowsAndChecksHardEndBeforeZone) {
-    for (const auto kind : {Kind::start, Kind::reopen}) {
-        Rig r;
-        const auto deadline = at(12h + 4min);
-        r.state.timer_config.hard_end_utc_ms = deadline;
-        if (kind == Kind::reopen) {
-            r.basis_s();
-            r.advance(deadline);
-            ASSERT_EQ(r.state.timer.lifecycle, TimerLifecycle::Finished);
-            ASSERT_EQ(r.state.cursor.evaluated_through_utc_ms, at(11h + 50min));
-        }
-        r.target(at(12h + 5min), true);
-        const auto entry = [&] { return r.command_ref(kind, ScheduleEntrySelection{"owning-intent"}); };
-        r.zone.reads = 0;
-        call_refusal(r, kind, entry(), Refusal::hard_end_reached);
-        EXPECT_EQ(r.zone.reads, 0);
+    r.state.timer_config.hard_end_utc_ms.reset();
+    r.state.snapshot_ref = "deadline-removed";
+    r.state.state_revision = "deadline-state";
+    r.state.configuration_revision = "deadline-config";
+    r.target(at(12h + 5min), true);
+    for (const auto &access : {ScheduleAccess{ScheduleDenied{}}, ScheduleAccess{ScheduleUnknown{}}}) {
+        r.use = access;
+        const auto reads = r.zone.reads;
+        r.calls.clear();
+        call_refusal(r, kind, entry(), Refusal::access_denied);
+        EXPECT_EQ(r.calls, (std::vector<std::string>{"active", "command USE"}));
+        EXPECT_EQ(r.zone.reads, reads);
         EXPECT_EQ(r.writer_calls, 0);
-        if (kind == Kind::reopen) {
-            const auto revision = r.state.state_revision;
-            const auto removal = project_timer_editorial_command({
-                {revision, {r.state.timer, 0, {}, r.state.timer_config}},
-                {"remove deadline", revision, "X", {}, TimerDeadlineReplacement{}},
-                {TimerEditorialAccessState::allowed, "permission-1"},
-                {{1, deadline + 1, true}}, deadline + 1});
-            ASSERT_EQ(removal.data().disposition, TimerEditorialDisposition::accepted);
-            ASSERT_TRUE(removal.data().accepted_after);
-            r.advance(deadline + 1);
-            r.state.timer = removal.data().accepted_after->timer;
-            r.state.timer_config = removal.data().accepted_after->config;
-        }
-        r.state.timer_config.hard_end_utc_ms.reset();
-        r.state.snapshot_ref = "deadline-removed";
-        r.state.state_revision = "deadline-state";
-        r.state.configuration_revision = "deadline-config";
-        r.target(at(12h + 5min), true);
-        expect(apply(r, kind, entry()), Outcome::acknowledged);
-        ASSERT_TRUE(r.candidate);
-        const auto &p = std::get<ScheduledPauseProgress>(*r.candidate);
-        EXPECT_EQ(p.timer.lifecycle, TimerLifecycle::Active);
-        EXPECT_EQ(p.timer.main_remaining_ms, 900'000);
-        EXPECT_TRUE(p.pause.reasons.contains(PauseReason::Schedule));
-        EXPECT_EQ(p.next_known_expiry_utc_ms, at(12h + 10min));
-        EXPECT_EQ(p.new_deliveries.size(), kind == Kind::start ? 2U : 0U);
-        EXPECT_TRUE(p.timer_transitions.empty());
-        ASSERT_EQ(r.ledger.deliveries.size(), 2U);
-        EXPECT_EQ(r.ledger.deliveries[0].window.start_utc_ms, at(11h + 45min));
-        EXPECT_EQ(r.ledger.deliveries[0].window.end_utc_ms, at(12h + 15min));
-        EXPECT_EQ(r.ledger.deliveries[1].window.start_utc_ms, at(11h + 50min));
-        EXPECT_EQ(r.ledger.deliveries[1].window.end_utc_ms, at(12h + 10min));
     }
+    r.use = permit;
+    r.deny_candidate = true;
+    const auto candidate_checks = r.candidate_checks;
+    call_refusal(r, kind, entry(), Refusal::access_denied);
+    EXPECT_GT(r.candidate_checks, candidate_checks);
+    EXPECT_EQ(r.writer_calls, 0);
+    r.deny_candidate = false;
+    expect(apply(r, kind, entry()), Outcome::acknowledged);
+    ASSERT_TRUE(r.candidate);
+    const auto &p = std::get<ScheduledPauseProgress>(*r.candidate);
+    EXPECT_EQ(p.timer.lifecycle, TimerLifecycle::Active);
+    EXPECT_EQ(p.timer.main_remaining_ms, 900'000);
+    EXPECT_TRUE(p.pause.reasons.contains(PauseReason::Schedule));
+    EXPECT_EQ(p.next_known_expiry_utc_ms, at(12h + 10min));
+    EXPECT_EQ(p.new_deliveries.size(), kind == Kind::start ? 2U : 0U);
+    EXPECT_TRUE(p.timer_transitions.empty());
+    ASSERT_EQ(r.ledger.deliveries.size(), 2U);
+    EXPECT_EQ(r.ledger.deliveries[0].window.start_utc_ms, at(11h + 45min));
+    EXPECT_EQ(r.ledger.deliveries[0].window.end_utc_ms, at(12h + 15min));
+    EXPECT_EQ(r.ledger.deliveries[1].window.start_utc_ms, at(11h + 50min));
+    EXPECT_EQ(r.ledger.deliveries[1].window.end_utc_ms, at(12h + 10min));
 }
+INSTANTIATE_TEST_SUITE_P(ScheduleCommand, ScheduleEntryCase,
+                         ::testing::Values(Kind::start, Kind::reopen));
 
 TEST(ScheduleCommand, HeldEntryNoticeRequiresSnapshotUseAndSnapshotUseCannotPreview) {
     Rig r(old_rules, {});
