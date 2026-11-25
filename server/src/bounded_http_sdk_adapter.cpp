@@ -120,6 +120,12 @@ struct Core final : io::Producer, sdk::Sink {
     std::atomic<bool> drained{false}, quarantine{false};
     bool prior_set{}, elapsed_bad{}, registered{}, finished{},
         hook_installed{}, turning{}, sdk_installed{};
+    // API-024 (R4 correction 19). registration_started is the shared registration seal
+    // (under mutex). scan_valid/scan_ns are the active owner turn's validated sample.
+    bool registration_started{}, scan_valid{};
+    U64 scan_ns{};
+    std::atomic<io::ListenerObservation *> listener_observation{nullptr};
+    static_assert(std::atomic<io::ListenerObservation *>::is_always_lock_free);
     unsigned callbacks_active{}, visitors{}, turn_work[2]{};
     Core(Limits l, Storage s, std::shared_ptr<const native_ws::ElapsedSource> clock, Callbacks cb,
          NativeBinding nb)
@@ -485,12 +491,52 @@ struct Core final : io::Producer, sdk::Sink {
         observation.native_handoff_accepted = accepted;
     }
     void owner_turn() noexcept override;
-    // API-024 tests-stage stub: no listener recovery or observation yet. Timing and
-    // unknown queries report inactive; the passive query reports no observer (R2 values).
+    // API-024 listener slot (accepted R1/R2): three closed modes, IO0 only.
     io::ListenerState listener_state(io::ListenerQuery query) noexcept override {
-        return {query == io::ListenerQuery::passive_observation ? io::ListenerStatus::observer_absent
-                                                                : io::ListenerStatus::inactive,
-                0, nullptr};
+        using S = io::ListenerStatus;
+        switch (query) {
+        case io::ListenerQuery::owner_turn_state:
+            // Stopping, then a latched fence, then the active turn's validated scan.
+            if (!is_io())
+                return {S::inactive, 0, nullptr};
+            if (stopping.load(std::memory_order_acquire))
+                return {S::stopping, 0, nullptr};
+            if (elapsed_bad)
+                return {S::fenced, 0, nullptr};
+            if (!turning || !scan_valid)
+                return {S::inactive, 0, nullptr};
+            return {S::valid, scan_ns, nullptr};
+        case io::ListenerQuery::listener_hold_sample: {
+            // One fresh sample after a consumed unsuccessful attempt. Stop is checked
+            // before and after sampling; a fault is committed only if stop has not won.
+            if (!is_io())
+                return {S::inactive, 0, nullptr};
+            if (stopping.load(std::memory_order_acquire))
+                return {S::stopping, 0, nullptr};
+            if (elapsed_bad)
+                return {S::fenced, 0, nullptr};
+            auto value = source->sample();
+            auto *tick = std::get_if<Tick>(&value);
+            const bool bad = !tick || (prior_set && tick->nanoseconds < prior);
+            if (stopping.load(std::memory_order_acquire))
+                return {S::stopping, 0, nullptr};
+            if (bad) {
+                elapsed_bad = true; // the existing latched source-failure path
+                return {S::fenced, 0, nullptr};
+            }
+            prior_set = true;
+            prior = now_ns = tick->nanoseconds;
+            return {S::valid, now_ns, nullptr};
+        }
+        case io::ListenerQuery::passive_observation: {
+            if (!is_io())
+                return {S::observer_absent, 0, nullptr};
+            auto *record = listener_observation.load(std::memory_order_acquire);
+            return record ? io::ListenerState{S::observer_present, 0, record}
+                          : io::ListenerState{S::observer_absent, 0, nullptr};
+        }
+        }
+        return {S::inactive, 0, nullptr}; // unrecognized query: before any state read
     }
     void drop(PeerRecord &p, unsigned kind) noexcept {
         delete_count.fetch_add(1, std::memory_order_acq_rel);
@@ -1009,7 +1055,8 @@ void Core::owner_turn() noexcept {
         event_channel->enableReading();
         timer_channel->enableReading();
     }
-    (void)sample_now();
+    scan_valid = sample_now();
+    scan_ns = now_ns;
     for (U64 i = 0; i < limits.peers; ++i) {
         auto &p = record(i);
         if (!p.live || p.removed)
@@ -1192,10 +1239,13 @@ void Core::owner_turn() noexcept {
             timer_channel->disableAll();
             timer_channel->remove();
             io_live.store(false, std::memory_order_release);
+            // API-024: no observer work follows; clear the borrow before stop_drained.
+            listener_observation.store(nullptr, std::memory_order_release);
             drained = true;
             (void)callback([&] { callbacks.stop_drained(callbacks.owner); });
         }
     }
+    scan_valid = false; // the scan snapshot is scoped to this outer turn
     turning = false;
 }
 Error state_guard(const StateRecord *s, bool raw = false) noexcept {
@@ -1388,6 +1438,8 @@ Foundation::~Foundation() {
         (!c.finished && (c.loop || c.handle_count.load(std::memory_order_acquire) ||
                          c.delete_count.load(std::memory_order_acquire))))
         std::terminate();
+    // A cold discard closes the arm window and clears the borrow on the creating thread.
+    c.listener_observation.store(nullptr, std::memory_order_release);
     if (c.sdk_installed) {
         if (!sdk::Runtime::discard(c))
             std::terminate();
@@ -1531,6 +1583,8 @@ Result<Done> register_listeners(Foundation &f, drogon::HttpAppFramework &app,
         return Error::wrong_thread;
     if (c.registered || e.address.back() != 0 || (e.http_port && e.http_port == e.port))
         return Error::invalid_state;
+    if (auto sealed = seal_listener_registration(f); !std::holds_alternative<Done>(sealed))
+        return sealed;
     if (!sdk::Runtime::listener(app, {e.address, e.http_port}, io::Role::http) ||
         !sdk::Runtime::listener(app, {e.address, e.port}, io::Role::native))
         return Error::invalid_config;
@@ -1554,8 +1608,18 @@ Result<Done> testing::Access::arm_first_wire(Foundation &f) noexcept {
     auto &c = Factory::core(f);
     if (std::this_thread::get_id() != c.creator)
         return Error::wrong_thread;
-    return !c.registered && sdk::Runtime::arm_first_wire() ? Result<Done>(Done{})
-                                                           : Result<Done>(Error::invalid_state);
+    std::unique_lock lock(c.mutex, std::defer_lock);
+    try {
+        lock.lock();
+    } catch (...) {
+        return Error::unavailable;
+    }
+    // Advisor ruling C1: the seal check and the one-shot gate are one step under the
+    // mutex, so a refusal after the seal is atomic and never consumes the gate.
+    if (c.registration_started)
+        return Error::invalid_state;
+    return sdk::Runtime::arm_first_wire() ? Result<Done>(Done{})
+                                          : Result<Done>(Error::invalid_state);
 }
 Result<Done> testing::Access::release_wire(Foundation &f) noexcept {
     auto &c = Factory::core(f);
@@ -1563,11 +1627,36 @@ Result<Done> testing::Access::release_wire(Foundation &f) noexcept {
         return Error::wrong_thread;
     return sdk::Runtime::release_wire() ? Result<Done>(Done{}) : Result<Done>(Error::invalid_state);
 }
-// API-024 tests-stage stubs. Implementation adds the registration latch (R4 correction 19).
-Result<Done> seal_listener_registration(Foundation &) noexcept { return Done{}; }
-Result<Done> testing::Access::arm_listener_observer(Foundation &,
-                                                    io::ListenerObservation &) noexcept {
-    return NI{};
+// API-024 (R4 correction 19): the registration seal and the cold observer arm share
+// Core's mutex with stop. No SDK call runs under these critical sections.
+Result<Done> seal_listener_registration(Foundation &f) noexcept {
+    auto &c = Factory::core(f);
+    std::unique_lock lock(c.mutex, std::defer_lock);
+    try {
+        lock.lock();
+    } catch (...) {
+        return Error::unavailable;
+    }
+    c.registration_started = true;
+    return Done{};
+}
+Result<Done> testing::Access::arm_listener_observer(Foundation &f,
+                                                    io::ListenerObservation &record) noexcept {
+    auto &c = Factory::core(f);
+    if (std::this_thread::get_id() != c.creator)
+        return Error::wrong_thread;
+    std::unique_lock lock(c.mutex, std::defer_lock);
+    try {
+        lock.lock();
+    } catch (...) {
+        return Error::unavailable;
+    }
+    if (!c.sdk_installed || c.registration_started || c.stopping.load(std::memory_order_acquire) ||
+        c.loop.load(std::memory_order_acquire) ||
+        c.listener_observation.load(std::memory_order_acquire))
+        return Error::invalid_state;
+    c.listener_observation.store(&record, std::memory_order_release);
+    return Done{};
 }
 Result<std::unique_ptr<Foundation>> create(Limits l, std::span<const Route> routes,
                                            NativeBinding native,
