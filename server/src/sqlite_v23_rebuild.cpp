@@ -464,6 +464,11 @@ class V23Rebuild final {
 
 } // namespace
 
+std::variant<V23PreOpenObservation, MigrationReason> inspect_v23_pre_open(const QString &,
+                                                                         StorageLimits) {
+    return MigrationReason::feature_not_implemented;
+}
+
 MigrationAdmission enqueue_v23_rebuild(V22PreOpenWitness witness, Ops02UpdateHold hold,
                                        V23StoppedWriterLease lease, V23RebuildBudget budget,
                                        V23Cancellation cancel,

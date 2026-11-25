@@ -19,6 +19,16 @@ struct V22PreOpenWitness {
 [[nodiscard]] std::variant<V22PreOpenWitness, MigrationReason>
 inspect_v22_pre_open(const QString &path, StorageLimits limits);
 
+// Read-only identity for a stopped v23 store. It carries no write authority.
+struct V23PreOpenObservation {
+    qint32 version{};
+    QByteArray prefix;
+    qsizetype projection_objects{};
+};
+
+[[nodiscard]] std::variant<V23PreOpenObservation, MigrationReason>
+inspect_v23_pre_open(const QString &path, StorageLimits limits);
+
 inline constexpr std::uint64_t v23_fixture_disk_bytes = 83'886'080;
 inline constexpr std::uint64_t v23_fixture_memory_bytes = 184'549'376;
 
