@@ -389,6 +389,9 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
         sdk::Endpoint native_endpoint{endpoints_.address, options_.port},
             http_endpoint{endpoints_.address, options_.http_port};
         native_first_ = options_.port && !options_.http_port;
+        // API-024 Correction 1: seal the cold arm windows before the first SDK call.
+        if (!ok(bh::seal_listener_registration(*foundation_)))
+            throw std::runtime_error("Host listener registration refused");
         const bool registered =
             native_first_ ? (sdk::Runtime::listener(app, native_endpoint, io::Role::native) &&
                              sdk::Runtime::listener(app, http_endpoint, io::Role::http))
