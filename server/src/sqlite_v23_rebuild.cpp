@@ -99,15 +99,13 @@ bool stopped_sidecars(const QString &path) {
 class V23Inspection final {
   public:
     explicit V23Inspection(StorageLimits limits)
-        : remaining_statements_(std::min(limits.statements_per_batch, ceilings.statements_per_batch)),
-          statement_bytes_(std::min(limits.statement_utf8_bytes, ceilings.statement_utf8_bytes)),
-          remaining_rows_(std::min(limits.result_rows, ceilings.result_rows)),
-          remaining_bytes_(std::min(limits.result_value_bytes, ceilings.result_value_bytes)) {}
+        : remaining_statements_(limits.statements_per_batch),
+          statement_bytes_(limits.statement_utf8_bytes), remaining_rows_(limits.result_rows),
+          remaining_bytes_(limits.result_value_bytes) {}
 
     std::variant<V23PreOpenObservation, MigrationReason> run(const QString &path,
-                                                           const CompiledV23 &compiled) {
-        // Use the reviewed r8 whole-store fixture extent for the full scans.
-        constexpr qint64 max_store_bytes = 16 * 1024 * 1024;
+                                                           const CompiledV23 &compiled,
+                                                           qint64 max_store_bytes) {
         const QFileInfo file(path);
         const auto canonical = file.canonicalFilePath();
         if (!file.isFile() || canonical.isEmpty() || !stopped_sidecars(canonical))
@@ -147,7 +145,6 @@ class V23Inspection final {
     }
 
   private:
-    static constexpr StorageLimits ceilings{};
     Connection connection_;
     qsizetype remaining_statements_;
     const qsizetype statement_bytes_;
@@ -575,22 +572,28 @@ class V23Rebuild final {
 
 } // namespace
 
-std::variant<V23PreOpenObservation, MigrationReason> inspect_v23_pre_open(const QString &path,
-                                                                         StorageLimits limits) {
+std::variant<V23PreOpenObservation, MigrationReason> inspect_v23_pre_open(const QString &,
+                                                                         StorageLimits) {
+    // Production inspection needs reviewed production ceilings before admission.
+    return MigrationReason::resource_limit;
+}
+
+std::variant<V23PreOpenObservation, MigrationReason>
+V23InspectionAccess::inspect_with_limits(const QString &path, qint64 max_store_bytes,
+                                        StorageLimits limits) {
+    if (max_store_bytes <= 0 || limits.statements_per_batch <= 0 ||
+        limits.statement_utf8_bytes <= 0 || limits.result_rows <= 0 ||
+        limits.result_value_bytes <= 0)
+        return MigrationReason::resource_limit;
     try {
         const auto &compiled = compiled_v23();
         if (const auto *reason = std::get_if<MigrationReason>(&compiled))
             return *reason;
-        return V23Inspection(limits).run(path, std::get<CompiledV23>(compiled));
+        return V23Inspection(limits).run(path, std::get<CompiledV23>(compiled), max_store_bytes);
     } catch (const MigrationFailure &failure) {
         // All queries unwind before the connection closes its read transaction.
         return failure.reason();
     }
-}
-
-std::variant<V23PreOpenObservation, MigrationReason>
-V23InspectionAccess::inspect_with_limits(const QString &path, qint64, StorageLimits limits) {
-    return inspect_v23_pre_open(path, limits);
 }
 
 MigrationAdmission enqueue_v23_rebuild(V22PreOpenWitness witness, Ops02UpdateHold hold,
