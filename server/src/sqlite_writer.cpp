@@ -993,6 +993,8 @@ class SqliteWriter::Impl {
             return {TransactionOutcome::not_started, WorkError::busy, {}};
         if (!work)
             return {TransactionOutcome::not_started, WorkError::protocol_error, {}};
+        if (catalog_.refusal != MigrationReason::none)
+            return {TransactionOutcome::not_started, WorkError::protocol_error, {}};
         active_ = true;
         const auto finish = qScopeGuard([&] {
             active_ = false;

@@ -176,8 +176,9 @@ class SqliteWriter final : public QObject {
     [[nodiscard]] StorageError enqueue(const WriteBatch &batch, Completion completion);
     [[nodiscard]] StorageError enqueue_work(Work work, WorkCompletion completion);
     // An already serialized owner turn may run on an idle writer without
-    // pumping events or overtaking admitted work. Returns only after the
-    // ordinary work-finalization path revokes the session.
+    // pumping events or overtaking admitted work. Applies the same ordinary
+    // catalog admission as enqueue_work. Returns only after the ordinary
+    // work-finalization path revokes the session.
     [[nodiscard]] SqliteWorkResult run_idle_owner_work(const Work &);
     [[nodiscard]] StorageError shutdown(std::function<void()> completion);
 
