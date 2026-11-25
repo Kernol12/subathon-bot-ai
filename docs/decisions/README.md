@@ -35,5 +35,9 @@ Consult its task/evidence for actual independent review status.
   to specification or release scope.
 
 - [ADR-0013 — CI test-program admission](0013-ci-test-program-admission.md):
-  proposed owner decision to admit test programs in CI and record runs by commit,
-  with a ten-task trial; the standing local admission applies until it merges.
+  owner decision, merged in #844, to admit test programs in CI and record runs by
+  commit, with a ten-task trial. Its point 4 is replaced by ADR-0014.
+
+- [ADR-0014 — Plain test runs and leaner tasks](0014-plain-test-runs-and-leaner-tasks.md):
+  owner decision that ends the local test-run procedure (replacing ADR-0013 point 4),
+  gives run mechanics to the coordinator, and limits task splits and test size.

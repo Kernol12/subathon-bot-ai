@@ -117,6 +117,7 @@ jobs:
         run: >-
           python3 tools/binary_closure.py --expected tools/binary_closures/core-acceptance-debug.json
           --build-dir build/core-acceptance-debug --root RUNNER_TEMP="$RUNNER_TEMP"
+          --patch-out "$RUNNER_TEMP/closure-patches/core-acceptance-debug.patch"
       - name: Verify independent permission fixture integrity
         run: |
           python3 - <<'PYTHON'
@@ -312,6 +313,14 @@ jobs:
         run: |
           ulimit -c 0
           ctest --preset core-acceptance-debug --no-tests=error
+      - name: Upload closure-list fix patches after a failed gate
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: closure-patches-core
+          path: ${{ runner.temp }}/closure-patches/
+          if-no-files-found: ignore
+          retention-days: 14
   # Qt 6.12 suites sharing one toolchain setup: real-SQLite storage and application
   # service, password hashing and session resolution, translation catalogs, and last
   # the development server executable.
@@ -426,6 +435,9 @@ jobs:
           -DSUBATHON_BUILD_STORAGE_033_STAGE1=ON
           -DSUBATHON_BUILD_STORAGE_026_STAGE1=ON
           -DSUBATHON_BUILD_STORAGE_027_STAGE1=ON
+          -DSUBATHON_BUILD_MILESTONE_006_STAGE1=ON
+          -DSUBATHON_BUILD_MILESTONE_006_SLICE2=ON
+          -DSUBATHON_BUILD_MILESTONE_006_SLICE3=ON
           -DSUBATHON_BUILD_RATE_CATALOG_ENROLLMENT_STAGE1=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
@@ -437,6 +449,11 @@ jobs:
         run: >-
           python3 tools/binary_closure.py --expected tools/binary_closures/sqlite-reference-capture-debug.json
           --build-dir build/sqlite-reference-capture-debug --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
+          --patch-out "$RUNNER_TEMP/closure-patches/sqlite-reference-capture-debug.patch"
+      - name: Run milestone replacement and interruption acceptance
+        run: >-
+          ctest --preset sqlite-reference-capture-debug
+          -L '^milestone-006(-slice[2-6])?$' --no-tests=error --verbose
       - name: Build and run the reviewed diagnostics acceptance suite
         run: |
           cmake -S tests/qt/release_002 -B build/release-002-acceptance -G Ninja \
@@ -447,7 +464,8 @@ jobs:
           cmake --build build/release-002-acceptance --target release_002_stage1 --parallel 2
           python3 tools/binary_closure.py --expected tools/binary_closures/release-002-acceptance.json \
             --build-dir build/release-002-acceptance \
-            --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
+            --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP" \
+            --patch-out "$RUNNER_TEMP/closure-patches/release-002-acceptance.patch"
           QT_PLUGIN_PATH="$QT_PREFIX/plugins" \
             ctest --test-dir build/release-002-acceptance -L '^release-002$' \
             --output-on-failure --no-tests=error
@@ -508,7 +526,7 @@ jobs:
           expected = {
               "storage-003-catalog.suite": "32",
               "storage-003-w1-writer.suite": "8",
-              "storage-003-w1-open-admission.suite": "8",
+              "storage-003-w1-open-admission.suite": "9",
               "storage-003-w1-admission-supplement.suite": "4",
               "storage-033-stage1.suite": "53",
           }
@@ -835,6 +853,7 @@ jobs:
         run: >-
           python3 tools/binary_closure.py --expected tools/binary_closures/password-hashing-debug.json
           --build-dir build/password-hashing-debug --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
+          --patch-out "$RUNNER_TEMP/closure-patches/password-hashing-debug.patch"
       - name: Keep synthetic input preparation outside CTest
         run: |
           python3 - <<'PYTHON'
@@ -884,6 +903,7 @@ jobs:
         run: >-
           python3 tools/binary_closure.py --expected tools/binary_closures/session-resolution-debug.json
           --build-dir build/session-resolution-debug --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
+          --patch-out "$RUNNER_TEMP/closure-patches/session-resolution-debug.patch"
       - name: Verify enabled session-resolution labels and native result semantics
         run: |
           python3 - <<'PYTHON'
@@ -922,6 +942,7 @@ jobs:
         run: >-
           python3 tools/binary_closure.py --expected tools/binary_closures/translation-catalog-debug.json
           --build-dir build/translation-catalog-debug --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
+          --patch-out "$RUNNER_TEMP/closure-patches/translation-catalog-debug.patch"
       - name: Verify the enabled ordinary translation suite
         run: |
           python3 - <<'PYTHON'
@@ -965,6 +986,14 @@ jobs:
           PYTHON
       - name: Run development executable acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^dev-server$' --no-tests=error --verbose
+      - name: Upload closure-list fix patches after a failed gate
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: closure-patches-qt
+          path: ${{ runner.temp }}/closure-patches/
+          if-no-files-found: ignore
+          retention-days: 14
   # The bounded successor serves native44/foundation and the host consumers.
   # The separate API-012 candidate4 regression lane remains unchanged.
   native:
@@ -1238,6 +1267,6 @@ jobs:
           PYTHON
       - name: Check existing infrastructure and tooling
         run: ctest --preset api-host-native-debug -L '^scaffold$' --no-tests=error --verbose
-      # No new consumer is launched here. Local separately reviewed native
-      # admission precedes intended red; this lane proves compilation/registration.
+      # No new consumer is launched here. Intended red is one plain local run
+      # (ADR-0014); this lane proves compilation/registration.
       # Existing green product suites retain their own ordinary acceptance jobs.

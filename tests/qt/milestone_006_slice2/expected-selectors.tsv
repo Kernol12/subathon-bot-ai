@@ -1,0 +1,44 @@
+suite	selector	data_tag	type	source	qt_line	call_line	throw_line	description
+commands	r1PendingReplacementRetainsOriginalAndBonus		pass					ordinary control
+commands	s1StopRetainsStartedHistory		pass					ordinary control
+commands	s5DurableSubsetGatesRelease	continue-retains-H1	pass					ordinary control
+commands	s5DurableSubsetGatesRelease	resolve-H2-then-H1	pass					ordinary control
+commands	s7FreshStopRefusalsHaveNoWrites	application	pass					ordinary control
+commands	s7FreshStopRefusalsHaveNoWrites	edit	pass					ordinary control
+commands	t1T2StopAcknowledgementAndReadback	application-rollback	pass					ordinary control
+commands	t1T2StopAcknowledgementAndReadback	application-lost-commit-ack	pass					ordinary control
+commands	t1T2StopAcknowledgementAndReadback	application-abnormal-return	pass					ordinary control
+commands	t1T2StopAcknowledgementAndReadback	edit-rollback	pass					ordinary control
+commands	t1T2StopAcknowledgementAndReadback	edit-lost-commit-ack	pass					ordinary control
+commands	t1T2StopAcknowledgementAndReadback	edit-abnormal-return	pass					ordinary control
+commands	s9ResumeAtomicRefusalAndDisclosure		pass					ordinary control
+settlement	r1ApplicationAutomationSelectionFencesOriginal		pass					ordinary control
+settlement	r3ApplicationAutomationRequeueRemainsStarted		pass					ordinary control
+settlement	s6StoppedRefundRetainsExactCauses	application-continue	pass					ordinary control
+settlement	s6StoppedRefundRetainsExactCauses	application-review	pass					ordinary control
+settlement	s6StoppedRefundRetainsExactCauses	application-skip	pass					ordinary control
+settlement	s6StoppedRefundRetainsExactCauses	edit-continue	pass					ordinary control
+settlement	s6StoppedRefundRetainsExactCauses	edit-review	pass					ordinary control
+settlement	s6StoppedRefundRetainsExactCauses	edit-skip	pass					ordinary control
+settlement	s7OnlyExplicitSkipEndsReview	application	pass					ordinary control
+settlement	s7OnlyExplicitSkipEndsReview	edit	pass					ordinary control
+settlement	s6OwnerOrderedReconciliation	application-warm	fail	settlement_tests.cpp	256	502	184	S6: reconcile committed exact stopped and held head
+settlement	s6OwnerOrderedReconciliation	application-cold	fail	settlement_tests.cpp	256	502	184	S6: restore exact stopped and held ordered head
+settlement	s6OwnerOrderedReconciliation	edit-warm	fail	settlement_tests.cpp	256	502	184	S6: reconcile committed exact stopped and held head
+settlement	s6OwnerOrderedReconciliation	edit-cold	fail	settlement_tests.cpp	256	502	184	S6: restore exact stopped and held ordered head
+owner	r1CachedReleaseSelectsEffectiveCapture		fail	owner_tests.cpp	21	251	83	R1: select effective capture for the exact cached occurrence
+owner	r2AcknowledgedSuccessorDispatch	acknowledged-and-duplicate	fail	owner_tests.cpp	21	341	73	R2: publish only the acknowledged exact successor claim
+owner	r2AcknowledgedSuccessorDispatch	lost-commit-ack	fail	owner_tests.cpp	21	324	73	R2: publish only the acknowledged exact successor claim
+owner	r2AcknowledgedSuccessorDispatch	known-rollback	fail	owner_tests.cpp	21	324	73	R2: publish only the acknowledged exact successor claim
+owner	knownReplacementAttemptCanSettleAfterReopen		pass					ordinary control
+owner	r7AbsentAuthorityIsUnavailable	absent-facts	fail	owner_tests.cpp	21	419	103	R7: classify absent authoritative facts before Replace admission
+owner	r7AbsentAuthorityIsUnavailable	known-denial	fail	owner_tests.cpp	21	419	103	R7: classify absent authoritative facts before Replace admission
+owner	p1ExactPlaybackHandoff	exact-current-X	fail	owner_tests.cpp	21	451	143	P1/P2/P3: reconcile exact playback at the owner turn
+owner	p1ExactPlaybackHandoff	same-asset-new-generation	fail	owner_tests.cpp	21	451	143	P1/P2/P3: reconcile exact playback at the owner turn
+owner	p2ExactLateActivationIsScheduledOnce		fail	owner_tests.cpp	21	482	143	P1/P2/P3: reconcile exact playback at the owner turn
+owner	p3ColdHandoffNeedsPositiveProof	marked-current	fail	owner_tests.cpp	21	537	143	P1/P2/P3: reconcile exact playback at the owner turn
+owner	p3ColdHandoffNeedsPositiveProof	marked-without-proof	fail	owner_tests.cpp	21	537	143	P1/P2/P3: reconcile exact playback at the owner turn
+owner	p3ColdHandoffNeedsPositiveProof	unmarked-with-proof	fail	owner_tests.cpp	21	537	143	P1/P2/P3: reconcile exact playback at the owner turn
+owner	p3ColdHandoffNeedsPositiveProof	unmarked-without-proof	fail	owner_tests.cpp	21	537	143	P1/P2/P3: reconcile exact playback at the owner turn
+owner	t2ColdRestoreSelectionHoldAndMarkedPlayback	marked	fail	owner_tests.cpp	21	621	156	T2: restore exact selected version, Hold and marked playback
+owner	t2ColdRestoreSelectionHoldAndMarkedPlayback	unmarked	fail	owner_tests.cpp	21	621	156	T2: restore exact selected version, Hold and marked playback

@@ -13,6 +13,7 @@
 #include <QFileInfo>
 #include <QMetaObject>
 #include <QRegularExpression>
+#include <QScopeGuard>
 #include <QSet>
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -655,6 +656,12 @@ class SqliteWorkState final {
         return {statements_left_, rows_left_, review_->result_documents};
     }
 
+    void preflight_result(qsizetype rows, qsizetype value_bytes) {
+        require_active();
+        if (rows < 0 || value_bytes < 0 || rows > rows_left_ || value_bytes > values_left_)
+            fail(WorkError::result_limit);
+    }
+
     void enter_retained_authority() {
         require_active();
         if (!review_ || in_retained_authority_)
@@ -897,6 +904,9 @@ SqliteWorkSession SqliteWorkContext::begin() const {
 SqlRows SqliteWorkSession::execute(const SqlStatement &statement) const {
     return live_work_state(state_)->execute(statement);
 }
+void SqliteWorkSession::preflight_result(qsizetype rows, qsizetype value_bytes) const {
+    live_work_state(state_)->preflight_result(rows, value_bytes);
+}
 SqlRows SqliteWorkSession::execute_clock_preflight(const SqlStatement &statement,
                                                     ClockStatementLedger &ledger) const {
     return live_work_state(state_)->execute(statement, &ledger);
@@ -999,6 +1009,25 @@ class SqliteWriter::Impl {
             {{}, {}, std::move(work), std::move(completion), std::move(migration_check)});
         schedule();
         return StorageError::none;
+    }
+    SqliteWorkResult run_idle_owner_work(const Work &work) {
+        if (!on_owner())
+            return {TransactionOutcome::not_started, WorkError::wrong_thread, {}};
+        if (stopping_ || !connection_.is_open())
+            return {TransactionOutcome::not_started, WorkError::writer_unavailable, {}};
+        if (active_ || scheduled_ || !queue_.empty())
+            return {TransactionOutcome::not_started, WorkError::busy, {}};
+        if (!work)
+            return {TransactionOutcome::not_started, WorkError::protocol_error, {}};
+        if (catalog_.refusal != MigrationReason::none)
+            return {TransactionOutcome::not_started, WorkError::protocol_error, {}};
+        active_ = true;
+        const auto finish = qScopeGuard([&] {
+            active_ = false;
+            if (!queue_.empty() || stopping_)
+                schedule();
+        });
+        return execute_work(work);
     }
     StorageError inject_control_fault(testing::WorkControlFault fault) {
         if (!on_owner())
@@ -1357,6 +1386,9 @@ StorageError SqliteWriter::enqueue(const WriteBatch &batch, Completion completio
 }
 StorageError SqliteWriter::enqueue_work(Work work, WorkCompletion completion) {
     return impl_->enqueue_work(std::move(work), std::move(completion));
+}
+SqliteWorkResult SqliteWriter::run_idle_owner_work(const Work &work) {
+    return impl_->run_idle_owner_work(work);
 }
 StorageError testing::SqliteWriterWorkAccess::inject_next_control_ack_loss(SqliteWriter &writer,
                                                                            WorkControlFault fault) {

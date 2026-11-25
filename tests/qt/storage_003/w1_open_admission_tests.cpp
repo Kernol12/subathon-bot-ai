@@ -144,6 +144,64 @@ class Storage003W1OpenAdmissionTests final : public QObject {
                     "Rejected admission invokes neither work body nor completion");
         });
     }
+
+    void inspectionOnlyRefusesIdleOwnerWork() {
+        check([] {
+            const auto manifest = compiled_successor();
+            DisposableFile file;
+            file.create_blank();
+            const auto witness = candidate(file, {0, detail::ClockPredecessor::blank, {}, {}});
+            DisposableFile backup;
+            file.copy_to(backup);
+            {
+                SqliteWriter owner;
+                require(owner.open(file.path(), profile(blank_advance)) == StorageError::none,
+                        "Open the admitted blank owner");
+                expect_guarded_v22_advance(owner, manifest, witness);
+            }
+            {
+                ConstraintSpecimen specimen(file);
+                specimen.drift(ConstraintSpecimen::Drift::digest22);
+            }
+            authenticate_drift(file, false);
+            const auto seal = file.seal();
+
+            bool ran = false;
+            SqliteWorkResult result{};
+            {
+                SqliteWriter owner;
+                require(owner.open(file.path(), profile(successor_history_stop)) ==
+                            StorageError::none,
+                        "Digest-drifted v22 opens for catalog diagnosis");
+                expect_migration_rollback(migrate(owner, request(MigrationMode::inspect, manifest)),
+                                          MigrationReason::catalog_mismatch);
+                result = owner.run_idle_owner_work([&](auto context) {
+                    ran = true;
+                    const auto session = context.begin();
+                    // An ordinary store write makes accidental admission observable.
+                    (void)session.execute(
+                        {"UPDATE main.subathon_contribution_allocator "
+                         "SET last_allocated=X'000000000000002A' WHERE singleton=1",
+                         {}});
+                    session.commit();
+                    return 1;
+                });
+                const auto drained = std::make_shared<bool>(false);
+                require(owner.shutdown([drained] { *drained = true; }) == StorageError::none &&
+                            QTest::qWaitFor([drained] { return *drained; }, 10000),
+                        "Shutdown closes the inspection-only writer");
+            }
+            require(result.transaction == TransactionOutcome::not_started &&
+                        result.error == WorkError::protocol_error && !result.value,
+                    QString("Idle owner admission: expected not_started/protocol_error, "
+                            "got transaction %1, error %2, body ran %3")
+                        .arg(static_cast<int>(result.transaction))
+                        .arg(static_cast<int>(result.error))
+                        .arg(ran));
+            require(!ran, "Inspection-only admission never invokes the idle work body");
+            require(file.seal() == seal, "Inspection-only idle work leaves the store unchanged");
+        });
+    }
 };
 
 QTEST_GUILESS_MAIN(Storage003W1OpenAdmissionTests)

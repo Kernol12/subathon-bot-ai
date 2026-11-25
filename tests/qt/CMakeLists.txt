@@ -420,3 +420,18 @@ if(SUBATHON_BUILD_STORAGE_021_STAGE1)
         subathon_sqlite_v23_rebuild subathon_contribution_review Qt6::Sql Qt6::Test)
     subathon_target_options(server_storage_021_stage1_controls)
 endif()
+
+if(SUBATHON_BUILD_MILESTONE_006_STAGE1)
+    add_subdirectory(milestone_006)
+endif()
+
+if(SUBATHON_BUILD_MILESTONE_006_SLICE2)
+    add_subdirectory(milestone_006_slice2)
+endif()
+
+if(SUBATHON_BUILD_MILESTONE_006_SLICE3)
+    add_subdirectory(milestone_006_slice3)
+    add_subdirectory(milestone_006_slice4)
+    add_subdirectory(milestone_006_slice5)
+    add_subdirectory(milestone_006_slice6)
+endif()

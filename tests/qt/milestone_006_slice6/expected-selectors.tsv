@@ -1,0 +1,4 @@
+suite	selector	data_tag	type	source	qt_line	call_line	throw_line	description
+hold	s1MixedEditHoldPublishesOnlyExactMedia		fail	hold_tests.cpp	21	469	104	S1/T2: hand off the exact acknowledged Hold playback intent
+hold	t1T2WarmHoldAndMediaReplay	resume-during-gap	fail	hold_tests.cpp	21	605	111	T1/T2: adopt the exact acknowledged Hold on the warm timeline
+hold	t1T2WarmHoldAndMediaReplay	resume-after-gap	fail	hold_tests.cpp	21	605	111	T1/T2: adopt the exact acknowledged Hold on the warm timeline
