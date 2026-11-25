@@ -3,6 +3,7 @@
 
 #include "sqlite_catalog_inspection.hpp"
 #include "sqlite_clock_checkpoint.hpp"
+#include "sqlite_connection.hpp"
 #include "sqlite_v22_catalog.hpp"
 #include "v23_executor/connection_pragmas.hpp"
 #include "v23_executor/copy_comparison.hpp"
@@ -10,8 +11,10 @@
 
 #include <QCryptographicHash>
 #include <QFileInfo>
+#include <QSqlRecord>
 #include <QStorageInfo>
 #include <QThread>
+#include <algorithm>
 #include <array>
 #include <limits>
 
@@ -80,6 +83,114 @@ const std::variant<CompiledV23, MigrationReason> &compiled_v23() {
     static const auto compiled = compile_v23();
     return compiled;
 }
+
+// The stopped caller supplies a stable database. An immutable QSQLITE
+// connection cannot create WAL/SHM or recover a journal, so refuse files
+// that may need recovery before letting SQLite read the main file alone.
+bool stopped_sidecars(const QString &path) {
+    const QFileInfo journal(path + "-journal");
+    const QFileInfo wal(path + "-wal");
+    const QFileInfo shm(path + "-shm");
+    return !journal.isSymLink() && !journal.exists() && !wal.isSymLink() &&
+           (!wal.exists() || (wal.isFile() && wal.size() == 0)) && !shm.isSymLink() &&
+           (!shm.exists() || shm.isFile());
+}
+
+class V23Inspection final {
+  public:
+    explicit V23Inspection(StorageLimits limits)
+        : remaining_statements_(std::min(limits.statements_per_batch, ceilings.statements_per_batch)),
+          statement_bytes_(std::min(limits.statement_utf8_bytes, ceilings.statement_utf8_bytes)),
+          remaining_rows_(std::min(limits.result_rows, ceilings.result_rows)),
+          remaining_bytes_(std::min(limits.result_value_bytes, ceilings.result_value_bytes)) {}
+
+    std::variant<V23PreOpenObservation, MigrationReason> run(const QString &path,
+                                                           const CompiledV23 &compiled) {
+        // Use the reviewed r8 whole-store fixture extent for the full scans.
+        constexpr qint64 max_store_bytes = 16 * 1024 * 1024;
+        const QFileInfo file(path);
+        const auto canonical = file.canonicalFilePath();
+        if (!file.isFile() || canonical.isEmpty() || !stopped_sidecars(canonical))
+            return MigrationReason::inspection_failed;
+        if (file.size() > max_store_bytes)
+            return MigrationReason::resource_limit;
+        if (!connection_.open_immutable(canonical))
+            return MigrationReason::inspection_failed;
+
+        check_control("PRAGMA foreign_keys=ON");
+        if (!pragma_equals(connection_, "PRAGMA foreign_keys", 1))
+            return MigrationReason::inspection_failed;
+        check_control("BEGIN DEFERRED");
+        const auto extent = read("SELECT page_count, page_size FROM pragma_page_count(), "
+                                 "pragma_page_size()");
+        if (extent.size() != 1 || extent.front().size() != 2 ||
+            !integer_value(extent.front()[0]) || !integer_value(extent.front()[1]))
+            return MigrationReason::inspection_failed;
+        const auto pages = extent.front()[0].toLongLong();
+        const auto page_size = extent.front()[1].toLongLong();
+        if (pages < 0 || page_size <= 0)
+            return MigrationReason::inspection_failed;
+        if (pages > max_store_bytes / page_size)
+            return MigrationReason::resource_limit;
+
+        const auto query = [this](ClockProbeQuery, const QString &sql) { return read(sql); };
+        const auto version = inspect_store(compiled.manifest, compiled.hashes, query);
+        check_control("ROLLBACK");
+        connection_.close();
+        if (!stopped_sidecars(canonical))
+            return MigrationReason::inspection_failed;
+        const auto &step = compiled.manifest.steps.back();
+        if (version != step.version)
+            return MigrationReason::unsupported_version;
+        return V23PreOpenObservation{version, hex_bytes(sqlite_v23_step_data().prefix_sha256_hex),
+                                     step.expected_schema.size()};
+    }
+
+  private:
+    static constexpr StorageLimits ceilings{};
+    Connection connection_;
+    qsizetype remaining_statements_;
+    const qsizetype statement_bytes_;
+    qsizetype remaining_rows_;
+    qsizetype remaining_bytes_;
+
+    static void check_error(StorageError error) {
+        if (error != StorageError::none)
+            throw MigrationFailure(error == StorageError::busy ? MigrationReason::busy
+                                                              : MigrationReason::inspection_failed);
+    }
+
+    void check_control(const QString &sql) { check_error(control(connection_, sql)); }
+
+    SqlRows read(const QString &sql) {
+        if (remaining_statements_ <= 0 || sql.toUtf8().size() > statement_bytes_)
+            throw MigrationFailure(MigrationReason::resource_limit);
+        --remaining_statements_;
+        QSqlQuery query(connection_.database());
+        query.setForwardOnly(true);
+        if (!query.prepare(sql) || !query.exec())
+            check_error(sql_error(query.lastError()));
+
+        SqlRows rows;
+        const int columns = query.record().count();
+        while (query.next()) {
+            if (remaining_rows_ <= 0)
+                throw MigrationFailure(MigrationReason::resource_limit);
+            --remaining_rows_;
+            SqlRow row;
+            for (int column = 0; column < columns; ++column) {
+                auto value = query.value(column);
+                if (!consume_value(remaining_bytes_, value))
+                    throw MigrationFailure(MigrationReason::resource_limit);
+                row.append(std::move(value));
+            }
+            rows.append(std::move(row));
+        }
+        if (query.lastError().isValid())
+            check_error(sql_error(query.lastError()));
+        return rows;
+    }
+};
 
 // Copy charge per parent row under r8: rowid and the legacy tag at eight bytes,
 // retained INTEGER/REAL at eight bytes, TEXT/BLOB octets and zero for NULL.
@@ -464,9 +575,17 @@ class V23Rebuild final {
 
 } // namespace
 
-std::variant<V23PreOpenObservation, MigrationReason> inspect_v23_pre_open(const QString &,
-                                                                         StorageLimits) {
-    return MigrationReason::feature_not_implemented;
+std::variant<V23PreOpenObservation, MigrationReason> inspect_v23_pre_open(const QString &path,
+                                                                         StorageLimits limits) {
+    try {
+        const auto &compiled = compiled_v23();
+        if (const auto *reason = std::get_if<MigrationReason>(&compiled))
+            return *reason;
+        return V23Inspection(limits).run(path, std::get<CompiledV23>(compiled));
+    } catch (const MigrationFailure &failure) {
+        // All queries unwind before the connection closes its read transaction.
+        return failure.reason();
+    }
 }
 
 MigrationAdmission enqueue_v23_rebuild(V22PreOpenWitness witness, Ops02UpdateHold hold,
