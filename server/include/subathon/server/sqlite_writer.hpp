@@ -110,6 +110,7 @@ class MigrationExecution;
 class CatalogWriterAccess;
 struct ClockStatementLedger;
 class ContributionReviewWriterAccess;
+class V23RebuildAccess;
 } // namespace detail
 namespace testing {
 class SqliteWriterWorkAccess;
@@ -177,6 +178,7 @@ class SqliteWriter final : public QObject {
   private:
     class Impl;
     std::unique_ptr<Impl> impl_;
+    friend class detail::V23RebuildAccess;
     friend class testing::SqliteWriterWorkAccess;
     friend class detail::CatalogWriterAccess;
     friend class detail::ContributionReviewWriterAccess;

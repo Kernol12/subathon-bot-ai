@@ -5,6 +5,7 @@
 #include "sqlite_connection.hpp"
 #include "sqlite_migration_inspection.hpp"
 #include "sqlite_v22_catalog.hpp"
+#include "sqlite_v23_rebuild.hpp"
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 
 #include <QDir>
@@ -888,6 +889,7 @@ WorkError SqliteWorkSession::cleanup() const noexcept {
 }
 
 class SqliteWriter::Impl {
+    friend class detail::V23RebuildAccess;
     friend class detail::ContributionReviewWriterAccess;
     friend class detail::CatalogWriterAccess;
     bool review_active_ = false;
@@ -942,6 +944,8 @@ class SqliteWriter::Impl {
     StorageError enqueue(const WriteBatch &batch, Completion completion) {
         if (!on_owner())
             return StorageError::wrong_thread;
+        if (!v23_reservation_.expired())
+            return StorageError::busy;
         if (stopping_)
             return StorageError::shutting_down;
         if (!connection_.is_open())
@@ -960,6 +964,8 @@ class SqliteWriter::Impl {
                               detail::CatalogWriterAccess::DequeueCheck migration_check = {}) {
         if (!on_owner())
             return StorageError::wrong_thread;
+        if (!v23_reservation_.expired())
+            return StorageError::busy;
         if (stopping_)
             return StorageError::shutting_down;
         if (!connection_.is_open())
@@ -991,6 +997,8 @@ class SqliteWriter::Impl {
     StorageError shutdown(std::function<void()> completion) {
         if (!on_owner())
             return StorageError::wrong_thread;
+        if (!v23_reservation_.expired())
+            return StorageError::busy;
         if (!completion)
             return StorageError::invalid_options;
         stopping_ = true;
@@ -1019,8 +1027,12 @@ class SqliteWriter::Impl {
     bool active_{false};
     bool scheduled_{false};
     std::optional<testing::WorkControlFault> control_fault_;
+    std::shared_ptr<const detail::V23StoppedWriterLease::Generation> v23_generation_;
+    std::weak_ptr<const detail::V23StoppedWriterLease::Reservation> v23_reservation_;
 
     void close() {
+        v23_generation_.reset();
+        v23_reservation_.reset();
         connection_.close();
         catalog_ = {};
         release_writer_lease(lease_);
@@ -1179,6 +1191,26 @@ bool detail::CatalogWriterAccess::verified_v22(const SqliteWorkSession &session)
 SqliteWriter::SqliteWriter(QObject *parent)
     : QObject(parent), impl_(std::make_unique<Impl>(this)) {}
 SqliteWriter::~SqliteWriter() = default;
+
+detail::V23StoppedWriterLease detail::V23RebuildAccess::acquire(SqliteWriter &writer) {
+    auto &impl = *writer.impl_;
+    if (!impl.on_owner() || !impl.connection_.is_open() || impl.stopping_ || impl.active_ ||
+        impl.scheduled_ || impl.review_active_ || !impl.queue_.empty() ||
+        !impl.v23_reservation_.expired())
+        return {};
+
+    V23StoppedWriterLease lease;
+    // The reservation allocation identifies this one-shot lease within this
+    // open generation. Closing invalidates the generation before SQL teardown.
+    if (!impl.v23_generation_)
+        impl.v23_generation_ =
+            std::make_shared<const V23StoppedWriterLease::Generation>(&writer, impl.owner_);
+    lease.reservation_ = std::make_shared<const V23StoppedWriterLease::Reservation>();
+    lease.generation_ = impl.v23_generation_;
+    lease.owner_ = impl.owner_;
+    impl.v23_reservation_ = lease.reservation_;
+    return lease;
+}
 
 StorageLimits detail::ContributionReviewWriterAccess::limits(const SqliteWriter &writer) {
     return writer.impl_->on_owner() ? writer.impl_->limits_ : StorageLimits{};

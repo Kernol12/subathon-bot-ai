@@ -394,3 +394,13 @@ if(SUBATHON_BUILD_MODIFIER_CAPTURE_TESTS)
             subathon_modifier_capture subathon_modifier_clock
         LABELS "modifier-capture;acceptance;qt;server" TIMEOUT 180)
 endif()
+
+if(SUBATHON_BUILD_STORAGE_021_STAGE1)
+    add_executable(server_storage_021_stage1_link
+        storage_021/link_baseline.cpp storage_021/fake_ops02_update_hold.cpp)
+    target_include_directories(server_storage_021_stage1_link PRIVATE
+        "${PROJECT_SOURCE_DIR}/server/src")
+    target_link_libraries(server_storage_021_stage1_link PRIVATE
+        subathon_sqlite_v23_rebuild subathon_sqlite_writer)
+    subathon_target_options(server_storage_021_stage1_link)
+endif()

@@ -2,6 +2,8 @@
 #include "sqlite_clock_checkpoint.hpp"
 
 #include "sqlite_connection.hpp"
+#include "sqlite_v22_catalog.hpp"
+#include "sqlite_v23_rebuild.hpp"
 
 #include <QCryptographicHash>
 #include <QFileInfo>
@@ -162,14 +164,7 @@ class ClockProbe final {
 
     ClockPreOpenResult run(const QString &owned_path) {
         try {
-            const QFileInfo file(owned_path);
-            if (!file.isFile() || !connection_.open(file.absoluteFilePath(), true))
-                inspection_error(StorageError::sql_failure);
-            // These connection controls are outside the prepared inspection ledger.
-            check_control("PRAGMA foreign_keys=ON");
-            if (!pragma_equals(connection_, "PRAGMA foreign_keys", 1))
-                inspection_error(StorageError::sql_failure);
-            check_control("BEGIN DEFERRED");
+            begin_read(owned_path);
             const ClockInspectionQuery execute_query =
                 [this](ClockProbeQuery query, const QString &sql) { return execute(query, sql); };
             const auto version = inspect_clock_predecessor_catalog(
@@ -189,11 +184,78 @@ class ClockProbe final {
         }
     }
 
+    std::variant<V22PreOpenWitness, MigrationReason> inspect_v22(const QString &path) {
+        try {
+            auto compiled = clock_checkpoint_manifest();
+            if (const auto *reason = std::get_if<MigrationReason>(&compiled))
+                return *reason;
+            auto &manifest = std::get<MigrationManifest>(compiled);
+            const auto &identity = sqlite_v22_catalog();
+            const auto version = static_cast<qint32>(identity.steps.size());
+            if (manifest.catalog_format != identity.format ||
+                manifest.store_identity.toUtf8() !=
+                    QByteArrayView(identity.store.data(), identity.store.size()) ||
+                manifest.steps.size() != version ||
+                manifest.supported_starting_versions.size() != version + 1 ||
+                manifest.supported_starting_versions.front() != 0 ||
+                manifest.steps.back().expected_schema.size() != identity.projection_objects)
+                return MigrationReason::invalid_manifest;
+
+            QList<QByteArray> hashes;
+            QCryptographicHash prefix(QCryptographicHash::Sha256);
+            for (qsizetype i = 0; i < version; ++i) {
+                auto &step = manifest.steps[i];
+                const auto &sealed = identity.steps[i];
+                auto digest = migration_content_sha256(step);
+                if (step.version != i + 1 || manifest.supported_starting_versions[i + 1] != i + 1 ||
+                    step.id.toUtf8() != QByteArrayView(sealed.id.data(), sealed.id.size()) ||
+                    digest.toHex() != QByteArrayView(sealed.content_sha256_hex.data(),
+                                                     sealed.content_sha256_hex.size()))
+                    return MigrationReason::invalid_manifest;
+                prefix.addData(digest);
+                hashes.append(std::move(digest));
+
+                // The shared inspector compares the canonical projection order.
+                const auto ordered = encoded_objects(step.expected_schema);
+                step.expected_schema.clear();
+                for (const auto &entry : ordered)
+                    step.expected_schema.append(entry.object);
+            }
+            auto prefix_hash = prefix.result();
+            if (prefix_hash.toHex() != QByteArrayView(identity.prefix_sha256_hex.data(),
+                                                    identity.prefix_sha256_hex.size()))
+                return MigrationReason::invalid_manifest;
+
+            begin_read(path);
+            const auto read = [this](ClockProbeQuery kind, const QString &sql) {
+                return execute(kind, sql);
+            };
+            const auto observed = inspect_store(manifest, hashes, read);
+            check_control("ROLLBACK");
+            if (observed != version)
+                return MigrationReason::unsupported_version;
+            return V22PreOpenWitness{observed, std::move(prefix_hash), identity.projection_objects};
+        } catch (const MigrationFailure &failure) {
+            return failure.reason();
+        }
+    }
+
   private:
     Connection connection_;
     StorageLimits limits_;
     std::optional<ClockProbeQuery> terminal_;
     ClockStatementLedger ledger_{};
+
+    void begin_read(const QString &owned_path) {
+        const QFileInfo file(owned_path);
+        if (!file.isFile() || !connection_.open(file.absoluteFilePath(), true))
+            inspection_error(StorageError::sql_failure);
+        // Connection controls are outside the prepared inspection ledger.
+        check_control("PRAGMA foreign_keys=ON");
+        if (!pragma_equals(connection_, "PRAGMA foreign_keys", 1))
+            inspection_error(StorageError::sql_failure);
+        check_control("BEGIN DEFERRED");
+    }
 
     void check_control(const QString &sql) {
         if (const auto error = control(connection_, sql); error != StorageError::none)
@@ -287,6 +349,11 @@ std::variant<MigrationManifest, MigrationReason> clock_checkpoint_manifest() {
     manifest.supported_starting_versions.append(step.version);
     manifest.steps.append(std::move(step));
     return manifest;
+}
+
+std::variant<V22PreOpenWitness, MigrationReason> inspect_v22_pre_open(const QString &path,
+                                                                   StorageLimits limits) {
+    return ClockProbe(limits).inspect_v22(path);
 }
 
 ClockPreOpenResult probe_clock_checkpoint_predecessor(const QString &owned_path,
