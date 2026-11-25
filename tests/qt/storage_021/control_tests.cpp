@@ -318,6 +318,33 @@ void exclusion(Fixture &f) {
     ContributionReviewWriterAccess::release(f.writer);
     auto lease = f.reserve();
 }
+
+void idle_owner_work_exclusion(Fixture &f) {
+    int bodies = 0;
+    const auto work = [&](SqliteWorkContext context) {
+        ++bodies;
+        context.begin().commit();
+        return QVariant{};
+    };
+
+    {
+        auto lease = f.reserve();
+        const auto refused = f.writer.run_idle_owner_work(work);
+        require(refused.transaction == TransactionOutcome::not_started &&
+                    refused.error == WorkError::busy,
+                QString("Live reservation must refuse idle owner work as not_started/busy "
+                        "(transaction=%1, error=%2, body calls=%3)")
+                    .arg(static_cast<int>(refused.transaction))
+                    .arg(static_cast<int>(refused.error))
+                    .arg(bodies));
+        require(bodies == 0, "Refused idle owner work never ran its body");
+    }
+
+    const auto admitted = f.writer.run_idle_owner_work(work);
+    require(admitted.transaction == TransactionOutcome::committed &&
+                admitted.error == WorkError::none && bodies == 1,
+            "Idle owner work runs and commits once after lease release");
+}
 } // namespace
 
 int main(int argc, char **argv) {
@@ -436,6 +463,7 @@ int main(int argc, char **argv) {
         [](Fixture &f) { ordinary_v23(f, OrdinaryCase::caller_id); });
     run("ordinary v23 inspect", [](Fixture &f) { ordinary_v23(f, OrdinaryCase::inspect); });
     run("mutual exclusion", exclusion);
+    run("idle owner work exclusion", idle_owner_work_exclusion);
     run("shutdown revokes reservation", [](Fixture &f) {
         auto lease = f.reserve();
         auto stopped = std::make_shared<int>(0);
