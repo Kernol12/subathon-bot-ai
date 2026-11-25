@@ -143,11 +143,12 @@ the live branch rules, not by a workflow's existence.
 The host Qt cases are the exception to one-process-per-suite registration: the
 native profile installs once per process. Each literal `method[:row]` from
 `tests/qt/api_host_cases.cmake` runs in its own process with Qt's normal init/cleanup
-and assertions. Compare that complete inventory with admitted Qt data-tag discovery
+and assertions. Compare that complete inventory with Qt data-tag discovery
 before running bodies. API-027 adds 70 lease selectors to the 87 existing cases:
 six serial controls and 32 isolated trials in each of the two concurrent rows.
-The host baseline CI job checks registration. Local admitted runtime evidence for
-the lease selectors is recorded on the issue. Other Qt suites retain their
+The host baseline CI job checks registration. The local runtime evidence recorded
+for the lease selectors on the issue predates
+[ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md) and keeps its recorded meaning. Other Qt suites retain their
 existing registration.
 
 The `bounded-http-foundation-debug` test preset filters its own label; the native
@@ -155,7 +156,10 @@ profile is a compiled dependency, with separate consumer-admission/regression ga
 Its admission receipt defaults to `bounded-http-admission.json` under the binary
 directory and may be overridden with `SUBATHON_BOUNDED_HTTP_ADMISSION`. Configuration
 can precede the technical receipt contents; a missing runtime receipt is a setup
-failure, never intended red. The reviewed fixture remains frozen. Every new consumer
+failure, never intended red. The receipt is a technical input that the SDK gate
+writes for the fixture. It is not the local approval procedure retired by
+[ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md), and the `native` CI
+job's SDK gate is unchanged. The reviewed fixture remains frozen. Every new consumer
 must pass passive ELF/ABI closure before load, controlled identity, loaded-map checks
 and unchanged seals. The successor recipe's `--consumer foundation` gate writes a
 development receipt for this runner. Its frozen `review_receipt` key links the
@@ -175,7 +179,8 @@ these results establish no release, platform or security verification.
 Correction 19 (API-024) adds first-party declarations and insertion-only probe
 actions keyed on an `api024` argument; every frozen selector is unchanged. Its
 suite `api-024.listener` is opt-in under `SUBATHON_BUILD_API_024_STAGE1` and not run
-in CI, so its credited local runs keep the standing admission (ADR-0013 item 4). Its
+in CI. Under [ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md) it
+joins a CI job for credited runs. Its
 frozen `intentional-red` label predates the implementation.
 
 ## Running relevant checks
@@ -298,6 +303,11 @@ and repository merge rules, and retain separate independent review before mergin
 
 Follow the task sequence and review tiers in [the agent workflow](AGENT_WORKFLOW.md).
 Derive expected values independently from the specification.
+
+Keep a tests stage within 800 lines of tests and fixtures unless the issue names a
+larger number and the reason. Write one test per row of the examples table and per
+named edge case, reuse shared helpers and generate large fixtures in code
+([ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md)).
 
 Prefer small named behavior scenarios, synthetic/redacted fixtures, fake adapters and
 controllable clocks. Keep one primary home for shared mechanics. Avoid duplicate writer

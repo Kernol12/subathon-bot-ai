@@ -2,12 +2,12 @@
 
 Task ID and issue:
 Review tier (A full cycle / B single review / C checks only) and why:
-Stage (tests / implementation / contract):
+Stage (tests / implementation / contract; a tier B task names both stages):
 Behavior changed and specification or contract sections:
 
 ## Verification
 
-Reviewed test baseline and intended-red evidence (implementation stage):
+Reviewed test baseline and intended-red evidence (implementation stage, or both stages of a tier B task):
 Commands actually run, environment and results:
 Proof level (authored / observed red / implemented / simulated / live-verified):
 Remaining live, provider or platform gates:

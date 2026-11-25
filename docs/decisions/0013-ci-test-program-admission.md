@@ -1,8 +1,8 @@
 # ADR-0013 — Admit test programs in CI and record runs by commit
 
-Date: 24 November 2026. Status: proposed for the owner's decision; nothing changes
-until the owner approves and this record merges. Until then the standing test-binary
-admission in `progress/coordinator-checkpoint.md` applies to every run.
+Date: 24 November 2026. Status: approved by the owner and merged in #844 on
+24 November 2026. Point 4 was clarified in #859 and replaced on 25 November 2026 by
+[ADR-0014](0014-plain-test-runs-and-leaner-tasks.md); it remains below as history.
 Authority: owner-chosen direction (options 2 and 3) relayed by the advisor; rule 4(e)
 and the CI/tools rule in [ADVISOR.md](../ADVISOR.md) item 3.
 
@@ -81,6 +81,8 @@ Because no incident is on record, this decision does not keep the full local che
    to leave that path.
    Point 4 applies only to suites that will remain outside CI permanently, and
    suites joining CI in their implementation PR follow points 2 and 3.
+   Superseded on 25 November 2026 by
+   [ADR-0014](0014-plain-test-runs-and-leaner-tasks.md).
 5. **Unchanged:** test-first order, specification-derived expected values,
    independent reviews, the Tier A cycle for accounting, authentication, migrations
    and concurrency, no weakening of tests, and the `native` job's SDK gate
