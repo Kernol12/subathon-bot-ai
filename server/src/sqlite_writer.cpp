@@ -4,6 +4,7 @@
 #include "contribution_review_writer_access.hpp"
 #include "sqlite_connection.hpp"
 #include "sqlite_migration_inspection.hpp"
+#include "sqlite_v22_catalog.hpp"
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 
 #include <QDir>
@@ -199,6 +200,89 @@ ReadResult statement_result(Connection &connection, const SqlStatement &statemen
     return {StorageError::none, std::move(rows)};
 }
 
+struct CatalogMode {
+    bool v22{false};
+    MigrationReason refusal{MigrationReason::none};
+};
+
+QString catalog_text(std::string_view text) {
+    return QString::fromUtf8(text.data(), static_cast<qsizetype>(text.size()));
+}
+
+MigrationReason recognition_error(StorageError error) {
+    switch (error) {
+    case StorageError::busy:
+        return MigrationReason::busy;
+    case StorageError::result_limit:
+        return MigrationReason::resource_limit;
+    default:
+        return MigrationReason::sql_failure;
+    }
+}
+
+CatalogMode inspect_writer_catalog(Connection &connection) {
+    try {
+        qsizetype attempts = 12;
+        qsizetype sql_bytes = 1322;
+        qsizetype rows = 634;
+        qsizetype values = 693858;
+        // Reuse the statement executor with an independent fixed allowance.
+        ReviewSqlAllowance allowance{0, 7334};
+        const auto run = [&](const QString &sql) {
+            const auto size = sql.toUtf8().size();
+            if (size > 187 || !consume(attempts, 1) || !consume(sql_bytes, size))
+                throw MigrationFailure(MigrationReason::resource_limit);
+            auto result = statement_result(connection, {sql, {}}, rows, values, &allowance);
+            if (result.error != StorageError::none)
+                throw MigrationFailure(recognition_error(result.error));
+            return result.rows;
+        };
+        if (run("SELECT 1 FROM main.sqlite_schema WHERE name='subathon_catalog' "
+                "AND type='table'").isEmpty() ||
+            run("SELECT 1 FROM main.sqlite_schema WHERE name='subathon_migration_history' "
+                "AND type='table'").isEmpty())
+            return {};
+
+        const auto &identity = detail::sqlite_v22_catalog();
+        const auto first = run("SELECT version,migration_id,content_sha256 FROM "
+                               "main.subathon_migration_history WHERE version=1 LIMIT 2");
+        const auto first_digest = QByteArray::fromHex(QByteArray::fromStdString(
+            std::string(identity.steps.front().content_sha256_hex)));
+        if (first.size() != 1 || !detail::integer_value(first.front()[0]) ||
+            first.front()[0].toLongLong() != 1 ||
+            first.front()[1].metaType().id() != QMetaType::QString ||
+            first.front()[1].toString() != catalog_text(identity.steps.front().id) ||
+            first.front()[2].metaType().id() != QMetaType::QByteArray ||
+            first.front()[2].toByteArray() != first_digest)
+            return {};
+
+        static const auto expected = [] {
+            MigrationManifest manifest;
+            QList<QByteArray> hashes;
+            const auto &seal = detail::sqlite_v22_catalog();
+            for (const auto &step : seal.steps) {
+                const auto version = static_cast<qint32>(manifest.steps.size() + 1);
+                manifest.steps.append({version, catalog_text(step.id), {}, {}});
+                manifest.supported_starting_versions.append(version);
+                hashes.append(QByteArray::fromHex(
+                    QByteArray::fromStdString(std::string(step.content_sha256_hex))));
+            }
+            for (const auto &object : detail::sqlite_v22_projection())
+                manifest.steps.back().expected_schema.append(
+                    {catalog_text(object.type), catalog_text(object.name),
+                     catalog_text(object.table_name),
+                     object.sql ? std::optional{catalog_text(*object.sql)} : std::nullopt});
+            return std::pair{std::move(manifest), std::move(hashes)};
+        }();
+        const auto query = [&](detail::ClockProbeQuery, const QString &sql) { return run(sql); };
+        return {detail::inspect_store(expected.first, expected.second, query, true) ==
+                    expected.first.steps.size(),
+                MigrationReason::none};
+    } catch (const MigrationFailure &error) {
+        return {false, error.reason()};
+    }
+}
+
 template <typename Callback, typename... Arguments>
 void complete(Callback &callback, Arguments &&...arguments) noexcept {
     try {
@@ -228,11 +312,12 @@ class SqliteWorkState final {
   public:
     SqliteWorkState(Connection &connection, StorageLimits limits,
                     std::function<WorkControlReply(WorkControl)> control,
-                    std::function<void()> fail_close)
+                    std::function<void()> fail_close, bool verified_v22)
         : owner_(QThread::currentThread()), connection_(&connection), control_(std::move(control)),
           fail_close_(std::move(fail_close)), limits_(limits),
           statements_left_(limits.statements_per_batch), bindings_left_(limits.bound_value_bytes),
-          rows_left_(limits.result_rows), values_left_(limits.result_value_bytes) {}
+          rows_left_(limits.result_rows), values_left_(limits.result_value_bytes),
+          verified_v22_(verified_v22) {}
 
     bool on_owner() const noexcept { return QThread::currentThread() == owner_; }
     void require_live() const {
@@ -246,6 +331,9 @@ class SqliteWorkState final {
         if (phase_ != WorkPhase::active)
             fail(WorkError::session_closed);
     }
+    bool verified_v22() { require_active(); return verified_v22_; }
+    void verified_advance() { require_active(); verified_advance_ = true; }
+    bool advanced() const { return verified_advance_ && phase_ == WorkPhase::committed; }
     void begin() {
         require_live();
         if (begin_attempted_)
@@ -403,6 +491,8 @@ class SqliteWorkState final {
     std::optional<ReviewSqlAllowance> review_;
     RetainedAuthorityAllowance retained_authority_;
     bool in_retained_authority_{};
+    bool verified_v22_;
+    bool verified_advance_{};
     WorkPhase phase_{WorkPhase::not_started};
     WorkError first_error_{WorkError::none};
     bool valid_{true};
@@ -528,6 +618,7 @@ WorkError SqliteWorkSession::cleanup() const noexcept {
 
 class SqliteWriter::Impl {
     friend class detail::ContributionReviewWriterAccess;
+    friend class detail::CatalogWriterAccess;
     bool review_active_ = false;
 
   public:
@@ -564,6 +655,16 @@ class SqliteWriter::Impl {
             close();
             return StorageError::open_failed;
         }
+        const auto begun = control(connection_, "BEGIN");
+        if (begun == StorageError::none) {
+            catalog_ = inspect_writer_catalog(connection_);
+            if (control(connection_, "ROLLBACK") != StorageError::none) {
+                close();
+                return StorageError::open_failed;
+            }
+        } else {
+            catalog_ = {false, recognition_error(begun)};
+        }
         limits_ = limits;
         return StorageError::none;
     }
@@ -574,7 +675,7 @@ class SqliteWriter::Impl {
             return StorageError::shutting_down;
         if (!connection_.is_open())
             return StorageError::not_open;
-        if (!completion || !valid_batch(batch, limits_))
+        if (catalog_.refusal != MigrationReason::none || !completion || !valid_batch(batch, limits_))
             return StorageError::invalid_batch;
         const auto outstanding = static_cast<qsizetype>(queue_.size()) + (active_ ? 1 : 0);
         if (outstanding >= limits_.pending_batches)
@@ -583,14 +684,14 @@ class SqliteWriter::Impl {
         schedule();
         return StorageError::none;
     }
-    StorageError enqueue_work(Work work, WorkCompletion completion) {
+    StorageError enqueue_work(Work work, WorkCompletion completion, bool inspect = false) {
         if (!on_owner())
             return StorageError::wrong_thread;
         if (stopping_)
             return StorageError::shutting_down;
         if (!connection_.is_open())
             return StorageError::not_open;
-        if (!work || !completion)
+        if ((!inspect && catalog_.refusal != MigrationReason::none) || !work || !completion)
             return StorageError::invalid_work;
         const auto outstanding = static_cast<qsizetype>(queue_.size()) + (active_ ? 1 : 0);
         if (outstanding >= limits_.pending_batches)
@@ -636,6 +737,7 @@ class SqliteWriter::Impl {
     Connection connection_;
     QString lease_;
     StorageLimits limits_;
+    CatalogMode catalog_;
     std::deque<Pending> queue_;
     std::vector<std::function<void()>> shutdown_completions_;
     bool stopping_{false};
@@ -645,6 +747,7 @@ class SqliteWriter::Impl {
 
     void close() {
         connection_.close();
+        catalog_ = {};
         release_writer_lease(lease_);
     }
     void schedule() {
@@ -654,6 +757,8 @@ class SqliteWriter::Impl {
         QMetaObject::invokeMethod(writer_, [this] { dispatch(); }, Qt::QueuedConnection);
     }
     WriteResult execute(const WriteBatch &batch) {
+        if (catalog_.refusal != MigrationReason::none)
+            return {StorageError::invalid_batch, {}};
         if (!connection_.is_open())
             return {StorageError::sql_failure, {}};
         auto error = control(connection_, "BEGIN IMMEDIATE");
@@ -712,7 +817,7 @@ class SqliteWriter::Impl {
             [this] {
                 stopping_ = true;
                 close();
-            });
+            }, catalog_.v22);
         QVariant value;
         bool body_exception = false;
         try {
@@ -720,7 +825,16 @@ class SqliteWriter::Impl {
         } catch (...) {
             body_exception = true;
         }
-        return state->finish(body_exception, std::move(value));
+        auto result = state->finish(body_exception, std::move(value));
+        if (state->advanced()) {
+            if (result.error == WorkError::none && result.value)
+                catalog_ = {true, MigrationReason::none};
+            else {
+                stopping_ = true;
+                close();
+            }
+        }
+        return result;
     }
     void dispatch() {
         Q_ASSERT(on_owner());
@@ -755,6 +869,26 @@ class SqliteWriter::Impl {
         }
     }
 };
+
+MigrationAdmission detail::CatalogWriterAccess::enqueue(
+    SqliteWriter &writer, MigrationMode mode, SqliteWriter::Work work,
+    SqliteWriter::WorkCompletion completion) {
+    auto &impl = *writer.impl_;
+    if (impl.on_owner() && !impl.stopping_ && impl.connection_.is_open() &&
+        mode == MigrationMode::advance && impl.catalog_.refusal != MigrationReason::none)
+        return {StorageError::invalid_options, impl.catalog_.refusal};
+    return {impl.enqueue_work(std::move(work), std::move(completion),
+                              mode == MigrationMode::inspect),
+            MigrationReason::none};
+}
+
+void detail::CatalogWriterAccess::verified_advance(const SqliteWorkSession &session) {
+    live_work_state(session.state_)->verified_advance();
+}
+
+bool detail::CatalogWriterAccess::verified_v22(const SqliteWorkSession &session) {
+    return live_work_state(session.state_)->verified_v22();
+}
 
 SqliteWriter::SqliteWriter(QObject *parent)
     : QObject(parent), impl_(std::make_unique<Impl>(this)) {}

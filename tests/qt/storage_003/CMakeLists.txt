@@ -26,3 +26,11 @@ subathon_add_qt_suite(server_storage_003_w1_admission_supplement
     NAME storage-003-w1-admission-supplement SOURCES w1_admission_supplement_tests.cpp
     LIBRARIES subathon_storage_003_fixture_owner subathon_contribution_review
     LABELS "storage-003-w1-admission-supplement;acceptance;qt;server;intentional-red" TIMEOUT 240)
+
+# CI selects the implemented initial-owner cases. The frozen full runner also
+# contains the recipe-denial baseline, which has its own implementation stage.
+add_test(NAME storage-003-w1-writer.suite COMMAND server_storage_003_stage1_writer
+    w1NormalInitialOwner w1JoinedReadBudget w1MissingHeadPhysical w1OccupiedSingletonPhysical
+    w1SlotlessHeadUpdatePhysical w1UnreferencedEvidencePhysical)
+set_tests_properties(storage-003-w1-writer.suite PROPERTIES
+    LABELS "storage-003-w1-writer;acceptance;qt;server" TIMEOUT 240)
