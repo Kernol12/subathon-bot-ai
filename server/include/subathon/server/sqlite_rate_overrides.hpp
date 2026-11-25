@@ -45,7 +45,9 @@ using RateAuthorityResolution =
     std::variant<RateAuthorityFacts, SessionFailure, PermissionGraphFailure>;
 
 // Trusted composition supplies the resolved current session and whole graph from this
-// work scope. Facts confer no permit. The rate operation evaluates ordinary pair USE.
+// work scope. The source loads the graph with the same PermissionGraphTrust passed
+// to the rate unit, enforcing persisted parity for the full trust. The rate unit
+// evaluates ordinary pair USE against those facts.
 class RateAuthoritySource {
   public:
     virtual ~RateAuthoritySource() = default;

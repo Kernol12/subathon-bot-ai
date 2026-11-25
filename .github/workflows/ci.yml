@@ -425,6 +425,7 @@ jobs:
           -DSUBATHON_BUILD_STORAGE_003_STAGE1=ON
           -DSUBATHON_BUILD_STORAGE_026_STAGE1=ON
           -DSUBATHON_BUILD_STORAGE_027_STAGE1=ON
+          -DSUBATHON_BUILD_RATE_CATALOG_ENROLLMENT_STAGE1=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
@@ -588,6 +589,8 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-rate-override-catalog$' --no-tests=error
       - name: Run rate override writer acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-rate-override-writer$' --no-tests=error
+      - name: Run rate catalog enrollment acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-rate-catalog-enrollment-(fixture|controls)$' --no-tests=error
       - name: Run milestone target edit writer acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-milestone-target-edits$' --no-tests=error
       - name: Run milestone target edit catalog acceptance
