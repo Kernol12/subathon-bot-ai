@@ -411,6 +411,10 @@ if(SUBATHON_BUILD_STORAGE_021_STAGE1)
     target_link_libraries(server_storage_021_stage1_bounds PRIVATE
         subathon_sqlite_v23_rebuild subathon_contribution_review Qt6::Sql Qt6::Test)
     subathon_target_options(server_storage_021_stage1_bounds)
+    add_test(NAME storage-021-donor-observation
+        COMMAND server_storage_021_stage1_bounds --observe)
+    set_tests_properties(storage-021-donor-observation PROPERTIES
+        LABELS storage-021-observation TIMEOUT 120 ENVIRONMENT "QT_FORCE_STDERR_LOGGING=1")
 
     add_executable(server_storage_021_stage1_controls
         storage_021/control_tests.cpp storage_021/fake_ops02_update_hold.cpp
