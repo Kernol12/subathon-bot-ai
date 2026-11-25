@@ -9,7 +9,20 @@ constexpr auto allocator = "SELECT last_allocated FROM main.subathon_contributio
                            "WHERE singleton=1";
 constexpr auto allocate = "UPDATE main.subathon_contribution_allocator "
                           "SET last_allocated=X'000000000000002A' WHERE singleton=1";
-constexpr auto reserved_delete = "DELETE FROM main.subathon_migration_history WHERE version=22";
+constexpr auto reserved_delete =
+    "WITH chosen(v) AS (VALUES(22)) DELETE FROM main.[Subathon_Migration_History] "
+    "WHERE version IN (SELECT v FROM chosen)";
+constexpr auto schema_query =
+    "SELECT type,name,tbl_name,sql FROM main.sqlite_schema ORDER BY type,name";
+constexpr auto allocator_bad =
+    "UPDATE main.subathon_contribution_allocator SET last_allocated=X'01' WHERE singleton=1";
+constexpr auto ordinary_alias =
+    "UPDATE main.subathon_contribution_allocator AS subathon_catalog "
+    "SET last_allocated=CASE WHEN 'subathon_migration_history'='subathon_migration_history' "
+    "THEN X'000000000000002A' ELSE NULL END WHERE subathon_catalog.singleton=1";
+constexpr auto ordinary_with = "WITH subathon_catalog(v) AS (VALUES(X'000000000000002A')) "
+                               "UPDATE main.subathon_contribution_allocator SET last_allocated="
+                               "(SELECT v FROM subathon_catalog) WHERE singleton=1";
 
 SqlRows read(const DisposableFile &file, const QString &sql) {
     SqliteReader reader;
@@ -30,6 +43,12 @@ void expect_header(const DisposableFile &file) {
         "Exact catalog header");
 }
 
+void expect_v22_snapshot(const DisposableFile &file, const SqlRows &schema) {
+    expect_history(file, 22);
+    expect_header(file);
+    expect_rows(read(file, schema_query), schema, "Exact v22 main schema projection");
+}
+
 void open(SqliteWriter &writer, const DisposableFile &file, StorageLimits limits = setup_profile) {
     require(writer.open(file.path(), limits) == StorageError::none, "Normal writer opens fixture");
 }
@@ -39,6 +58,7 @@ void create_v22(const DisposableFile &file) {
     const auto witness = candidate(file, {0, ClockPredecessor::blank, {}, {}});
     DisposableFile backup;
     file.copy_to(backup);
+    require(candidate(backup, witness) == witness, "Blank backup has the same stopped basis");
     {
         SqliteWriter writer;
         open(writer, file, profile(blank_advance));
@@ -48,7 +68,7 @@ void create_v22(const DisposableFile &file) {
     expect_header(file);
 }
 
-detail::ClockPreOpenWitness create_v21(const DisposableFile &file, DisposableFile &backup) {
+detail::ClockPreOpenWitness create_v21(const DisposableFile &file) {
     file.create_blank();
     const auto manifest = milestone_slot_interruption_repository_manifest();
     verify_manifest(manifest, 21);
@@ -64,8 +84,30 @@ detail::ClockPreOpenWitness create_v21(const DisposableFile &file, DisposableFil
     require(probe.disposition == detail::ClockPreOpenResult::Disposition::candidate &&
                 probe.reason == MigrationReason::none && probe.witness == expected,
             "Authenticated stopped v21 no-head basis");
+    DisposableFile backup;
     file.copy_to(backup);
+    expect_history(backup, 21);
     return *probe.witness;
+}
+
+SqlRows reference_v22_schema() {
+    DisposableFile reference;
+    create_v22(reference);
+    return read(reference, schema_query);
+}
+
+void seed_temp_shadow(SqliteWriter &writer) {
+    expect_commit(qt_test_support::run_work(
+        writer,
+        [](auto context) {
+            const auto session = context.begin();
+            (void)session.execute(
+                {"CREATE TEMP TABLE subathon_catalog(catalog_format INTEGER)", {}});
+            (void)session.execute({"INSERT INTO temp.subathon_catalog VALUES (7)", {}});
+            session.commit();
+            return 1;
+        },
+        10000));
 }
 
 void drain(SqliteWriter &writer) {
@@ -113,6 +155,41 @@ void expect_owner(const QueueReceipt &receipt) {
             "Guarded owner reaches acknowledged v22 upgrade");
     expect_current(receipt.owner->migration, 22, 1);
 }
+void denied_statements() {
+    QTest::addColumn<QString>("sql");
+    QTest::newRow("create") << QString(
+        "CREATE TABLE IF NOT EXISTS subathon_contribution_allocator(x INTEGER)");
+    QTest::newRow("temp-table") << QString("CREATE TEMP TABLE storage_033_probe(x INTEGER)");
+    QTest::newRow("temp-trigger") << QString(
+        "CREATE TEMP TRIGGER storage_033_probe AFTER UPDATE ON "
+        "main.subathon_contribution_allocator BEGIN SELECT 1; END");
+    QTest::newRow("drop") << QString("DROP TABLE IF EXISTS storage_033_missing");
+    QTest::newRow("alter") << QString(
+        "ALTER TABLE main.subathon_contribution_allocator ADD COLUMN extra INTEGER");
+    QTest::newRow("attach") << QString("ATTACH DATABASE ':memory:' AS storage_033_probe");
+    QTest::newRow("detach") << QString("DETACH DATABASE storage_033_probe");
+    QTest::newRow("cte-delete") << QString(reserved_delete);
+    QTest::newRow("double-quoted")
+        << QString("UPDATE \"main\".\"SUBATHON_CATALOG\" SET catalog_format=2 WHERE singleton=1");
+    QTest::newRow("single-quoted")
+        << QString("UPDATE 'subathon_catalog' SET catalog_format=2 WHERE singleton=1");
+    QTest::newRow("backtick") << QString(
+        "DELETE FROM main.`Subathon_Migration_History` WHERE version=22");
+    QTest::newRow("insert") << QString("INSERT INTO main.subathon_migration_history VALUES "
+                                       "(23,'storage-033-probe',zeroblob(32))");
+    QTest::newRow("replace") << QString(
+        "REPLACE INTO main.subathon_catalog VALUES (1,2,'subathon.sqlite-store')");
+    QTest::newRow("zero-row-update")
+        << QString("UPDATE main.subathon_catalog SET catalog_format=2 WHERE singleton=99");
+    QTest::newRow("insert-or-ignore") << QString(
+        "INSERT OR IGNORE INTO main.subathon_catalog VALUES (1,2,'subathon.sqlite-store')");
+    QTest::newRow("update-or-abort")
+        << QString("UPDATE OR ABORT main.subathon_catalog SET catalog_format=2 WHERE singleton=1");
+    QTest::newRow("cte-upsert") << QString(
+        "WITH proposed(v) AS (VALUES(2)) INSERT INTO main.subathon_catalog "
+        "SELECT 1,v,'subathon.sqlite-store' FROM proposed WHERE 1 "
+        "ON CONFLICT(singleton) DO UPDATE SET catalog_format=excluded.catalog_format");
+}
 } // namespace
 
 class Storage033WriterPolicyTests final : public QObject {
@@ -121,41 +198,14 @@ class Storage033WriterPolicyTests final : public QObject {
   private slots:
     void init() { qt_test_support::fail_on_sql_warnings(); }
 
-    void governedBatch_data() {
-        QTest::addColumn<QString>("sql");
-        QTest::newRow("create") << QString(
-            "CREATE TABLE IF NOT EXISTS subathon_contribution_allocator(x INTEGER)");
-        QTest::newRow("temp-table") << QString("CREATE TEMP TABLE storage_033_probe(x INTEGER)");
-        QTest::newRow("temp-trigger")
-            << QString("CREATE TEMP TRIGGER storage_033_probe AFTER UPDATE ON "
-                       "main.subathon_contribution_allocator BEGIN SELECT 1; END");
-        QTest::newRow("drop") << QString("DROP TABLE IF EXISTS storage_033_missing");
-        QTest::newRow("alter") << QString(
-            "ALTER TABLE main.subathon_contribution_allocator ADD COLUMN extra INTEGER");
-        QTest::newRow("attach") << QString("ATTACH DATABASE ':memory:' AS storage_033_probe");
-        QTest::newRow("detach") << QString("DETACH DATABASE storage_033_probe");
-        QTest::newRow("cte-delete")
-            << QString("WITH chosen(v) AS (VALUES(22)) DELETE FROM "
-                       "main.[Subathon_Migration_History] WHERE version IN (SELECT v FROM chosen)");
-        QTest::newRow("double-quoted") << QString(
-            "UPDATE \"main\".\"SUBATHON_CATALOG\" SET catalog_format=2 WHERE singleton=1");
-        QTest::newRow("single-quoted")
-            << QString("UPDATE 'subathon_catalog' SET catalog_format=2 WHERE singleton=1");
-        QTest::newRow("backtick") << QString(
-            "DELETE FROM main.`Subathon_Migration_History` WHERE version=22");
-        QTest::newRow("insert") << QString("INSERT INTO main.subathon_migration_history VALUES "
-                                           "(23,'storage-033-probe',zeroblob(32))");
-        QTest::newRow("replace") << QString(
-            "REPLACE INTO main.subathon_catalog VALUES (1,2,'subathon.sqlite-store')");
-    }
+    void governedBatch_data() { denied_statements(); }
 
     void governedBatch() {
         QFETCH(QString, sql);
         check([&] {
             DisposableFile file;
             create_v22(file);
-            const auto schema = read(
-                file, "SELECT type,name,tbl_name,sql FROM main.sqlite_schema ORDER BY type,name");
+            const auto schema = read(file, schema_query);
             const auto receipt = std::make_shared<QueueReceipt>();
             SqliteWriter writer;
             open(writer, file);
@@ -169,29 +219,28 @@ class Storage033WriterPolicyTests final : public QObject {
             require(receipt->batches.isEmpty(), "Synchronous refusal has no completion");
             expect_rows(read(file, allocator), {{QVariant{}}},
                         "Prior allocator change never executes");
-            expect_history(file, 22);
-            expect_header(file);
-            expect_rows(
-                read(file,
-                     "SELECT type,name,tbl_name,sql FROM main.sqlite_schema ORDER BY type,name"),
-                schema, "Full schema projection survives refusal");
+            expect_v22_snapshot(file, schema);
         });
     }
 
+    void stickyWork_data() { denied_statements(); }
+
     void stickyWork() {
-        check([] {
+        QFETCH(QString, sql);
+        check([&] {
             DisposableFile file;
             create_v22(file);
+            const auto schema = read(file, schema_query);
             SqliteWriter writer;
             open(writer, file);
             auto observed = std::make_shared<QList<WorkError>>();
             const auto result = qt_test_support::run_work(
                 writer,
-                [observed](auto context) {
+                [observed, sql](auto context) {
                     const auto session = context.begin();
                     (void)session.execute({allocate, {}});
                     try {
-                        (void)session.execute({reserved_delete, {}});
+                        (void)session.execute({sql, {}});
                     } catch (const SqliteWorkFailure &error) {
                         observed->append(error.error());
                     }
@@ -215,19 +264,28 @@ class Storage033WriterPolicyTests final : public QObject {
                     "Caught failure remains sticky and returns no value");
             drain(writer);
             expect_rows(read(file, allocator), {{QVariant{}}}, "Allocator update rolls back");
-            expect_history(file, 22);
+            expect_v22_snapshot(file, schema);
         });
     }
 
+    void ordinaryControl_data() {
+        QTest::addColumn<QString>("sql");
+        QTest::newRow("literal-example") << QString(allocate);
+        QTest::newRow("alias-and-literals") << QString(ordinary_alias);
+        QTest::newRow("with") << QString(ordinary_with);
+    }
+
     void ordinaryControl() {
-        check([] {
+        QFETCH(QString, sql);
+        check([&] {
             DisposableFile file;
             create_v22(file);
+            const auto schema = read(file, schema_query);
             SqliteWriter writer;
             open(writer, file);
             auto result = std::make_shared<std::optional<WriteResult>>();
             require(writer.enqueue(
-                        {{allocate, {}},
+                        {{sql, {}},
                          {"WITH subathon_catalog(v) AS (VALUES('subathon_migration_history')) "
                           "SELECT v FROM subathon_catalog",
                           {}},
@@ -245,6 +303,72 @@ class Storage033WriterPolicyTests final : public QObject {
             expect_rows((**result).rows[3], {{integer(1)}}, "Foreign keys remain enabled");
             expect_rows(read(file, allocator), {{blob(QByteArray::fromHex("000000000000002a"))}},
                         "Committed independently fixed allocator bytes");
+            expect_v22_snapshot(file, schema);
+        });
+    }
+
+    void ordinaryWorkControl() {
+        check([] {
+            DisposableFile file;
+            create_v22(file);
+            const auto schema = read(file, schema_query);
+            SqliteWriter writer;
+            open(writer, file);
+            expect_commit(qt_test_support::run_work(
+                writer,
+                [](auto context) {
+                    const auto session = context.begin();
+                    (void)session.execute({allocate, {}});
+                    // Clear the value before each control so a skipped update cannot satisfy the
+                    // assertion.
+                    for (const auto *sql : {ordinary_alias, ordinary_with}) {
+                        (void)session.execute({"UPDATE main.subathon_contribution_allocator "
+                                               "SET last_allocated=NULL WHERE singleton=1",
+                                               {}});
+                        (void)session.execute({sql, {}});
+                        expect_rows(session.execute({allocator, {}}),
+                                    {{blob(QByteArray::fromHex("000000000000002a"))}},
+                                    "Ordinary target commits despite reserved names in the SQL");
+                    }
+                    expect_rows(session.execute({"WITH subathon_catalog(v) AS "
+                                                 "(VALUES('subathon_migration_history')) "
+                                                 "SELECT v FROM subathon_catalog",
+                                                 {}}),
+                                {{QStringLiteral("subathon_migration_history")}},
+                                "CTE literal is data");
+                    expect_rows(session.execute({"SELECT catalog_format FROM main.subathon_catalog "
+                                                 "WHERE singleton=1",
+                                                 {}}),
+                                {{integer(1)}}, "Committed work may read the reserved relation");
+                    session.commit();
+                    return 1;
+                },
+                10000));
+            drain(writer);
+            expect_rows(read(file, allocator), {{blob(QByteArray::fromHex("000000000000002a"))}},
+                        "Independent reader sees committed ordinary work");
+            expect_v22_snapshot(file, schema);
+        });
+    }
+
+    void ordinaryDriverFailure() {
+        check([] {
+            DisposableFile file;
+            create_v22(file);
+            const auto schema = read(file, schema_query);
+            SqliteWriter writer;
+            open(writer, file);
+            auto result = std::make_shared<std::optional<WriteResult>>();
+            require(writer.enqueue({{allocator_bad, {}}},
+                                   [result](auto value) { *result = std::move(value); }) ==
+                        StorageError::none,
+                    "Ordinary malformed allocator value reaches SQLite");
+            drain(writer);
+            require(*result && (**result).error == StorageError::sql_failure &&
+                        (**result).rows.isEmpty(),
+                    "SQLite rejects the one-byte allocator value");
+            expect_rows(read(file, allocator), {{QVariant{}}}, "Allocator remains NULL");
+            expect_v22_snapshot(file, schema);
         });
     }
 
@@ -255,32 +379,49 @@ class Storage033WriterPolicyTests final : public QObject {
             {
                 SqliteWriter writer;
                 open(writer, generic);
+                auto result = std::make_shared<std::optional<WriteResult>>();
+                const WriteBatch seed{{"CREATE TABLE subathon_catalog(v INTEGER)", {}},
+                                      {"INSERT INTO subathon_catalog VALUES (7)", {}}};
+                const auto admission =
+                    writer.enqueue(seed, [result](auto value) { *result = std::move(value); });
+                require(admission == StorageError::none, "Generic batch is admitted");
+                require(QTest::qWaitFor([result] { return result->has_value(); }, 10000) &&
+                            (**result).error == StorageError::none,
+                        "Generic batch creates and inserts under the reserved-looking name");
                 expect_commit(qt_test_support::run_work(
                     writer,
                     [](auto context) {
                         const auto session = context.begin();
-                        (void)session.execute({"CREATE TABLE subathon_catalog(v INTEGER)", {}});
-                        (void)session.execute({"INSERT INTO subathon_catalog VALUES (7)", {}});
+                        expect_rows(session.execute({"SELECT v FROM subathon_catalog", {}}),
+                                    {{integer(7)}}, "Generic work reads the committed batch value");
+                        (void)session.execute({"UPDATE subathon_catalog SET v=8", {}});
                         session.commit();
                         return 1;
                     },
                     10000));
                 drain(writer);
             }
-            expect_rows(read(generic, "SELECT v FROM subathon_catalog"), {{integer(7)}},
-                        "Generic store retains ordinary reserved-looking name behavior");
+            expect_rows(read(generic, "SELECT v FROM subathon_catalog"), {{integer(8)}},
+                        "Reopened generic store sees work value 8");
 
             DisposableFile legacy;
-            DisposableFile backup;
-            (void)create_v21(legacy, backup);
+            (void)create_v21(legacy);
             SqliteWriter writer;
             open(writer, legacy);
+            expect_commit(qt_test_support::run_work(
+                writer,
+                [](auto context) {
+                    const auto session = context.begin();
+                    (void)session.execute({"CREATE TABLE storage_033_probe(v INTEGER)", {}});
+                    session.commit();
+                    return 1;
+                },
+                10000));
             auto result = std::make_shared<std::optional<WriteResult>>();
-            require(writer.enqueue({{"CREATE TABLE storage_033_probe(v INTEGER)", {}},
-                                    {"INSERT INTO storage_033_probe VALUES (7)", {}}},
+            require(writer.enqueue({{"INSERT INTO storage_033_probe VALUES (7)", {}}},
                                    [result](auto value) { *result = std::move(value); }) ==
                         StorageError::none,
-                    "Legacy production writer admits ordinary DDL and DML");
+                    "Legacy batch may insert into the table committed by legacy work");
             drain(writer);
             require(*result && (**result).error == StorageError::none,
                     "Legacy production batch commits");
@@ -290,21 +431,33 @@ class Storage033WriterPolicyTests final : public QObject {
         });
     }
 
+    void queuedWork_data() {
+        QTest::addColumn<bool>("shadow");
+        QTest::newRow("cte-delete") << false;
+        QTest::newRow("temp-shadow") << true;
+    }
+
     void queuedWork() {
-        check([] {
+        QFETCH(bool, shadow);
+        check([&] {
+            const auto schema = reference_v22_schema();
             DisposableFile file;
-            DisposableFile backup;
-            const auto witness = create_v21(file, backup);
+            const auto witness = create_v21(file);
             SqliteWriter writer;
             open(writer, file);
+            if (shadow)
+                seed_temp_shadow(writer);
             const auto receipt = std::make_shared<QueueReceipt>();
             queue_owner(writer, witness, receipt);
             auto result = std::make_shared<std::optional<SqliteWorkResult>>();
             require(writer.enqueue_work(
-                        [](auto context) {
+                        [shadow](auto context) {
                             const auto session = context.begin();
                             (void)session.execute({allocate, {}});
-                            (void)session.execute({reserved_delete, {}});
+                            (void)session.execute(
+                                {shadow ? "UPDATE subathon_catalog SET catalog_format=8"
+                                        : reserved_delete,
+                                 {}});
                             session.rollback();
                             return 99;
                         },
@@ -318,7 +471,7 @@ class Storage033WriterPolicyTests final : public QObject {
                     "First stop: ordinary work uses the governing policy after dequeue");
             expect_rows(read(file, allocator), {{QVariant{}}},
                         "Queued work allocator update rolls back");
-            expect_history(file, 22);
+            expect_v22_snapshot(file, schema);
         });
     }
 
@@ -326,12 +479,13 @@ class Storage033WriterPolicyTests final : public QObject {
         check([] {
             DisposableFile file;
             create_v22(file);
+            const auto schema = read(file, schema_query);
             SqliteWriter writer;
             open(writer, file, profile(successor_inspect));
             expect_current(migrate(writer, request(MigrationMode::advance, compiled_successor())),
                            22, 0);
             drain(writer);
-            expect_history(file, 22);
+            expect_v22_snapshot(file, schema);
         });
     }
 
@@ -346,6 +500,7 @@ class Storage033WriterPolicyTests final : public QObject {
         check([&] {
             DisposableFile file;
             create_v22(file);
+            const auto schema = read(file, schema_query);
             SqliteWriter writer;
             open(writer, file);
             const auto receipt = std::make_shared<QueueReceipt>();
@@ -364,7 +519,7 @@ class Storage033WriterPolicyTests final : public QObject {
                     "First stop: noncanonical or noncurrent generic advance refuses admission");
             require(receipt->probes == 0 && receipt->migrations.isEmpty(),
                     "Refusal reaches neither checkpoint nor completion");
-            expect_history(file, 22);
+            expect_v22_snapshot(file, schema);
         });
     }
 
@@ -377,9 +532,9 @@ class Storage033WriterPolicyTests final : public QObject {
     void queuedGenericAdvance() {
         QFETCH(bool, exact);
         check([&] {
+            const auto schema = reference_v22_schema();
             DisposableFile file;
-            DisposableFile backup;
-            const auto witness = create_v21(file, backup);
+            const auto witness = create_v21(file);
             SqliteWriter writer;
             open(writer, file);
             const auto receipt = std::make_shared<QueueReceipt>();
@@ -409,52 +564,45 @@ class Storage033WriterPolicyTests final : public QObject {
                             receipt->probes == 0,
                         "First stop: governing dequeue refuses with the typed migration result");
             }
-            expect_history(file, 22);
-            expect_header(file);
+            expect_v22_snapshot(file, schema);
         });
     }
 
+    void queuedBatchAndTempShadow_data() {
+        QTest::addColumn<QString>("sql");
+        QTest::newRow("drop") << QString("DROP TABLE IF EXISTS storage_033_missing");
+        QTest::newRow("bare-shadow") << QString("UPDATE subathon_catalog SET catalog_format=8");
+        QTest::newRow("main-qualified")
+            << QString("UPDATE main.subathon_catalog SET catalog_format=2");
+    }
+
     void queuedBatchAndTempShadow() {
-        check([] {
+        QFETCH(QString, sql);
+        check([&] {
+            const auto schema = reference_v22_schema();
             DisposableFile file;
-            DisposableFile backup;
-            const auto witness = create_v21(file, backup);
+            const auto witness = create_v21(file);
             SqliteWriter writer;
             open(writer, file);
-            expect_commit(qt_test_support::run_work(
-                writer,
-                [](auto context) {
-                    const auto session = context.begin();
-                    (void)session.execute(
-                        {"CREATE TEMP TABLE subathon_catalog(catalog_format INTEGER)", {}});
-                    (void)session.execute({"INSERT INTO temp.subathon_catalog VALUES (7)", {}});
-                    session.commit();
-                    return 1;
-                },
-                10000));
+            seed_temp_shadow(writer);
             const auto receipt = std::make_shared<QueueReceipt>();
             queue_owner(writer, witness, receipt);
-            for (const auto *sql : {"DROP TABLE IF EXISTS storage_033_missing",
-                                    "UPDATE subathon_catalog SET catalog_format=8",
-                                    "UPDATE main.subathon_catalog SET catalog_format=2"}) {
-                require(writer.enqueue({{allocate, {}}, {sql, {}}},
-                                       [receipt](auto result) {
-                                           receipt->batches.append(std::move(result));
-                                       }) == StorageError::none,
-                        "Legacy mode accepts batch before upgrade dispatch");
-            }
+            require(writer.enqueue({{allocate, {}}, {sql, {}}},
+                                   [receipt](auto result) {
+                                       receipt->batches.append(std::move(result));
+                                   }) == StorageError::none,
+                    "Legacy mode accepts batch before upgrade dispatch");
             require(!receipt->owner && receipt->batches.isEmpty(),
-                    "All items are pending before dispatch");
+                    "Both items are pending before dispatch");
             drain(writer);
             expect_owner(*receipt);
-            require(receipt->batches.size() == 3, "Each accepted batch completes once");
-            for (const auto &result : receipt->batches)
-                require(result.error == StorageError::invalid_batch && result.rows.isEmpty(),
-                        "First stop: dequeue refuses before preparing governed batch");
+            require(receipt->batches.size() == 1, "Accepted batch completes once");
+            const auto &result = receipt->batches.front();
+            require(result.error == StorageError::invalid_batch && result.rows.isEmpty(),
+                    "First stop: dequeue refuses before preparing governed batch");
             expect_rows(read(file, allocator), {{QVariant{}}},
                         "No queued allocator update executes");
-            expect_header(file);
-            expect_history(file, 22);
+            expect_v22_snapshot(file, schema);
         });
     }
 };
