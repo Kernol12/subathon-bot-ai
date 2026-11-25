@@ -46,7 +46,8 @@ void adopt_milestone_stop_completion(MilestoneTimeline &timeline, std::chrono::m
     }
     const auto unresolved = !normal && (work.transaction == TransactionOutcome::outcome_unknown ||
                                         work.transaction == TransactionOutcome::committed);
-    const auto absent = normal && from_readback && published->disposition == Disposition::refused;
+    const auto absent = normal && from_readback && published->disposition == Disposition::refused &&
+                        published->authoritative_absence;
     timeline.observe_stop_completion(now, detail::timeline_target(stop->target),
                                      command.operation.toStdString(), unresolved, absent);
 }
@@ -1303,25 +1304,30 @@ Decision read_command(const SqliteWorkSession &s, CommandAuthority &owner, const
         if (gate != Disposition::committed)
             return answer(gate);
         require_catalog(s);
-        return journal(s, owner, cmd, *facts, false).value_or(answer(Disposition::refused));
+        if (auto saved = journal(s, owner, cmd, *facts, false))
+            return std::move(*saved);
+        auto absent = answer(Disposition::refused);
+        absent.authoritative_absence = true;
+        return absent;
     });
 }
 
-std::optional<OccurrenceSelection> read_occurrence_selection(const SqliteWorkSession &s,
-                                                             CommandAuthority &owner,
-                                                             const Command &selector) {
+OccurrenceSelectionRead read_occurrence_selection_with_disposition(const SqliteWorkSession &s,
+                                                                    CommandAuthority &owner,
+                                                                    const Command &selector) {
     if (!valid_command(selector) || command_kind(selector) != Kind::stop)
-        return {};
-    return guarded(s, [&]() -> std::optional<OccurrenceSelection> {
-        const auto facts = access(s, owner, selector);
-        if (!facts)
-            return {};
+        return Disposition::refused;
+    return guarded(s, [&]() -> OccurrenceSelectionRead {
+        const auto facts = owner.select(s, selector);
+        const auto gate = admission(facts);
+        if (gate != Disposition::committed)
+            return gate;
         require_catalog(s);
         const auto &o = std::get<StopIntent>(selector.intent).target;
         const auto key = origin(o, nullptr);
         const auto selected = target(s, o, key, true);
         if (!selected)
-            return {};
+            return Disposition::refused;
         OccurrenceSelection out{
             o, selected->order, selected->released, selected->skipped, selected->stop, {}, {}, {},
             {}};
@@ -1343,9 +1349,9 @@ std::optional<OccurrenceSelection> read_occurrence_selection(const SqliteWorkSes
             std::get<StopIntent>(stop.intent).choice =
                 normalized == 1 ? QueueChoice::hold : QueueChoice::continue_queue;
             const auto result = journal(s, owner, stop, *facts, false);
-            if (!result || result->disposition == Disposition::denied)
-                return {};
-            if (result->disposition != Disposition::replay)
+            if (result && result->disposition == Disposition::denied)
+                return Disposition::denied;
+            if (!result || result->disposition != Disposition::replay)
                 corrupt();
             out.cancellations = result->cancellations;
         }
@@ -1355,7 +1361,7 @@ std::optional<OccurrenceSelection> read_occurrence_selection(const SqliteWorkSes
         const auto holds = s.execute(
             {"SELECT CASE WHEN typeof(h.cause)='blob' AND length(h.cause) BETWEEN 1 AND 4096 "
              "THEN h.cause END,j.decision FROM subathon_milestone_interruption_causes h "
-             "JOIN subathon_milestone_command_journal j ON "
+             "LEFT JOIN subathon_milestone_command_journal j ON "
              "(j.installation,j.track,j.operation)=(h.installation,h.track,h.stop) "
              "WHERE h.installation=? AND h.track=? AND h.resume IS NULL ORDER BY h.cause LIMIT ?",
              {blob(o.track.installation_ref), blob(o.track.track_ref), member_limit + 1}});
@@ -1363,7 +1369,7 @@ std::optional<OccurrenceSelection> read_occurrence_selection(const SqliteWorkSes
             throw SqliteWorkFailure(WorkError::result_limit);
         for (const auto &row : holds) {
             if (!owner.discloses_retained(s, selector, *facts, verified_ref(row[1])))
-                return {};
+                return Disposition::denied;
             out.interruption_holds.push_back(verified_ref(row.front()));
         }
         const auto size = slot_count(s, key);
@@ -1377,6 +1383,15 @@ std::optional<OccurrenceSelection> read_occurrence_selection(const SqliteWorkSes
         }
         return out;
     });
+}
+
+std::optional<OccurrenceSelection> read_occurrence_selection(const SqliteWorkSession &s,
+                                                             CommandAuthority &owner,
+                                                             const Command &selector) {
+    auto read = read_occurrence_selection_with_disposition(s, owner, selector);
+    if (auto *selection = std::get_if<OccurrenceSelection>(&read))
+        return std::move(*selection);
+    return {};
 }
 
 namespace {

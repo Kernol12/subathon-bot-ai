@@ -526,17 +526,26 @@ restore_interrupted_milestone_queue(SqliteWriter &writer, CommandAuthority &auth
         !same(intent->target, handoff.selected.instance.target))
         return {};
     std::optional<RestoredMilestoneQueue> result;
+    auto disposition = Disposition::refused;
     auto work = writer.run_idle_owner_work([&](auto ctx) -> QVariant {
         const auto s = ctx.begin();
         const auto stopped = read_command(s, authority, stop);
+        disposition = stopped.disposition;
+        if (disposition == Disposition::replay)
+            disposition = Disposition::refused;
         if (stopped.disposition == Disposition::replay &&
             std::ranges::find(stopped.playback_intents, handoff.intent) !=
                 stopped.playback_intents.end() &&
             validate_stop(s, handoff.selected, origin(intent->target, nullptr))) {
-            if (auto selected = read_occurrence_selection(s, authority, next)) {
+            auto read = read_occurrence_selection_with_disposition(s, authority, next);
+            if (const auto *failure = std::get_if<Disposition>(&read)) {
+                disposition = *failure;
+            } else {
+                auto &selected = std::get<OccurrenceSelection>(read);
+                disposition = Disposition::replay;
                 result.emplace();
-                result->selected = std::move(selected->selected_versions);
-                for (auto &hold : selected->interruption_holds)
+                result->selected = std::move(selected.selected_versions);
+                for (auto &hold : selected.interruption_holds)
                     result->holds.push_back({stop.track, std::move(hold)});
                 result->prior_handoff = retained_handoff(s, handoff);
             }
@@ -545,7 +554,7 @@ restore_interrupted_milestone_queue(SqliteWriter &writer, CommandAuthority &auth
         return result.has_value();
     });
     if (!normal(work))
-        result.reset();
-    return {std::move(work), std::move(result)};
+        return {std::move(work), {}, {}};
+    return {std::move(work), std::move(result), disposition};
 }
 } // namespace subathon::server::milestone_interruption

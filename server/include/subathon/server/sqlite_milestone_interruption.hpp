@@ -78,6 +78,8 @@ struct Decision {
     std::vector<SelectedVersion> versions, cancellations;
     std::vector<QByteArray> added_causes, resolved_causes;
     std::vector<QByteArray> playback_intents{};
+    // Set only by an authorized journal read that finds no exact operation.
+    bool authoritative_absence{false};
     bool operator==(const Decision &) const = default;
 };
 
@@ -297,6 +299,13 @@ void adopt_ordered_milestone_selection(MilestoneTimeline &, std::chrono::millise
                                        MilestoneQueueAdoption, const OccurrenceSelection &,
                                        const std::vector<CommittedMilestoneGroup> &pending);
 
+using OccurrenceSelectionRead = std::variant<Disposition, OccurrenceSelection>;
+
+OccurrenceSelectionRead read_occurrence_selection_with_disposition(const SqliteWorkSession &,
+                                                                    CommandAuthority &,
+                                                                    const Command &stop_selector);
+
+// Compatibility projection for callers that only consume a positive selection.
 std::optional<OccurrenceSelection> read_occurrence_selection(const SqliteWorkSession &,
                                                              CommandAuthority &,
                                                              const Command &stop_selector);

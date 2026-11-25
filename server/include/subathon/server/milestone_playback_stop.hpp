@@ -43,6 +43,7 @@ struct RestoredMilestoneQueue {
 struct RestoredMilestoneQueueCompletion {
     SqliteWorkResult work;
     std::optional<RestoredMilestoneQueue> queue;
+    std::optional<Disposition> disposition;
 };
 
 // Only a normally acknowledged replay provides a queue to adopt. Keep
