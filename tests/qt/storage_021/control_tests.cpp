@@ -1,12 +1,24 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include "../storage_003/protected_predecessor_fixture.hpp"
+#include "../storage_003/constraint_specimen.hpp"
 #include "contribution_review_writer_access.hpp"
 #include "fake_ops02_update_hold.hpp"
 
 #include <QCoreApplication>
+#include <QScopeGuard>
 #include <QTest>
 
 #include <thread>
+
+namespace subathon::server::detail {
+
+// A dependent call picks up the proposed private overload through ADL when
+// declared in the private header. The candidate can run without that overload.
+struct V23InspectionTestPath {
+    const QString &path;
+    operator const QString &() const { return path; }
+};
+
+} // namespace subathon::server::detail
 
 namespace {
 using namespace storage_003_fixture;
@@ -108,6 +120,256 @@ class Fixture final {
     V22PreOpenWitness witness;
     SqliteWriter writer;
 };
+
+// Literals from the independently checked 609.9 step and projection witness.
+constexpr auto v23_id = "exact-valuation-plan-revisions-rebuild-and-snapshots-v1";
+constexpr auto v23_digest = "236e900671482ea7b73162b45c78b9bd576f46cdf20191414748bc7e4632de28";
+constexpr auto v23_prefix = "cbadf8cc4def9035e315c94af7174f87e4abba3dfca4e7970523e0e1ca7376d9";
+
+template <class Path> auto inspect_v23_candidate(Path path) {
+    if constexpr (requires { inspect_v23_pre_open(path, setup_profile); }) {
+        return inspect_v23_pre_open(path, setup_profile);
+    } else {
+        return std::variant<V22PreOpenWitness, MigrationReason>{
+            MigrationReason::feature_not_implemented};
+    }
+}
+
+void expect_v23_inspection(const DisposableFile &file, MigrationReason expected) {
+    const auto before = file.seal();
+    const auto path = file.path();
+    const auto inspected = inspect_v23_candidate(V23InspectionTestPath{path});
+    require(file.seal() == before && !QFileInfo::exists(path + "-journal"),
+            "Private v23 inspection leaves the stopped database unchanged");
+    if (const auto *reason = std::get_if<MigrationReason>(&inspected)) {
+        require(expected != MigrationReason::none && *reason == expected,
+                QString("Private v23 inspection reason %1, expected %2")
+                    .arg(static_cast<int>(*reason))
+                    .arg(static_cast<int>(expected)));
+    } else {
+        const auto &witness = std::get<0>(inspected);
+        require(expected == MigrationReason::none && witness.version == 23 &&
+                    witness.prefix == QByteArray::fromHex(v23_prefix) &&
+                    witness.projection_objects == 294,
+                "Private inspection returns the exact v23 identity only for the authentic store");
+    }
+}
+
+SqlRows read_stopped(const DisposableFile &file, const QString &sql, qsizetype max_rows) {
+    SqliteReader reader;
+    require(reader.open(file.path()) == StorageError::none, "Open independent read-only reader");
+    const auto result = reader.read({sql, {}}, max_rows);
+    require(result.error == StorageError::none, "Read independent physical evidence");
+    return result.rows;
+}
+
+SqlRows history23() {
+    auto rows = expected_history(22);
+    rows.append(
+        SqlRow{integer(23), QString::fromLatin1(v23_id), blob(QByteArray::fromHex(v23_digest))});
+    return rows;
+}
+
+void shutdown_writer(SqliteWriter &writer) {
+    const auto stopped = std::make_shared<bool>(false);
+    require(writer.shutdown([stopped] { *stopped = true; }) == StorageError::none &&
+                QTest::qWaitFor([stopped] { return *stopped; }, 10000),
+            "Writer closes before stopped-store inspection");
+}
+
+void commit_v23(Fixture &f) {
+    require(f.witness.version == 22 && f.witness.prefix == QByteArray::fromHex(prefix22) &&
+                f.witness.projection_objects == 292,
+            "Exact independent v22 predecessor identity");
+    const auto result = collect_migration<MigrationResult>([&](auto done) {
+        return enqueue_v23_rebuild(f.witness, FakeOps02UpdateHoldIssuer::issue(), f.reserve(), {},
+                                   {}, std::move(done));
+    });
+    require(result.reason == MigrationReason::none,
+            QString("Ordinary private v23 owner failed to commit, reason %1")
+                .arg(static_cast<int>(result.reason)));
+    expect_current(result, 23, 1);
+}
+
+void authenticate_stopped_v23(const DisposableFile &file) {
+    expect_rows(read_stopped(file, select_history, 24), history23(),
+                "Complete ordered typed v23 history on a stopped store");
+    expect_rows(read_stopped(file, "SELECT count(*) FROM subathon_plan_revisions", 1),
+                {{integer(128)}}, "Populated donor retains all 128 plan revisions");
+}
+
+void commit_and_stop_v23(Fixture &f) {
+    commit_v23(f);
+    shutdown_writer(f.writer);
+    authenticate_stopped_v23(f.file);
+}
+
+void require_not_v22(const DisposableFile &file) {
+    const auto before = file.seal();
+    const auto inspected = inspect_v22_pre_open(file.path(), setup_profile);
+    const auto *reason = std::get_if<MigrationReason>(&inspected);
+    require(reason && *reason == MigrationReason::unsupported_version && file.seal() == before,
+            "Authentic v23 does not yield a v22 predecessor witness");
+}
+
+void normal_v23_reopen(Fixture &f) {
+    commit_and_stop_v23(f);
+    const auto before = f.file.seal();
+    SqliteWriter reopened;
+    require(reopened.open(f.file.path(), setup_profile) == StorageError::none,
+            "Normal v23 writer opens");
+    require(reopened.enqueue({{"CREATE TABLE subathon_test_reopen_probe(v INTEGER)", {}}},
+                             [](auto) {}) == StorageError::invalid_batch,
+            "Reopened writer enforces the governing SQL policy");
+    const auto result = reopened.run_idle_owner_work([](auto context) {
+        const auto session = context.begin();
+        expect_rows(session.execute({"PRAGMA foreign_keys", {}}), {{integer(1)}},
+                    "Normal reopen enables foreign keys");
+        require(!CatalogWriterAccess::verified_v22(session), "Reopen does not classify as v22");
+        session.commit();
+        return 1;
+    });
+    expect_commit(result);
+    expect_migration_rollback(
+        migrate(reopened, request(MigrationMode::inspect, compiled_successor())),
+        MigrationReason::unsupported_version);
+    shutdown_writer(reopened);
+    require(f.file.seal() == before, "Normal reopen and v22-only inspection preserve the store");
+    require_not_v22(f.file);
+}
+
+enum class V23Drift { digest, projection, future };
+
+MigrationReason prepare_v23_drift(const DisposableFile &file, V23Drift drift) {
+    // Each stopped copy gets one alteration. Authenticate it independently of
+    // both product inspection paths before checking the refusal.
+    auto history = history23();
+    if (drift == V23Drift::projection) {
+        ConstraintSpecimen(file).drift(ConstraintSpecimen::Drift::index22);
+        expect_rows(read_stopped(file,
+                                 "SELECT tbl_name FROM sqlite_schema WHERE type='index' "
+                                 "AND name='subathon_test_v22_drift'",
+                                 2),
+                    {{QStringLiteral("subathon_clock_evidence")}}, "Projection drift is present");
+    } else {
+        const auto name = QUuid::createUuid().toString(QUuid::WithoutBraces);
+        {
+            auto db = QSqlDatabase::addDatabase("QSQLITE", name);
+            const auto remove = qScopeGuard([&] {
+                db = {};
+                QSqlDatabase::removeDatabase(name);
+            });
+            db.setDatabaseName(file.path());
+            require(db.open(), "Open detached v23 history specimen");
+            QSqlQuery query(db);
+            if (drift == V23Drift::digest) {
+                auto digest = QByteArray::fromHex(v23_digest);
+                digest[0] = char(static_cast<unsigned char>(digest.at(0)) ^ 1);
+                require(query.prepare("UPDATE subathon_migration_history SET content_sha256=? "
+                                      "WHERE version=23"),
+                        "Prepare v23 digest drift");
+                query.addBindValue(digest);
+                history.back().back() = blob(digest);
+            } else {
+                require(query.prepare("INSERT INTO subathon_migration_history VALUES(24,?,?)"),
+                        "Prepare a structurally valid unknown head");
+                const auto digest = QByteArray(32, 'F');
+                query.addBindValue(QStringLiteral("unknown-future-head"));
+                query.addBindValue(digest);
+                history.append(
+                    SqlRow{integer(24), QStringLiteral("unknown-future-head"), blob(digest)});
+            }
+            require(query.exec() && query.numRowsAffected() == 1, "Change exactly one history row");
+        }
+    }
+    expect_rows(read_stopped(file, select_history, 25), history, "Exact altered history specimen");
+    switch (drift) {
+    case V23Drift::digest:
+        return MigrationReason::catalog_mismatch;
+    case V23Drift::projection:
+        return MigrationReason::schema_mismatch;
+    case V23Drift::future:
+        return MigrationReason::unsupported_version;
+    }
+    Q_UNREACHABLE();
+}
+
+void refuse_v23_reopen(const DisposableFile &file, MigrationReason expected) {
+    const auto before = file.seal();
+    SqliteWriter owner;
+    const auto opened = owner.open(file.path(), setup_profile);
+    require(opened == StorageError::none || opened == StorageError::open_failed,
+            "Normal open either refuses or permits inspection only");
+    if (opened == StorageError::none) {
+        const auto calls = std::make_shared<int>(0);
+        const auto admission = SqliteMigrationRunner::enqueue(
+            owner, request(MigrationMode::advance, compiled_successor()),
+            [calls](auto) { ++*calls; });
+        bool ran = false;
+        const auto work = owner.run_idle_owner_work([&](auto) {
+            ran = true;
+            return 1;
+        });
+        shutdown_writer(owner);
+        expect_admission(admission, {StorageError::invalid_options, expected});
+        require(*calls == 0 && !ran && work.error == WorkError::protocol_error &&
+                    work.transaction == TransactionOutcome::not_started && !work.value,
+                "Unusable store runs no ordinary migration or idle work");
+    }
+    require(file.seal() == before && !QFileInfo::exists(file.path() + "-journal"),
+            "Refused reopen leaves the stopped store unchanged");
+}
+
+auto attempt_w1(SqliteWriter &owner) {
+    using Result = std::variant<SqliteBundleInitialDisposition, WorkError>;
+    const auto staged = std::make_shared<std::optional<Result>>();
+    const auto work = owner.run_idle_owner_work([staged](auto context) {
+        using namespace subathon::core;
+        const auto session = context.begin();
+        const ApplicationStateSnapshot snapshot{
+            "A", {"E", "active"},
+            "W", {TimerLifecycle::Active, CountdownPhase::Main, 10000, 0, false},
+            0,   {}};
+        *staged = stage_clock_checkpoint_initial(
+            session, {{RetainedKind::configuration, "W"}, "configuration", {}}, snapshot,
+            {"I", "T", "L", {"S", "J"}, 1000, 0, slot_document, seed_root});
+        // If a refusal accidentally left a pending write, commit on this
+        // disposable store so the stopped-file check can observe it.
+        session.commit();
+        return 1;
+    });
+    expect_commit(work);
+    require(staged->has_value(), "W1 staging body reached its typed result");
+    return staged->value();
+}
+
+void w1_v22_positive(Fixture &f) {
+    const auto staged = attempt_w1(f.writer);
+    const auto *inserted = std::get_if<SqliteBundleInitialDisposition>(&staged);
+    require(inserted && *inserted == SqliteBundleInitialDisposition::inserted,
+            "Identical W1 input is valid and inserts on authentic v22");
+    shutdown_writer(f.writer);
+    expect_rows(read_stopped(f.file, select_head, 2), initial_head,
+                "Positive control physically installed its initial head");
+}
+
+void w1_refuses_v23(Fixture &f) {
+    commit_v23(f);
+    const auto before = f.file_state();
+    const auto staged = attempt_w1(f.writer);
+    const auto *refusal = std::get_if<WorkError>(&staged);
+    f.require_unchanged(before);
+    shutdown_writer(f.writer);
+    require(refusal && *refusal == WorkError::invalid_statement,
+            "W1 refuses exact v23 with a type");
+    authenticate_stopped_v23(f.file);
+    expect_rows(read_stopped(f.file, select_head, 2), {}, "W1 leaves the head empty");
+    expect_rows(read_stopped(f.file, "SELECT singleton FROM subathon_clock_checkpoint", 2), {},
+                "W1 leaves the checkpoint empty");
+    expect_rows(read_stopped(f.file, "SELECT revision FROM subathon_clock_evidence", 2), {},
+                "W1 leaves the evidence empty");
+    require_not_v22(f.file);
+}
 
 QByteArray cancelled_main_bytes(const QString &path) {
     QFile file(path);
@@ -474,6 +736,34 @@ int main(int argc, char **argv) {
         f.reject(std::move(while_stopping), FakeOps02UpdateHoldIssuer::issue(), invalid);
         f.reject(V23RebuildAccess::acquire(f.writer), FakeOps02UpdateHoldIssuer::issue(), invalid);
         require(QTest::qWaitFor([stopped] { return *stopped == 1; }), "Shutdown completed once");
+    });
+    run("normal v23 reopen", normal_v23_reopen);
+    run("private read-only v23 inspection", [](Fixture &f) {
+        commit_and_stop_v23(f);
+        expect_v23_inspection(f.file, MigrationReason::none);
+    });
+    for (const auto &[name, drift] : {std::pair{"digest drift", V23Drift::digest},
+                                      {"projection drift", V23Drift::projection},
+                                      {"unknown head", V23Drift::future}}) {
+        const auto specimen = [drift](auto check) {
+            return [drift, check](Fixture &f) {
+                commit_and_stop_v23(f);
+                DisposableFile altered;
+                f.file.copy_to(altered);
+                check(altered, prepare_v23_drift(altered, drift));
+            };
+        };
+        run(qPrintable(QString("normal reopen: %1").arg(name)), specimen(refuse_v23_reopen));
+        run(qPrintable(QString("private inspection: %1").arg(name)),
+            specimen(expect_v23_inspection));
+    }
+    run("v22 W1 valid-input control", [](Fixture &f) {
+        w1_v22_positive(f);
+        qInfo("Passed v22 W1 valid-input control");
+    });
+    run("v23 W1 staging refusal control", [](Fixture &f) {
+        w1_refuses_v23(f);
+        qInfo("Passed v23 W1 staging refusal control");
     });
     return passed ? 0 : 1;
 }
