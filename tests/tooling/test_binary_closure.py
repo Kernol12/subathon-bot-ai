@@ -5,6 +5,7 @@ Synthetic ldd output and ctest JSON only; no real binary is inspected or run.
 Expected values follow the ADR rule: the observed set must equal the committed set.
 """
 from contextlib import redirect_stderr, redirect_stdout
+import hashlib
 import io
 import json
 import os
@@ -206,6 +207,25 @@ class RunLdd(unittest.TestCase):
         with patch.object(bc.subprocess, "run", return_value=answer), \
                 self.assertRaisesRegex(bc.ClosureError, "GLIBCXX_3.4.33"):
             bc.run_ldd("x", dict(os.environ))
+
+
+class FixExpected(unittest.TestCase):
+    """The list fix behind the patch, on hand-written closures."""
+
+    def test_new_programs_share_one_profile_and_not_elf_is_kept_as_such(self):
+        fixed = bc.fix_expected({"format": 1, "profiles": {}, "programs": {}},
+                                {"a": ["/lib/x.so"], "b": ["/lib/x.so"], "c": bc.NOT_ELF})
+        self.assertEqual(fixed["programs"]["a"], fixed["programs"]["b"])
+        self.assertEqual(fixed["profiles"], {fixed["programs"]["a"]: ["/lib/x.so"]})
+        self.assertEqual(fixed["programs"]["c"], bc.NOT_ELF)
+
+    def test_a_taken_profile_name_is_never_overwritten(self):
+        name = "observed-" + hashlib.sha256(b"b.so").hexdigest()[:12]
+        expected = {"format": 1, "profiles": {name: ["b.so", "c.so"]}, "programs": {"z": name}}
+        fixed = bc.fix_expected(expected, {"z": ["b.so", "c.so"], "x": ["b.so"]})
+        self.assertEqual(fixed["profiles"][name], ["b.so", "c.so"])
+        self.assertEqual(fixed["programs"]["x"], f"{name}-2")
+        self.assertEqual(fixed["profiles"][f"{name}-2"], ["b.so"])
 
 
 class PatchOnFailure(unittest.TestCase):

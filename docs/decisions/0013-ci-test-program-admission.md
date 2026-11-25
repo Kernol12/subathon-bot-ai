@@ -130,5 +130,7 @@ also counts the closure-list updates and CI failures this gate caused.
   admission rule change as in this PR. Earlier evidence keeps its recorded meaning.
 - A PR that adds a test program, links a new library or changes a CI prefix updates
   the list in `tools/binary_closures/` in the same PR. On a mismatch the gate
-  prints the observed list; reviewers check that the change is intended.
+  prints the observed list; reviewers check that the change is intended. Since
+  CI-004 it prints and uploads a `git apply` patch of only the changed entries
+  instead (see `docs/CI.md`).
 - The tooling tests cover the gate with synthetic loader output only.

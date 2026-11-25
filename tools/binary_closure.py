@@ -208,7 +208,11 @@ def fix_expected(expected: dict, closures: dict[str, list[str] | str]) -> dict:
             continue
         name = next((n for n, libs in profiles.items() if sorted(libs) == closure), None)
         if name is None:
-            name = "observed-" + hashlib.sha256("\n".join(closure).encode()).hexdigest()[:12]
+            # A reviewed edit may have kept a digest name for other contents; never reuse it.
+            base = "observed-" + hashlib.sha256("\n".join(closure).encode()).hexdigest()[:12]
+            name, suffix = base, 2
+            while name in profiles:
+                name, suffix = f"{base}-{suffix}", suffix + 1
             profiles[name] = list(closure)
         programs[key] = name
     return {**expected, "profiles": profiles, "programs": dict(sorted(programs.items()))}
