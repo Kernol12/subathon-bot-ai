@@ -997,12 +997,12 @@ class SqliteWriter::Impl {
     StorageError shutdown(std::function<void()> completion) {
         if (!on_owner())
             return StorageError::wrong_thread;
-        if (!v23_reservation_.expired())
-            return StorageError::busy;
         if (!completion)
             return StorageError::invalid_options;
         stopping_ = true;
         shutdown_completions_.push_back(std::move(completion));
+        v23_generation_.reset();
+        v23_reservation_.reset();
         schedule();
         return StorageError::none;
     }
@@ -1218,7 +1218,7 @@ StorageLimits detail::ContributionReviewWriterAccess::limits(const SqliteWriter 
 
 bool detail::ContributionReviewWriterAccess::acquire(SqliteWriter &writer) {
     auto &impl = *writer.impl_;
-    if (!impl.on_owner() || impl.review_active_)
+    if (!impl.on_owner() || impl.review_active_ || !impl.v23_reservation_.expired())
         return false;
     impl.review_active_ = true;
     return true;

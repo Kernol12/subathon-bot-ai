@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# The protected base has no ordinary checkpoint owner object. Each structural
-# runner receives exactly this variant once; do not also link an ordinary copy.
+# Each structural runner receives exactly this checkpoint owner variant. Do not
+# also link an ordinary copy, including the v23 rebuild target.
 add_library(subathon_storage_003_fixture_owner OBJECT
     "${PROJECT_SOURCE_DIR}/server/src/sqlite_clock_checkpoint.cpp")
 target_compile_definitions(subathon_storage_003_fixture_owner PRIVATE
