@@ -10,5 +10,6 @@ Reviewed commit and paths:
 Reviewer provider / model / session:
 Requirements, contract sections and oracles reviewed:
 Findings (stable IDs; mark blockers):
+Tests stage only: tests that could be removed without losing a specified behaviour:
 Checks actually run:
 Remaining gates:

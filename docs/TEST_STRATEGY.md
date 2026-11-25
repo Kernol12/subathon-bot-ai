@@ -175,7 +175,8 @@ these results establish no release, platform or security verification.
 Correction 19 (API-024) adds first-party declarations and insertion-only probe
 actions keyed on an `api024` argument; every frozen selector is unchanged. Its
 suite `api-024.listener` is opt-in under `SUBATHON_BUILD_API_024_STAGE1` and not run
-in CI, so its credited local runs keep the standing admission (ADR-0013 item 4). Its
+in CI. Under [ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md) it
+joins a CI job for credited runs. Its
 frozen `intentional-red` label predates the implementation.
 
 ## Running relevant checks
@@ -298,6 +299,11 @@ and repository merge rules, and retain separate independent review before mergin
 
 Follow the task sequence and review tiers in [the agent workflow](AGENT_WORKFLOW.md).
 Derive expected values independently from the specification.
+
+Keep a tests stage within 800 lines of tests and fixtures unless the issue names a
+larger number and the reason. Write one test per row of the examples table and per
+named edge case, reuse shared helpers and generate large fixtures in code
+([ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md)).
 
 Prefer small named behavior scenarios, synthetic/redacted fixtures, fake adapters and
 controllable clocks. Keep one primary home for shared mechanics. Avoid duplicate writer

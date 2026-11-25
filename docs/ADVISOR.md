@@ -21,8 +21,8 @@ coordinator works under [AGENTS.md](../AGENTS.md) and
 
 ## Loop
 
-Run every 20 minutes by day and every 30 to 60 minutes at night, and whenever the
-coordinator ends a turn.
+Run whenever the coordinator ends a turn or asks a question, and once an hour
+otherwise.
 
 1. Read the coordinator's new messages.
 2. Find every question in dialogs and numbered messages.
@@ -34,23 +34,16 @@ scratch folder and quote the specification. A reported FAIL counts only when its
 evidence shows that the step ran. Never pass on the coordinator's recommendation
 unchecked.
 
+## Not the advisor's
+
+Run mechanics belong to the coordinator
+([ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md)): paths, sandbox
+details, environment, ref refreshes, rebuilds, merge-conflict resolutions and scripts
+that stay in a task's ignored build folder. The coordinator decides these without
+asking. Send such a question back with that answer.
+
 ## The advisor decides
 
-- **Run mechanics:** sandbox, paths, seals, pins, environment, ref refreshes,
-  merge-conflict resolutions and re-pointing a procedure at the current build.
-  A change that matches an established passing procedure or a reviewed artifact,
-  and weakens no check, isolation or assertion, needs only an independent review.
-- **Task-local run scripts.** The advisor may approve a script for one task's
-  run when it meets all three conditions.
-
-  - It stays in that task's ignored build folder, is never committed and is
-    never used by CI.
-  - It is derived from a reviewed script or is a small piece of glue.
-  - It preserves every check, isolation boundary and assertion.
-
-  Obtain independent review before running it. Name the script and review in
-  the report so the advisor can include them in the owner's digest. Existing
-  approvals for task-local run scripts still apply.
 - **Readings of the specification.** Quote the applicable section. When a
   feature has a gap, apply and quote the nearest similar feature's rule.
   Record the decision in the owner's digest for review.
@@ -68,9 +61,8 @@ unchecked.
 
 1. A specification contradiction or a gap without an applicable sibling rule.
 2. A new dependency or a provider change outside the standing Claude track.
-3. Process changes outside the task-local rule, reusable tools, anything under
-   `tools/`, committed scripts or tooling, and CI changes. Escalate before
-   authoring any of these.
+3. Process changes, reusable tools, anything under `tools/`, committed scripts or
+   tooling, and CI changes. Escalate before authoring any of these.
 4. An incompatible change to a merged contract: stored data, a wire format or an
    existing caller breaks.
 5. Streamer-visible behavior without an applicable specification or sibling rule.
@@ -96,7 +88,10 @@ the owner is deciding and that no technical judgment is needed.
 - Record each decision as a comment on the task's GitHub issue, with the question,
   the answer and a one-line reason.
 - Add one line per decision to `build/advisor/decisions-YYYY-MM-DD.md`.
-- Send the owner one daily digest of decisions and open escalations.
+- Send the owner two digests a day, in the morning and in the evening, each with
+  the decisions taken and every open escalation with options and a recommendation.
+  Between digests, contact the owner only when all work is stopped or a step would
+  touch real providers, credentials, chat or payments.
 
 ## Board
 
@@ -132,12 +127,12 @@ require separate authorization.
    question for the advisor. Use `security-blocked` for a safeguard refusal.
    Preserve the evidence. The coordinator makes no retry or rewording and sends
    no execution request to another provider.
-2. **Claude track.** The advisor starts the single Claude track without another
+2. **Claude track.** The advisor starts a Claude track without another
    owner decision for the same authorized step if the work is permitted within
-   the track's safeguards. Run one track at a time. Give an honest brief with the
+   the track's safeguards. Run at most two tracks at a time, and two only when
+   their material is separate. Give an honest brief with the
    exact task, scope and safeguards, and require independent
-   reviews before and after. This also applies to the passive library and ELF
-   closure check of a task's exact test program. For restricted material, report
+   reviews before and after. For restricted material, report
    pass or fail and checksums only, and keep raw listings private. Record the run
    in the owner's daily digest. Each provider's safeguards still apply.
 3. **Escalate after a Claude decline.** Stop without retrying or rewording and

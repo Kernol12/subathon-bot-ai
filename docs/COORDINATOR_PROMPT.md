@@ -48,10 +48,15 @@ checks are not completion: name the remaining work or the concrete blocker.
   `link_pull_request`. A runner that requires a branch-bound PR tool needs a
   thread on the target branch.
 - Keep builds and results in durable directories, outside `/tmp`.
-- Pin runs to exact commits or private refs. Avoid remote-tracking refs.
+- Decide run mechanics yourself: paths, sandbox details, environment, ref
+  refreshes, rebuilds and merge-conflict resolutions. Note a choice in the PR when
+  a reader needs it.
+- Test runs follow [ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md):
+  required CI for a credited pass, one plain local run for intended red. Set no
+  merge hold and create no pin for a test run.
 - Keep security-flagged material out of the coordinator context and refer the
-  step to the single Claude track.
-- After a restart, verify pins and checksums again before running anything.
+  step to a Claude track through the advisor.
+- After a restart, verify the checkout, branch and PR head before running anything.
 
 ## Starting prompt
 
