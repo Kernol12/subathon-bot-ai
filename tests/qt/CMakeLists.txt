@@ -226,6 +226,20 @@ if(SUBATHON_BUILD_SQLITE_PLAN_TESTS)
         LABELS "sqlite-plan;acceptance;qt;server")
 endif()
 
+# The v22 manifest builder uses contribution review's dependency closure.
+if(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS AND SUBATHON_BUILD_CONTRIBUTION_REVIEW_TESTS)
+    if(NOT TARGET subathon_contribution_review)
+        message(FATAL_ERROR "The v22 catalog drift check requires the contribution-review dependencies")
+    endif()
+    add_executable(server_v22_catalog_drift storage_003/catalog_drift.cpp
+        "${PROJECT_SOURCE_DIR}/server/src/sqlite_clock_checkpoint.cpp")
+    target_link_libraries(server_v22_catalog_drift PRIVATE
+        subathon_contribution_review subathon_sqlite_v22_catalog)
+    subathon_target_options(server_v22_catalog_drift)
+    add_test(NAME v22-catalog-drift COMMAND server_v22_catalog_drift)
+    set_tests_properties(v22-catalog-drift PROPERTIES LABELS "sqlite-migrations;acceptance;qt;server" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS)
     subathon_add_qt_suite(server_sqlite_migration_acceptance
         NAME sqlite-migrations SOURCES sqlite_migration_tests.cpp
