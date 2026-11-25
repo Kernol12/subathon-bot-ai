@@ -156,6 +156,7 @@
     "build/sqlite-reference-capture-debug/tests/qt/storage_003/server_storage_003_w1_admission_supplement": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/storage_003/server_storage_003_w1_open_admission": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/storage_003/server_storage_003_w1_writer": "qt-sql-test",
+    "build/sqlite-reference-capture-debug/tests/qt/storage_003/server_storage_033_stage1": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/storage_026/server_storage_026_stage1_catalog": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/storage_026/server_storage_026_stage1_receipts": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/storage_026/server_storage_026_stage1_transitions": "qt-sql-test",
