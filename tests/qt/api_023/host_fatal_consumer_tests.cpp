@@ -21,7 +21,14 @@ struct MissingHostFatalConsumer : std::runtime_error {
 // Replace only this stop with a forward through the fake transport's private
 // Host binding when that owner exists. The call runs on the fixture IO owner.
 // Replacement rule: see Replacing the stub in tests/qt/api_023/README.md.
-void forward_published_fact(Rig &, PublishedFatal) { throw MissingHostFatalConsumer{}; }
+void forward_published_fact(Rig &rig, PublishedFatal fact) {
+    using Reason = bounded_http::FatalElapsedReason;
+    using Site = bounded_http::FatalElapsedSite;
+    hooks::HostAccess::publish_fatal(
+        *rig.instance,
+        fact == scan ? bounded_http::FatalElapsed{Reason::sample_unavailable, Site::scan}
+                     : bounded_http::FatalElapsed{Reason::deadline_overflow, Site::reply_deadline});
+}
 
 void supply(Rig &rig, PublishedFatal fact) {
     rig.transport->on_io([&] { forward_published_fact(rig, fact); });
