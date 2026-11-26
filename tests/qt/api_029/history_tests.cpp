@@ -736,6 +736,38 @@ class HistoryTests : public QObject {
         }
     }
 
+    void retainedCatchUpUsesOriginalCut_data() {
+        QTest::addColumn<bool>("mismatch");
+        QTest::newRow("g3-cut-g4-head") << false;
+        QTest::newRow("different-durable-cut") << true;
+    }
+
+    void retainedCatchUpUsesOriginalCut() {
+        QFETCH(bool, mismatch);
+        HistoryFixture fixture;
+        auto stored = catch_up_intent();
+        if (mismatch)
+            stored.upper_cut.proof = "different-cut-proof";
+        fixture.open_catch_up(stored);
+        auto &db = fixture.startup.store;
+        reconnect_source(db, {2, 4, 2, "g3"}, "g4", "R6");
+        Attempt attempt(db, audit_page_echo());
+        auto source = attempt.transcript.request.source;
+        source.fence = {2, 5, 2, "g4"};
+        attempt.resume_registration(source);
+        auto intent = catch_up_intent();
+        intent.generation = "g4";
+        intent.source_revision = 5;
+        const CutRequest selected{source, CutPurpose::gap_upper, QByteArray("11")};
+        const CutObservation echo{selected, intent.upper_cut, Endpoint::inclusive};
+        const auto before = db.image();
+        QCOMPARE(begin_history_catch_up(db.writer(), attempt.owner, attempt.registered,
+                                        {selected, intent, cursor, progressed}, echo, {}),
+                 mismatch ? IntakeStatus::unproved : IntakeStatus::exact_replay);
+        QCOMPARE(attempt.adapter.cut_calls, 0u);
+        QVERIFY(db.image() == before);
+    }
+
     void importUsesExactStartupPredecessor_data() {
         QTest::addColumn<bool>("checkpoint");
         QTest::newRow("B0-null-frontier") << false;

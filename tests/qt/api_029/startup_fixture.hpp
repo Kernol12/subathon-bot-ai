@@ -49,11 +49,11 @@ struct HistoryFixture {
                             "Commit first checkpoint");
     }
 
-    void open_catch_up() {
-        startup.store.work([](const auto &work) -> QVariant {
+    void open_catch_up(const OperationIntent &intent = catch_up_intent()) {
+        startup.store.work([&](const auto &work) -> QVariant {
             require(stage_gap(work, gap_opening("gap-basis")) == HistoryStatus::staged,
                     "Open gap on the exact fence");
-            require(stage_operation(work, catch_up_intent()) == HistoryStatus::staged,
+            require(stage_operation(work, intent) == HistoryStatus::staged,
                     "Bind reviewed Catch-up intent");
             return true;
         });
