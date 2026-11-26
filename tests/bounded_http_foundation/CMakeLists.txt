@@ -92,4 +92,28 @@ if(SUBATHON_BUILD_ACCOUNT_CAPTURE_TESTS)
     set_target_properties(account_capture_native PROPERTIES BUILD_RPATH "${sbt_drogon_root}/lib")
     subathon_discover_gtests(account_capture_native
         LABELS "account-capture;acceptance;server;loopback" TIMEOUT 40)
+
+    # SESSION-010 (#588): the ordinary edge capture producer, one selector per process,
+    # and its committed driver with the pinned stock Caddy edge on host loopback.
+    add_executable(session_010_edge_capture
+        "${PROJECT_SOURCE_DIR}/tests/session_010/edge_capture_controls.cpp")
+    target_include_directories(session_010_edge_capture PRIVATE "${sbt_account_private}")
+    target_link_libraries(session_010_edge_capture PRIVATE ${sbt_bounded_http_producer}
+        subathon_native_websocket_profile Drogon::Drogon Threads::Threads GTest::gtest_main)
+    subathon_target_options(session_010_edge_capture)
+    set_target_properties(session_010_edge_capture PROPERTIES BUILD_RPATH "${sbt_drogon_root}/lib")
+    set(SUBATHON_SESSION010_CADDY "" CACHE FILEPATH
+        "Pinned Caddy 2.10.2 binary for the SESSION-010 edge capture driver")
+    if(SUBATHON_SESSION010_CADDY)
+        foreach(selector IN ITEMS Desktop252 Browser282)
+            add_test(NAME "session-010.edge-capture.${selector}"
+                COMMAND "${Python3_EXECUTABLE}"
+                    "${PROJECT_SOURCE_DIR}/tests/session_010/edge_capture_driver.py"
+                    --producer "$<TARGET_FILE:session_010_edge_capture>"
+                    --caddy "${SUBATHON_SESSION010_CADDY}" --selector "${selector}")
+            set_tests_properties("session-010.edge-capture.${selector}" PROPERTIES
+                LABELS "session-010;acceptance;server;loopback" TIMEOUT 60
+                ENVIRONMENT "LD_LIBRARY_PATH=${sbt_drogon_root}/lib")
+        endforeach()
+    endif()
 endif()
