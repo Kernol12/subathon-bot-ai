@@ -172,8 +172,8 @@ struct Core final : io::Producer, sdk::Sink {
     // Peers with PeerRecord::pending(), adjusted by delta at every intent transition.
     // pending_count, peak_pending and the intent fields share the same mutex.
     U64 pending_count{}, peak_pending{};
-    // API-033 test observation: post's visits to peer records; same mutex. Post visits
-    // none, so it stays 0 unless a record visit is reintroduced there.
+    // API-033 test observation: post's visits to peer records other than its own target;
+    // same mutex. Post visits none, so it stays 0 unless such a visit is reintroduced.
     U64 post_peer_visits{};
     // Applies one record's pending() change; called under the mutex after the transition.
     void repend(bool before, const PeerRecord &p) noexcept {
