@@ -733,7 +733,20 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
             return Status::stale;
         return Status::committed;
     };
-    bool retained = false;
+    const auto existing_purpose = [&](const SqliteWorkSession &session) -> std::optional<int> {
+        const auto rows = session.execute(
+            {"SELECT CASE WHEN provider=? AND account=? AND stream=? THEN purpose ELSE -1 END "
+             "FROM main.subathon_intake_operations WHERE installation=? AND operation_ref=?",
+             {source.scope.provider, source.scope.account, source.scope.stream,
+              source.scope.installation, request.operation}});
+        return rows.isEmpty() ? std::nullopt : std::optional{rows.front()[0].toInt()};
+    };
+    constexpr int foreign_scope = -1;
+    const auto read_import_start = [&](const SqliteWorkSession &session) -> std::optional<qint64> {
+        const auto rows = read_operation(session, request);
+        return rows.size() == 1 ? retained_import_start(rows.front()[1].toByteArray())
+                                : std::nullopt;
+    };
     std::optional<qint64> start;
     run(writer, status, [&](const auto &session) {
         const auto current = check_operation_head(session);
@@ -753,16 +766,13 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
                 rows.front()[1].toByteArray() != blob(selected.request.prior_frontier))
                 return Status::stale;
         }
-        if (importing) {
-            const auto rows = read_operation(session, request);
-            if (!rows.isEmpty()) {
-                const auto access = authorize(owner, Action::inspect, source.scope);
-                if (access != Status::committed)
-                    return access;
-                if (rows.front()[2].toInt() != static_cast<int>(HistoryPurpose::import))
-                    return Status::conflict;
-                retained = true;
-                start = retained_import_start(rows.front()[1].toByteArray());
+        const auto purpose = existing_purpose(session);
+        if (purpose && *purpose != foreign_scope) {
+            const auto access = authorize(owner, Action::inspect, source.scope);
+            if (access != Status::committed)
+                return access;
+            if (importing && *purpose == static_cast<int>(HistoryPurpose::import)) {
+                start = read_import_start(session);
                 if (!start)
                     return Status::unavailable;
             }
@@ -774,7 +784,7 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
     if (candidate && !same(request, *candidate))
         return Status::invalid_input;
     if (importing) {
-        if (!retained)
+        if (!start)
             start = local_start(owner, intent);
         if (!start)
             return Status::invalid_import_date;
@@ -797,6 +807,22 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
             if (const auto head_status = check_operation_head(session);
                 head_status != Status::committed)
                 return head_status;
+            if (const auto purpose = existing_purpose(session)) {
+                if (*purpose == foreign_scope)
+                    return Status::conflict;
+                const auto access = authorize(owner, Action::inspect, source.scope);
+                if (access != Status::committed)
+                    return access;
+                if (*purpose != static_cast<int>(intent.purpose))
+                    return Status::conflict;
+                if (importing) {
+                    const auto retained_start = read_import_start(session);
+                    if (!retained_start)
+                        return Status::unavailable;
+                    if (*retained_start != intent.resolved_utc_start)
+                        return Status::invalid_input;
+                }
+            }
             return outcome(stage_operation(session, intent));
         },
         true);
