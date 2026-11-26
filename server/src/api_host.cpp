@@ -1,10 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "api_host_internal.hpp"
 #include "session_clock_host_internal.hpp"
+#include <QAbstractEventDispatcher>
+#include <QBasicTimer>
 #include <QCoreApplication>
 #include <QThread>
+#include <QTimerEvent>
 #include <algorithm>
+#include <array>
 #include <atomic>
+#include <chrono>
 #include <cstring>
 #include <limits>
 #include <mutex>
@@ -21,6 +26,35 @@ namespace obs = testing;
 using K = obs::EventKind;
 using End = obs::CommandEnd;
 constexpr U64 max = std::numeric_limits<U64>::max();
+namespace bh = bounded_http;
+// Exact enumerator spellings for the fixed diagnostic line (API-023 r4 §2).
+constexpr std::array<std::string_view, 3> fatal_reasons{"sample_unavailable", "sample_regressed",
+                                                        "deadline_overflow"};
+constexpr std::array<std::string_view, 11> fatal_sites{"scan",
+                                                       "accept_sample",
+                                                       "peer_guard",
+                                                       "idle_sample",
+                                                       "accept_deadline",
+                                                       "upgrade_deadline",
+                                                       "request_deadline",
+                                                       "idle_deadline",
+                                                       "reply_deadline",
+                                                       "control_deadline",
+                                                       "listener_hold_sample"};
+static_assert(fatal_reasons.size() == std::size_t(bh::FatalElapsedReason::deadline_overflow) + 1);
+static_assert(fatal_sites.size() == std::size_t(bh::FatalElapsedSite::listener_hold_sample) + 1);
+constexpr std::string_view fatal_prefix = "api_host.foundation_elapsed_fatal/";
+constexpr std::size_t longest(const auto &names) {
+    std::size_t n = 0;
+    for (auto name : names)
+        n = std::max(n, name.size());
+    return n;
+}
+constexpr std::size_t fatal_line_max =
+    fatal_prefix.size() + longest(fatal_reasons) + 1 + longest(fatal_sites) + 1;
+static_assert(fatal_line_max == 74); // r4: at most 74 bytes including LF, no NUL
+// Present bit, reason and site in one word: publication is one release store.
+constexpr std::uint32_t fatal_present = 0x10000;
 struct Peer {
     std::atomic<bool> live{true};
     std::thread::id owner;
@@ -60,6 +94,8 @@ struct Engine : std::enable_shared_from_this<Engine> {
     QObject context;
     const std::thread::id owner = std::this_thread::get_id();
     Options options;
+    // Declared before transport so the relay target outlives transport threads.
+    std::atomic<std::uint32_t> fatal_word{0};
     std::unique_ptr<Transport> transport;
     std::unique_ptr<CommandDispatcher> dispatcher;
     std::unique_ptr<SqliteWriter> writer;
@@ -82,6 +118,7 @@ struct Engine : std::enable_shared_from_this<Engine> {
     std::optional<subathon::server::testing::WorkControlFault> cold_fault;
     bool started = false, transport_started = false, writer_stopping = false, failed = false;
     bool dispatching = false, writer_open = false;
+    bool fatal_consumed = false; // Qt owner only
     std::function<void(std::shared_ptr<Record>)> execute, deliver;
     StartupObserver startup;
     Engine(Options o, std::unique_ptr<Transport> t, std::unique_ptr<CommandDispatcher> d)
@@ -123,8 +160,61 @@ struct Engine : std::enable_shared_from_this<Engine> {
             return {};
         return now + ms * 1000000;
     }
+    // A published fatal is a stop at every existing final gate (Correction 2).
     bool stopping() const {
-        return stop_requested.load(std::memory_order_acquire) || detail::signal_pending();
+        return stop_requested.load(std::memory_order_acquire) || detail::signal_pending() ||
+               (fatal_word.load(std::memory_order_acquire) & fatal_present);
+    }
+    // The relay binding: any thread, first valid value wins, store only.
+    static void publish_fatal(void *owner, bh::FatalElapsed fact) noexcept {
+        const auto reason = std::uint32_t(fact.reason), site = std::uint32_t(fact.site);
+        if (reason >= fatal_reasons.size() || site >= fatal_sites.size())
+            return; // closed sets; no arbitrary fact can be published
+        std::uint32_t none = 0;
+        static_cast<Engine *>(owner)->fatal_word.compare_exchange_strong(
+            none, fatal_present | reason << 8 | site, std::memory_order_release,
+            std::memory_order_relaxed);
+    }
+    detail::FatalRelay fatal_relay() noexcept { return {this, &Engine::publish_fatal}; }
+    std::optional<bh::FatalElapsed> published_fatal() const noexcept {
+        const auto word = fatal_word.load(std::memory_order_acquire);
+        if (!(word & fatal_present))
+            return {};
+        return bh::FatalElapsed{bh::FatalElapsedReason((word >> 8) & 0xff),
+                                bh::FatalElapsedSite(word & 0xff)};
+    }
+    // Once, on Qt, outside Host locks. A refusal or absent sink keeps inspection.
+    void report_fatal(bh::FatalElapsed fact) noexcept {
+        const auto &sink = options.fatal_diagnostic;
+        if (!sink || !sink->write)
+            return;
+        std::array<char, 96> line{};
+        static_assert(fatal_line_max <= line.size());
+        std::size_t size = 0;
+        for (auto part :
+             {fatal_prefix, fatal_reasons[std::size_t(fact.reason)], std::string_view("/"),
+              fatal_sites[std::size_t(fact.site)], std::string_view("\n")}) {
+            std::copy(part.begin(), part.end(), line.begin() + size);
+            size += part.size();
+        }
+        (void)sink->write(sink->context, {line.data(), size});
+    }
+    // Record a published fatal once after the stop fence, then report it.
+    void consume_fatal() {
+        if (fatal_consumed)
+            return;
+        const auto fact = published_fatal();
+        if (!fact)
+            return;
+        {
+            std::lock_guard lock(mutex);
+            if (snapshot.owner_cleanup)
+                return;
+            snapshot.fatal_elapsed = *fact;
+        }
+        fatal_consumed = true;
+        failed = true;
+        report_fatal(*fact);
     }
     void wake() {
         if (!wake_pending.exchange(true)) {
@@ -198,12 +288,16 @@ struct Engine : std::enable_shared_from_this<Engine> {
                 first = true;
             }
         }
-        if (!first)
-            return;
+        if (first)
+            fence_stop();
+        consume_fatal();
+    }
+    void fence_stop() {
         if (clock_state)
             session_clock::detail::HostBindingAccess::revoke(*clock_state);
         started = true; // A consumed cold stop also consumes this process's attempt.
-        const auto now = sample();
+        // Fatal first: immediate closure, no elapsed read and no deadline (r4 §2).
+        const auto now = published_fatal() ? std::nullopt : sample();
         const auto until = now ? deadline(*now, options.limits.drain_ms) : std::nullopt;
         {
             std::lock_guard lock(mutex);
@@ -283,12 +377,15 @@ struct Engine : std::enable_shared_from_this<Engine> {
         }
         if (!ready)
             return;
+        // r4 §3.3: Qt consumes any published fatal before terminal cleanup.
+        consume_fatal();
         dispatcher.reset();
         event(K::dispatcher_destroyed);
         profile_source = nullptr;
         elapsed.reset();
         hooks.elapsed.reset();
         event(K::source_destroyed);
+        std::optional<bh::FatalElapsed> late;
         {
             std::lock_guard lock(mutex);
             for (auto &p : peers) {
@@ -296,10 +393,18 @@ struct Engine : std::enable_shared_from_this<Engine> {
                     p->live.store(false);
                 p.reset();
             }
+            // A fatal published after the check above still decides the state here.
+            if (!fatal_consumed && (late = published_fatal())) {
+                snapshot.fatal_elapsed = *late;
+                fatal_consumed = true;
+                failed = true;
+            }
             snapshot.control_charge = 0;
             snapshot.owner_cleanup = true;
             snapshot.state = failed ? State::failed : State::stopped;
         }
+        if (late)
+            report_fatal(*late);
         event(K::owner_cleanup);
         event(K::stopped);
     }
@@ -642,12 +747,41 @@ struct ResponseLease::Impl {
             }
     }
 };
+// Qt owner timer (r4 §2 "Delivery and wake"). The fatal relay never posts, so one
+// repeating 10 ms tick drives the existing owner turn while a published fatal
+// persists; other ticks do no lifecycle work. Host::Impl owns it so it is armed,
+// stopped and destroyed on the owner, before the Engine it borrows.
+struct OwnerTimer final : QObject {
+    Engine &engine;
+    QBasicTimer timer;
+    explicit OwnerTimer(Engine &e) : engine(e) {}
+    bool arm() {
+        if (!timer.isActive() && QAbstractEventDispatcher::instance())
+            timer.start(std::chrono::milliseconds(10), this);
+        return timer.isActive();
+    }
+    void timerEvent(QTimerEvent *event) override {
+        if (event->id() != timer.id())
+            return QObject::timerEvent(event);
+        bool cleaned;
+        {
+            std::lock_guard lock(engine.mutex);
+            cleaned = engine.snapshot.owner_cleanup;
+        }
+        if (cleaned)
+            timer.stop();
+        else if (engine.published_fatal())
+            engine.turn();
+    }
+};
 struct Host::Impl {
     std::shared_ptr<Engine> engine;
     Ingress ingress;
+    OwnerTimer timer{*engine};
     Impl(Options o, std::unique_ptr<Transport> t, std::unique_ptr<CommandDispatcher> d)
         : engine(std::make_shared<Engine>(std::move(o), std::move(t), std::move(d))),
           ingress(std::make_unique<Ingress::Impl>(Ingress::Impl{engine})) {
+        timer.arm(); // cold setup; start() refuses if it is still unarmed
         engine->execute = [this](auto r) {
             auto h = std::make_unique<CommandHandle::Impl>();
             h->engine = engine;
@@ -716,6 +850,8 @@ Result<StartAccepted> Host::start(StartupObserver observer) {
             U64(e.options.writer_limits.pending_batches) >= l.associations;
     if (!valid)
         return Failure::invalid_options;
+    if (!impl_->timer.arm())
+        return e.fail_start();
     try {
         e.elapsed = e.hooks.elapsed;
         if (!e.elapsed) {
@@ -738,8 +874,10 @@ Result<StartAccepted> Host::start(StartupObserver observer) {
             std::lock_guard lock(e.mutex);
             e.snapshot.state = State::starting;
         }
-        if (auto *composition = dynamic_cast<detail::TransportComposition *>(e.transport.get()))
+        if (auto *composition = dynamic_cast<detail::TransportComposition *>(e.transport.get())) {
             composition->configure(e.elapsed, l);
+            composition->bind_fatal(e.fatal_relay());
+        }
         if (e.stopping()) {
             e.wake();
             return StartAccepted{};
@@ -1159,6 +1297,10 @@ testing::HostAccess::inject_next_control_ack_loss(Host &h,
                *e.writer, f) == StorageError::none
                ? Result<Connected>{Connected{}}
                : Result<Connected>{Failure::invalid_completion};
+}
+void testing::HostAccess::publish_fatal(Host &h, bh::FatalElapsed fact) noexcept {
+    const auto relay = h.impl_->engine->fatal_relay();
+    relay.publish(relay.owner, fact);
 }
 testing::ElapsedIdentity testing::HostAccess::elapsed_identity(const Host &h) {
     const auto *source = h.impl_->engine->elapsed.get();

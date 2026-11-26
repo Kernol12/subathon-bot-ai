@@ -15,6 +15,6 @@ foreach(host_case IN ITEMS
     add_test(NAME "api-023-host-consumer.${host_case}"
         COMMAND server_api_023_host_consumer "${host_case}")
     set_tests_properties("api-023-host-consumer.${host_case}" PROPERTIES
-        LABELS "api-023-host-consumer;acceptance;qt;server;intentional-red"
+        LABELS "api-023-host-consumer;acceptance;qt;server"
         TIMEOUT 180 ENVIRONMENT "LD_LIBRARY_PATH=${sbt_drogon_root}/lib")
 endforeach()

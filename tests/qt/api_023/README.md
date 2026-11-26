@@ -15,45 +15,40 @@ leaves the actual writer in charge of work admission and completion.
 
 ## Selectors
 
-The control is intended to pass. The other selectors are intended to fail at
-the `forward_published_fact` stub until it is replaced.
+All five selectors pass against the Stage 2 Host consumer. Before it, the
+control passed and the other four failed at a `forward_published_fact` stub
+(credited intended red at `0a20f6ff`).
 
-| Qt selector | Independent witness after the handoff | Intended outcome (not yet observed) |
+| Qt selector | Independent witness after the handoff | Expected outcome |
 | --- | --- | --- |
 | `ordinary_stop_control` | Serving positive. D = 7,000,000,000 ns, one ordinary fence, no fatal report, writer receipt plus held fake network receipt before `stopped`. | Passes. |
-| `fatal_stop_order:fatal_first` | No ordinary stop request before the Host consumes the fact. Deadline absent, first fake transport argument zero, no new elapsed read. Exact typed inspection and one local line survive later ordinary stop and both receipts, ending in `failed`. | Fails at the stub until it is replaced. |
-| `fatal_stop_order:ordinary_first_sink_refuses` | Ordinary fence, D and the writer receipt exist before the fact. D and the original transport argument survive. Sink refusal preserves inspection and there is no retry. Held network receipt still blocks owner cleanup. | Fails at the stub until it is replaced. |
-| `published_before_queued_host_readiness` | Fake startup has delivered readiness to the Host callback, with its Qt work pending. No readiness success, installation-read enqueue or activation after publication. Accepted catalog inspection completes normally. | Fails at the stub until it is replaced. |
-| `accepted_units_drain_and_later_command_stays_out` | Two accepted writer units retain committed and rolled-back outcomes in FIFO. Waiting wrapper has no entry or writer result. A third submission is refused before the Qt turn and the finishing reply is withheld. Pending units give no writer receipt. After drain, held fake network receipt still blocks owner cleanup. | Fails at the stub until it is replaced. |
+| `fatal_stop_order:fatal_first` | No ordinary stop request before the Host consumes the fact. Deadline absent, first fake transport argument zero, no new elapsed read. Exact typed inspection and one local line survive later ordinary stop and both receipts, ending in `failed`. | Passes. |
+| `fatal_stop_order:ordinary_first_sink_refuses` | Ordinary fence, D and the writer receipt exist before the fact. D and the original transport argument survive. Sink refusal preserves inspection and there is no retry. Held network receipt still blocks owner cleanup. | Passes. |
+| `published_before_queued_host_readiness` | Fake startup has delivered readiness to the Host callback, with its Qt work pending. No readiness success, installation-read enqueue or activation after publication. Accepted catalog inspection completes normally. | Passes. |
+| `accepted_units_drain_and_later_command_stays_out` | Two accepted writer units retain committed and rolled-back outcomes in FIFO. Waiting wrapper has no entry or writer result. A third submission is refused before the Qt turn and the finishing reply is withheld. Pending units give no writer receipt. After drain, held fake network receipt still blocks owner cleanup. | Passes. |
 
-## Stub and observer probes
+## Forward seam and observer probes
 
-`forward_published_fact` is a single test-local throwing stub. Its intended
-destination is the first-party transport-to-Host binding that delivers
-Foundation's already-published `bounded_http::FatalElapsed` to the Host Engine's
-shared record. The eventual fake should forward to that owning boundary with
-a typed conversion only, without calling `request_stop()` or running a Qt turn.
-Protected `detail::TransportComposition` has no relay binding, and
-`Host::Impl` currently connects only ingress, command and reply ownership.
-The stub therefore has no existing private function to name.
+`forward_published_fact` maps the supplied example to a typed
+`bounded_http::FatalElapsed` and passes it, on the fixture IO owner, to
+`testing::HostAccess::publish_fatal`. That calls the Host's private fatal relay
+binding, the same one `detail::TransportComposition::bind_fatal` receives. The
+fixture's fake transport is a plain `Transport`, so the test reaches the binding
+through `HostAccess` rather than through a composition.
 
-The source adapts future observation through the frozen `Inspection::fatal_elapsed`
-and optional sink (the fixture assumes the member spelling `Options::fatal_diagnostic`
-and aggregate order context then callback). Those probes remain passive and the
-fatal selectors demand real Host observation after the forward. A `static_assert`
-requires both members or neither, so the control's no-fatal checks cannot go
-silently vacuous through one missing or misspelled member. The local sink only
-captures bytes and delivery count in fixed-size storage without logging,
-blocking or reentering Host.
+`unavailable_at_scan` maps to `{sample_unavailable, scan}` and
+`overflow_at_reply_deadline` to `{deadline_overflow, reply_deadline}`. The body
+makes no `request_stop()`, Qt post or invoke, wake, wait or catch, and writes no
+elapsed, sink or fake-transport field. The Host's own owner turn must consume
+the fact.
 
-## Replacing the stub
-
-Replace only the body of `forward_published_fact`. Map `unavailable_at_scan` to
-`{sample_unavailable, scan}` and `overflow_at_reply_deadline` to
-`{deadline_overflow, reply_deadline}`. Pass the value on the fixture IO owner to
-the private Host binding that the Drogon relay uses. No `request_stop()`, Qt post
-or invoke, wake, wait, catch, and no write to elapsed, sink or fake-transport
-fields. No other test, CMake or assertion change.
+The source observes through `Inspection::fatal_elapsed` and the optional
+`Options::fatal_diagnostic` sink (aggregate order: context, then callback).
+Those probes stay passive and the fatal selectors demand real Host observation
+after the forward. A `static_assert` requires both members or neither, so the
+control's no-fatal checks cannot go silently vacuous through one missing or
+misspelled member. The local sink only captures bytes and delivery count in
+fixed-size storage without logging, blocking or reentering Host.
 
 ## Opt-in build
 
@@ -61,8 +56,9 @@ fields. No other test, CMake or assertion change.
 `SUBATHON_BUILD_API_HOST_TESTS`. It builds `server_api_023_host_consumer` and
 registers each selector above as its own CTest command
 (`api-023-host-consumer.<selector>`), one Host per process, with the existing
-180 s bound under the `intentional-red` label. Keep the selectors out of
-existing inventories and ordinary passing CI.
+180 s bound under the `api-023-host-consumer` label. The `native` CI job builds
+them in its host lane and runs that label as required success. They stay out of
+the existing host inventories.
 
 ## Catalog
 
@@ -75,7 +71,7 @@ substitutions, schema changes or borrowed #238 reservation.
 ## Declared gaps
 
 The fatal selectors need a Qt owner turn without a test-driven wake, so they
-depend on the r4 owner timer but cover none of its setup, bootstrap or
+depend on the Host's 10 ms owner timer but cover none of its setup, bootstrap or
 wake-failure variants.
 
 The network receipt represents only the in-process owner's barrier handoff.

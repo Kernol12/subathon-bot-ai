@@ -49,6 +49,30 @@ enum class End : std::uint8_t {
     callback_failed,
     wipe_failed
 };
+// API-023 r4: the first elapsed-time fault IO0 detects, latched once and terminal
+// for this process. Closed sets; the site is the operation that detected it.
+enum class FatalElapsedReason : std::uint8_t {
+    sample_unavailable,
+    sample_regressed,
+    deadline_overflow
+};
+enum class FatalElapsedSite : std::uint8_t {
+    scan,
+    accept_sample,
+    peer_guard,
+    idle_sample,
+    accept_deadline,
+    upgrade_deadline,
+    request_deadline,
+    idle_deadline,
+    reply_deadline,
+    control_deadline,
+    listener_hold_sample
+};
+struct FatalElapsed {
+    FatalElapsedReason reason;
+    FatalElapsedSite site;
+};
 struct Limits {
     U64 peers, http_peers, native_peers, input_slots, output_slots;
     U64 body_bytes, reply_bytes;

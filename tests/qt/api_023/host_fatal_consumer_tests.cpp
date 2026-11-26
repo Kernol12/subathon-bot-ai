@@ -18,10 +18,17 @@ struct MissingHostFatalConsumer : std::runtime_error {
         : std::runtime_error("API-023: private Host consumer of published fatal fact is missing") {}
 };
 
-// Replace only this stop with a forward through the fake transport's private
-// Host binding when that owner exists. The call runs on the fixture IO owner.
-// Replacement rule: see Replacing the stub in tests/qt/api_023/README.md.
-void forward_published_fact(Rig &, PublishedFatal) { throw MissingHostFatalConsumer{}; }
+// Typed forward of the supplied fact to the Host's private fatal relay binding,
+// the one TransportComposition receives. The call runs on the fixture IO owner.
+// Rule for this body: see Forward seam in tests/qt/api_023/README.md.
+void forward_published_fact(Rig &rig, PublishedFatal fact) {
+    using Reason = bounded_http::FatalElapsedReason;
+    using Site = bounded_http::FatalElapsedSite;
+    hooks::HostAccess::publish_fatal(
+        *rig.instance,
+        fact == scan ? bounded_http::FatalElapsed{Reason::sample_unavailable, Site::scan}
+                     : bounded_http::FatalElapsed{Reason::deadline_overflow, Site::reply_deadline});
+}
 
 void supply(Rig &rig, PublishedFatal fact) {
     rig.transport->on_io([&] { forward_published_fact(rig, fact); });
@@ -58,8 +65,8 @@ struct SinkCapture {
     }
 };
 
-// The frozen observer fields are additive. The protected headers can build
-// the fixture before those fields exist. Only the private forward marks red.
+// The observer fields are additive Host members. These probes stay passive;
+// the fatal selectors demand real Host observation after the forward.
 template <class Options> void bind_sink(Options &options, SinkCapture &sink) {
     if constexpr (requires { options.fatal_diagnostic; }) {
         using Sink = typename std::remove_cvref_t<decltype(options.fatal_diagnostic)>::value_type;

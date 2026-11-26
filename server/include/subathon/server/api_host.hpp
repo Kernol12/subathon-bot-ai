@@ -11,6 +11,7 @@
 #include <span>
 #include <string>
 #include <string_view>
+#include <subathon/server/bounded_http.hpp>
 #include <subathon/server/native_websocket_profile.hpp>
 #include <subathon/server/sqlite_account_sessions.hpp>
 #include <variant>
@@ -82,6 +83,14 @@ struct Limits {
     std::uint64_t input_slots = 128, response_slots = 128;
     std::uint64_t queue_ms = 5000, handoff_ms = 5000, drain_ms = 5000;
 };
+// Borrowed local sink for the one fatal elapsed diagnostic line. The context stays
+// valid through Host cleanup. Qt calls write once, outside Host locks; it must not
+// block, allocate, reenter Host or retain the span. false is a refusal; Host
+// neither retries nor records it, and inspection keeps the fatal.
+struct FatalDiagnosticSink {
+    void *context;
+    bool (*write)(void *, std::span<const char>) noexcept;
+};
 struct Options {
     std::string store_path, installation = "I";
     // Host associations need128 pending slots; the standalone writer stays64.
@@ -95,6 +104,8 @@ struct Options {
     native_ws::Limits native{32,      16,       1048576, 1048576, 4096,    2,
                              2097152, 16777216, 1048590, 1048576, 1048590, 254,
                              64,      5000,     10000,   30000,   1000};
+    // Product composition binds a local sink; standalone callers may omit it.
+    std::optional<FatalDiagnosticSink> fatal_diagnostic;
 };
 struct PoolUsage {
     std::uint64_t capacity = 0, copies = 0, metadata = 0, peak_charge = 0;
@@ -108,6 +119,9 @@ struct Inspection {
     std::uint64_t queued_diagnostics = 0, accepted_units = 0;
     PoolUsage input, response;
     std::optional<std::uint64_t> drain_deadline;
+    // Set once when Qt consumes a published Foundation fatal; kept through
+    // stopping and terminal failed, also when the diagnostic sink refuses.
+    std::optional<bounded_http::FatalElapsed> fatal_elapsed;
 };
 class Host;
 class Ingress;
@@ -247,6 +261,8 @@ class Ingress final {
     ~Ingress();
     friend class Host;
 };
+// Construct, start and destroy on the Qt owner thread: the Host owns that
+// thread's 10 ms fatal timer, which only the owner can stop.
 class Host final {
   public:
     Host(Options, std::unique_ptr<Transport>, std::unique_ptr<CommandDispatcher>);

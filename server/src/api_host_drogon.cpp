@@ -39,6 +39,7 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
     ListenersObserver observer_;
     Limits limits_;
     std::shared_ptr<const native_ws::ElapsedSource> elapsed_;
+    detail::FatalRelay fatal_relay_{};
     Ingress *ingress_ = nullptr;
     std::unique_ptr<native_ws::Profile> profile_;
     std::unique_ptr<bh::Foundation> foundation_;
@@ -455,6 +456,8 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
         elapsed_ = std::move(source);
         limits_ = l;
     }
+    // Kept for the IO0 Foundation relay, which lands with the producer slice.
+    void bind_fatal(detail::FatalRelay relay) noexcept override { fatal_relay_ = relay; }
     void peer_connected(const void *id) override {
         std::lock_guard lock(mutex_);
         if (connecting_)
