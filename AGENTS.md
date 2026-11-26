@@ -61,7 +61,7 @@ release scope is unchanged: everything else in the specification follows after t
 MVP and is not dropped. The rule applies by day and at night to picking Ready work.
 Tasks that were already In progress or Parked on that day may be finished.
 
-Keep at most two In progress in different modules, including work waiting for CI
+Keep at most three In progress in different modules, including work waiting for CI
 or merge, and at most one migration at a time. During the day, In progress plus
 Parked may total at most five. Park a task when it waits on an escalated owner
 answer, and start another only within both limits. Wait for the owner if all five
