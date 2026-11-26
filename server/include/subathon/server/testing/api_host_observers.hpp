@@ -94,5 +94,8 @@ class HostAccess final {
     static Result<Connected>
     inject_next_control_ack_loss(Host &, subathon::server::testing::WorkControlFault);
     static ElapsedIdentity elapsed_identity(const Host &);
+    // Calls the Host's private fatal relay binding, the one TransportComposition
+    // receives, as an already-published Foundation fact. Any thread, store only.
+    static void publish_fatal(Host &, bounded_http::FatalElapsed) noexcept;
 };
 } // namespace subathon::server::api_host::testing
