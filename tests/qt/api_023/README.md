@@ -54,34 +54,37 @@ fixed-size storage without logging, blocking or reentering Host.
 
 r4 §2 "Delivery and wake" and Correction 3 (advisor 684.6: `ResponseLease::take`
 and `try_copy` refuse a published fatal with `Failure::stopping`, changing
-nothing). The intended outcome is the forecast for the reviewed tests commit,
-not yet observed as credited red.
+nothing). All 21 selectors pass against the Stage 3 implementation. The
+credited intended red at `13636dfd` is kept per row: four controls passed,
+eight failed at their first assertion and nine aborted at the escaping throw.
 
-| Qt selector | Independent witness | Intended outcome |
-| --- | --- | --- |
-| `lease_take_under_fatal:fatal` | Fatal published on IO before `take`/`try_copy` of a retained lease: both refuse `stopping`, no charge, association or handoff changes; later `take` still refuses; the normal owner releases the association; `failed` after both receipts. | Fails: `take` succeeds. |
-| `lease_take_under_fatal:ordinary` | Control: after an ordinary stop `take` still succeeds (output window kept); `stopped`, no diagnostic. | Passes. |
-| `post_failure_is_contained:stop_refuse_fatal` | Control: a refused stop post cannot suppress a published fatal. | Passes. |
-| `post_failure_is_contained:{stop,disconnect,lease}_raise_fatal` | The site's owner-turn post throws: the throw stays inside the boundary; disconnect retires its peer charge, or the last lease release retires its association; the owner timer drives one fence, one report and `failed` after both receipts. | Aborts at the escaping throw. |
-| `post_failure_is_contained:{stop,disconnect,lease}_{refuse,raise}_ordinary` | The site's post is refused or throws, no fatal; for disconnect and lease a follow-up foreign stop's post is refused too, so only the owner timer and the first failure's obligation can drive the turn: one fence, `stopped`, no diagnostic. | Fails: stop never consumed (refuse), or aborts at the escaping throw (raise). |
-| `cold_stop_without_start:{refuse,raise}` | Cold Host, running dispatcher, no `start()`: a nonowner stop whose post fails still gets one fence and real cleanup to `stopped`, with no writer open, transport start, receipt or report; repeats are inert; later `start()` is `already_started`. | Fails (refuse) or aborts (raise). |
-| `stop_before_writer_open:{refuse,raise}` | Stop latched after startup preparation; the initial post and the early-branch re-wake both fail: `StartAccepted`, one fence, cleanup to `stopped`, no startup work, report or receipt. | Fails (refuse) or aborts (raise). |
-| `timer_registration_failure_refuses_start` | Control: abstract registration failure gives the existing prelaunch refusal and cleanup, with no launch or report. | Passes. |
-| `deferred_bootstrap:stop_latched` | Host built before its thread has a dispatcher, stop latched with its post refused: the one bootstrap event consumes the stop first; no registration, startup work or receipt. | Fails: stop never consumed. |
-| `deferred_bootstrap:stop_latched_raise` | As above with the latching post throwing. | Aborts at the escaping throw. |
-| `deferred_bootstrap:arms_once` | Same construction, no stop: the bootstrap arms the timer exactly once. | Fails: never armed. |
-| `deferred_bootstrap:start_before_bootstrap` | Control: live `start()` reaches prelaunch before the bootstrap is delivered; a late bootstrap cannot register twice. | Passes. |
+| Qt selector | Independent witness | Credited red at `13636dfd` | Outcome |
+| --- | --- | --- | --- |
+| `lease_take_under_fatal:fatal` | Fatal published on IO before `take`/`try_copy` of a retained lease: both refuse `stopping`, no charge, association or handoff changes; later `take` still refuses; the normal owner releases the association; `failed` after both receipts. | Fails: `take` succeeds. | Passes. |
+| `lease_take_under_fatal:ordinary` | Control: after an ordinary stop `take` still succeeds (output window kept); `stopped`, no diagnostic. | Passes. | Passes. |
+| `post_failure_is_contained:stop_refuse_fatal` | Control: a refused stop post cannot suppress a published fatal. | Passes. | Passes. |
+| `post_failure_is_contained:{stop,disconnect,lease}_raise_fatal` | The site's owner-turn post throws: the throw stays inside the boundary; disconnect retires its peer charge, or the last lease release retires its association; the owner timer drives one fence, one report and `failed` after both receipts. | Aborts at the escaping throw. | Passes. |
+| `post_failure_is_contained:{stop,disconnect,lease}_{refuse,raise}_ordinary` | The site's post is refused or throws, no fatal; for disconnect and lease a follow-up foreign stop's post is refused too, so only the owner timer and the first failure's obligation can drive the turn: one fence, `stopped`, no diagnostic. | Fails: stop never consumed (refuse), or aborts at the escaping throw (raise). | Passes. |
+| `cold_stop_without_start:{refuse,raise}` | Cold Host, running dispatcher, no `start()`: a nonowner stop whose post fails still gets one fence and real cleanup to `stopped`, with no writer open, transport start, receipt or report; repeats are inert; later `start()` is `already_started`. | Fails (refuse) or aborts (raise). | Passes. |
+| `stop_before_writer_open:{refuse,raise}` | Stop latched after startup preparation; the initial post and the early-branch re-wake both fail: `StartAccepted`, one fence, cleanup to `stopped`, no startup work, report or receipt. | Fails (refuse) or aborts (raise). | Passes. |
+| `timer_registration_failure_refuses_start` | Control: abstract registration failure gives the existing prelaunch refusal and cleanup, with no launch or report. | Passes. | Passes. |
+| `deferred_bootstrap:stop_latched` | Host built before its thread has a dispatcher, stop latched with its post refused: the one bootstrap event consumes the stop first; no registration, startup work or receipt. | Fails: stop never consumed. | Passes. |
+| `deferred_bootstrap:stop_latched_raise` | As above with the latching post throwing. | Aborts at the escaping throw. | Passes. |
+| `deferred_bootstrap:arms_once` | Same construction, no stop: the bootstrap arms the timer exactly once. | Fails: never armed. | Passes. |
+| `deferred_bootstrap:start_before_bootstrap` | Control: live `start()` reaches prelaunch before the bootstrap is delivered; a late bootstrap cannot register twice. | Passes. | Passes. |
 
 The seams are test-only `testing::HostAccess` members: `inject_post_faults`
 replaces the owner-turn post in `Engine::wake` (refuse returns false, raise
 throws `InjectedPostFault`); `refuse_timer_registration`; `before_writer_open`;
 and `owner_timer` (registered state and count). Production never sets them.
 `pending_post_faults` lets each selector check that the injected fault met
-the stimulus's own post. `report_first` records the first assertion before
-`Rig` teardown, whose watchdog ends a process whose stop never completes.
-These selectors carry the separate `api-023-host-consumer-stage3` and
-`intentional-red` labels until the implementation moves them into the required
-`api-023-host-consumer` label.
+the stimulus's own post. In the disconnect and lease ordinary rows the
+follow-up stop's obligation suffices to drive the turn, so the site's own
+obligation is not separately observable. `report_first` records the first
+assertion before `Rig` teardown, whose watchdog ends a process whose stop
+never completes.
+These selectors carry the required `api-023-host-consumer` label with the
+Stage 2 rows.
 
 r4 fixes no terminal state after a registration refusal, so that control
 accepts `stopped` or `failed`. r4 places the timer disarm "after both barriers
@@ -92,9 +95,9 @@ Host the selectors therefore assert one registration, not a disarm point.
 
 `SUBATHON_BUILD_API_023_HOST_CONSUMER_TESTS` defaults OFF and exists only with
 `SUBATHON_BUILD_API_HOST_TESTS`. It builds `server_api_023_host_consumer` and
-registers each selector above as its own CTest command
-(`api-023-host-consumer.<selector>`), one Host per process, with the existing
-180 s bound under the `api-023-host-consumer` label. The `native` CI job builds
+registers all 26 selectors above (five Stage 2, 21 Stage 3) as their own CTest
+commands (`api-023-host-consumer.<selector>`), one Host per process, with the
+existing 180 s bound under the `api-023-host-consumer` label. The `native` CI job builds
 them in its host lane and runs that label as required success. They stay out of
 the existing host inventories.
 
