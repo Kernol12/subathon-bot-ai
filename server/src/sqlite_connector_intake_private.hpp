@@ -3,6 +3,8 @@
 
 #include <subathon/server/sqlite_connector_intake.hpp>
 
+#include <variant>
+
 namespace subathon::server::connector_intake::detail {
 
 inline constexpr qsizetype reference_limit = 4096;
@@ -37,6 +39,10 @@ inline void require_changed_one(const SqliteWorkSession &session) {
     if (rows.size() != 1 || rows.front().front().toLongLong() != 1)
         throw SqliteWorkFailure(WorkError::sql_failure);
 }
+
+// Shape and canonical size checks shared by operation staging and collision preflight.
+[[nodiscard]] std::variant<QByteArray, HistoryStatus>
+checked_operation_document(const OperationIntent &);
 
 // One writer unit captures the exact active page before its generation moves.
 [[nodiscard]] std::optional<QByteArray> retain_page_reconnect(const SqliteWorkSession &,

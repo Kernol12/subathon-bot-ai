@@ -5,7 +5,7 @@
 
 namespace subathon::server::connector_intake {
 
-// Stage-one declarations for the trusted history boundary. Candidate DTOs
+// Trusted history boundary on the serialized owner queue. Candidate DTOs
 // are checked separately from observations supplied by the registered adapter.
 struct AdmittedHistoryRequest {
     HistoryRequest request;
@@ -77,6 +77,7 @@ struct HistoryProfile {
     std::shared_ptr<const StartupProfile> snapshot;
     std::function<std::optional<HistoryEvidence>(const PageInvocation &)> validate;
     std::function<std::optional<RetainedHistoryPage>(const RetainedPageRequest &)> reconstruct{};
+    mutable quint64 page_invocations{}, cut_invocations{}, gap_invocations{};
 };
 
 struct RetainedPageRequest {

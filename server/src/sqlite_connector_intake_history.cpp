@@ -445,9 +445,8 @@ HistoryStatus stage_source_change(const SqliteWorkSession &session, const Source
     return Status::staged;
 }
 
-HistoryStatus stage_operation(const SqliteWorkSession &session, const OperationIntent &intent) {
-    if (!local_scope(session, intent.scope))
-        return Status::wrong_scope;
+std::variant<QByteArray, HistoryStatus>
+detail::checked_operation_document(const OperationIntent &intent) {
     if (!bounded(intent.current_authority, document_limit))
         return Status::invalid_authority;
     if (intent.purpose != HistoryPurpose::catch_up && intent.purpose != HistoryPurpose::import)
@@ -458,9 +457,20 @@ HistoryStatus stage_operation(const SqliteWorkSession &session, const OperationI
         return Status::unproved_range;
     if (intent.purpose == HistoryPurpose::import && intent.gap)
         return Status::conflict;
-    const auto document = operation_document(intent);
+    auto document = operation_document(intent);
     if (!document)
         return Status::intake_limit;
+    return std::move(*document);
+}
+
+HistoryStatus stage_operation(const SqliteWorkSession &session, const OperationIntent &intent) {
+    if (!local_scope(session, intent.scope))
+        return Status::wrong_scope;
+    const auto checked = detail::checked_operation_document(intent);
+    if (const auto *error = std::get_if<HistoryStatus>(&checked))
+        return *error;
+    const auto &document = std::get<QByteArray>(checked);
+    const bool importing = intent.purpose == HistoryPurpose::import;
     const auto source = select_source(session, intent.scope);
     if (!source || source->fence != Fence{intent.epoch, intent.source_revision,
                                           intent.policy_revision, intent.generation})
@@ -477,7 +487,7 @@ HistoryStatus stage_operation(const SqliteWorkSession &session, const OperationI
             row[2].toByteArray() != intent.scope.stream || row[3].toLongLong() != intent.epoch ||
             row[4].toLongLong() != intent.policy_revision ||
             row[5].toInt() != static_cast<int>(intent.purpose) ||
-            row[7].toByteArray() != *document || optional_blob(row[8]) != intent.gap)
+            row[7].toByteArray() != document || optional_blob(row[8]) != intent.gap)
             return Status::conflict;
         return row[6].toByteArray() == intent.generation ? Status::exact_replay : Status::stale;
     }
@@ -506,7 +516,7 @@ HistoryStatus stage_operation(const SqliteWorkSession &session, const OperationI
          "VALUES(?,?,?,?,?,?,?,?,?,?,1,?,?,1,0,0,NULL,NULL)",
          {intent.scope.installation, intent.operation_ref, intent.scope.provider,
           intent.scope.account, intent.scope.stream, intent.epoch, intent.policy_revision,
-          sql_blob(intent.gap), static_cast<int>(intent.purpose), intent.generation, *document,
+          sql_blob(intent.gap), static_cast<int>(intent.purpose), intent.generation, document,
           sql_blob(intent.initial_continuation)}});
     detail::require_changed_one(session);
     return Status::staged;
