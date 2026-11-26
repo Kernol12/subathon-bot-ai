@@ -51,6 +51,8 @@ Result<Done> testing::Access::arm_listener_observer(Foundation &,
                                                     trantor::bounded_io::ListenerObservation &) noexcept {
     return NI{};
 }
+Result<U64> testing::Access::post_peer_visits(Foundation &) noexcept { return NI{}; }
+Result<U64> testing::Access::pending_peers(Foundation &) noexcept { return NI{}; }
 Result<Done> seal_listener_registration(Foundation &) noexcept { return NI{}; }
 void Request::release_raw() noexcept {} // No issued State or native owner exists in NI.
 void Reply::cancel() noexcept {}

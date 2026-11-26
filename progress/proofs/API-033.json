@@ -1,0 +1,198 @@
+{
+  "version": 1,
+  "task_id": "API-033",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 814
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/API-033.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/814",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/814#issuecomment-7192046543",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/881",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199183586",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199185314",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199186850",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199317345",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199321828",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199323319",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199324867",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/881#pullrequestreview-6078890665",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/881#pullrequestreview-6078891274",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45868515797/job/140077527785"
+  ],
+  "limitations": [
+    "Advisor decision 814.6 authorizes one PR for both stages because #765 makes account-capture a required native step. Decision 814.7 credits the intended red at reviewed tests commit b6833056 on 2026-11-26 at 15:34 CET, after tests closing. 131/132 passed and PostVisitsNoPeerRecord failed with 4 visits against an expected 0. The 144/145 rerun at 982aee1a was an uncredited post-rebase confirmation.",
+    "Tests reviews bind actual revisions 604d2d35 and b6833056, equivalent to a412ea42 and 982aee1a for API-033. The rebase adjusted one CMake context line for #765. The tests packet binds the unchanged fixture and mailbox cases. The implementation packet binds the final observer, Foundation sources and test registration, as well as the canonical task pointer.",
+    "Implementation reviews bind actual revisions cc07c043 and 86e1bc3b. Their patches match 0caf4d26 and 0aa7f793. Integrating main at 34525010 preserved the API-033 changes by Git object IDs and modes. The final two reviews cover the exact pointer-only change at 2744cb77.",
+    "The required native job on PR head 345250101f2a286877c99e487b19656c2e797d54 tested merge 0871324e8b45437abc1adb0b28f34d58b5424554 and passed all 145 account-capture cases. The pointer delta was reviewed statically.",
+    "Removal with a pending intent and the slot-reset race were verified by code review under waivers WT-a and WT-b. M3 relies on review of the full post path alongside the static visit counter. No latency or live qualification is claimed."
+  ],
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "revision": "b6833056b244b292a2f3d1a726ee0551dd58f8d5",
+        "authors": [
+          "claude:API-033-track-author"
+        ],
+        "paths": [
+          "tests/account_capture/mailbox_count_tests.cpp",
+          "tests/account_capture/native_fixture.hpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:a5e5db7d863a4a8bf",
+            "revision": "604d2d355687e7b3d7aae71f38164a12895fdece",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199183586",
+            "findings": [
+              "M1",
+              "M2",
+              "M3",
+              "M4"
+            ],
+            "blocking_findings": [
+              "M1",
+              "M2"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:a158173ddfe84f494",
+            "revision": "b6833056b244b292a2f3d1a726ee0551dd58f8d5",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199185314",
+            "findings": [
+              "W1",
+              "W2",
+              "W3"
+            ],
+            "blocking_findings": [],
+            "owner_authorization": "https://github.com/Kernol12/subathon-bot-ai/issues/814#issuecomment-7192046543"
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:aaff2157cbf473075",
+            "revision": "b6833056b244b292a2f3d1a726ee0551dd58f8d5",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199186850",
+            "findings": [
+              "K1",
+              "K2",
+              "K3",
+              "K4"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "revision": "2744cb7716388dea604e7da60c54316e25627d50",
+        "authors": [
+          "claude:API-033-track-author",
+          "API-033:pointer-author"
+        ],
+        "paths": [
+          "docs/tasks/API-033.md",
+          "server/include/subathon/server/testing/bounded_http_observers.hpp",
+          "server/src/bounded_http.cpp",
+          "server/src/bounded_http_sdk_adapter.cpp",
+          "tests/bounded_http_foundation/CMakeLists.txt"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:a30eb4e2754a15c81",
+            "revision": "cc07c043786969bd488f0177f251e8af996e1974",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199321828",
+            "findings": [
+              "WT-a",
+              "WT-b",
+              "P5",
+              "P6"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:ab24a556da92d9d86",
+            "revision": "86e1bc3b5a391ee8b4f4b0a33cebba17ebe84fe1",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199323319",
+            "findings": [
+              "V1",
+              "V2",
+              "V3",
+              "V4"
+            ],
+            "blocking_findings": [],
+            "owner_authorization": "https://github.com/Kernol12/subathon-bot-ai/issues/814#issuecomment-7192046543"
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:a32281566633f942b",
+            "revision": "86e1bc3b5a391ee8b4f4b0a33cebba17ebe84fe1",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/881#issuecomment-7199324867",
+            "findings": [
+              "C1",
+              "C2",
+              "C3",
+              "C4",
+              "C5",
+              "C6",
+              "C7",
+              "C8"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "Codex (model unrecorded)",
+            "reviewer": "codex:API-033-pointer-verification",
+            "revision": "2744cb7716388dea604e7da60c54316e25627d50",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/881#pullrequestreview-6078890665",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:API-033-pointer-closing",
+            "revision": "2744cb7716388dea604e7da60c54316e25627d50",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/881#pullrequestreview-6078891274",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  },
+  "verification": {
+    "account_capture_intended_red": "observed_red",
+    "native_account_capture": "passed"
+  }
+}
