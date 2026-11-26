@@ -109,6 +109,7 @@
     "build/sqlite-reference-capture-debug/tests/core_rate_snapshot_acceptance": "cxx-runtime",
     "build/sqlite-reference-capture-debug/tests/core_reference_rule_acceptance": "cxx-runtime",
     "build/sqlite-reference-capture-debug/tests/core_valuation_snapshot_codec_acceptance": "cxx-runtime",
+    "build/sqlite-reference-capture-debug/tests/qt/api_029/server_api_029_stage1": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/api_031/server_api_031_stage1": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/milestone_006/server_milestone_006_stage1_store": "qt-sql-test",
     "build/sqlite-reference-capture-debug/tests/qt/milestone_006/server_milestone_006_stage1_timing": "qt-test",
