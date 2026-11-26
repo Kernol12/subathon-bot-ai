@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include <algorithm>
 #include <limits>
 #include <subathon/core/exact_decimal.hpp>
 #include <subathon/server/streamelements_astro.hpp>
@@ -115,6 +116,8 @@ bool current(const TransportState &state, std::uint64_t generation) {
 }
 
 bool pending(const TransportState &state, std::uint64_t generation) {
+    // Preconstructed test states may supply the pending nonce alone.
+    // A real welcome always binds both fields.
     return state.pending_nonce &&
            (!state.pending_generation || state.pending_generation == generation);
 }
@@ -125,6 +128,9 @@ bool matches_pending(const TransportState &state, TransportInput input) {
 }
 
 TransportResult interrupt(TransportState &state, CoverageJournal &journal) {
+    state.generation_floor = std::max({state.generation_floor, state.active_generation.value_or(0),
+                                      state.replacement_generation.value_or(0),
+                                      state.pending_generation.value_or(0)});
     if (!state.interruption_open) {
         journal.record(Gap::reconnect_interruption);
         state.interruption_open = true;
@@ -225,16 +231,17 @@ Status ingest(std::string_view frame, std::uint64_t generation, const Acknowledg
                          created ? SourceTimeQuality::reliable : SourceTimeQuality::absent,
                          optional_text(data, "provider"),
                          optional_text(root, "id")});
-
 }
 
 TransportResult advance(TransportState &state, TransportInput input, CoverageJournal &journal) {
     switch (input.event) {
     case TransportEvent::welcome: {
-        if (state.tips_read || state.configured_room.empty() || input.generation == 0 ||
+        if (state.tips_read || state.configured_room.empty() ||
+            input.generation <= state.generation_floor ||
             state.nonce_counter == std::numeric_limits<std::uint64_t>::max())
             return outcome(TransportStatus::ignored);
         auto nonce = std::to_string(++state.nonce_counter);
+        state.generation_floor = input.generation;
         state.pending_generation = input.generation;
         state.pending_nonce = nonce;
         return {TransportStatus::awaiting_ack,
@@ -250,6 +257,7 @@ TransportResult advance(TransportState &state, TransportInput input, CoverageJou
         }
         if (!state.canonical_room)
             state.canonical_room = input.room;
+        state.generation_floor = std::max(state.generation_floor, input.generation);
         state.active_generation = input.generation;
         state.tips_read = true;
         state.interruption_open = false;
@@ -274,8 +282,10 @@ TransportResult advance(TransportState &state, TransportInput input, CoverageJou
         return outcome(TransportStatus::ordinary_reconnect);
     case TransportEvent::graceful_reconnect:
         if (!state.tips_read || !state.active_generation ||
-            input.generation <= *state.active_generation || state.replacement_generation)
+            input.generation <= std::max(*state.active_generation, state.generation_floor) ||
+            state.replacement_generation)
             return outcome(TransportStatus::ignored);
+        state.generation_floor = input.generation;
         state.replacement_generation = input.generation;
         return outcome(TransportStatus::acknowledged);
     case TransportEvent::replacement_welcome:

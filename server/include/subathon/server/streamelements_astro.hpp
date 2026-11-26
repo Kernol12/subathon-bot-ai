@@ -135,6 +135,9 @@ struct TransportState {
     bool interruption_open{};
     std::optional<std::uint64_t> pending_generation;
     std::uint64_t nonce_counter{};
+    // Highest generation accepted for either a subscription or handoff.
+    // It survives interruption so delayed ordinary welcomes stay retired.
+    std::uint64_t generation_floor{};
 };
 
 struct TransportResult {
