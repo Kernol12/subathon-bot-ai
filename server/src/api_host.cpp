@@ -264,7 +264,7 @@ struct Engine : std::enable_shared_from_this<Engine> {
     // most nudge the same idempotent turn and cannot erase a newer claim.
     //
     // Obligation: a refused or throwing post releases its own claim first, then
-    // stores `wake_owed` (release). Only the owner timer or bootstrap consumes it,
+    // stores `wake_owed` (release). Only owner-side OwnerTimer::drive or a tick consumes it,
     // by exchange before its turn, so a concurrent new obligation survives. A
     // failed post changes only this bookkeeping; no fact is rolled back or invented.
     void wake() noexcept {
@@ -988,7 +988,9 @@ Result<StartAccepted> Host::start(StartupObserver observer) {
         // Early stop before writer open or transport start: keep StartAccepted.
         // Re-wake only when the timer or a pending bootstrap backs a failed post;
         // otherwise this owner consumes the stop itself after releasing the
-        // unstarted profile, without a post.
+        // unstarted profile, without a post. With today's prelaunch refusal on a
+        // failed arm the timer is always active here, so the direct path is
+        // unreachable and untested; keep it if the prelaunch arm ever moves.
         if (e.stopping()) {
             if (impl_->timer.backs_wake())
                 e.wake();
