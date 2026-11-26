@@ -96,7 +96,7 @@ were caused by the procedure.
    present is unchanged: the two digests, and the owner's own word for live steps and
    for a password prompt.
    Until the evening of 30 November 2026 the owner allows five In progress and fifteen
-   Parked, to use spare Codex allowance; after that the limits in `AGENTS.md` apply.
+   Parked; after that the limits in `AGENTS.md` apply.
 3. **Fewer and larger tasks.**
    - A prerequisite found during a task becomes its own issue only when it can
      merge on its own and either blocks more than one task or is larger than about

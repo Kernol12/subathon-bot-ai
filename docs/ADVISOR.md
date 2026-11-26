@@ -128,9 +128,11 @@ point 2 gives the reason.
   [AGENTS.md](../AGENTS.md), including the MVP rule, at any hour.
 - A task that waits on an escalation parks, and the next one starts within those
   limits.
-- The owner answers open escalations after a digest.
-- A task with malformed-input tests or HTTP, SDK or ELF material is handled at any
-  hour under "Security-blocked tasks" below.
+- Open escalations reach the owner through the digests, as described under
+  "Decision log" above.
+- A task with malformed-input tests or HTTP, SDK or ELF material is selected at any
+  hour like any other task. "Security-blocked tasks" below applies when its own
+  conditions are met.
 
 ## Security-blocked tasks
 
