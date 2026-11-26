@@ -174,7 +174,7 @@ finite intermediate budgets. None is established by these style values alone.
 | Image | VisualAssetRef from 011, including its static/animated/video profile and explicit fit; a filename/container is not verified support |
 | Shape/group | Intrinsic shape leaf with shape style, or group with ordered children and group style; group identity is not inferred from an empty child list |
 | Recent support | RecentSupportBindingRef and PresentationLayoutRef from 010; selection, source privacy, hidden amounts and authorized projection remain authoritative |
-| Announcement area | AnnouncementBindingRef and PresentationLayoutRef from 010; event/milestone presentation follows the server's current sequence, not a second award queue |
+| Announcement area | AnnouncementBindingRef and PresentationLayoutRef from 010; a typed area selects only its declared event or milestone kind from the authoritative current projection |
 
 Every row additionally has the common binding-attachment choice from §2. Image and
 both shape/group variants are not restricted to static data merely because their
@@ -228,6 +228,26 @@ report unsupported features before publishing. A draft can retain unsupported
 requirements for editing/export with an explicit issue; it is not render-ready.
 Concrete compatibility errors, transport framing and error precedence are not
 selected by this logical document.
+
+### Announcement binding compatibility (#831)
+
+An area using `subathon.scene-announcement-binding.v2` declares
+`scene.announcement-binding-r2` in `requiredFeatures`. The node binding
+and its external reference declaration carry the same exact reference,
+including the declared `contentKind`. The matching immutable definition
+must resolve under CONTRACT-010. A missing feature or unsupported output
+profile refuses publication. Older consumers refuse the required feature
+under the existing compatibility rules.
+
+Under the amended profile, a valid legacy untyped announcement binding
+is retained byte-exact for draft editing and export. The editor reports
+`binding_superseded` with “Choose a content kind”. Publication, restore
+as a current publication, and rendering refuse that binding. Restoring
+its backup preserves the original bytes as a draft with the same issue.
+Conversion is an explicit authored choice of event or milestone in a new
+revision. There is no automatic rewrite or inferred kind. Pre-amendment
+consumers retain their existing legacy handling. A malformed typed
+binding is invalid regardless of the feature list.
 
 ## 6. Drafts, publication and restore
 
