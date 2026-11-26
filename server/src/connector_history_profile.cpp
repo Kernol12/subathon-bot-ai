@@ -508,6 +508,8 @@ PageQualification reconstruct_history_page(SqliteWriter &writer, const OwnerInpu
     if (!single_profile(profile, owner, source, binding.cursor_contract) ||
         profile.snapshot->registry_revision != binding.registry_revision)
         return refusal(Status::stale);
+    if (request.page.size() > page_limit)
+        return refusal(Status::limit_exceeded);
     const auto &original = request.original;
     auto same_source = original.request;
     same_source.source.fence = source.fence;
@@ -527,6 +529,13 @@ PageQualification reconstruct_history_page(SqliteWriter &writer, const OwnerInpu
         return refusal(Status::unproved);
     std::optional<HistoryStatus> result;
     run(writer, status, [&](const SqliteWorkSession &session) {
+        for (const auto action : {Action::page, Action::inspect}) {
+            const auto access = authorize(owner, action, source.scope);
+            if (access != Status::committed)
+                return access;
+        }
+        if (!single_profile(profile, owner, source, binding.cursor_contract))
+            return Status::stale;
         if (!has_page(session, binding.request))
             return Status::unproved;
         if (verify_binding(session, binding) == Status::committed) {
@@ -715,10 +724,19 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
                                  intent.upper_cut,
                                  importing ? std::optional{intent.resolved_utc_start}
                                            : std::nullopt};
+    const auto check_operation_head = [&](const SqliteWorkSession &session) {
+        const auto head = read_head(session, source.scope);
+        if (!head || head->fence != source.fence || head->cursor != selected.cursor_contract)
+            return Status::stale;
+        if (importing && (head->frontier.isNull() != !request.frontier ||
+                          head->frontier != blob(request.frontier)))
+            return Status::stale;
+        return Status::committed;
+    };
     bool retained = false;
     std::optional<qint64> start;
     run(writer, status, [&](const auto &session) {
-        const auto current = check_head(session, source, selected.cursor_contract);
+        const auto current = check_operation_head(session);
         if (current != Status::committed)
             return current;
         if (!importing) {
@@ -741,6 +759,8 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
                 const auto access = authorize(owner, Action::inspect, source.scope);
                 if (access != Status::committed)
                     return access;
+                if (rows.front()[2].toInt() != static_cast<int>(HistoryPurpose::import))
+                    return Status::conflict;
                 retained = true;
                 start = retained_import_start(rows.front()[1].toByteArray());
                 if (!start)
@@ -774,8 +794,9 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
                 return current;
             if (!single_profile(profile, owner, source, selected.cursor_contract))
                 return Status::stale;
-            if (check_head(session, source, selected.cursor_contract) != Status::committed)
-                return Status::stale;
+            if (const auto head_status = check_operation_head(session);
+                head_status != Status::committed)
+                return head_status;
             return outcome(stage_operation(session, intent));
         },
         true);
