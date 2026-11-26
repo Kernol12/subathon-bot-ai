@@ -168,6 +168,7 @@ struct Core final : io::Producer, sdk::Sink {
                i * (limits.reply_bytes + 128);
     }
     U64 peak_pending{}; // Protected by the same mutex as pending/executing records.
+    U64 post_peer_visits{}; // API-033 test observation of post's record visits; same mutex.
     void peaks() noexcept {
         observation.peak.peers=std::max(observation.peak.peers,observation.current.peers);
         observation.peak.http_peers=std::max(observation.peak.http_peers,observation.current.http_peers);
@@ -1538,8 +1539,10 @@ Result<Post> Foundation::post(const Wake &h, Intent intent) noexcept {
             p.desired = intent == Intent::admit ? 1 : 0;
     }
     U64 pending=0;
-    for (U64 i=0;i<c.limits.peers;++i)
+    for (U64 i = 0; i < c.limits.peers; ++i) {
+        ++c.post_peer_visits;
         if(c.record(i).mailbox || c.record(i).desired>=0 || c.record(i).executing) ++pending;
+    }
     c.peak_pending=std::max(c.peak_pending,pending);
     const U64 one = 1;
     const auto n = ::write(c.event_fd, &one, sizeof(one));
@@ -1628,6 +1631,16 @@ Result<Done> testing::Access::arm_first_wire(Foundation &f) noexcept {
         return Error::invalid_state;
     return sdk::Runtime::arm_first_wire() ? Result<Done>(Done{})
                                           : Result<Done>(Error::invalid_state);
+}
+Result<U64> testing::Access::post_peer_visits(Foundation &f) noexcept {
+    auto &c = Factory::core(f);
+    std::unique_lock lock(c.mutex, std::defer_lock);
+    try {
+        lock.lock();
+    } catch (...) {
+        return Error::unavailable;
+    }
+    return c.post_peer_visits;
 }
 Result<Done> testing::Access::release_wire(Foundation &f) noexcept {
     auto &c = Factory::core(f);

@@ -13,5 +13,9 @@ struct Access {
     // The fixture owns the record and keeps it alive through the joins.
     static Result<Done> arm_listener_observer(Foundation &,
                                               trantor::bounded_io::ListenerObservation &) noexcept;
+    // Any thread: total peer records that Foundation::post has visited since create.
+    // A static work count for API-033, kept apart from latency; it changes no post
+    // outcome or ordering and is only read here.
+    static Result<U64> post_peer_visits(Foundation &) noexcept;
 };
 } // namespace subathon::server::bounded_http::testing
