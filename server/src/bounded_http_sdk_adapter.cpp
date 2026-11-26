@@ -58,6 +58,8 @@ struct PeerRecord final : io::PeerStorage {
     End end{End::cancelled};
     unsigned mailbox{}, executing{};
     int desired{-1};
+    // True while the peer has any pending or executing intent; counted in Core::pending_count.
+    bool pending() const noexcept { return mailbox || desired >= 0 || executing; }
     std::span<std::byte> receive_with_prefix() noexcept override { return {payload, 65544}; }
     std::span<std::byte> sdk_storage() noexcept override { return {metadata + 2048, 8192}; }
     std::span<std::byte> control_storage() noexcept override;
@@ -167,8 +169,17 @@ struct Core final : io::Producer, sdk::Sink {
         return mapping + limits.peers * peer_bytes + limits.input_slots * limits.body_bytes +
                i * (limits.reply_bytes + 128);
     }
-    U64 peak_pending{}; // Protected by the same mutex as pending/executing records.
-    U64 post_peer_visits{}; // API-033 test observation of post's record visits; same mutex.
+    // Peers with PeerRecord::pending(), adjusted by delta at every intent transition.
+    // pending_count, peak_pending and the intent fields share the same mutex.
+    U64 pending_count{}, peak_pending{};
+    // API-033 test observation: post's visits to peer records; same mutex. Post visits
+    // none, so it stays 0 unless a record visit is reintroduced there.
+    U64 post_peer_visits{};
+    // Applies one record's pending() change; called under the mutex after the transition.
+    void repend(bool before, const PeerRecord &p) noexcept {
+        if (before != p.pending())
+            before ? --pending_count : ++pending_count;
+    }
     void peaks() noexcept {
         observation.peak.peers=std::max(observation.peak.peers,observation.current.peers);
         observation.peak.http_peers=std::max(observation.peak.http_peers,observation.current.http_peers);
@@ -1152,8 +1163,10 @@ void Core::owner_turn() noexcept {
                 std::lock_guard lock(mutex);
                 p.removed = true;
                 // A removed peer has no work to deliver, even while handles pin it.
+                const bool before = p.pending();
                 p.mailbox = p.executing = 0;
                 p.desired = -1;
+                repend(before, p);
             }
             if (p.retiring_charge) {
                 p.retiring_charge = false;
@@ -1176,8 +1189,11 @@ void Core::owner_turn() noexcept {
                 observation.current.metadata_charge -= 16384;
                 const auto index = p.index, incarnation = p.incarnation;
                 auto *data = p.payload, *meta = p.metadata;
-                // Any-thread post scans these records under the same mutex.
+                // Any-thread post writes these records under the same mutex. A post that
+                // raced in after removal but before revoked was stored is uncounted here.
                 std::lock_guard lock(mutex);
+                if (p.pending())
+                    --pending_count;
                 p.~PeerRecord();
                 new (&p) PeerRecord;
                 p.core = this;
@@ -1192,6 +1208,7 @@ void Core::owner_turn() noexcept {
         int desired = -1;
         {
             std::lock_guard lock(mutex);
+            const bool before = p.pending();
             intents = p.mailbox;
             if (!(intents & 2) && turn_work[p.native ? 1 : 0] >= 8) {
                 intents &= ~1u; // Leave one coalesced ready record for the next turn.
@@ -1201,6 +1218,7 @@ void Core::owner_turn() noexcept {
             desired = p.desired;
             p.desired = -1;
             p.executing = intents | (desired >= 0 ? 4u : 0u);
+            repend(before, p);
         }
         if (intents & 2)
             terminate(p, End::cancelled);
@@ -1213,7 +1231,12 @@ void Core::owner_turn() noexcept {
                     terminate(p, End::callback_failed);
             }
         }
-        { std::lock_guard lock(mutex); p.executing = 0; }
+        {
+            std::lock_guard lock(mutex);
+            const bool before = p.pending();
+            p.executing = 0;
+            repend(before, p);
+        }
         if (!stop && !p.socket_gone && !p.control && !p.close_requested && p.wanted) {
             if (p.ended &&
                 !(p.states.load(std::memory_order_acquire) & (request_bit | reply_bit))) {
@@ -1529,6 +1552,7 @@ Result<Post> Foundation::post(const Wake &h, Intent intent) noexcept {
     if (p.revoked.load(std::memory_order_acquire))
         return Error::revoked;
     const bool existing = p.mailbox != 0 || p.desired >= 0;
+    const bool before = p.pending();
     if (intent == Intent::close) {
         p.mailbox = 2;
         p.desired = -1;
@@ -1538,12 +1562,8 @@ Result<Post> Foundation::post(const Wake &h, Intent intent) noexcept {
         else
             p.desired = intent == Intent::admit ? 1 : 0;
     }
-    U64 pending=0;
-    for (U64 i = 0; i < c.limits.peers; ++i) {
-        ++c.post_peer_visits;
-        if(c.record(i).mailbox || c.record(i).desired>=0 || c.record(i).executing) ++pending;
-    }
-    c.peak_pending=std::max(c.peak_pending,pending);
+    c.repend(before, p);
+    c.peak_pending = std::max(c.peak_pending, c.pending_count);
     const U64 one = 1;
     const auto n = ::write(c.event_fd, &one, sizeof(one));
     const int e = errno;
@@ -1650,12 +1670,8 @@ Result<U64> testing::Access::pending_peers(Foundation &f) noexcept {
     } catch (...) {
         return Error::unavailable;
     }
-    // No maintained count exists yet; the records are the count.
-    U64 pending = 0;
-    for (U64 i = 0; i < c.limits.peers; ++i)
-        if (c.record(i).mailbox || c.record(i).desired >= 0 || c.record(i).executing)
-            ++pending;
-    return pending;
+    // The maintained count; inspect's record scan stays the independent oracle.
+    return c.pending_count;
 }
 Result<Done> testing::Access::release_wire(Foundation &f) noexcept {
     auto &c = Factory::core(f);
