@@ -13,6 +13,7 @@ option(SUBATHON_BUILD_RATES_004_STAGE1 "Build the reviewed RATES-004 acceptance 
 option(SUBATHON_BUILD_MILESTONE_006_SLICE3 "Build MILESTONE-006 Stage 1 application and recovery fixtures" OFF)
 option(SUBATHON_BUILD_MILESTONE_006_SLICE2 "Build the remaining MILESTONE-006 Stage 1 fixtures" OFF)
 option(SUBATHON_BUILD_MILESTONE_006_STAGE1 "Build the opt-in MILESTONE-006 Stage 1 fixtures" OFF)
+option(SUBATHON_BUILD_STREAMELEMENTS_001_STAGE1 "Build the inert StreamElements tests baseline" OFF)
 option(SUBATHON_BUILD_STORAGE_003_STAGE1 "Build the reviewed STORAGE-003 structural baseline" OFF)
 option(SUBATHON_BUILD_STORAGE_027_STAGE1 "Build the STORAGE-027 reviewed acceptance suites" OFF)
 option(SUBATHON_BUILD_RATES_012_STAGE1 "Build the reviewed RATES-012 acceptance suite" OFF)
