@@ -1198,7 +1198,8 @@ jobs:
             -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/bounded-http-foundation/sdk" \
             -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT" \
             -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 \
-            -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+            -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0 \
+            -DSUBATHON_BUILD_API_023_HOST_CONSUMER_TESTS=ON
           cmake --build --preset api-host-native-debug --parallel 2
       - name: Verify the shared SDK seal is unchanged after the host baseline build
         # The host consumers reuse the bounded successor prepared, sealed and
@@ -1221,6 +1222,8 @@ jobs:
               raise SystemExit("The shared SDK identity changed after it was sealed")
           print("Shared SDK seal unchanged")
           PYTHON
+      - name: Run required-success API-023 Host fatal consumer acceptance
+        run: ctest --preset api-host-native-debug -L '^api-023-host-consumer$' --no-tests=error --output-on-failure
       - name: Inspect registration without loading either new consumer
         run: |
           python3 - <<'PYTHON'
@@ -1267,6 +1270,7 @@ jobs:
           PYTHON
       - name: Check existing infrastructure and tooling
         run: ctest --preset api-host-native-debug -L '^scaffold$' --no-tests=error --verbose
-      # No new consumer is launched here. Intended red is one plain local run
-      # (ADR-0014); this lane proves compilation/registration.
+      # Apart from the API-023 Host consumer selectors above, no host consumer is
+      # launched here. Intended red is one plain local run (ADR-0014); for the host
+      # baselines this lane proves compilation/registration.
       # Existing green product suites retain their own ordinary acceptance jobs.
