@@ -17,6 +17,7 @@
 #include <drogon/drogon.h>
 #include <fcntl.h>
 #include <filesystem>
+#include <functional>
 #include <mutex>
 #include <optional>
 #include <poll.h>
@@ -265,6 +266,10 @@ struct Rig {
     std::atomic<std::uint64_t> read_bytes{0};
     std::uint64_t last_sequence = 0, connection_id = 0, listener_id = 0;
     std::atomic<bool> generic_body_check{false};
+    // Test-only optional IO0 action, run once at the start of the next ready callback
+    // while that peer's intent is executing (API-033). Unset by default and then inert.
+    // Set it before the post that triggers the ready; the Foundation mutex orders it.
+    std::function<void(Rig &, Context &)> during_ready;
     std::mutex mutex;
     std::condition_variable changed;
     static Rig &self(void *p) { return *static_cast<Rig *>(p); }
@@ -362,6 +367,8 @@ struct Rig {
     static void ready_cb(void *o, void *p) {
         auto &r = self(o);
         auto &c = *static_cast<Context *>(p);
+        if (auto action = std::exchange(r.during_ready, {}))
+            action(r, c);
         if (r.retained)
             second_or_expired_visit(*r.retained);
         if (r.cancel) {

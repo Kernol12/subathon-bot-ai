@@ -80,6 +80,7 @@ if(SUBATHON_BUILD_ACCOUNT_CAPTURE_TESTS)
         "${PROJECT_SOURCE_DIR}/tests/account_capture/cold_tests.cpp"
         "${PROJECT_SOURCE_DIR}/tests/account_capture/colonless_precedence_tests.cpp"
         "${PROJECT_SOURCE_DIR}/tests/account_capture/connection_header_tests.cpp"
+        "${PROJECT_SOURCE_DIR}/tests/account_capture/mailbox_count_tests.cpp"
         "${PROJECT_SOURCE_DIR}/tests/account_capture/native_tests.cpp"
         "${PROJECT_SOURCE_DIR}/tests/account_capture/scanner_tests.cpp"
         "${PROJECT_SOURCE_DIR}/tests/account_capture/observer_tests.cpp"
