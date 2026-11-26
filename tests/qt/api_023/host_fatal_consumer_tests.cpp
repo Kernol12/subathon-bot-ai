@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "../support/api_host_fixture.hpp"
+#include <QAbstractEventDispatcher>
+#include <QEventLoop>
+#include <chrono>
+#include <thread>
 #include <type_traits>
 
 namespace {
@@ -12,11 +16,6 @@ enum class PublishedFatal { unavailable_at_scan, overflow_at_reply_deadline };
 constexpr auto scan = PublishedFatal::unavailable_at_scan;
 constexpr auto reply_deadline = PublishedFatal::overflow_at_reply_deadline;
 constexpr std::uint64_t ordinary_deadline = 7'000'000'000;
-
-struct MissingHostFatalConsumer : std::runtime_error {
-    MissingHostFatalConsumer()
-        : std::runtime_error("API-023: private Host consumer of published fatal fact is missing") {}
-};
 
 // Typed forward of the supplied fact to the Host's private fatal relay binding,
 // the one TransportComposition receives. The call runs on the fixture IO owner.
@@ -143,6 +142,125 @@ void complete_network(Rig &rig, host::State terminal) {
     rig.transport->check();
     rig.check_callbacks();
 }
+// Stage 3 (r4 "Delivery and wake", Correction 3). Test-only HostAccess seams
+// inject the post fault or timer refusal; production never sets them.
+using hooks::PostFault;
+enum Site { stop_site, disconnect_site, lease_site };
+enum Bootstrap { stop_latched, arms_once, start_before_bootstrap };
+constexpr std::string_view scan_line =
+    "api_host.foundation_elapsed_fatal/sample_unavailable/scan\n";
+
+// A nonowner thread latches ordinary stop; its own wake post meets the fault.
+void foreign_stop(host::Host &instance) {
+    std::thread foreign([&] { instance.request_stop(); });
+    foreign.join();
+}
+
+// One committed command whose reply lease the fake IO owner keeps in slot 0.
+// The short settle lets the Host's own queued turns drain, so the next
+// owner-turn post belongs to the stimulus under test.
+host::PeerLease retained_reply(Rig &rig) {
+    rig.transport->retain_replies = true;
+    rig.start();
+    auto peer = rig.peer();
+    success(rig.submit(peer), "Admit one command");
+    rig.completed();
+    require(QTest::qWaitFor([&] { return rig.transport->handoffs == 1; }, wait_ms),
+            "IO owner retains one reply lease");
+    QTest::qWait(50);
+    return peer;
+}
+
+// Reports the first assertion before Rig teardown, whose own watchdog ends a
+// process whose stop never completes and would otherwise hide it.
+template <class F> void report_first(F body) {
+    try {
+        body();
+    } catch (const std::exception &error) {
+        QTest::qFail(error.what(), __FILE__, __LINE__);
+        throw;
+    }
+}
+
+void expect_cold_stopped(Rig &rig, const SinkCapture &sink) {
+    require(QTest::qWaitFor([&] { return rig.instance->inspect().owner_cleanup; }, wait_ms),
+            "Owner turn consumes the latched stop without a delivered post");
+    const auto s = rig.instance->inspect();
+    require(s.state == host::State::stopped && s.stop_fences == 1 && !s.storage_active &&
+                rig.log->count(K::stop_consumed) == 1 && rig.log->count(K::owner_cleanup) == 1,
+            "One fence and real owner cleanup to stopped");
+    require(!rig.transport->startup && rig.log->count(K::inspection_enqueued) == 0 &&
+                rig.log->count(K::writer_ack) == 0 && rig.log->count(K::network_ack) == 0,
+            "No writer open, transport start or fabricated receipt");
+    expect_no_fatal(s);
+    require(sink.calls == 0, "No fatal report");
+}
+
+// Runs on a thread whose event dispatcher does not exist when the Host is built.
+void bootstrap_owner(Bootstrap mode, const std::string &path) {
+    require(!QAbstractEventDispatcher::instance(), "Owner thread starts without a dispatcher");
+    auto transport = std::make_shared<FakeTransport>();
+    auto dispatch = std::make_shared<Dispatcher>();
+    auto log = std::make_shared<Log>();
+    host::Options options;
+    options.store_path = path;
+    options.writer_limits = account_sessions_fixture::limits();
+    options.writer_limits.pending_batches = 128;
+    auto instance = hooks::HostAccess::create(
+        std::move(options), std::make_unique<TransportOwner>(transport),
+        std::make_unique<DispatcherOwner>(dispatch),
+        {std::make_shared<Elapsed>(), [log](const auto &e) { log->add(e); }});
+    require(!hooks::HostAccess::owner_timer(*instance).active,
+            "No registration without dispatcher");
+    if (mode == stop_latched) {
+        hooks::HostAccess::inject_post_faults(*instance, PostFault::refuse, 1);
+        foreign_stop(*instance);
+    }
+    QEventLoop loop; // installs this thread's dispatcher; nothing is pumped yet
+    require(QAbstractEventDispatcher::instance(), "Owner dispatcher installed");
+    const auto pump = [&](auto done) {
+        const auto until = std::chrono::steady_clock::now() + std::chrono::milliseconds(wait_ms);
+        while (!done()) {
+            if (std::chrono::steady_clock::now() > until)
+                return false;
+            loop.processEvents(QEventLoop::AllEvents, 10);
+        }
+        return true;
+    };
+    const auto cleaned = [&] {
+        const auto s = instance->inspect();
+        return s.owner_cleanup && s.state == host::State::stopped;
+    };
+    if (mode == stop_latched) {
+        require(pump(cleaned), "Deferred bootstrap consumes the latched stop");
+        require(instance->inspect().stop_fences == 1 && log->count(K::stop_consumed) == 1 &&
+                    !transport->startup && log->count(K::inspection_enqueued) == 0 &&
+                    log->count(K::writer_ack) == 0 && log->count(K::network_ack) == 0,
+                "One fence, no startup work and no fabricated receipt");
+        require(hooks::HostAccess::owner_timer(*instance).registrations == 0,
+                "Stop is consumed first; the timer never registers");
+        failure(instance->start([](auto) {}), host::Failure::already_started);
+    } else if (mode == arms_once) {
+        require(pump([&] { return hooks::HostAccess::owner_timer(*instance).active; }),
+                "Deferred bootstrap arms the owner timer");
+        instance->request_stop();
+        require(pump(cleaned), "Ordinary stop after bootstrap");
+        require(pump([&] { return !hooks::HostAccess::owner_timer(*instance).active; }),
+                "Owner disarms the timer after cleanup");
+    } else {
+        success(instance->start([](auto) {}), "Live start reaches prelaunch first");
+        require(hooks::HostAccess::owner_timer(*instance).active, "Prelaunch completes setup");
+        require(pump([&] { return instance->inspect().storage_active; }), "Actual startup chain");
+        instance->request_stop();
+        require(pump([&] { return cleaned() && instance->inspect().network_barrier; }),
+                "Real barriers and cleanup");
+    }
+    require(hooks::HostAccess::owner_timer(*instance).registrations ==
+                (mode == stop_latched ? 0U : 1U),
+            "A late bootstrap never registers twice");
+    dispatch->failures.check();
+    log->failures.check();
+}
 } // namespace
 
 class HostFatalConsumerTests : public QObject {
@@ -267,7 +385,6 @@ class HostFatalConsumerTests : public QObject {
         scenario([] {
             SinkCapture sink;
             unsigned completed = 0;
-            std::exception_ptr missing_consumer;
             std::optional<host::PeerLease> peer;
             Rig rig("current", [&](auto &options) { bind_sink(options, sink); });
             rig.transport->hold_network = true;
@@ -303,13 +420,7 @@ class HostFatalConsumerTests : public QObject {
                     }));
                 require(rig.instance->inspect().accepted_units == 2 && completed == 0,
                         "Both actual writer admissions precede the supplied fact");
-                try {
-                    supply(rig, reply_deadline);
-                } catch (const MissingHostFatalConsumer &) {
-                    // Re-raise on the test stack. The Host owns callback exceptions.
-                    missing_consumer = std::current_exception();
-                    return;
-                }
+                supply(rig, reply_deadline);
                 failure(rig.submit(*peer, "C"), host::Failure::stopping);
                 const auto pending = rig.instance->inspect();
                 require(pending.accepted_units == 2 && !pending.writer_barrier &&
@@ -320,13 +431,9 @@ class HostFatalConsumerTests : public QObject {
             success(rig.submit(*peer, "B"), "Admit waiting command before publication");
 
             require(QTest::qWaitFor([&] {
-                        if (missing_consumer)
-                            return true;
                         rig.check_callbacks();
                         return rig.instance->inspect().writer_barrier;
                     }, wait_ms), "Reach the private forward or drain through the real writer");
-            if (missing_consumer)
-                std::rethrow_exception(missing_consumer);
             await_writer_only(rig);
             complete_network(rig, host::State::failed);
             expect_fatal(rig.instance->inspect(), reply_deadline);
@@ -354,6 +461,241 @@ class HostFatalConsumerTests : public QObject {
                     "Both real unit completions precede the writer receipt in FIFO order");
             require(rig.transport->handoffs == 0 && rig.log->count(K::local_handoff) == 0,
                     "Fatal suppresses reply publication");
+        });
+    }
+    // Correction 3 (advisor 684.6): a published fatal refuses lease take and
+    // copy with stopping and changes nothing; ordinary stop keeps the window.
+    void lease_take_under_fatal_data() {
+        QTest::addColumn<bool>("fatal");
+        QTest::newRow("fatal") << true;
+        QTest::newRow("ordinary") << false;
+    }
+    void lease_take_under_fatal() {
+        QFETCH(bool, fatal);
+        scenario([&] {
+            SinkCapture sink;
+            Rig rig("current", [&](auto &options) { bind_sink(options, sink); });
+            report_first([&] {
+                rig.transport->hold_network = true;
+                [[maybe_unused]] const auto peer = retained_reply(rig);
+                const auto held = rig.instance->inspect();
+                require(held.associations == 1 && held.response.copies == 1, "One retained lease");
+                if (fatal) {
+                    rig.transport->on_io([&] {
+                        forward_published_fact(rig, scan);
+                        failure(rig.transport->replies[0]->take(), host::Failure::stopping);
+                        failure(rig.transport->replies[0]->try_copy(), host::Failure::stopping);
+                    });
+                    const auto refused = rig.instance->inspect();
+                    require(refused.associations == 1 && refused.response.copies == 1 &&
+                                refused.response.capacity == held.response.capacity &&
+                                rig.transport->takes == 0 && rig.log->count(K::local_handoff) == 0,
+                            "Refusal changes no lease, charge or association");
+                    await_writer_only(rig);
+                    rig.transport->on_io([&] {
+                        failure(rig.transport->replies[0]->take(), host::Failure::stopping);
+                        rig.transport->replies[0].reset();
+                    });
+                    require(rig.log->count(K::local_handoff) == 0,
+                            "No handoff under fatal closure");
+                } else {
+                    rig.instance->request_stop();
+                    await_writer_only(rig);
+                    rig.transport->on_io([&] {
+                        success(rig.transport->replies[0]->take(),
+                                "Ordinary stop keeps the window");
+                        rig.transport->replies[0].reset();
+                    });
+                    require(rig.log->count(K::local_handoff) == 1,
+                            "One handoff after ordinary stop");
+                }
+                require(rig.instance->inspect().associations == 0,
+                        "The normal lease owner releases the association once");
+                complete_network(rig, fatal ? host::State::failed : host::State::stopped);
+                if (fatal) {
+                    expect_fatal(rig.instance->inspect(), scan);
+                    sink.expect(scan_line);
+                } else {
+                    expect_no_fatal(rig.instance->inspect());
+                    require(sink.calls == 0, "Ordinary stop emits no fatal diagnostic");
+                }
+            });
+        });
+    }
+
+    // r4 "Delivery and wake": a refused or throwing owner-turn post from
+    // disconnect, request_stop or the last lease release stays inside the post
+    // boundary and keeps its fact; the owner timer consumes stop and fatal.
+    void post_failure_is_contained_data() {
+        QTest::addColumn<int>("site");
+        QTest::addColumn<bool>("fatal");
+        QTest::addColumn<bool>("raise");
+        QTest::newRow("stop_refuse_fatal") << int(stop_site) << true << false;
+        QTest::newRow("stop_raise_fatal") << int(stop_site) << true << true;
+        QTest::newRow("stop_refuse_ordinary") << int(stop_site) << false << false;
+        QTest::newRow("disconnect_raise_fatal") << int(disconnect_site) << true << true;
+        QTest::newRow("disconnect_refuse_ordinary") << int(disconnect_site) << false << false;
+        QTest::newRow("lease_raise_fatal") << int(lease_site) << true << true;
+        QTest::newRow("lease_refuse_ordinary") << int(lease_site) << false << false;
+    }
+    void post_failure_is_contained() {
+        QFETCH(int, site);
+        QFETCH(bool, fatal);
+        QFETCH(bool, raise);
+        scenario([&] {
+            SinkCapture sink;
+            Rig rig("current", [&](auto &options) { bind_sink(options, sink); });
+            report_first([&] {
+                rig.transport->hold_network = true;
+                const auto peer = retained_reply(rig);
+                const auto control = rig.instance->inspect().control_charge;
+                rig.transport->on_io([&] {
+                    if (fatal)
+                        forward_published_fact(rig, scan);
+                    hooks::HostAccess::inject_post_faults(
+                        *rig.instance, raise ? PostFault::raise : PostFault::refuse, 1);
+                    if (site == stop_site)
+                        rig.instance->request_stop();
+                    else if (site == disconnect_site)
+                        rig.transport->ingress->disconnected(peer);
+                    else
+                        rig.transport->replies[0].reset();
+                });
+                const auto after = rig.instance->inspect();
+                require(site != disconnect_site || after.control_charge + 1024 == control,
+                        "Disconnect retires its peer charge before returning");
+                require(site != lease_site ||
+                            (after.associations == 0 && after.response.copies == 0),
+                        "The last lease release retires the association once");
+                if (site != stop_site)
+                    rig.instance->request_stop();
+                if (site != lease_site)
+                    rig.transport->on_io([&] { rig.transport->replies[0].reset(); });
+                await_writer_only(rig);
+                complete_network(rig, fatal ? host::State::failed : host::State::stopped);
+                if (fatal) {
+                    expect_fatal(rig.instance->inspect(), scan);
+                    sink.expect(scan_line);
+                } else {
+                    expect_no_fatal(rig.instance->inspect());
+                    require(sink.calls == 0, "Ordinary wake failure emits no fatal diagnostic");
+                }
+            });
+        });
+    }
+
+    // Cold Host with a running dispatcher and no start(): the nonowner's stop
+    // post fails, yet the owner drives one fence and real cleanup.
+    void cold_stop_without_start_data() {
+        QTest::addColumn<bool>("raise");
+        QTest::newRow("refuse") << false;
+        QTest::newRow("raise") << true;
+    }
+    void cold_stop_without_start() {
+        QFETCH(bool, raise);
+        scenario([&] {
+            SinkCapture sink;
+            Rig rig("current", [&](auto &options) { bind_sink(options, sink); });
+            report_first([&] {
+                hooks::HostAccess::inject_post_faults(
+                    *rig.instance, raise ? PostFault::raise : PostFault::refuse, 1);
+                foreign_stop(*rig.instance);
+                expect_cold_stopped(rig, sink);
+                rig.instance->request_stop();
+                foreign_stop(*rig.instance);
+                QTest::qWait(50);
+                require(rig.instance->inspect().stop_fences == 1 &&
+                            rig.log->count(K::stop_consumed) == 1,
+                        "Duplicate stops and wakes are inert");
+                failure(rig.instance->start([](auto) {}), host::Failure::already_started);
+            });
+        });
+    }
+
+    // Stop latched between startup preparation and writer open; the initial
+    // post and the early-branch re-wake both fail.
+    void stop_before_writer_open_data() {
+        QTest::addColumn<bool>("raise");
+        QTest::newRow("refuse") << false;
+        QTest::newRow("raise") << true;
+    }
+    void stop_before_writer_open() {
+        QFETCH(bool, raise);
+        scenario([&] {
+            SinkCapture sink;
+            unsigned startup_calls = 0;
+            Rig rig("current", [&](auto &options) { bind_sink(options, sink); });
+            report_first([&] {
+                const auto latch = [&] {
+                    hooks::HostAccess::inject_post_faults(
+                        *rig.instance, raise ? PostFault::raise : PostFault::refuse, 2);
+                    foreign_stop(*rig.instance);
+                };
+                success(hooks::HostAccess::before_writer_open(*rig.instance, latch),
+                        "Hook after startup preparation");
+                success(rig.instance->start([&](auto) { ++startup_calls; }),
+                        "Early-stop branch keeps StartAccepted");
+                expect_cold_stopped(rig, sink);
+                require(startup_calls == 0, "No startup report");
+            });
+        });
+    }
+
+    // Abstract owner-timer registration failure keeps the existing prelaunch
+    // refusal and cleanup.
+    void timer_registration_failure_refuses_start() {
+        scenario([] {
+            SinkCapture sink;
+            unsigned startup_calls = 0;
+            Rig rig("current", [&](auto &options) { bind_sink(options, sink); });
+            report_first([&] {
+                require(hooks::HostAccess::owner_timer(*rig.instance).active,
+                        "Cold setup armed the owner timer");
+                success(hooks::HostAccess::refuse_timer_registration(*rig.instance),
+                        "Abstract registration failure");
+                require(!hooks::HostAccess::owner_timer(*rig.instance).active, "Timer inactive");
+                failure(rig.instance->start([&](auto) { ++startup_calls; }),
+                        host::Failure::unavailable);
+                require(
+                    QTest::qWaitFor([&] { return rig.instance->inspect().owner_cleanup; }, wait_ms),
+                    "Existing prelaunch cleanup");
+                const auto s = rig.instance->inspect();
+                require((s.state == host::State::stopped || s.state == host::State::failed) &&
+                            !rig.transport->startup &&
+                            rig.log->count(K::inspection_enqueued) == 0 && startup_calls == 0,
+                        "No framework launch, writer work or startup report");
+                expect_no_fatal(s);
+                require(sink.calls == 0, "No fatal report");
+            });
+        });
+    }
+
+    // Host built before its thread has a dispatcher: one receiver-owned
+    // bootstrap event completes cold setup or consumes a latched stop.
+    void deferred_bootstrap_data() {
+        QTest::addColumn<int>("mode");
+        QTest::newRow("stop_latched") << int(stop_latched);
+        QTest::newRow("arms_once") << int(arms_once);
+        QTest::newRow("start_before_bootstrap") << int(start_before_bootstrap);
+    }
+    void deferred_bootstrap() {
+        QFETCH(int, mode);
+        scenario([&] {
+            std::optional<Store> store;
+            if (mode == start_before_bootstrap)
+                store.emplace("current"); // disposable v10 store, built on the test owner
+            const auto path = store ? store->path.toStdString() : std::string("unused-cold");
+            std::exception_ptr error;
+            std::thread owner([&] {
+                try {
+                    bootstrap_owner(Bootstrap(mode), path);
+                } catch (...) {
+                    error = std::current_exception();
+                }
+            });
+            owner.join();
+            if (error)
+                std::rethrow_exception(error);
         });
     }
 };
