@@ -15,7 +15,7 @@ foreach(row IN ITEMS completed-tip unknown-accept unknown-review unknown-record-
         missing-optional-source-fields submillisecond-source-time
         mismatched-envelope-room retired-ingest-gap wrong-topic-ack-refused empty-room-ack-refused
         rejected-moderation unusual-currency exact-millisecond-trailing-zero
-        acknowledged-disconnect-reconnect)
+        acknowledged-disconnect-reconnect unclassifiable-text-gap old-disconnect-during-handoff)
     add_test(NAME astro.${row} COMMAND astro_contract_tests ${row})
     set_tests_properties(astro.${row} PROPERTIES LABELS "streamelements-001;intentional-red")
 endforeach()

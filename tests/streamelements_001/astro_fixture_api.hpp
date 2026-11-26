@@ -13,7 +13,7 @@ enum class Moderation { unknown, allowed, pending, rejected };
 enum class Status { not_implemented, admitted, retry, conflict, held, recorded, pending_review, coverage_gap,
                     source_binding_failure, ignored };
 enum class Gap { missing_tip_identity, missing_transaction, invalid_amount, invalid_currency,
-                 retired_delivery, reconnect_interruption };
+                 retired_delivery, reconnect_interruption, unclassifiable_text };
 
 struct AcknowledgedRoute {
     std::string_view canonical_room;
