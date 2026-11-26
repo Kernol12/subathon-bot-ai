@@ -318,15 +318,13 @@ if(SUBATHON_BUILD_SCHEDULED_PAUSE_TESTS)
         TEST_FILTER "ScheduledPauseForecastF3.FirstTerminalPointKeepsCauseOnLastQuery"
         LABELS "scheduled-pause;acceptance;server" TIMEOUT 30)
 
-    if(SUBATHON_BUILD_SCHEDULE_002_STAGE1)
-        add_executable(server_schedule_command_acceptance
-            acceptance/schedule_command_tests.cpp)
-        target_link_libraries(server_schedule_command_acceptance PRIVATE
-            subathon_scheduled_pause subathon_timer_editorial_commands GTest::gtest_main)
-        subathon_target_options(server_schedule_command_acceptance)
-        subathon_discover_gtests(server_schedule_command_acceptance
-            LABELS "schedule-command;acceptance;server" TIMEOUT 30)
-    endif()
+    add_executable(server_schedule_command_acceptance
+        acceptance/schedule_command_tests.cpp)
+    target_link_libraries(server_schedule_command_acceptance PRIVATE
+        subathon_scheduled_pause subathon_timer_editorial_commands GTest::gtest_main)
+    subathon_target_options(server_schedule_command_acceptance)
+    subathon_discover_gtests(server_schedule_command_acceptance
+        LABELS "schedule-command;acceptance;server" TIMEOUT 30)
 
     if(SUBATHON_BUILD_SCHEDULE_003_STAGE1)
         add_executable(server_scheduled_pause_forecast_acceptance

@@ -365,6 +365,9 @@ bool breach(const ScheduledPausePreview &p) {
 // #813's proven breach attests to a change one millisecond after the final
 // forecast page. Compare that edge as well as the offsets inside retained facts.
 bool contradicts_breach(const ScheduledPausePreview &old, const ScheduledPausePreview &now) {
+    if (now.facts.empty()) {
+        return true;
+    }
     const auto &edge = now.facts.back().facts;
     for (const auto &x : old.facts) {
         for (const auto &y : now.facts) {
@@ -678,7 +681,7 @@ ScheduleApply apply_schedule_entry(ScheduleCommandKind kind, const ScheduleComma
     const auto required =
         kind == Kind::start ? core::TimerLifecycle::Ready : core::TimerLifecycle::Finished;
     if (state.timer.lifecycle != required) {
-        return Refusal::invalid_input;
+        return Refusal::stale_observation;
     }
     auto entered = enter_scheduled_pauses(state, {state.snapshot_ref, clock.target, *a.entry_timer},
                                           ports.zones);
