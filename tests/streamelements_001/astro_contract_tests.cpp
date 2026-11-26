@@ -364,6 +364,41 @@ void transport_case(std::string_view row) {
         return;
     }
 
+    if (row == "acknowledged-disconnect-reconnect") {
+        const auto initial = advance(state, {TransportEvent::welcome, 1}, calls);
+        require(initial.status == TransportStatus::awaiting_ack && initial.subscribe,
+                "The initial welcome issues an unacknowledged subscription");
+        const auto old_nonce = initial.subscribe->nonce;
+        require(!old_nonce.empty() && advance(state,
+                    {TransportEvent::subscribe_success, 1, old_nonce, topic, room}, calls).status ==
+                    TransportStatus::acknowledged,
+                "The original subscription is acknowledged using its nonce");
+        require(advance(state, {TransportEvent::unexpected_disconnect, 1}, calls).status ==
+                    TransportStatus::ordinary_reconnect,
+                "An acknowledged disconnect requires an ordinary reconnect");
+        require(!state.tips_read && !state.active_generation && state.interruption_open &&
+                    calls.gaps == std::vector{Gap::reconnect_interruption},
+                "The disconnect notifies the gap owner of one unknown-coverage interruption");
+        require(advance(state, {TransportEvent::draining, 2}, calls).status ==
+                    TransportStatus::ordinary_reconnect && state.interruption_open &&
+                    calls.gaps.size() == 1,
+                "An unacknowledged 502 retry leaves the existing gap open");
+        const auto fresh = advance(state, {TransportEvent::welcome, 3}, calls);
+        require(fresh.status == TransportStatus::awaiting_ack && fresh.subscribe &&
+                    !fresh.subscribe->nonce.empty() && fresh.subscribe->nonce != old_nonce &&
+                    state.interruption_open && !state.tips_read,
+                "Ordinary reconnect issues a distinct nonce before restoring coverage");
+        require(advance(state, {TransportEvent::subscribe_success, 3, old_nonce, topic, room},
+                        calls).status == TransportStatus::awaiting_ack &&
+                    state.interruption_open && !state.tips_read,
+                "An old acknowledgement cannot restore coverage on a fresh subscription");
+        require(advance(state, {TransportEvent::subscribe_success, 3, fresh.subscribe->nonce, topic, room},
+                        calls).status == TransportStatus::acknowledged &&
+                    state.tips_read && state.active_generation == 3 && !state.interruption_open,
+                "Only the new acknowledgement restores current coverage");
+        return;
+    }
+
     state.canonical_room = room;
     state.active_generation = 1;
     state.tips_read = true;
@@ -388,32 +423,11 @@ void transport_case(std::string_view row) {
         require(advance(state, {TransportEvent::delivery, 2}, calls).status ==
                     TransportStatus::current_delivery,
                 "Delivery resumes on the current route");
-    } else if (row == "retired-delivery-gap") {
-        state.active_generation = 2;
         require(advance(state, {TransportEvent::delivery, 1}, calls).status ==
                     TransportStatus::retired_delivery,
-                "A retired generation cannot deliver intake observations");
+                "The actual handoff retires the former generation");
         require(calls.gaps == std::vector{Gap::retired_delivery},
                 "The retired delivery records an unknown-coverage gap");
-    } else if (row == "acknowledged-disconnect-reconnect") {
-        require(advance(state, {TransportEvent::unexpected_disconnect, 1}, calls).status ==
-                    TransportStatus::ordinary_reconnect,
-                "An acknowledged disconnect requires an ordinary reconnect");
-        require(!state.tips_read && !state.active_generation && state.interruption_open &&
-                    calls.gaps == std::vector{Gap::reconnect_interruption},
-                "The disconnect records exactly one unknown-coverage interruption");
-        require(advance(state, {TransportEvent::draining, 2}, calls).status ==
-                    TransportStatus::ordinary_reconnect && state.interruption_open &&
-                    calls.gaps.size() == 1,
-                "An unacknowledged 502 retry leaves the existing gap open");
-        const auto fresh = advance(state, {TransportEvent::welcome, 3}, calls);
-        require(fresh.status == TransportStatus::awaiting_ack && fresh.subscribe &&
-                    state.interruption_open && !state.tips_read,
-                "Ordinary reconnect requests a new subscription before restoring coverage");
-        require(advance(state, {TransportEvent::subscribe_success, 3, fresh.subscribe->nonce, topic, room},
-                        calls).status == TransportStatus::acknowledged &&
-                    state.tips_read && state.active_generation == 3 && !state.interruption_open,
-                "Only the new acknowledgement restores current coverage");
     } else if (row == "reconnect-rejection-fallback") {
         state.replacement_generation = 2;
         const auto result = advance(state, {TransportEvent::reconnect_rejected, 2}, calls);

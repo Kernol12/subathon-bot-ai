@@ -10,7 +10,7 @@ foreach(row IN ITEMS completed-tip unknown-accept unknown-review unknown-record-
         welcome-requests-tips canonical-ack-binds nonce-less-ack-refused wrong-nonce-ack-refused
         canonical-ack-change-refused rate-limit-retryable authorization-deadline-retryable
         subscribe-refused acknowledgement-timeout connection-rate-limit draining-reconnect
-        graceful-reconnect-keeps-old replacement-welcome-handoff retired-delivery-gap
+        graceful-reconnect-keeps-old replacement-welcome-handoff
         reconnect-rejection-fallback binary-transport-ignored
         missing-optional-source-fields submillisecond-source-time
         mismatched-envelope-room retired-ingest-gap wrong-topic-ack-refused empty-room-ack-refused

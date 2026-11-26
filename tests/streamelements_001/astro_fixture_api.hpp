@@ -47,6 +47,8 @@ struct NumericOverflow {
 class CoverageJournal {
 public:
     virtual ~CoverageJournal() = default;
+    // The scoped gap owner obtains the last confirmed point from its own
+    // durable frontier. The adapter supplies only the interruption trigger.
     virtual void record(Gap gap) = 0;
 };
 
