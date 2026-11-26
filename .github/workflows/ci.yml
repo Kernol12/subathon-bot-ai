@@ -1107,7 +1107,9 @@ jobs:
           cmake --preset bounded-http-foundation-debug \
             -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/bounded-http-foundation/sdk" \
             -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT" \
-            -DSUBATHON_BOUNDED_HTTP_ADMISSION="$RUNNER_TEMP/bounded-http-foundation/receipts/foundation/development-admission.json"
+            -DSUBATHON_BOUNDED_HTTP_ADMISSION="$RUNNER_TEMP/bounded-http-foundation/receipts/foundation/development-admission.json" \
+            -DSUBATHON_ACCEPTANCE_SUITES="bounded-http-foundation;account-capture" \
+            -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           cmake --build --preset bounded-http-foundation-debug --parallel 2
       - name: Record consumer commands without loading either observer
         run: ninja -C build/bounded-http-foundation-debug -t commands native_websocket_probe bounded_http_probe
@@ -1162,6 +1164,12 @@ jobs:
           env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TMPDIR="$RUNNER_TEMP" \
             LD_LIBRARY_PATH="$RUNNER_TEMP/bounded-http-foundation/sdk/lib" \
             "$ctest_command" --test-dir build/bounded-http-foundation-debug -L '^bounded-http-foundation$' --no-tests=error --verbose
+      - name: Run required-success account-capture synthetic loopback acceptance
+        run: |
+          ctest_command="$(cat "$RUNNER_TEMP/bounded-http-foundation/receipts/native/ctest-command.txt")"
+          env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TMPDIR="$RUNNER_TEMP" \
+            LD_LIBRARY_PATH="$RUNNER_TEMP/bounded-http-foundation/sdk/lib" \
+            "$ctest_command" --test-dir build/bounded-http-foundation-debug -L '^account-capture$' --no-tests=error --output-on-failure
       - name: Run existing infrastructure and tooling
         run: ctest --test-dir build/bounded-http-foundation-debug -L '^scaffold$' --no-tests=error --verbose
       - name: Install archive, Qt runtime and pinned Boost headers
