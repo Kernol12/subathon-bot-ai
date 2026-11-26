@@ -21,13 +21,30 @@
     "https://github.com/Kernol12/subathon-bot-ai/pull/875#pullrequestreview-6070687207",
     "https://github.com/Kernol12/subathon-bot-ai/pull/845#issuecomment-7144386165",
     "https://github.com/Kernol12/subathon-bot-ai/pull/875#pullrequestreview-6070688801",
-    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45783309855/job/139783798041"
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45783309855/job/139783798041",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/876",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/877",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/684#issuecomment-7188696856",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/684#issuecomment-7189384461",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/684#issuecomment-7190752864",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/876#pullrequestreview-6074837233",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/876#pullrequestreview-6074837999",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/876#pullrequestreview-6074838699",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/876#pullrequestreview-6074839502",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/877#issuecomment-7193904090",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/877#issuecomment-7193905190",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/877#issuecomment-7193906313",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45832954859/job/139954216070"
   ],
   "limitations": [
     "Stage 1 red credited at 0a20f6ff with one passing control and four expected stub stops. The tests-stage packet binds its unchanged tracked brief. #845 retains the complete tests-stage reviews and original fixture receipt; #875 separately approves the prescribed stub-body delta, registration label and comment-only changes.",
     "The Stage 2 implementation proof binds the unchanged product source at a021690a. The CI, label and documentation delta at 55d95747 has a separate approved receipt. Both verification roles used fresh Claude sessions under owner rule 1A.",
     "At head 55d95747a981891244634bcc20a5560fdb7e9539 the hosted native job checked out merge 7adc0fe07d00a8c5af912a44e7b893f491c4075c and passed all five required host-consumer selectors. Local a021690a was pre-review under ADR-0014. No live or platform qualification is claimed.",
-    "This proof covers Stage 2 Host-consumer delivery. Issue #684 stays open for Stage 3 response-lease, Drogon readiness and timer bootstrap/wake obligations."
+    "This proof covers Stage 2 Host-consumer delivery. Issue #684 stays open for Stage 3 response-lease, Drogon readiness and timer bootstrap/wake obligations.",
+    "Stage 3 tests PR #876 merged as 42d422f151ea480fbe29b98e99b81403a70b9b11. The initial receipt reviewed 66c7aa24 and requested changes (S1 blocking, S2-S7). Verification and closing approved 13636dfd with notes. The intended-red receipt records 26 selectors: 9 passed, 8 failed at the intended first assertion, and 9 aborted at the injected throw. The current tests packet binds the unchanged brief, fixture and observer header. The implementation packet binds the subsequently changed host source, selector registration and README.",
+    "Stage 3 implementation initial review approved 1e2b6be5 with notes (P1-P3 and a nit). Verification approved d39ee0c8 and closing approved it with notes. Stage 3 verification used fresh Claude sessions under advisor decision 684.5 and owner rule 1A. The three implementation commits were rebased over #876 with matching stable patch IDs and an identical final tree.",
+    "All seven required checks passed on 2988635e161ae33d303a8dbcb5be713d250174fa in #877 before the proof commit. The credited hosted native job checked out merge 92aed3cdd2d314c9be06ab9f4b1c40b1524cca7e. The step \"Run required-success API-023 Host fatal consumer acceptance\" succeeded and reported \"100% tests passed, 0 tests failed out of 26\". Earlier local runs used api-host-debug and are review evidence.",
+    "Wake ordering was reviewed by reasoning without ThreadSanitizer. The unreachable defensive direct early-stop path has no direct test. No live or platform qualification is claimed. #684 stays open for I2b, blocked on #837."
   ],
   "workflow": {
     "required_stages": [
@@ -36,12 +53,15 @@
     ],
     "stages": {
       "tests": {
-        "revision": "b9e96fbe6bcd26c70349c90f0237d5418a896369",
+        "revision": "13636dfd9f35e45bba5b1fb4c2f0363a61937867",
         "authors": [
-          "claude:API-023-stage1-author"
+          "claude:API-023-stage1-author",
+          "claude:API-023-stage3-author"
         ],
         "paths": [
-          "docs/tasks/API-023.md"
+          "docs/tasks/API-023.md",
+          "server/include/subathon/server/testing/api_host_observers.hpp",
+          "tests/qt/api_023/host_fatal_consumer_tests.cpp"
         ],
         "reviews": [
           {
@@ -81,13 +101,47 @@
             "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/845#issuecomment-7144382685",
             "findings": [],
             "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:API-023-stage3-tests-verification",
+            "revision": "13636dfd9f35e45bba5b1fb4c2f0363a61937867",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/876#pullrequestreview-6074837999",
+            "findings": [
+              "W1",
+              "W2",
+              "W3",
+              "W4",
+              "W5"
+            ],
+            "blocking_findings": [],
+            "owner_authorization": "https://github.com/Kernol12/subathon-bot-ai/issues/684#issuecomment-7188696856"
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:API-023-stage3-tests-closing",
+            "revision": "13636dfd9f35e45bba5b1fb4c2f0363a61937867",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/876#pullrequestreview-6074838699",
+            "findings": [
+              "K1",
+              "K2",
+              "K3"
+            ],
+            "blocking_findings": []
           }
         ]
       },
       "implementation": {
-        "revision": "a021690aae6c7a9478c6b0371c232ea9b406eaa0",
+        "revision": "d39ee0c8d17924d98300747b5af29019c737e7ca",
         "authors": [
-          "claude:API-023-stage2-author"
+          "claude:API-023-stage2-author",
+          "claude:API-023-stage3-author"
         ],
         "paths": [
           "server/include/subathon/server/api_host.hpp",
@@ -95,7 +149,9 @@
           "server/include/subathon/server/testing/api_host_observers.hpp",
           "server/src/api_host.cpp",
           "server/src/api_host_internal.hpp",
-          "server/src/api_host_drogon.cpp"
+          "server/src/api_host_drogon.cpp",
+          "tests/qt/api_023/CMakeLists.txt",
+          "tests/qt/api_023/README.md"
         ],
         "reviews": [
           {
@@ -136,6 +192,39 @@
             "outcome": "approved",
             "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/875#pullrequestreview-6070687207",
             "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:a7fb07f91ff99e656",
+            "revision": "d39ee0c8d17924d98300747b5af29019c737e7ca",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/877#issuecomment-7193905190",
+            "findings": [
+              "V1",
+              "V2",
+              "V3",
+              "V4"
+            ],
+            "blocking_findings": [],
+            "owner_authorization": "https://github.com/Kernol12/subathon-bot-ai/issues/684#issuecomment-7188696856"
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:afeff3783fe361df8",
+            "revision": "d39ee0c8d17924d98300747b5af29019c737e7ca",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/877#issuecomment-7193906313",
+            "findings": [
+              "C1",
+              "C2",
+              "C3",
+              "C4"
+            ],
             "blocking_findings": []
           }
         ]
