@@ -1150,9 +1150,11 @@ class HistoryTests : public QObject {
             return true;
         });
         const SqlRows resolved{{3, 2, QVariant{}}};
-        QVERIFY(
+        auto resolved_rows =
             db.rows("SELECT phase,disposition,quarantine_bytes FROM main.subathon_intake_entries "
-                    "WHERE intake_ref=X'51303031'") == resolved);
+                    "WHERE intake_ref=X'51303031'");
+        canonical_cells(resolved_rows);
+        QVERIFY(resolved_rows == resolved);
         QCOMPARE(db.rows("SELECT count(*) FROM main.subathon_intake_entries "
                          "WHERE quarantine_bytes IS NOT NULL"),
                  (SqlRows{{255}}));
