@@ -467,6 +467,22 @@ TEST(ScheduleCommand, StaleIssueRetainsNoProof) {
     EXPECT_TRUE(r.publications.empty());
 }
 
+class SchedulePreviewBounds : public ::testing::TestWithParam<bool> {};
+
+TEST_P(SchedulePreviewBounds, RefusesBeforeIssuance) {
+    Rig r;
+    r.basis_s();
+    const bool before_cut = GetParam();
+    const auto through = before_cut ? noon - 1 : at(12h + days{366}) + 1;
+    const auto refusal = before_cut ? Refusal::invalid_input : Refusal::limit_exceeded;
+    expect(issue_schedule_preview(r.preview({keep_b, through}), r.ports), refusal);
+    EXPECT_TRUE(r.issues.empty());
+    EXPECT_TRUE(r.publications.empty());
+    EXPECT_EQ(r.writer_calls, 0);
+}
+INSTANTIATE_TEST_SUITE_P(ScheduleCommand, SchedulePreviewBounds,
+                         ::testing::Values(true, false));
+
 enum class PresentationChange { basis, projection, foreign, evicted };
 class SchedulePresentationCase : public ::testing::TestWithParam<PresentationChange> {};
 TEST_P(SchedulePresentationCase, RechecksIdentityAndNeverPublishesRefusal) {
