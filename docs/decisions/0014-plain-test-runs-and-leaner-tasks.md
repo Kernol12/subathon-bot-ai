@@ -80,6 +80,12 @@ were caused by the procedure.
    coordinator stopped after each step and waited about 3.5 of 6.5 hours for the next
    hourly check.) The owner receives two digests a
    day. Up to two Claude tracks may run at once when their material is separate.
+   The coordinator may keep three tasks In progress at once, in different modules,
+   instead of two (`AGENTS.md`). The owner raised the limit on 26 November 2026: that
+   evening two tasks filled both places while a third without an open question stayed
+   parked, and the computer and the Codex allowance had room to spare. The limit of
+   one migration at a time and the daytime limit of five for In progress plus Parked
+   are unchanged.
 3. **Fewer and larger tasks.**
    - A prerequisite found during a task becomes its own issue only when it can
      merge on its own and either blocks more than one task or is larger than about
