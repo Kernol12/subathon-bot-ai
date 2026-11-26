@@ -180,9 +180,8 @@ QByteArray frame(const QByteArray &bytes) {
     return number(static_cast<quint32>(bytes.size())) + bytes;
 }
 
-QByteArray cut_document(const CutObservation &observation) {
-    const auto &cut = observation.cut;
-    return QByteArray("CUT1") + char(observation.boundary) + frame(cut.format) +
+QByteArray cut_document(const QualifiedCut &cut, Endpoint boundary) {
+    return QByteArray("CUT1") + char(boundary) + frame(cut.format) +
            frame(cut.position_namespace) +
            (cut.position ? QByteArray(1, '\1') + frame(*cut.position) : QByteArray(1, '\0')) +
            frame(cut.qualified_generation) + frame(cut.proof);
@@ -223,14 +222,56 @@ SqlRows read_operation(const SqliteWorkSession &session, const HistoryRequest &r
          args});
 }
 
-bool pinned_operation(const SqliteWorkSession &session, const AdmittedHistoryRequest &binding,
+std::optional<QByteArrayView> take_frame(QByteArrayView &bytes) {
+    if (bytes.size() < 4)
+        return {};
+    const auto size = qFromBigEndian<quint32>(bytes.data());
+    if (size > bytes.size() - 4)
+        return {};
+    const auto field = bytes.sliced(4, size);
+    bytes = bytes.sliced(4 + size);
+    return field;
+}
+
+bool matches_retained_catch_up_cut(QByteArrayView bytes, const HistoryRequest &request) {
+    if (!bytes.startsWith(QByteArrayView("IOP1\0", 5)) || bytes.size() > document_limit)
+        return false;
+    bytes = bytes.sliced(5);
+    for (int field = 0; field < 4; ++field)
+        if (!take_frame(bytes))
+            return false;
+    // Epoch, policy revision and the two endpoint tags precede the intent fields.
+    if (bytes.size() < 18)
+        return false;
+    bytes = bytes.sliced(18);
+    for (int field = 0; field < 5; ++field)
+        if (!take_frame(bytes))
+            return false;
+    if (bytes.isEmpty() || (bytes.front() != '\0' && bytes.front() != '\1'))
+        return false;
+    const bool continuation = bytes.front() == '\1';
+    bytes = bytes.sliced(1);
+    if (continuation && !take_frame(bytes))
+        return false;
+    const auto cut = take_frame(bytes);
+    // The retained qualifying generation is part of CUT1, independently of the
+    // operative generation in the operation row and source fence.
+    return cut && bytes.isEmpty() &&
+           *cut == cut_document(request.upper, request.interval.end);
+}
+
+Status pinned_operation(const SqliteWorkSession &session, const AdmittedHistoryRequest &binding,
                       bool terminal) {
     const auto rows = read_operation(session, binding.request);
     if (rows.size() != 1)
-        return false;
+        return binding.purpose == HistoryPurpose::catch_up ? Status::unproved : Status::stale;
     const auto &r = rows.front();
     const auto &fence = binding.request.source.fence;
-    return r[1].toByteArray() == binding.intent && r[2].toInt() == int(binding.purpose) &&
+    const auto retained_intent = r[1].toByteArray();
+    if (binding.purpose == HistoryPurpose::catch_up &&
+        !matches_retained_catch_up_cut(retained_intent, binding.request))
+        return Status::unproved;
+    const bool matches = retained_intent == binding.intent && r[2].toInt() == int(binding.purpose) &&
            r[3].isNull() == !binding.gap && r[3].toByteArray() == blob(binding.gap) &&
            r[4].toByteArray() == fence.generation && r[5].toLongLong() == fence.epoch &&
            r[6].toLongLong() == fence.policy_revision &&
@@ -241,6 +282,7 @@ bool pinned_operation(const SqliteWorkSession &session, const AdmittedHistoryReq
                       r[7].toLongLong() == binding.request.ordinal && r[8].toInt() == 0 &&
                       (r[10].toString() == "blob") == binding.request.continuation.has_value() &&
                       r[9].toByteArray() == blob(binding.request.continuation));
+    return matches ? Status::committed : Status::stale;
 }
 
 Status verify_binding(const SqliteWorkSession &session, const AdmittedHistoryRequest &binding,
@@ -253,9 +295,11 @@ Status verify_binding(const SqliteWorkSession &session, const AdmittedHistoryReq
                         head->fence.policy_revision != source.fence.policy_revision
                   : head->fence != source.fence ||
                         head->frontier.isNull() != !binding.request.frontier ||
-                        head->frontier != blob(binding.request.frontier)) ||
-        !pinned_operation(session, binding, terminal))
+                        head->frontier != blob(binding.request.frontier)))
         return Status::stale;
+    if (const auto operation = pinned_operation(session, binding, terminal);
+        operation != Status::committed)
+        return operation;
     if (!terminal && binding.gap) {
         auto args = scope_bindings(source.scope);
         args.append({source.fence.epoch, *binding.gap, source.fence.policy_revision});
@@ -480,12 +524,16 @@ PageOutcome finalize_history_page(SqliteWriter &writer, const OwnerInputs &owner
             if (const auto current = authorize(owner, Action::page, request.source.scope);
                 current != Status::committed)
                 return current;
-            if (verify_binding(session, handle.binding) != Status::committed) {
+            const auto verified = verify_binding(session, handle.binding);
+            if (verified == Status::unproved)
+                return verified;
+            if (verified != Status::committed) {
                 const auto inspect = authorize(owner, Action::inspect, request.source.scope);
                 if (inspect != Status::committed)
                     return inspect;
-                if (verify_binding(session, handle.binding, true) != Status::committed)
-                    return Status::stale;
+                if (const auto terminal = verify_binding(session, handle.binding, true);
+                    terminal != Status::committed)
+                    return terminal;
             }
             result = stage_page_finalization(session, finalization(handle));
             return outcome(*result);
@@ -538,13 +586,17 @@ PageQualification reconstruct_history_page(SqliteWriter &writer, const OwnerInpu
             return Status::stale;
         if (!has_page(session, binding.request))
             return Status::unproved;
-        if (verify_binding(session, binding) == Status::committed) {
+        const auto verified = verify_binding(session, binding);
+        if (verified == Status::unproved)
+            return verified;
+        if (verified == Status::committed) {
             result = stage_page(session, projected.qualified->page).status;
-        } else if (verify_binding(session, binding, true) == Status::committed) {
-            // Only verify terminal readback when the operation has passed this page.
-            result = stage_page_finalization(session, finalization(*projected.qualified));
         } else {
-            return Status::stale;
+            // Only verify terminal readback when the operation has passed this page.
+            if (const auto terminal = verify_binding(session, binding, true);
+                terminal != Status::committed)
+                return terminal;
+            result = stage_page_finalization(session, finalization(*projected.qualified));
         }
         if (*result == HistoryStatus::staged)
             return Status::unproved;
@@ -623,23 +675,14 @@ std::optional<qint64> retained_import_start(QByteArrayView bytes) {
     if (!bytes.startsWith(QByteArrayView("IOP1\1", 5)) || bytes.size() > document_limit)
         return {};
     bytes = bytes.sliced(5);
-    const auto skip_field = [&]() {
-        if (bytes.size() < 4)
-            return false;
-        const auto n = qFromBigEndian<quint32>(bytes.data());
-        if (n > bytes.size() - 4)
-            return false;
-        bytes = bytes.sliced(4 + n);
-        return true;
-    };
     for (int field = 0; field < 4; ++field)
-        if (!skip_field())
+        if (!take_frame(bytes))
             return {};
     if (bytes.size() < 18)
         return {};
     bytes = bytes.sliced(18);
     for (int field = 0; field < 7; ++field)
-        if (!skip_field())
+        if (!take_frame(bytes))
             return {};
     if (bytes.size() < 8)
         return {};
@@ -817,6 +860,12 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
                 const auto access = authorize(owner, Action::inspect, source.scope);
                 if (access != Status::committed)
                     return access;
+                if (!importing && *purpose == static_cast<int>(HistoryPurpose::catch_up)) {
+                    const auto retained = read_operation(session, request);
+                    if (retained.size() != 1 ||
+                        !matches_retained_catch_up_cut(retained.front()[1].toByteArray(), request))
+                        return Status::unproved;
+                }
                 if (importing && *purpose == static_cast<int>(HistoryPurpose::import)) {
                     const auto retained_start = read_import_start(session);
                     if (!retained_start)
@@ -969,12 +1018,12 @@ HandoffOutcome commit_history_handoff(SqliteWriter &writer, const OwnerInputs &o
     const auto proof = validators.relation ? validators.relation(*old, new_side) : std::nullopt;
     if (!proof || proof->isEmpty())
         return {Status::unproved, {}};
-    const auto cut = cut_document(observed.front().observation);
+    const auto cut = cut_document(observed.front().observation.cut, observed.front().observation.boundary);
     if (cut != change.authorized_cut || *proof != change.boundary_proof)
         return {Status::invalid_input, {}};
     if (sides == 2) {
         auto &next = change.affected_sources.front();
-        if (cut_document(observed[1].observation) != next.authorized_cut ||
+        if (cut_document(observed[1].observation.cut, observed[1].observation.boundary) != next.authorized_cut ||
             *proof != next.boundary_proof)
             return {Status::invalid_input, {}};
     }
