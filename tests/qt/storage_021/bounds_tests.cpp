@@ -7,7 +7,6 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
-#include <QSqlRecord>
 #include <QStorageInfo>
 #include <QTextStream>
 
@@ -116,30 +115,7 @@ void verify_runtime_prerequisites(const DisposableFile &donor) {
                         << Qt::endl;
 }
 
-void print_observation(const FixtureSql &sql, const char *connection) {
-    QTextStream out(stderr);
-    for (const QString statement : {"SELECT sqlite_version(), sqlite_source_id()",
-                                    "PRAGMA compile_options", "PRAGMA page_size",
-                                    "PRAGMA page_count", "PRAGMA temp_store",
-                                    "PRAGMA integrity_check", "PRAGMA foreign_key_check",
-                                    "SELECT count(*), min(version), max(version) FROM subathon_migration_history",
-                                    "SELECT count(*) FROM subathon_plan_revisions "
-                                    "WHERE valuation_state=0 AND parent_revision IS NULL"}) {
-        out << connection << ": " << statement << Qt::endl;
-        auto rows = sql.run(statement);
-        qsizetype count = 0;
-        while (rows.next()) {
-            for (int col = 0; col < rows.record().count(); ++col)
-                out << rows.value(col).toString() << ' ';
-            out << Qt::endl;
-            ++count;
-        }
-        require(!rows.lastError().isValid(), rows.lastError().text());
-        out << "rows=" << count << Qt::endl;
-    }
-}
-
-void assemble_donor(const DisposableFile &file, int pages, bool observe = false) {
+void assemble_donor(const DisposableFile &file, int pages) {
     file.create_blank();
     const auto manifest = compiled_successor();
     const auto witness = candidate(file, {0, ClockPredecessor::blank, {}, {}});
@@ -175,27 +151,12 @@ void assemble_donor(const DisposableFile &file, int pages, bool observe = false)
         auto violations = sql.run("PRAGMA foreign_key_check");
         require(!violations.next() && !violations.lastError().isValid(), "No donor FK violations");
         require(sql.scalar("PRAGMA integrity_check").toString() == "ok", "Donor integrity");
-        if (observe) {
-            sql.run("PRAGMA query_only=ON");
-            require(sql.scalar("PRAGMA query_only").toInt() == 1, "Owner readback is query-only");
-            print_observation(sql, "assembler owner");
-        }
     }
     require(QFileInfo(file.path()).size() == qint64{pages} * 4096, "Exact stopped donor size");
     const auto authenticated = inspect_v22_pre_open(file.path(), setup_profile);
     require(std::holds_alternative<V22PreOpenWitness>(authenticated),
             "Authenticate the assembled v22 donor against the compiled manifest");
     qInfo().noquote() << "v22 donor" << pages << "pages SHA-256" << file.seal().toHex();
-    if (observe) {
-        QFile stopped(file.path());
-        require(stopped.open(QIODevice::ReadOnly) && stopped.seek(92), "Read stopped donor header");
-        const auto header = stopped.read(8);
-        require(header.size() == 8, "Read header bytes 92 through 99");
-        QTextStream(stderr) << "header[92:100]=" << header.toHex() << Qt::endl;
-        FixtureSql independent(file.path(), true);
-        independent.open();
-        print_observation(independent, "independent read-only reopen");
-    }
 }
 
 struct BoundCase {
@@ -302,13 +263,6 @@ int main(int argc, char **argv) {
     QCoreApplication application(argc, argv);
     try {
         const auto args = application.arguments();
-        if (args.size() == 2 && args[1] == "--observe") {
-            for (int pages : {1024, 1025}) {
-                DisposableFile donor;
-                assemble_donor(donor, pages, true);
-            }
-            return 0;
-        }
         const bool export_donors = args.size() == 3 && args[1] == "--assemble";
         const bool use_donors = args.size() == 3 && args[1] == "--donors";
         require(export_donors || use_donors,

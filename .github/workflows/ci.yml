@@ -451,10 +451,6 @@ jobs:
           python3 tools/binary_closure.py --expected tools/binary_closures/sqlite-reference-capture-debug.json
           --build-dir build/sqlite-reference-capture-debug --root QT_PREFIX="$QT_PREFIX" --root RUNNER_TEMP="$RUNNER_TEMP"
           --patch-out "$RUNNER_TEMP/closure-patches/sqlite-reference-capture-debug.patch"
-      - name: Observe STORAGE-021 hosted donors
-        run: >-
-          ctest --preset sqlite-reference-capture-debug -L '^storage-021-observation$'
-          --no-tests=error --verbose --test-output-size-passed 1048576
       - name: Run milestone replacement and interruption acceptance
         run: >-
           ctest --preset sqlite-reference-capture-debug
