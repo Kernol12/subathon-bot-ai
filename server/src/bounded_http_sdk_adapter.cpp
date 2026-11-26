@@ -865,6 +865,15 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
         auto str = [&](std::uint32_t off, std::uint32_t n) {
             return std::string_view(reinterpret_cast<const char *>(h.raw.data() + off), n);
         };
+        // A line without a colon is one invalid record, never a field occurrence, whatever
+        // its text (#765, correction to foundation contract section 4). The SDK describes
+        // it as its whole line for a name, followed by the line end rather than a colon,
+        // with an empty value. It keeps its syntax place after the route header, body and
+        // aggregate limits, and no framing or occurrence check below sees it.
+        if (h.raw[f.name + f.name_size] != std::byte{':'}) {
+            syntax = true;
+            continue;
+        }
         auto name = str(f.name, f.name_size), v = str(f.value, f.value_size);
         if (ascii_equal(name, "content-length")) {
             if (seen_length || v.empty())
@@ -916,11 +925,10 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
             // An ordinary head applies the whole-list grammar to the comma-joined values of
             // all occurrences, so an empty member fails wherever it sits. The loop above
             // refuses leading and interior ones but stops before a terminal one, and it never
-            // sees an empty occurrence, which is valid only alone. Only field lines count as
-            // occurrences. The SDK also describes a line without a colon, as a name with an
-            // empty value: that is a syntax error, decided after the route limits, and its
-            // name is followed by the line end, not by a colon. Native Upgrade is unchanged.
-            if (!p.native && h.raw[f.name + f.name_size] == std::byte{':'}) {
+            // sees an empty occurrence, which is valid only alone. Lines without a colon never
+            // reach this loop body, so every Connection here is an occurrence. Native Upgrade
+            // is unchanged.
+            if (!p.native) {
                 ++connection_fields;
                 empty_connection = empty_connection || v.empty();
                 if ((!v.empty() && v.back() == ',') || (empty_connection && connection_fields > 1))

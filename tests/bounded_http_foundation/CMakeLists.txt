@@ -78,6 +78,7 @@ if(SUBATHON_BUILD_ACCOUNT_CAPTURE_TESTS)
     # Actual account symbols share the one Foundation adapter owner; no NI duplicate.
     add_executable(account_capture_native
         "${PROJECT_SOURCE_DIR}/tests/account_capture/cold_tests.cpp"
+        "${PROJECT_SOURCE_DIR}/tests/account_capture/colonless_precedence_tests.cpp"
         "${PROJECT_SOURCE_DIR}/tests/account_capture/connection_header_tests.cpp"
         "${PROJECT_SOURCE_DIR}/tests/account_capture/native_tests.cpp"
         "${PROJECT_SOURCE_DIR}/tests/account_capture/scanner_tests.cpp"
