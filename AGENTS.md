@@ -64,16 +64,19 @@ Keep at most three In progress in different modules, including work waiting for 
 or merge, and at most one migration at a time. Keep at most eight Parked, counted
 separately from In progress. Park a task when it waits on an escalated owner
 answer, and start another only within both limits. When the Parked limit is
-reached, a further task that needs an owner answer stays In progress with its
-question open and keeps its slot. Wait for the owner only when no In progress task
-can continue and no eligible Ready task can start. Blocked tasks name the
+reached, a task that would park for any reason stays In progress instead, with the
+reason recorded on its issue, and keeps its slot. Wait for the owner only when no
+In progress task can continue and no eligible Ready task can start. Blocked tasks name the
 prerequisite issue and use neither limit. Update the board at every start, park,
 block and merge. Process or tooling work needs an owner decision per task.
 
 Until the evening of 30 November 2026 the owner allows five In progress and fifteen
 Parked in place of three and eight
 ([ADR-0014](docs/decisions/0014-plain-test-runs-and-leaner-tasks.md) point 2). Every
-other rule in the paragraph above applies unchanged.
+other rule in the paragraph above applies unchanged. When the limits drop, nothing
+is interrupted and no task is moved back: tasks above a limit finish, wait or stay
+Parked as they are, and no task starts, resumes or parks into a count that is at or
+above its limit.
 
 After parking a task, start the next eligible Ready task in the same turn when
 the active limits allow it. A Parked task without an open question resumes when

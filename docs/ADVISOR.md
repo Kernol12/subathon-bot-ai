@@ -31,8 +31,8 @@ reason.
 2. Find every question in dialogs and numbered messages.
 3. Decide each question or escalate it.
 4. Check that every In progress task has running work. The one exception is a task
-   that holds its slot with an open owner question because the Parked limit is
-   reached ([AGENTS.md](../AGENTS.md)).
+   held In progress because the Parked limit is reached, with the reason recorded
+   on its issue ([AGENTS.md](../AGENTS.md)).
 
 Verify before deciding. Read the logs and status files, run short probes in a
 scratch folder and quote the specification. A reported FAIL counts only when its
@@ -129,8 +129,8 @@ point 2 gives the reason.
 - The coordinator picks Ready tasks under the selection rules and limits in
   [AGENTS.md](../AGENTS.md), including the MVP rule, at any hour.
 - A task that waits on an escalation parks, and the next one starts within those
-  limits. When the Parked limit is reached, the task stays In progress with its
-  question open instead, as [AGENTS.md](../AGENTS.md) says.
+  limits. When the Parked limit is reached, a task that would park stays In
+  progress instead, as [AGENTS.md](../AGENTS.md) says.
 - Open escalations reach the owner through the digests, as described under
   "Decision log" above.
 - A task with malformed-input tests or HTTP, SDK or ELF material is selected at any
@@ -141,7 +141,8 @@ point 2 gives the reason.
 
 1. **Record and park.** If OpenAI's filter or the Codex approval review refuses
    an otherwise authorized step, or the next step requires restricted material,
-   the coordinator parks the task and records the exact step in a numbered
+   the coordinator parks the task (or holds it In progress when the Parked limit is
+   reached, as [AGENTS.md](../AGENTS.md) says) and records the exact step in a numbered
    question for the advisor. Use `security-blocked` for a safeguard refusal.
    Preserve the evidence. The coordinator makes no retry or rewording and sends
    no execution request to another provider.
