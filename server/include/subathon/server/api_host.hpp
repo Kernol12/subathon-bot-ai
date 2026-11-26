@@ -85,7 +85,8 @@ struct Limits {
 };
 // Borrowed local sink for the one fatal elapsed diagnostic line. The context stays
 // valid through Host cleanup. Qt calls write once, outside Host locks; it must not
-// block, allocate, reenter Host or retain the span. false only records a refusal.
+// block, allocate, reenter Host or retain the span. false is a refusal; Host
+// neither retries nor records it, and inspection keeps the fatal.
 struct FatalDiagnosticSink {
     void *context;
     bool (*write)(void *, std::span<const char>) noexcept;
@@ -260,6 +261,8 @@ class Ingress final {
     ~Ingress();
     friend class Host;
 };
+// Construct, start and destroy on the Qt owner thread: the Host owns that
+// thread's 10 ms fatal timer, which only the owner can stop.
 class Host final {
   public:
     Host(Options, std::unique_ptr<Transport>, std::unique_ptr<CommandDispatcher>);
