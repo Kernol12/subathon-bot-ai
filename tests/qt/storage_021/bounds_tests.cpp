@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include "../storage_003/protected_predecessor_fixture.hpp"
+#include "donor_pins.hpp"
 #include "fake_ops02_update_hold.hpp"
 
 #include <QCoreApplication>
@@ -330,13 +330,14 @@ int main(int argc, char **argv) {
             return 0;
         }
         const QDir directory(args[2]);
-        // Pins from independent read-only inspection of the stopped v22 exports.
-        const auto load_donor = [&](const QString &name, const QByteArray &expected,
+        // Full-file pins come from independently verified stopped v22 exports.
+        const auto load_donor = [&](const QString &name, int pages,
                                     const DisposableFile &copy) {
             const auto path = directory.filePath(name);
             require(!QFileInfo::exists(path + "-wal") && !QFileInfo::exists(path + "-shm") &&
                         !QFileInfo::exists(path + "-journal"),
                     "Pinned donor has no sidecars");
+            const auto expected = storage_021_donor_pin(pages);
             QFile source(path);
             QCryptographicHash hash(QCryptographicHash::Sha256);
             require(source.open(QIODevice::ReadOnly) && hash.addData(&source) &&
@@ -346,10 +347,8 @@ int main(int argc, char **argv) {
             require(QFile::copy(path, copy.path()) && copy.seal().toHex() == expected,
                     "Disposable copy matches the pinned donor");
         };
-        load_donor("v22-1024.sqlite",
-                   "729cec12d8abada51bb92459f5bb1f8b4580a236c585be29cf6ce08669218d11", smaller);
-        load_donor("v22-1025.sqlite",
-                   "e34c69cbaa282f18f173b52e4051688c6523e7f2f9315f271bffb59ca85b01da", larger);
+        load_donor("v22-1024.sqlite", 1024, smaller);
+        load_donor("v22-1025.sqlite", 1025, larger);
         verify_runtime_prerequisites(smaller);
         bool passed = true;
         for (const auto &test : cases) {

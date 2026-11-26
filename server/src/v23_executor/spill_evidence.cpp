@@ -162,6 +162,8 @@ void witness(const QString &path, QTextStream &out) {
     require(baseline >= 0 && baseline < 2048, "Baseline spill readback must be below 2048");
     out << "baseline_cache_spill " << baseline << Qt::endl;
     command(db, "PRAGMA main.cache_spill=2048");
+    // SQLite 3.53.4 uses the low byte as the boolean, so 2048 disables spilling.
+    command(db, pragma::spill_on);
     check_restored_spill(db);
     out << "seeded_cache_spill 2048" << Qt::endl;
 

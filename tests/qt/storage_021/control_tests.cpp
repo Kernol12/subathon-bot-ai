@@ -2,6 +2,7 @@
 #include "../storage_003/constraint_specimen.hpp"
 #include "../../fixtures/valuation_snapshot_codec_vectors.hpp"
 #include "contribution_review_writer_access.hpp"
+#include "donor_pins.hpp"
 #include "fake_ops02_update_hold.hpp"
 #include "sqlite_v23_rebuild.hpp"
 #include "sqlite_terminal_partition.hpp"
@@ -99,7 +100,7 @@ class Fixture final {
                 "Stopped donor has no sidecars");
         require(QFile::copy(donor, file.path()), "Copy stopped donor to disposable storage");
         require(file.seal().toHex() ==
-                    "729cec12d8abada51bb92459f5bb1f8b4580a236c585be29cf6ce08669218d11",
+                    storage_021_donor_pin(1024),
                 "Disposable copy matches independently pinned v22 donor");
         const auto before = file.seal();
         auto inspected = inspect_v22_pre_open(file.path(), setup_profile);

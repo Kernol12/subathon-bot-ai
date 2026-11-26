@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include "../storage_003/protected_predecessor_fixture.hpp"
+#include "donor_pins.hpp"
 #include "fake_ops02_update_hold.hpp"
 #include "v23_negative_fixture.hpp"
 
@@ -46,7 +46,7 @@ void run_specimen(const QString &donor, V23NegativeSpecimen::Phase phase) {
                 !QFileInfo::exists(donor + "-journal") && QFile::copy(donor, file.path()),
             "Copy the stopped donor without sidecars");
     require(file.seal().toHex() ==
-                "729cec12d8abada51bb92459f5bb1f8b4580a236c585be29cf6ce08669218d11",
+                storage_021_donor_pin(1024),
             "Copied independently pinned v22 donor");
     const auto v22 = inspect_v22_pre_open(file.path(), setup_profile);
     const auto *witness = std::get_if<V22PreOpenWitness>(&v22);
