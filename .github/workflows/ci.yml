@@ -207,6 +207,7 @@ jobs:
               "pause-policy": ({"acceptance", "core"}, None),
               "recurring-schedule": ({"acceptance", "core"}, None),
               "scheduled-pause": ({"acceptance", "server"}, 30),
+              "schedule-command": ({"acceptance", "server"}, 30),
               "downtime-recovery": ({"acceptance", "core"}, 30),
               "finished-timer": ({"acceptance", "core"}, 30),
               "application-plan": ({"acceptance", "core"}, None),
@@ -273,6 +274,8 @@ jobs:
               raise SystemExit(f"Expected 25 recurring schedule cases, got {found['recurring-schedule']}")
           if found["scheduled-pause"] != 36:
               raise SystemExit(f"Expected 36 scheduled pause cases, got {found['scheduled-pause']}")
+          if found["schedule-command"] != 35:
+              raise SystemExit(f"Expected 35 schedule command cases, got {found['schedule-command']}")
           if found["downtime-recovery"] != 49:
               raise SystemExit(f"Expected 49 downtime recovery cases, got {found['downtime-recovery']}")
           if found["finished-timer"] != 22:

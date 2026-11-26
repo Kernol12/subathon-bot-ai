@@ -44,7 +44,7 @@ if(TARGET subathon_rate_snapshots)
     subathon_target_options(subathon_open_exchange_rates)
 endif()
 
-add_library(subathon_scheduled_pause STATIC EXCLUDE_FROM_ALL src/scheduled_pause.cpp)
+add_library(subathon_scheduled_pause STATIC EXCLUDE_FROM_ALL src/scheduled_pause.cpp src/schedule_command.cpp)
 target_include_directories(subathon_scheduled_pause PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_link_libraries(subathon_scheduled_pause PUBLIC
     subathon_recurring_schedule subathon_timer_lifecycle)
