@@ -1,8 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "sqlite_connector_intake_private.hpp"
+
+#include "intake_recovery_codec.hpp"
+#include "intake_recovery_writer_access.hpp"
+#include "sqlite_connection.hpp"
 #include "sqlite_receipt_read.hpp"
 
 #include <QtEndian>
+#include <algorithm>
 
 namespace subathon::server::connector_intake {
 namespace {
@@ -179,10 +184,12 @@ bool activity_matches(const Entry &row, const std::optional<VerifiedActivityLink
 }
 
 bool role_mismatch(const QByteArray &stored, RetainedKind role) {
-    if (stored.startsWith("SRX1") || stored.startsWith("SRI1"))
+    if (stored.startsWith("SRX1") || stored.startsWith("SRI1") || stored.startsWith("ARC1") ||
+        stored.startsWith("ARD1"))
         return true;
-    return role == RetainedKind::configuration ? stored.startsWith("SRA1")
-                                               : stored.startsWith("SRC1");
+    return role == RetainedKind::configuration
+               ? stored.startsWith("SRA1") || stored.startsWith("MCA1")
+               : stored.startsWith("SRC1");
 }
 
 std::optional<Status> context_failure(const SqliteWorkSession &session,
@@ -276,9 +283,8 @@ std::optional<Basis> basis(const SqliteWorkSession &session, const Scope &scope,
                  {{decode_receipt_uint64(r[3].toByteArray())}, r[4].toLongLong()}};
 }
 
-void stage_entry(const SqliteWorkSession &session, const ManagedInput &input, const Fence &fence,
-                 core::ReceiptId receipt, qint64 ordinal, core::ReceiptDisposition disposition) {
-    const auto encoded = encode_receipt_uint64(receipt.value);
+QList<QVariant> entry_values(const ManagedInput &input, const Fence &fence,
+                             const QByteArray &encoded, qint64 ordinal) {
     auto values = scope_bindings(input.scope);
     values.append({input.intake_ref, fence.epoch, fence.generation, fence.policy_revision});
     values.append({input.history ? QVariant{input.history->operation} : QVariant{},
@@ -293,6 +299,20 @@ void stage_entry(const SqliteWorkSession &session, const ManagedInput &input, co
                    input.activity ? QVariant{blob(input.activity->identity.opaque_id)} : QVariant{},
                    input.activity ? QVariant{blob(input.activity->verification_ref)} : QVariant{}});
     values.append({admission_code(input.admission), encoded, ordinal});
+    return values;
+}
+
+QList<QVariant> basis_values(const ManagedInput &input, const QByteArray &encoded, qint64 ordinal) {
+    auto args = activity_key(input.scope, *input.activity);
+    args.prepend(input.scope.installation);
+    args.append({input.scope.stream, input.intake_ref, encoded, ordinal, input.capture});
+    return args;
+}
+
+void stage_entry(const SqliteWorkSession &session, const ManagedInput &input, const Fence &fence,
+                 core::ReceiptId receipt, qint64 ordinal, core::ReceiptDisposition disposition,
+                 std::optional<bool> prepared_basis) {
+    const auto encoded = encode_receipt_uint64(receipt.value);
     (void)session.execute(
         {"INSERT INTO main.subathon_intake_entries(installation,provider,account,stream,intake_ref,"
          "epoch,generation,policy_revision,operation_ref,page_ordinal,item_ordinal,input,"
@@ -300,21 +320,47 @@ void stage_entry(const SqliteWorkSession &session, const ManagedInput &input, co
          "arrival_ms,configuration_ref,modifier_context_ref,activity_namespace,activity_id,"
          "verification_ref,phase,disposition,receipt_id,attempt_ordinal) "
          "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1,?,?,?)",
-         values});
+         entry_values(input, fence, encoded, ordinal)});
     detail::require_changed_one(session);
 
     if (!input.activity || input.admission != IntakeAdmission::creation_eligible_verified_support ||
         disposition != core::ReceiptDisposition::created)
         return;
-    if (original(session, input.scope, *input.activity) ||
-        basis(session, input.scope, *input.activity))
+    const bool creates_basis = prepared_basis ? *prepared_basis
+                                              : !original(session, input.scope, *input.activity) &&
+                                                    !basis(session, input.scope, *input.activity);
+    if (!creates_basis)
         return;
-    auto args = activity_key(input.scope, *input.activity);
-    args.prepend(input.scope.installation);
-    args.append({input.scope.stream, input.intake_ref, encoded, ordinal, input.capture});
-    (void)session.execute(
-        {"INSERT INTO main.subathon_intake_basis VALUES(?,?,?,?,?,?,?,?,?,?)", args});
+    (void)session.execute({"INSERT INTO main.subathon_intake_basis VALUES(?,?,?,?,?,?,?,?,?,?)",
+                           basis_values(input, encoded, ordinal)});
     detail::require_changed_one(session);
+}
+
+bool preflight_intake_admission(const SqliteWorkSession &session, const ManagedInput &input,
+                                const Fence &fence, const RetainedDocument &intake_detail,
+                                bool creates_receipt, bool creates_basis) {
+    const SqliteRetainedContextStore store(session);
+    // Only reserve document INSERTs that this unit still needs. Existing
+    // immutable objects may be shared, and retaining them spends read budget.
+    QList<QVariant> documents;
+    for (const auto *doc : {&*input.configuration, &*input.context, &intake_detail}) {
+        if (store.find(doc->key))
+            continue;
+        documents.append({blob(doc->key.reference), doc->document});
+        if (doc->key.kind == RetainedKind::arrival_context)
+            documents.append(blob(doc->configuration->reference));
+    }
+    auto remaining =
+        subathon::server::detail::IntakeRecoveryWriterAccess::remaining(session).bound_bytes;
+    const auto fits = [&](const QList<QVariant> &values) {
+        return std::all_of(values.begin(), values.end(), [&](const QVariant &value) {
+            return subathon::server::detail::consume_value(remaining, value);
+        });
+    };
+    const auto id = encode_receipt_uint64(1);
+    return fits(documents) && fits(entry_values(input, fence, id, 1)) &&
+           (!creates_basis || fits(basis_values(input, id, 1))) &&
+           preflight_managed_receipt_binds(input.receipt, creates_receipt, remaining);
 }
 
 } // namespace
@@ -373,8 +419,9 @@ ManagedResult read_attempt(const SqliteWorkSession &session, const ManagedInput 
     return {Status::exact_replay, locator, actual};
 }
 
-ManagedResult admit_managed(const SqliteWorkSession &session, const ManagedInput &input,
-                            const std::function<bool()> &before_commit) {
+static ManagedResult admit_managed_impl(const SqliteWorkSession &session, const ManagedInput &input,
+                                        const RetainedDocument *intake_detail,
+                                        const std::function<bool()> &before_commit) {
     const auto refuse = [&](ManagedStatus status) {
         session.rollback();
         return ManagedResult{status};
@@ -385,12 +432,76 @@ ManagedResult admit_managed(const SqliteWorkSession &session, const ManagedInput
         !bounded(input.capture, document_limit) ||
         !valid_activity(input.receipt.identity.origin, input.activity))
         return refuse(Status::intake_limit);
+    if (intake_detail) {
+        using namespace recovery::detail;
+        const auto oversize_document = [](const std::optional<RetainedDocument> &document) {
+            return document && document->document.size() > 262144;
+        };
+        if (input.capture.size() > capture_limit || intake_detail->document.size() > detail_limit ||
+            oversize_document(input.configuration) || oversize_document(input.context))
+            return refuse(Status::intake_limit);
+        if (!input.configuration || !input.context || input.configuration->document.isNull() ||
+            input.configuration->configuration || !detail_reference(input.capture))
+            return refuse(Status::conflict);
+        std::optional<HistoryPurpose> purpose;
+        if (input.history) {
+            if (!bounded(input.history->operation, reference_limit))
+                return refuse(Status::intake_limit);
+            const auto rows =
+                session.execute({"SELECT purpose FROM main.subathon_intake_operations "
+                                 "WHERE installation=? AND operation_ref=? AND provider=? AND "
+                                 "account=? AND stream=?",
+                                 {input.scope.installation, input.history->operation,
+                                  input.scope.provider, input.scope.account, input.scope.stream}});
+            if (rows.size() != 1)
+                return refuse(Status::stale);
+            const auto value = rows.front().front().toLongLong();
+            if (value != 0 && value != 1)
+                return refuse(Status::conflict);
+            purpose = static_cast<HistoryPurpose>(value);
+        }
+        const recovery::Closure closure{
+            input.scope,
+            input.intake_ref,
+            {{0}, 0},
+            input.receipt.identity,
+            {input.receipt.arrival, input.receipt.facts, core::ReceiptDisposition::created},
+            input.history,
+            input.activity,
+            input.admission,
+            input.normalized,
+            input.capture,
+            *input.configuration,
+            *input.context,
+            *intake_detail};
+        if (!matches_detail(closure, purpose))
+            return refuse(Status::conflict);
+    }
     const auto current = source(session, input.scope);
     if (!current)
         return refuse(Status::wrong_scope);
     if (const auto retained = entry(session, input.scope, input.intake_ref)) {
         if (!retained->attempt || retained->input != input.normalized)
             return refuse(Status::conflict);
+        if (intake_detail) {
+            const auto replay = recovery::detail::read_admitted_closure(
+                session, input.scope, input.intake_ref, *retained->attempt);
+            if (replay.status == recovery::Status::resource_limit)
+                return refuse(Status::intake_limit);
+            if (replay.status != recovery::Status::recovered)
+                return refuse(Status::conflict);
+            const auto &selected = *replay.selected;
+            if (selected.identity != input.receipt.identity ||
+                selected.attempt.observed_facts != input.receipt.facts ||
+                selected.attempt.arrival != input.receipt.arrival ||
+                selected.activity != input.activity || selected.history != input.history ||
+                selected.admission != input.admission || selected.capture != input.capture ||
+                selected.configuration != input.configuration ||
+                selected.modifier_arrival != input.context || selected.detail != *intake_detail)
+                return refuse(Status::conflict);
+            session.rollback();
+            return {Status::exact_replay, *retained->attempt, selected.attempt};
+        }
         const auto selected = read_attempt(session, input, *retained->attempt);
         session.rollback();
         return selected;
@@ -400,7 +511,20 @@ ManagedResult admit_managed(const SqliteWorkSession &session, const ManagedInput
         return refuse(Status::stale);
 
     auto stopped = Status::known_rollback;
-    const auto prepare = [&](const SqliteWorkSession &owner) {
+    std::optional<bool> prepared_basis;
+    const auto prepare = [&](const SqliteWorkSession &owner, bool creates_receipt) {
+        if (intake_detail) {
+            prepared_basis =
+                creates_receipt && input.activity &&
+                input.admission == IntakeAdmission::creation_eligible_verified_support &&
+                !original(owner, input.scope, *input.activity) &&
+                !basis(owner, input.scope, *input.activity);
+            if (!preflight_intake_admission(owner, input, *current, *intake_detail, creates_receipt,
+                                            *prepared_basis)) {
+                stopped = Status::intake_limit;
+                return false;
+            }
+        }
         const auto &arrival = input.receipt.arrival;
         if (!stage_retained(owner, input.configuration, RetainedKind::configuration,
                             arrival.configuration_ref) ||
@@ -413,11 +537,19 @@ ManagedResult admit_managed(const SqliteWorkSession &session, const ManagedInput
             stopped = *failure;
             return false;
         }
+        if (intake_detail) {
+            const auto disposition = SqliteRetainedContextStore(owner).retain(*intake_detail);
+            if (disposition != RetainDisposition::inserted &&
+                disposition != RetainDisposition::already_present) {
+                stopped = Status::conflict;
+                return false;
+            }
+        }
         return true;
     };
     const auto stage = [&](const SqliteWorkSession &owner, core::ReceiptId receipt, qint64 ordinal,
                            core::ReceiptDisposition disposition) {
-        stage_entry(owner, input, *current, receipt, ordinal, disposition);
+        stage_entry(owner, input, *current, receipt, ordinal, disposition, prepared_basis);
         return !before_commit || before_commit();
     };
     const auto written = write_managed_receipt(session, input.receipt, prepare, stage);
@@ -430,6 +562,35 @@ ManagedResult admit_managed(const SqliteWorkSession &session, const ManagedInput
         return {stopped};
     }
     throw std::logic_error("Unexpected managed receipt result");
+}
+
+bool recovery::detail::matches_scope(const Scope &scope, const core::ReceiptIdentity &identity) {
+    return scoped_receipt_namespace(scope, identity);
+}
+
+ManagedResult admit_managed(const SqliteWorkSession &session, const ManagedInput &input,
+                            const std::function<bool()> &before_commit) {
+    return admit_managed_impl(session, input, nullptr, before_commit);
+}
+
+ManagedResult recovery::admit(const SqliteWorkSession &session, const ManagedInput &input,
+                              const RetainedDocument &intake_detail,
+                              const std::function<bool()> &before_commit) {
+    try {
+        return admit_managed_impl(session, input, &intake_detail, before_commit);
+    } catch (const SqliteReceiptStorageFailure &failure) {
+        if (failure.reason() != SqliteReceiptStorageReason::resource_limit &&
+            failure.reason() != SqliteReceiptStorageReason::result_limit)
+            throw;
+    } catch (const SqliteWorkFailure &failure) {
+        if (failure.error() != WorkError::resource_limit &&
+            failure.error() != WorkError::result_limit)
+            throw;
+    } catch (const RetentionFailure &failure) {
+        if (failure.error() != RetentionError::result_limit)
+            throw;
+    }
+    return {ManagedStatus::intake_limit};
 }
 
 EvidenceSelection select_evidence(const SqliteWorkSession &session, const ManagedInput &input) {

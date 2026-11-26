@@ -5,5 +5,5 @@ subathon_add_qt_suite(server_api_030_stage1
     SOURCES recovery_tests.cpp
     LIBRARIES subathon_contribution_review subathon_modifier_capture
         subathon_refund_entitlement subathon_sqlite_account_sessions
-    LABELS "api-030;intentional-red;qt;server"
+    LABELS "api-030;acceptance;qt;server"
     TIMEOUT 150)
