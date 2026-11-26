@@ -91,6 +91,8 @@ class Child:
             require(line is not None, prefix + ' not reported before exit')
             if line.startswith(prefix + ' '):
                 return line
+            # Report lines come in exactly this order; any other one is a mismatch.
+            require(not line.startswith('SESSION010_'), prefix + ' expected next')
 
     def stop(self):
         if self.proc.poll() is None:
@@ -297,9 +299,9 @@ def drive(producer_path, caddy_path, case, work):
             caddy.stop()
         producer.stop()
     require(caddy.proc.returncode == 0, 'edge exit')
-    leftovers = [path for directory in ('home', 'data', 'config')
+    leftovers = [path for directory in ('tmp', 'home', 'data', 'config')
                  for path in (work / directory).rglob('*') if path.is_file()]
-    require(not leftovers, 'edge profile storage stays empty')
+    require(not leftovers, 'profile and temporary storage stay empty')
     return fields, projection
 
 
@@ -314,8 +316,7 @@ def main():
         work.chmod(0o700)
         try:
             fields, projection = drive(args.producer, args.caddy, args.selector, work)
-        except (Failure, OSError, subprocess.SubprocessError, ssl.SSLError,
-                http.client.HTTPException) as error:
+        except Exception as error:  # one line only: no values, traceback or child output
             reason = str(error) if isinstance(error, Failure) else type(error).__name__
             print(f'SESSION010_DRIVER FAIL {args.selector}: {reason}')
             return 1

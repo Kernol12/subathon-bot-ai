@@ -47,6 +47,8 @@ host loopback with ephemeral ports and no namespaces.
    the raw release request. It carries no header values or prepared credential
    material. The reported peer must be Caddy's own upstream connection to the
    producer, matched in `/proc` on both ends. A mismatch fails the test.
+   `ordered=1` is a fixed marker. The producer enforces the order itself, by
+   comparing the fields index by index before it reports.
 7. Write `S` to the producer's stdin. Require `SESSION010_FINISHED <selector>`,
    a normal exit and one passing test. The fixture checks one drained request,
    one raw release, one wire release and the complete input byte count after
