@@ -75,7 +75,10 @@ were caused by the procedure.
    coordinator notes a choice in the PR when a reader needs it. A script for one
    task needs no approval when it is routine in this sense, stays in the task's
    ignored build folder and is never committed or used by CI. The advisor runs when the coordinator
-   ends a turn or asks, and once an hour otherwise. The owner receives two digests a
+   ends a turn or asks, and every 30 minutes otherwise. (This record first said once
+   an hour. The owner shortened it on 26 November 2026: in the first night the
+   coordinator stopped after each step and waited about 3.5 of 6.5 hours for the next
+   hourly check.) The owner receives two digests a
    day. Up to two Claude tracks may run at once when their material is separate.
 3. **Fewer and larger tasks.**
    - A prerequisite found during a task becomes its own issue only when it can
