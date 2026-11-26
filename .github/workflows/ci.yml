@@ -1104,6 +1104,17 @@ jobs:
           CC=gcc CFLAGS=-O2 /usr/bin/bash "$RUNNER_TEMP/sodium-source/libsodium-1.0.22/configure" --prefix="$SUBATHON_SODIUM_ROOT" --libdir="$SUBATHON_SODIUM_ROOT/lib" --disable-shared --enable-static
           make -j2
           make -j2 install
+      - name: Fetch and verify the pinned Caddy 2.10.2 edge for SESSION-010
+        working-directory: ${{ runner.temp }}
+        # Official release asset over HTTPS only. The pin is the SHA-256 of the caddy
+        # binary in that asset, equal to the locally reviewed reference; any mismatch
+        # fails here, before a test runs.
+        run: |
+          curl --fail --location --proto '=https' --proto-redir '=https' --tlsv1.2 https://github.com/caddyserver/caddy/releases/download/v2.10.2/caddy_2.10.2_linux_amd64.tar.gz --output caddy-2.10.2.tar.gz
+          mkdir caddy-2.10.2
+          tar -xzf caddy-2.10.2.tar.gz -C caddy-2.10.2 caddy
+          echo '4ef1f68c70219536b2711fd16547a79841a2dec2d6b4e56b1e3e5e9da76028e6  caddy-2.10.2/caddy' | sha256sum --check --strict
+          echo "SUBATHON_SESSION010_CADDY=$RUNNER_TEMP/caddy-2.10.2/caddy" >> "$GITHUB_ENV"
       - name: Configure the successor foundation and native consumers
         run: |
           cmake --preset bounded-http-foundation-debug \
@@ -1111,7 +1122,8 @@ jobs:
             -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT" \
             -DSUBATHON_BOUNDED_HTTP_ADMISSION="$RUNNER_TEMP/bounded-http-foundation/receipts/foundation/development-admission.json" \
             -DSUBATHON_ACCEPTANCE_SUITES="bounded-http-foundation;account-capture" \
-            -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
+            -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON \
+            -DSUBATHON_SESSION010_CADDY="$SUBATHON_SESSION010_CADDY"
           cmake --build --preset bounded-http-foundation-debug --parallel 2
       - name: Record consumer commands without loading either observer
         run: ninja -C build/bounded-http-foundation-debug -t commands native_websocket_probe bounded_http_probe
@@ -1172,6 +1184,12 @@ jobs:
           env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TMPDIR="$RUNNER_TEMP" \
             LD_LIBRARY_PATH="$RUNNER_TEMP/bounded-http-foundation/sdk/lib" \
             "$ctest_command" --test-dir build/bounded-http-foundation-debug -L '^account-capture$' --no-tests=error --output-on-failure
+      - name: Run required-success SESSION-010 edge capture through the pinned edge
+        run: |
+          ctest_command="$(cat "$RUNNER_TEMP/bounded-http-foundation/receipts/native/ctest-command.txt")"
+          env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TMPDIR="$RUNNER_TEMP" \
+            LD_LIBRARY_PATH="$RUNNER_TEMP/bounded-http-foundation/sdk/lib" \
+            "$ctest_command" --test-dir build/bounded-http-foundation-debug -L '^session-010$' --no-tests=error --output-on-failure
       - name: Run existing infrastructure and tooling
         run: ctest --test-dir build/bounded-http-foundation-debug -L '^scaffold$' --no-tests=error --verbose
       - name: Install archive, Qt runtime and pinned Boost headers
