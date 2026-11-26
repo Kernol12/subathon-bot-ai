@@ -13,6 +13,11 @@ acceptance-map links address those files at the tag. [GitHub tasks](https://gith
 records task status; task counts are not percentages of product verification.
 New detailed commands, results and review discussion belong in the focused PR.
 
+The [v0.45 requirements matrix](../requirements-matrix-v0.45.md) maps decisions
+and scenarios to planned suites, reviewed evidence and open environment gates.
+Its [evidence index](../requirements-matrix-v0.45-evidence.md) identifies the scope
+and revision of each cited proof.
+
 ## Foundation and coordination
 
 
