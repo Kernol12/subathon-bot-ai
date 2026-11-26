@@ -525,12 +525,12 @@ PageOutcome finalize_history_page(SqliteWriter &writer, const OwnerInputs &owner
                 current != Status::committed)
                 return current;
             const auto verified = verify_binding(session, handle.binding);
-            if (verified == Status::unproved)
-                return verified;
             if (verified != Status::committed) {
                 const auto inspect = authorize(owner, Action::inspect, request.source.scope);
                 if (inspect != Status::committed)
                     return inspect;
+                if (verified == Status::unproved)
+                    return verified;
                 if (const auto terminal = verify_binding(session, handle.binding, true);
                     terminal != Status::committed)
                     return terminal;
@@ -752,11 +752,7 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
         intent.purpose != (importing ? HistoryPurpose::import : HistoryPurpose::catch_up) ||
         selected.request.purpose != (importing ? CutPurpose::import_upper : CutPurpose::gap_upper))
         return Status::invalid_input;
-    if ((importing && selected.predecessor != source.fence) ||
-        (!importing && (selected.predecessor.epoch != source.fence.epoch ||
-                        selected.predecessor.policy_revision != source.fence.policy_revision ||
-                        selected.predecessor.revision >= source.fence.revision ||
-                        source.fence.revision - 1 != selected.predecessor.revision || !intent.gap)))
+    if (importing ? selected.predecessor != source.fence : !intent.gap)
         return Status::invalid_input;
     const HistoryRequest request{source,
                                  intent.operation_ref,
@@ -790,6 +786,12 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
         return rows.size() == 1 ? retained_import_start(rows.front()[1].toByteArray())
                                 : std::nullopt;
     };
+    const auto retained_cut_matches = [&](const SqliteWorkSession &session) {
+        const auto rows = read_operation(session, request);
+        return rows.size() == 1 &&
+               matches_retained_catch_up_cut(rows.front()[1].toByteArray(), request);
+    };
+    bool retained_catch_up = false;
     std::optional<qint64> start;
     run(writer, status, [&](const auto &session) {
         const auto current = check_operation_head(session);
@@ -818,12 +820,22 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
                 start = read_import_start(session);
                 if (!start)
                     return Status::unavailable;
+            } else if (!importing && *purpose == static_cast<int>(HistoryPurpose::catch_up)) {
+                if (!retained_cut_matches(session))
+                    return Status::unproved;
+                retained_catch_up = true;
             }
         }
         return Status::committed;
     });
     if (status != Status::committed)
         return status;
+    if (!importing && !retained_catch_up &&
+        (selected.predecessor.epoch != source.fence.epoch ||
+         selected.predecessor.policy_revision != source.fence.policy_revision ||
+         selected.predecessor.revision >= source.fence.revision ||
+         source.fence.revision - 1 != selected.predecessor.revision))
+        return Status::invalid_input;
     if (candidate && !same(request, *candidate))
         return Status::invalid_input;
     if (importing) {
@@ -834,11 +846,16 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
         if (*start != intent.resolved_utc_start)
             return Status::invalid_input;
     }
-    if (!same(intent.upper_cut, echo.cut))
+    if (!same(intent.upper_cut, echo.cut) || !same(selected.request, echo.request))
         return Status::invalid_input;
-    status = qualify_cut(profile, selected.request, echo, intent.interval.end, witness);
-    if (status != Status::committed)
-        return status;
+    if (retained_catch_up) {
+        if (echo.boundary != intent.interval.end)
+            return Status::invalid_input;
+    } else {
+        status = qualify_cut(profile, selected.request, echo, intent.interval.end, witness);
+        if (status != Status::committed)
+            return status;
+    }
     run(
         writer, status,
         [&](const auto &session) {
@@ -850,22 +867,24 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
             if (const auto head_status = check_operation_head(session);
                 head_status != Status::committed)
                 return head_status;
-            if (const auto purpose = existing_purpose(session)) {
+            const auto purpose = existing_purpose(session);
+            if (retained_catch_up || (purpose && *purpose != foreign_scope)) {
+                const auto access = authorize(owner, Action::inspect, source.scope);
+                if (access != Status::committed)
+                    return access;
+            }
+            if (retained_catch_up && purpose != static_cast<int>(HistoryPurpose::catch_up))
+                return Status::unproved;
+            if (purpose) {
                 if (*purpose == foreign_scope) {
                     const auto checked = detail::checked_operation_document(intent);
                     if (const auto *error = std::get_if<HistoryStatus>(&checked))
                         return outcome(*error);
                     return Status::conflict;
                 }
-                const auto access = authorize(owner, Action::inspect, source.scope);
-                if (access != Status::committed)
-                    return access;
-                if (!importing && *purpose == static_cast<int>(HistoryPurpose::catch_up)) {
-                    const auto retained = read_operation(session, request);
-                    if (retained.size() != 1 ||
-                        !matches_retained_catch_up_cut(retained.front()[1].toByteArray(), request))
-                        return Status::unproved;
-                }
+                if (!importing && *purpose == static_cast<int>(HistoryPurpose::catch_up) &&
+                    !retained_cut_matches(session))
+                    return Status::unproved;
                 if (importing && *purpose == static_cast<int>(HistoryPurpose::import)) {
                     const auto retained_start = read_import_start(session);
                     if (!retained_start)
