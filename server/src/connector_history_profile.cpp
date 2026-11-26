@@ -808,14 +808,16 @@ IntakeStatus open_operation(SqliteWriter &writer, const OwnerInputs &owner,
                 head_status != Status::committed)
                 return head_status;
             if (const auto purpose = existing_purpose(session)) {
-                if (*purpose == foreign_scope)
+                if (*purpose == foreign_scope) {
+                    const auto checked = detail::checked_operation_document(intent);
+                    if (const auto *error = std::get_if<HistoryStatus>(&checked))
+                        return outcome(*error);
                     return Status::conflict;
+                }
                 const auto access = authorize(owner, Action::inspect, source.scope);
                 if (access != Status::committed)
                     return access;
-                if (*purpose != static_cast<int>(intent.purpose))
-                    return Status::conflict;
-                if (importing) {
+                if (importing && *purpose == static_cast<int>(HistoryPurpose::import)) {
                     const auto retained_start = read_import_start(session);
                     if (!retained_start)
                         return Status::unavailable;
