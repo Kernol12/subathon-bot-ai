@@ -30,7 +30,9 @@ reason.
 1. Read the coordinator's new messages.
 2. Find every question in dialogs and numbered messages.
 3. Decide each question or escalate it.
-4. Check that every In progress task has running work.
+4. Check that every In progress task has running work. The one exception is a task
+   that holds its slot with an open owner question because the Parked limit is
+   reached ([AGENTS.md](../AGENTS.md)).
 
 Verify before deciding. Read the logs and status files, run short probes in a
 scratch folder and quote the specification. A reported FAIL counts only when its
@@ -127,7 +129,8 @@ point 2 gives the reason.
 - The coordinator picks Ready tasks under the selection rules and limits in
   [AGENTS.md](../AGENTS.md), including the MVP rule, at any hour.
 - A task that waits on an escalation parks, and the next one starts within those
-  limits.
+  limits. When the Parked limit is reached, the task stays In progress with its
+  question open instead, as [AGENTS.md](../AGENTS.md) says.
 - Open escalations reach the owner through the digests, as described under
   "Decision log" above.
 - A task with malformed-input tests or HTTP, SDK or ELF material is selected at any
