@@ -7,8 +7,8 @@ remain release scope. This checkpoint grants no new authorization.
 ## Current work
 
 Use the [Subathon bot ai development board](https://github.com/users/Kernol12/projects/1)
-for the queue, status and owner holds. [AGENTS.md](../AGENTS.md) defines daytime
-selection, night prep and slot limits. Issue comments retain task-specific
+for the queue, status and owner holds. [AGENTS.md](../AGENTS.md) defines task
+selection and slot limits. Issue comments retain task-specific
 decisions and review chronology. The handoff below records historical pins.
 
 ## Standing authorization — continuous coordination (2026-11-18)

@@ -118,17 +118,19 @@ the active limits allow it. A Parked task without an open question resumes when
 a slot is available or returns to Ready. Starting the next test stage does not
 require separate authorization.
 
-## Night
+## Day and night
 
-- The coordinator picks Ready tasks under the selection rules in
-  [AGENTS.md](../AGENTS.md), including the MVP rule, and prefers tasks whose
-  contract is settled.
-- A task that waits on an escalation parks, and the next one starts. The combined
-  limit is lifted at night.
-- Start contract stages during the day where possible.
-- The owner answers open escalations in a short evening check.
-- Tasks with malformed-input tests or HTTP, SDK or ELF material do not go to the
-  Codex coordinator at night.
+The same rules apply by day and at night. The owner removed the night rules on
+26 November 2026; [ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md)
+point 2 gives the reason.
+
+- The coordinator picks Ready tasks under the selection rules and limits in
+  [AGENTS.md](../AGENTS.md), including the MVP rule, at any hour.
+- A task that waits on an escalation parks, and the next one starts within those
+  limits.
+- The owner answers open escalations after a digest.
+- A task with malformed-input tests or HTTP, SDK or ELF material is handled at any
+  hour under "Security-blocked tasks" below.
 
 ## Security-blocked tasks
 
