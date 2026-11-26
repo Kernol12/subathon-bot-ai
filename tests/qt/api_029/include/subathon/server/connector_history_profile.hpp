@@ -13,11 +13,22 @@ struct AdmittedHistoryRequest {
     QByteArray cursor_contract, intent;
     std::optional<QByteArray> gap;
     qint64 operation_revision, gap_revision;
+    QByteArray registry_revision;
 };
 
 enum class Membership { member, outside, unknown };
+enum class Overlap { unresolved, canonical_identity, verified_activity, disjoint };
+struct SlotEvidence {
+    Membership membership;
+    Overlap overlap;
+    std::optional<core::ReceiptIdentity> receipt_identity{};
+    std::optional<core::ReceiptIdentity> canonical_identity{};
+    std::optional<VerifiedActivityLink> activity{};
+    QByteArray disjointness{};
+    bool operator==(const SlotEvidence &) const = default;
+};
 struct HistoryEvidence {
-    QList<Membership> membership;
+    QList<SlotEvidence> slot_evidence;
     bool order_proved;
     std::optional<RangeProof> range;
     QList<QuarantineEntry> quarantine{};
@@ -34,17 +45,32 @@ struct AdmittedHistoryCut {
     CutRequest request;
     OperationIntent intent;
     QByteArray cursor_contract;
+    Fence predecessor;
 };
 using CutWitness = std::function<bool(quint64, const CutObservation &)>;
 
+struct GapInvocation {
+    quint64 identity;
+    const StartupProfile &profile;
+    const GapOpening &binding;
+};
+struct GapEvidence {
+    QByteArray observation;
+    std::optional<qint64> observed_utc_ms;
+};
+using GapProducer = std::function<std::optional<GapEvidence>(const GapInvocation &)>;
+
 struct RetainedPageRequest;
+struct RetainedHistoryPage {
+    Page page;
+    HistoryEvidence evidence;
+};
 
 struct HistoryProfile {
-    Scope scope;
-    QByteArray revision, cursor_contract, generation;
-    ConnectorHistoryAdapter &adapter;
+    StartupProfileRegistry &registry;
+    std::shared_ptr<const StartupProfile> snapshot;
     std::function<std::optional<HistoryEvidence>(const PageInvocation &)> validate;
-    std::function<std::optional<Page>(const RetainedPageRequest &)> reconstruct{};
+    std::function<std::optional<RetainedHistoryPage>(const RetainedPageRequest &)> reconstruct{};
 };
 
 struct RetainedPageRequest {
@@ -59,8 +85,7 @@ struct PageQualification {
     std::shared_ptr<const QualifiedPage> qualified;
     std::optional<HistoryFailure> adapter_failure;
     std::optional<HistoryStatus> storage_status;
-    QList<Membership> membership;
-    QList<std::optional<VerifiedActivityLink>> activities;
+    QList<SlotEvidence> slot_evidence;
 };
 
 struct PageOutcome {
@@ -79,7 +104,28 @@ struct ObservedCut {
     const ConnectorHistoryAdapter *adapter;
     CutObservation observation;
 };
-using EnvelopeWitness = std::function<std::optional<QByteArray>(const QList<ObservedCut> &)>;
+struct OldEnvelope {
+    ObservedCut source;
+    QByteArray eligible_upper;
+    Fence through;
+    bool includes_pending_and_outstanding;
+    quint64 attempt;
+    std::optional<QByteArray> legacy_eligible_first{};
+};
+struct NewSide {
+    ObservedCut source;
+    QByteArray exclusive_lower, first;
+    quint64 attempt;
+};
+using OldEnvelopeWitness = std::function<std::optional<OldEnvelope>(const ObservedCut &)>;
+using NewSideWitness = std::function<std::optional<NewSide>(const ObservedCut &)>;
+using EnvelopeWitness =
+    std::function<std::optional<QByteArray>(const OldEnvelope &, const std::optional<NewSide> &)>;
+struct HandoffValidators {
+    OldEnvelopeWitness old_side;
+    NewSideWitness new_side;
+    EnvelopeWitness relation;
+};
 struct HandoffOutcome {
     IntakeStatus status{IntakeStatus::not_implemented};
     std::optional<SqliteWorkResult> work;
@@ -87,11 +133,19 @@ struct HandoffOutcome {
 [[nodiscard]] HandoffOutcome
 commit_history_handoff(SqliteWriter &, const OwnerInputs &, const QList<const HistoryProfile *> &,
                        const AdmittedHandoff &, const QList<CutObservation> &,
-                       const EnvelopeWitness &, const std::function<bool()> &before_commit = {});
+                       const HandoffValidators &, const std::function<bool()> &before_commit = {});
 
+[[nodiscard]] IntakeStatus open_history_gap(SqliteWriter &, const OwnerInputs &,
+                                            const HistoryProfile &, const GapOpening &,
+                                            const OpenGap &, const GapProducer &);
+[[nodiscard]] IntakeStatus begin_history_catch_up(SqliteWriter &, const OwnerInputs &,
+                                                  const HistoryProfile &,
+                                                  const AdmittedHistoryCut &,
+                                                  const CutObservation &, const CutWitness &);
 [[nodiscard]] IntakeStatus open_history_import(SqliteWriter &, const OwnerInputs &,
                                                const HistoryProfile &, const AdmittedHistoryCut &,
-                                               const CutObservation &, const CutWitness &);
+                                               const HistoryRequest &, const CutObservation &,
+                                               const CutWitness &);
 [[nodiscard]] PageQualification qualify_history_page(SqliteWriter &, const OwnerInputs &,
                                                      const HistoryProfile &,
                                                      const AdmittedHistoryRequest &, const Page &);

@@ -8,3 +8,4 @@ subathon_add_qt_suite(server_api_029_stage1
         subathon_sqlite_account_sessions subathon_sqlite_permission_graph
         subathon_session_resolution subathon_connector_lifecycle
     LABELS "api-029;acceptance;qt;server" TIMEOUT 240)
+target_include_directories(server_api_029_stage1 PRIVATE include)

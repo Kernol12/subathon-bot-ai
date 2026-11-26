@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "../storage_026/transition_fixture.hpp"
 #include "history_oracle.hpp"
-#include "history_profile.hpp"
+#include <subathon/server/connector_history_profile.hpp>
 
 namespace {
 using namespace api_029_fixture;
@@ -103,17 +103,55 @@ QByteArray intent_frame() {
            f(cut("g3", "cut14", QByteArray("14")));
 }
 
+std::optional<core::ReceiptIdentity> receipt_identity(const Item &item) {
+    if (!item.identifier)
+        return {};
+    return core::ReceiptIdentity{
+        {"P", "A"},
+        (f("S") + f(item.role) + f(item.identifier_namespace)).toStdString(),
+        item.identifier->toStdString()};
+}
+
+struct HistoryRegistry final : StartupProfileRegistry {
+    api_031_fixture::Transcript live{false};
+    std::shared_ptr<const StartupProfile> current;
+
+    void install(ConnectorHistoryAdapter &adapter, const Selection &selection,
+                 QByteArray registry_revision = "registry-history") {
+        current = std::make_shared<const StartupProfile>(StartupProfile{selection.scope,
+                                                                        registry_revision,
+                                                                        selection.profile,
+                                                                        cursor,
+                                                                        selection.fence.generation,
+                                                                        adapter,
+                                                                        live,
+                                                                        {},
+                                                                        {},
+                                                                        {},
+                                                                        {}});
+    }
+
+    std::shared_ptr<const StartupProfile> select(const Scope &scope, const QByteArray &revision,
+                                                 const QByteArray &contract) override {
+        return current->scope == scope && current->profile_revision == revision &&
+                       current->cursor_contract == contract
+                   ? current
+                   : nullptr;
+    }
+};
+
 struct Attempt {
     Store &db;
     const Page transcript;
     Adapter adapter;
     AdmittedHistoryRequest binding;
-    bool witness{true};
+    bool witness{true}, order_proved{true};
     bool deny_page{}, deny_inspect{};
-    QList<Membership> membership;
+    QList<SlotEvidence> slots_evidence;
     std::optional<RangeProof> witnessed_range;
     QList<QuarantineEntry> quarantine;
     int witnessed{};
+    HistoryRegistry registry;
     HistoryProfile registered;
     OwnerInputs owner;
 
@@ -125,14 +163,12 @@ struct Attempt {
                   intent_frame(),
                   QByteArray("G"),
                   revision,
-                  1},
-          membership(transcript.items.size(), Membership::member),
+                  1,
+                  "registry-history"},
+          slots_evidence(transcript.items.size(), {Membership::member, Overlap::unresolved}),
           witnessed_range(transcript.coverage),
-          registered{a,
-                     profile,
-                     cursor,
-                     transcript.request.source.fence.generation,
-                     adapter,
+          registered{registry,
+                     {},
                      [this](const PageInvocation &invocation) -> std::optional<HistoryEvidence> {
                          if (!witness || &invocation.adapter != &adapter ||
                              invocation.identity != adapter.calls || adapter.calls != 1 ||
@@ -142,7 +178,8 @@ struct Attempt {
                              invocation.binding.cursor_contract != cursor ||
                              invocation.binding.gap != binding.gap ||
                              invocation.binding.operation_revision != binding.operation_revision ||
-                             invocation.binding.gap_revision != binding.gap_revision)
+                             invocation.binding.gap_revision != binding.gap_revision ||
+                             invocation.binding.registry_revision != binding.registry_revision)
                              return {};
                          const auto &page = invocation.observed;
                          if (!same_request(page.request, transcript.request) ||
@@ -151,7 +188,7 @@ struct Attempt {
                              !std::ranges::equal(page.items, transcript.items, same_item))
                              return {};
                          ++witnessed;
-                         return HistoryEvidence{membership, true, witnessed_range, quarantine};
+                         return evidence();
                      }},
           owner{[this](Action action, const Scope &scope) {
                     if (scope != a || (action == Action::page && deny_page) ||
@@ -161,7 +198,36 @@ struct Attempt {
                 },
                 adapter,
                 {},
-                {}} {}
+                {}} {
+        registry.install(adapter, transcript.request.source);
+        registered.snapshot = registry.current;
+        for (qsizetype i = 0; i < transcript.items.size(); ++i)
+            slots_evidence[i].receipt_identity = receipt_identity(transcript.items[i]);
+    }
+    HistoryEvidence evidence() const {
+        return {slots_evidence, order_proved, witnessed_range, quarantine};
+    }
+    void resume_registration(const Selection &selection) {
+        registry.install(adapter, selection, "registry-reconnect");
+        registered.snapshot = registry.current;
+    }
+    void retain(const QByteArray &frame) {
+        require(witnessed == 1, "Retention follows the verified invocation");
+        registered.reconstruct =
+            [this, frame, frozen = binding, retained_evidence = evidence()](
+                const RetainedPageRequest &selected) -> std::optional<RetainedHistoryPage> {
+            const auto &original = selected.original;
+            if (!same_request(original.request, transcript.request) ||
+                original.intent != frozen.intent || original.purpose != frozen.purpose ||
+                original.operation_revision != frozen.operation_revision ||
+                original.gap_revision != frozen.gap_revision ||
+                original.cursor_contract != frozen.cursor_contract ||
+                original.registry_revision != frozen.registry_revision ||
+                original.gap != frozen.gap || selected.page != frame)
+                return {};
+            return RetainedHistoryPage{transcript, retained_evidence};
+        };
+    }
     PageQualification qualify(const Page &candidate) {
         return qualify_history_page(db.writer(), owner, registered, binding, candidate);
     }
@@ -169,7 +235,7 @@ struct Attempt {
     std::shared_ptr<const QualifiedPage> qualified() {
         const auto result = qualify();
         require(result.status == IntakeStatus::committed && result.qualified &&
-                    adapter.calls == 1 && witnessed == 1 && result.membership == membership,
+                    adapter.calls == 1 && witnessed == 1 && result.slot_evidence == slots_evidence,
                 "Only the witnessed actual retrieval issues a typed page");
         return result.qualified;
     }
@@ -203,6 +269,13 @@ void operation_row(Store &db, qint64 revision, qint64 ordinal, const QByteArray 
             "Operation retains exact IOP1 and advances only the expected fields");
 }
 
+void coverage_rows(Store &db, const SqlRows &gaps, const SqlRows &segments) {
+    require(db.rows("SELECT revision,status FROM main.subathon_intake_gaps") == gaps &&
+                db.rows("SELECT revision,ordinal,coverage,document "
+                        "FROM main.subathon_intake_segments ORDER BY revision") == segments,
+            "Exact gap and ordered segment rows");
+}
+
 Page audit_page_echo() {
     return {catch_up(),
             {audit_item("12", "12", audit_items[0]), audit_item("13", "13", audit_items[1])},
@@ -219,11 +292,7 @@ ManagedInput audit_input(const Item &item, qint64 slot) {
             item.key,
             item.normalized,
             "audit",
-            {{{"P", "A"},
-              (f("S") + f(item.role) + f(item.identifier_namespace)).toStdString(),
-              item.identifier->toStdString()},
-             item.facts,
-             {8000, "history", "history-cfg", "history-ctx"}},
+            {*receipt_identity(item), item.facts, {8000, "history", "history-cfg", "history-ctx"}},
             {},
             IntakeAdmission::audit_only,
             PageSlot{"O", 1, slot},
@@ -232,25 +301,40 @@ ManagedInput audit_input(const Item &item, qint64 slot) {
             {2, 4, 2, "g3"}};
 }
 
-AttemptLocator admit_audit(Store &db, const ManagedInput &input) {
-    std::optional<ManagedResult> receipt;
-    const auto completion = qt_test_support::run_work(
+auto admit_receipt(Store &db, const ManagedInput &input, std::function<bool()> veto = {}) {
+    std::optional<ManagedResult> result;
+    const auto work = qt_test_support::run_work(
         db.writer(),
         [&](auto ctx) -> QVariant {
-            receipt = admit_managed(ctx.begin(), input);
+            result = admit_managed(ctx.begin(), input, veto);
             return true;
         },
         10000);
+    require(result.has_value(), "Managed receipt owner responds");
+    return std::pair{work, *result};
+}
+
+void refused_receipt(Store &db, const ManagedInput &input, ManagedStatus expected,
+                     std::function<bool()> veto = {}) {
+    const auto [work, result] = admit_receipt(db, input, std::move(veto));
+    require(work.transaction == TransactionOutcome::rolled_back &&
+                work.error == WorkError::not_committed && result.status == expected &&
+                !result.attempt,
+            "Protected refusal rolls back without issuing an attempt");
+}
+
+AttemptLocator admit_audit(Store &db, const ManagedInput &input) {
+    const auto [completion, receipt] = admit_receipt(db, input);
     catalog::finance::normal(completion);
-    require(receipt && receipt->status == ManagedStatus::committed && receipt->attempt,
+    require(receipt.status == ManagedStatus::committed && receipt.attempt,
             "Protected receipt owner commits the distinct audit attempt");
     db.work([&](const auto &work) -> QVariant {
-        require(stage_intake_disposition(work, input, *receipt->attempt,
+        require(stage_intake_disposition(work, input, *receipt.attempt,
                                          IntakeDisposition::observed_only) == HistoryStatus::staged,
                 "Protected disposition acknowledges the exact audit slot");
         return true;
     });
-    return *receipt->attempt;
+    return *receipt.attempt;
 }
 
 QByteArray cut_frame(Endpoint endpoint, const QualifiedCut &cut) {
@@ -293,7 +377,8 @@ bool exact_cut(const CutObservation &got, const CutObservation &expected) {
 }
 
 IntakeStatus open_import(Attempt &attempt, const OperationIntent &intent,
-                         const HistoryRequest &request, bool malformed = false) {
+                         const HistoryRequest &request, bool malformed = false,
+                         std::optional<qint64> date_echo = {}) {
     const CutRequest selected{request.source, CutPurpose::import_upper, request.frontier};
     const CutObservation observation{selected, intent.upper_cut, Endpoint::exclusive};
     auto echo = observation;
@@ -301,8 +386,18 @@ IntakeStatus open_import(Attempt &attempt, const OperationIntent &intent,
         echo.cut.position = QByteArray("contradictory");
     attempt.adapter.expected_cut = selected;
     attempt.adapter.cut_response = observation;
+    if (!attempt.owner.zone)
+        attempt.owner.zone = [](const QByteArray &zone, const QByteArray &rules,
+                                QDate date) -> std::optional<ZoneBasis> {
+            if (zone != "UTC" || rules != "tzdb" || date != QDate(2026, 11, 21))
+                return {};
+            return ZoneBasis{0, {}};
+        };
+    auto request_echo = request;
+    if (date_echo)
+        request_echo.resolved_start_ms = date_echo;
     return open_history_import(attempt.db.writer(), attempt.owner, attempt.registered,
-                               {selected, intent, cursor}, echo,
+                               {selected, intent, cursor, request.source.fence}, request_echo, echo,
                                [&](quint64 identity, const CutObservation &actual) {
                                    return identity == attempt.adapter.cut_calls && identity == 1 &&
                                           exact_cut(actual, observation);
@@ -372,6 +467,16 @@ QByteArray prefix_witness(const AttemptLocator &first) {
     return QByteArray("RP1\x01\x01", 5) + integer(2) + seal(page_fields) + seal(prefix_fields) +
            reconnect_document({2, 4, 2, "g3"}, {2, 5, 2, "g4"}, "11");
 }
+void reconnect_source(Store &db, const Fence &from, const QByteArray &generation,
+                      const QByteArray &key) {
+    db.work([&](const auto &work) -> QVariant {
+        require(stage_reconnect(work, {a, from, generation, cursor, key, "actor/decision",
+                                       "connected"}) == HistoryStatus::staged,
+                "Stage reconnect at the exact source fence");
+        return true;
+    });
+}
+
 void history_row(Store &db, const QByteArray &key, const QByteArray &document) {
     const SqlRows expected{{4, document, k10, k10}};
     QVERIFY(
@@ -407,6 +512,10 @@ class HistoryTests : public QObject {
         QCOMPARE(premature.status, IntakeStatus::unproved);
         QCOMPARE(premature.storage_status, std::optional{HistoryStatus::incomplete_prefix});
         QVERIFY(db.image() == bound);
+        QVERIFY(std::ranges::all_of(attempt.slots_evidence, [](const auto &slot) {
+            return slot.overlap == Overlap::unresolved && !slot.activity &&
+                   !slot.canonical_identity;
+        }));
         const auto first = admit_audit(db, audit_input(attempt.transcript.items[0], 1));
         page_row(db, 1, audit_page, "T", 2, 1, 0);
         auto second_input = audit_input(attempt.transcript.items[1], 2);
@@ -414,19 +523,7 @@ class HistoryTests : public QObject {
         std::optional<RetainedPageRequest> retained_request;
         if (reconnect) {
             const auto prefix = db.image();
-            std::optional<ManagedResult> refused;
-            const auto rollback = qt_test_support::run_work(
-                db.writer(),
-                [&](auto ctx) -> QVariant {
-                    refused = admit_managed(ctx.begin(), second_input, [] { return false; });
-                    return true;
-                },
-                10000);
-            QCOMPARE(rollback.transaction, TransactionOutcome::rolled_back);
-            QCOMPARE(rollback.error, WorkError::not_committed);
-            QVERIFY(refused);
-            QCOMPARE(refused->status, ManagedStatus::known_rollback);
-            QVERIFY(!refused->attempt);
+            refused_receipt(db, second_input, ManagedStatus::known_rollback, [] { return false; });
             QVERIFY(db.image() == prefix);
             const auto replay = attempt.bind(*qualified);
             QCOMPARE(replay.storage_status, std::optional{HistoryStatus::exact_replay});
@@ -446,38 +543,19 @@ class HistoryTests : public QObject {
             QVERIFY(db.image() == prefix);
             db.reopen();
             RetainedPageRequest retained{attempt.binding, attempt.binding, audit_page, {}};
-            const auto reconstruct = [&](const HistoryProfile &registered) {
-                return reconstruct_history_page(db.writer(), attempt.owner, registered, retained);
+            const auto reconstruct = [&] {
+                return reconstruct_history_page(db.writer(), attempt.owner, attempt.registered,
+                                                retained);
             };
-            QCOMPARE(reconstruct(attempt.registered).status, IntakeStatus::unproved);
-            auto registered = attempt.registered;
-            registered.reconstruct =
-                [&](const RetainedPageRequest &selected) -> std::optional<Page> {
-                if (!same_request(selected.original.request, attempt.transcript.request) ||
-                    selected.original.intent != intent_frame() ||
-                    selected.original.operation_revision != 1 ||
-                    selected.original.gap_revision != 1 ||
-                    selected.original.cursor_contract != cursor ||
-                    selected.original.gap != QByteArray("G") || selected.page != audit_page)
-                    return {};
-                return attempt.transcript;
-            };
-            attempt.registered.reconstruct = registered.reconstruct;
-            const auto reopened = reconstruct(registered);
+            QCOMPARE(reconstruct().status, IntakeStatus::unproved);
+            attempt.retain(audit_page);
+            const auto reopened = reconstruct();
             QCOMPARE(reopened.status, IntakeStatus::committed);
             QVERIFY(reopened.qualified);
             QCOMPARE(attempt.bind(*reopened.qualified).prefix, std::optional<qint64>{1});
             QCOMPARE(attempt.adapter.calls, quint64{1});
             QVERIFY(db.image() == prefix);
-            db.work([](const auto &work) -> QVariant {
-                require(
-                    stage_reconnect(
-                        work,
-                        {a, {2, 4, 2, "g3"}, "g4", cursor, "R6", "actor/decision", "connected"}) ==
-                        HistoryStatus::staged,
-                    "R6 captures the committed prefix");
-                return true;
-            });
+            reconnect_source(db, {2, 4, 2, "g3"}, "g4", "R6");
             page_row(db, 1, audit_page, "T", 2, 1, 0);
             second_input.expected_source = {2, 5, 2, "g4"};
             operation_row(db, 2, 1, "T", 2, 0);
@@ -486,26 +564,17 @@ class HistoryTests : public QObject {
             QCOMPARE(attempt.bind(*qualified).status, IntakeStatus::stale);
             retained.current.request.source.fence = second_input.expected_source;
             retained.current.operation_revision = 2;
-            registered.generation = "g4";
+            attempt.resume_registration(retained.current.request.source);
+            retained.current.registry_revision = "registry-reconnect";
             retained.reconnect = "wrong-R6";
-            const auto wrong = reconstruct(registered);
+            const auto wrong = reconstruct();
             QCOMPARE(wrong.status, IntakeStatus::unproved);
             QCOMPARE(wrong.storage_status, std::optional{HistoryStatus::incomplete_prefix});
-            const auto refusal = qt_test_support::run_work(
-                db.writer(),
-                [&](auto ctx) -> QVariant {
-                    const auto result = admit_managed(ctx.begin(), second_input);
-                    require(result.status == ManagedStatus::stale && !result.attempt,
-                            "Missing reconnect witness refuses the inherited slot");
-                    return true;
-                },
-                10000);
-            QCOMPARE(refusal.transaction, TransactionOutcome::rolled_back);
-            QCOMPARE(refusal.error, WorkError::not_committed);
+            refused_receipt(db, second_input, ManagedStatus::stale);
             QVERIFY(db.image() == inherited);
             second_input.page_reconnect = "R6";
             retained.reconnect = "R6";
-            const auto current = reconstruct(registered);
+            const auto current = reconstruct();
             QCOMPARE(current.status, IntakeStatus::committed);
             QVERIFY(current.qualified);
             resumed = current.qualified;
@@ -521,13 +590,11 @@ class HistoryTests : public QObject {
             db.reopen();
             const auto terminal = db.image();
             const auto prior_writes = db.changes();
-            auto registered = attempt.registered;
-            registered.generation = "g4";
             auto wrong = *retained_request;
             wrong.current.operation_revision = 1;
             const auto replay = [&](const RetainedPageRequest &request) {
-                const auto selection =
-                    reconstruct_history_page(db.writer(), attempt.owner, registered, request);
+                const auto selection = reconstruct_history_page(db.writer(), attempt.owner,
+                                                                attempt.registered, request);
                 if (!selection.qualified)
                     return PageOutcome{selection.status, selection.storage_status, {}};
                 return attempt.finish(*selection.qualified);
@@ -548,45 +615,29 @@ class HistoryTests : public QObject {
         operation_row(db, reconnect ? 3 : 2, 2, "U", 2, 0);
         const SqlRows sources{
             {2, reconnect ? 6 : 5, 2, QByteArray(reconnect ? "g4" : "g3"), QByteArray("13")}};
-        const SqlRows gaps{{2, 0}};
-        const SqlRows segments{{2, 1, 0, covered_11_13}};
+
         const SqlRows entries{{1, 2, 3, integer(first.receipt.value), 1},
                               {2, 2, 3, integer(second.receipt.value), 1}};
         QVERIFY(db.rows("SELECT epoch,revision,policy_revision,generation,frontier "
                         "FROM main.subathon_intake_sources") == sources);
-        QVERIFY(db.rows("SELECT revision,status FROM main.subathon_intake_gaps") == gaps);
-        QVERIFY(db.rows("SELECT revision,ordinal,coverage,document "
-                        "FROM main.subathon_intake_segments") == segments);
+        coverage_rows(db, {{2, 0}}, {{2, 1, 0, covered_11_13}});
         QVERIFY(db.rows("SELECT item_ordinal,phase,disposition,receipt_id,attempt_ordinal "
                         "FROM main.subathon_intake_entries WHERE contribution_id IS NULL "
                         "ORDER BY item_ordinal") == entries);
+        if (!reconnect)
+            lossAfterReconnect(db, attempt, *qualified);
     }
 
-    void lossAfterReconnect() {
-        HistoryFixture fixture;
-        fixture.open_catch_up();
-        auto &db = fixture.startup.store;
-        Attempt initial(db, audit_page_echo());
-        const auto old = initial.qualified();
-        QCOMPARE(initial.bind(*old).status, IntakeStatus::committed);
-        for (qint64 slot : {1, 2})
-            admit_audit(db, audit_input(initial.transcript.items[slot - 1], slot));
-        QCOMPARE(initial.finish(*old).status, IntakeStatus::committed);
+  private:
+    void lossAfterReconnect(Store &db, Attempt &initial, const QualifiedPage &old) {
         const auto before = db.image();
-        db.work([](const auto &work) -> QVariant {
-            require(stage_reconnect(
-                        work,
-                        {a, {2, 5, 2, "g3"}, "g4", cursor, "R3", "actor/decision", "connected"}) ==
-                        HistoryStatus::staged,
-                    "R3 retains the completed page and its original cut");
-            return true;
-        });
+        reconnect_source(db, {2, 5, 2, "g3"}, "g4", "R3");
         const auto connected = db.image();
         history_row(db, "R3", reconnect_document({2, 5, 2, "g3"}, {2, 6, 2, "g4"}, "13"));
         QVERIFY(connected.value(gaps_table) == before.value(gaps_table));
         QVERIFY(connected.value(pages_table) == before.value(pages_table));
         QVERIFY(connected.value(segments_table) == before.value(segments_table));
-        QCOMPARE(initial.finish(*old).status, IntakeStatus::stale);
+        QCOMPARE(initial.finish(old).status, IntakeStatus::stale);
         operation_row(db, 3, 2, "U", 2, 0);
         auto request = catch_up(2, "U");
         request.source.fence = {2, 6, 2, "g4"};
@@ -614,13 +665,73 @@ class HistoryTests : public QObject {
         QCOMPARE(next.finish(*qualified).status, IntakeStatus::committed);
         page_row(db, 2, p, "U", 0, 0, 1, cv);
         operation_row(db, 4, 3, {}, 2, 1);
-        const SqlRows lost_gap{{3, 1}};
-        const SqlRows both_segments{{2, 1, 0, covered_11_13}, {3, 1, 1, cv}};
-        QVERIFY(db.rows("SELECT revision,status FROM main.subathon_intake_gaps") == lost_gap);
-        QVERIFY(db.rows("SELECT revision,ordinal,coverage,document "
-                        "FROM main.subathon_intake_segments ORDER BY revision") == both_segments);
+        coverage_rows(db, {{3, 1}}, {{2, 1, 0, covered_11_13}, {3, 1, 1, cv}});
         QVERIFY(db.image().value(sources_table) == connected.value(sources_table));
         page_row(db, 1, audit_page, "T", 2, 2, 1, covered_11_13);
+    }
+
+  private slots:
+    void gapTimeAndUpperWitness() {
+        for (const auto &[trusted, echo, expected] :
+             {std::tuple<std::optional<qint64>, std::optional<qint64>, IntakeStatus>{
+                  8000, 8000, IntakeStatus::committed},
+              {8000, {}, IntakeStatus::committed},
+              {{}, {}, IntakeStatus::committed},
+              {8000, 8001, IntakeStatus::invalid_input},
+              {{}, 8000, IntakeStatus::invalid_input}}) {
+            HistoryFixture fixture;
+            auto &db = fixture.startup.store;
+            const auto before = db.image();
+            Attempt attempt(db, audit_page_echo());
+            attempt.registry.install(attempt.adapter, {a, progressed, profile},
+                                     "registry-gap-open");
+            attempt.registered.snapshot = attempt.registry.current;
+            const auto gap = gap_opening();
+            const QByteArray document =
+                trusted ? f("gap-basis") + '\1' + integer(*trusted) : QByteArray("gap-basis");
+            if (trusted)
+                require_frame(document, 22,
+                              "09faf8b24c97b26026c85116cf5c5e9b6d81b11695aab14631718fc1c8302cd2");
+            QCOMPARE(
+                open_history_gap(db.writer(), attempt.owner, attempt.registered, gap, {"G", echo},
+                                 [&](const GapInvocation &invoked) -> std::optional<GapEvidence> {
+                                     const auto &got = invoked.binding;
+                                     if (&invoked.profile != attempt.registered.snapshot.get() ||
+                                         invoked.identity != 1 || got.scope != a ||
+                                         got.expected != progressed || got.gap_ref != "G" ||
+                                         got.new_generation != "g3" || got.frontier != "11" ||
+                                         got.upper_cut != "14" || got.cursor_contract != cursor ||
+                                         got.cut_request != "gap-upper:14")
+                                         return {};
+                                     return GapEvidence{document, trusted};
+                                 }),
+                expected);
+            if (expected != IntakeStatus::committed) {
+                QVERIFY(db.image() == before);
+                continue;
+            }
+            QCOMPARE(db.rows("SELECT revision,status,start_frontier,upper_cut,document "
+                             "FROM main.subathon_intake_gaps"),
+                     (SqlRows{{1, 0, QByteArray("11"), QByteArray("14"), document}}));
+            const auto request = catch_up();
+            attempt.resume_registration(request.source);
+            const CutRequest selected{request.source, CutPurpose::gap_upper, request.frontier};
+            const CutObservation observed{selected, request.upper, Endpoint::inclusive};
+            attempt.adapter.expected_cut = selected;
+            attempt.adapter.cut_response = observed;
+            QCOMPARE(begin_history_catch_up(db.writer(), attempt.owner, attempt.registered,
+                                            {selected, catch_up_intent(), cursor, progressed},
+                                            observed,
+                                            [&](quint64 id, const CutObservation &actual) {
+                                                return id == 1 && attempt.adapter.cut_calls == 1 &&
+                                                       exact_cut(actual, observed);
+                                            }),
+                     IntakeStatus::committed);
+            operation_row(db, 1, 1, "T", 0, 0);
+            QCOMPARE(attempt.adapter.cut_calls, 1u);
+            QVERIFY(db.image().value(pages_table).isEmpty());
+            QVERIFY(db.image().value(segments_table).isEmpty());
+        }
     }
 
     void importUsesExactStartupPredecessor_data() {
@@ -651,8 +762,16 @@ class HistoryTests : public QObject {
         outside.source_time = SourceTimeQuality::reliable;
         const auto untimed = audit_item("unknown", {}, "norm-A-untimed");
         Attempt members(db, {request, {member, outside, untimed}, {}, {}});
-        members.binding = {request, HistoryPurpose::import, cursor, import_bytes(intent), {}, 1, 0};
-        members.membership = {Membership::member, Membership::outside, Membership::unknown};
+        members.binding = {request, HistoryPurpose::import, cursor, import_bytes(intent), {}, 1,
+                           0,       "registry-history"};
+        members.slots_evidence[0].overlap = Overlap::disjoint;
+        members.slots_evidence[0].disjointness = "outside-K10-live-lane";
+        members.slots_evidence[1].membership = Membership::outside;
+        members.slots_evidence[2].membership = Membership::unknown;
+        Attempt wrong_date(db, {request, {}, {}, {}});
+        QCOMPARE(open_import(wrong_date, intent, request, false, 1795215600000LL),
+                 IntakeStatus::invalid_input);
+        QVERIFY(db.image() == before);
         QCOMPARE(open_import(members, intent, request), IntakeStatus::committed);
         const auto opened = db.image();
         QVERIFY(members.qualified());
@@ -662,6 +781,16 @@ class HistoryTests : public QObject {
         next_request.upper = next_cut.upper_cut;
         Attempt malformed(db, {next_request, {}, {}, {}});
         QCOMPARE(open_import(malformed, next_cut, next_request, true), IntakeStatus::invalid_input);
+        Attempt retained_date(db, {request, {}, {}, {}});
+        retained_date.owner.zone = [](const QByteArray &, const QByteArray &, QDate) {
+            return std::optional{ZoneBasis{3600, {}}};
+        };
+        QCOMPARE(open_import(retained_date, intent, request, false, 1795215600000LL),
+                 IntakeStatus::invalid_input);
+        QVERIFY(db.image() == opened);
+        HistoryFixture independent(checkpoint);
+        Attempt valid_cut12(independent.startup.store, {next_request, {}, {}, {}});
+        QCOMPARE(open_import(valid_cut12, next_cut, next_request), IntakeStatus::committed);
         Attempt conflict(db, {next_request, {}, {}, {}});
         QCOMPARE(open_import(conflict, next_cut, next_request), IntakeStatus::conflict);
         QVERIFY(db.image() == opened);
@@ -681,8 +810,12 @@ class HistoryTests : public QObject {
         expected["subathon_intake_operations"] = after.value("subathon_intake_operations");
         expected[pages_table] = after.value(pages_table);
         QVERIFY(after == expected);
+        auto startup_rows = db.rows("SELECT * FROM main.subathon_intake_operations "
+                                    "WHERE operation_ref<>X'49' ORDER BY operation_ref");
+        canonical_cells(startup_rows);
+        QCOMPARE(startup_rows, before.value("subathon_intake_operations"));
         auto rows = db.rows("SELECT intent,revision,next_ordinal,continuation,slots,outcome "
-                            "FROM main.subathon_intake_operations");
+                            "FROM main.subathon_intake_operations WHERE operation_ref=X'49'");
         canonical_cells(rows);
         const SqlRows settled{{import_bytes(intent), 2, 2, QVariant{}, 0, 1}};
         QVERIFY(rows == settled);
@@ -692,12 +825,7 @@ class HistoryTests : public QObject {
         for (int proof_size : {16175, 16176, 16340}) {
             HistoryFixture fixture;
             auto &db = fixture.startup.store;
-            db.work([](const auto &work) -> QVariant {
-                require(stage_reconnect(work, {a, progressed, "g3", cursor, "R7", "actor/decision",
-                                               "connected"}) == HistoryStatus::staged,
-                        "R7 starts from acknowledged K0 with no operation");
-                return true;
-            });
+            reconnect_source(db, progressed, "g3", "R7");
             const auto before = db.image();
             auto intent = import_intent({2, 4, 2, "g3"}, "Z", QByteArray(proof_size, 'e'));
             intent.operation_ref = "O";
@@ -720,37 +848,70 @@ class HistoryTests : public QObject {
                               "702e9a94cd6e60bbb00482bd25694bc8d081bf964e3fb61404132c0e2406f476");
                 const SqlRows wanted{{bytes, 1, 1, QByteArray("T"), 0, 0}};
                 QVERIFY(db.rows("SELECT intent,revision,next_ordinal,continuation,slots,outcome "
-                                "FROM main.subathon_intake_operations") == wanted);
+                                "FROM main.subathon_intake_operations WHERE operation_ref=X'4F'") ==
+                        wanted);
+                auto startup_rows = db.rows("SELECT * FROM main.subathon_intake_operations "
+                                            "WHERE operation_ref<>X'4F' ORDER BY operation_ref");
+                canonical_cells(startup_rows);
+                QCOMPARE(startup_rows, before.value("subathon_intake_operations"));
+                QVERIFY(db.image().value("subathon_intake_sources") ==
+                        before.value("subathon_intake_sources"));
             } else {
                 QVERIFY(db.image() == before);
             }
         }
     }
 
+    void verifiedActivityQualification_data() {
+        QTest::addColumn<bool>("admit_distinct");
+        QTest::newRow("E1-qualification-only") << false;
+        QTest::newRow("E6-shared-activity-distinct-receipts") << true;
+    }
+
     void verifiedActivityQualification() {
+        QFETCH(bool, admit_distinct);
         HistoryFixture fixture;
         fixture.open_catch_up();
         auto &db = fixture.startup.store;
-        const auto before = db.image();
         auto observation = audit_page_echo();
         for (auto &item : observation.items)
             item.activity =
                 VerifiedActivityLink{{{"P", "A"}, "activity", "K" + item.identifier->toStdString()},
                                      "verified-live/history"};
+        auto live_item = observation.items[0];
+        live_item.key = "L12";
+        live_item.identifier = "live-receipt-12";
+        live_item.normalized = "norm-A-12-live-v1";
+        auto live = audit_input(live_item, 1);
+        live.history.reset();
+        live.receipt.arrival.connection_ref = "live";
+        live.activity = live_item.activity;
+        std::optional<AttemptLocator> live_attempt;
+        if (admit_distinct)
+            live_attempt = admit_audit(db, live);
+        const auto before = db.image();
         Attempt attempt(db, observation);
-        const auto result = attempt.qualify();
-        QCOMPARE(result.status, IntakeStatus::committed);
-        QVERIFY(result.qualified && attempt.witnessed == 1);
-        const QList expected{observation.items[0].activity, observation.items[1].activity};
-        QCOMPARE(result.activities, expected);
+        for (qsizetype slot = 0; slot < observation.items.size(); ++slot) {
+            attempt.slots_evidence[slot].overlap = Overlap::verified_activity;
+            attempt.slots_evidence[slot].activity = observation.items[slot].activity;
+        }
+        const auto qualified = attempt.qualified();
         QVERIFY(db.image() == before);
+        if (live_attempt) {
+            QCOMPARE(attempt.bind(*qualified).status, IntakeStatus::committed);
+            auto history = audit_input(observation.items[0], 1);
+            history.activity = attempt.slots_evidence[0].activity;
+            QCOMPARE(history.activity, live.activity);
+            QVERIFY(history.receipt.identity != live.receipt.identity);
+            QVERIFY(admit_audit(db, history).receipt != live_attempt->receipt);
+        }
     }
 
     void handoffAndLegacyEnvelope_data() {
         QTest::addColumn<QByteArray>("variant");
-        for (const auto *name :
-             {"commit", "one-cut", "through-11", "before-fence", "swapped", "contradictory",
-              "stale", "denied-omitted", "veto", "legacy-missing", "legacy-commit"})
+        for (const auto *name : {"commit", "one-cut", "through-11", "before-fence", "swapped",
+                                 "contradictory", "different-attempt", "stale", "denied-omitted",
+                                 "veto", "legacy-missing", "legacy-commit"})
             QTest::newRow(name) << QByteArray(name);
     }
 
@@ -775,7 +936,8 @@ class HistoryTests : public QObject {
         const QByteArray selected_a = cut(next.generation, legacy ? "legacy14" : "fenceA14", "14");
         const QByteArray selected_b = cut("gB2", "fenceB14", "14");
         const QByteArray decision("actor/decision");
-        const auto policy_doc = legacy ? policy(decision) : f("review") + f("cfg-2") + f(decision);
+        const auto policy_doc =
+            legacy ? activation().policy : f("review") + f("cfg-2") + f(decision);
         auto new_a = member(a);
         auto new_b = member(b);
         if (!legacy) {
@@ -812,12 +974,16 @@ class HistoryTests : public QObject {
                                     Endpoint::inclusive};
         Adapter adapter_a(audit_page_echo()), adapter_b(audit_page_echo());
         adapter_a.expected_cut = side_a.request;
-        adapter_a.cut_response = side_a;
+        adapter_a.cut_response = variant == "swapped" ? side_b : side_a;
         adapter_b.expected_cut = side_b.request;
-        adapter_b.cut_response =
-            variant == "one-cut" ? CutResult{HistoryFailure::unproved} : CutResult{side_b};
-        HistoryProfile profile_a{a, profile, cursor, next.generation, adapter_a, {}};
-        HistoryProfile profile_b{b, profile, cursor, "gB2", adapter_b, {}};
+        adapter_b.cut_response = variant == "one-cut"
+                                     ? CutResult{HistoryFailure::unproved}
+                                     : CutResult{variant == "swapped" ? side_a : side_b};
+        HistoryRegistry registry_a, registry_b;
+        registry_a.install(adapter_a, side_a.request.source);
+        registry_b.install(adapter_b, side_b.request.source);
+        HistoryProfile profile_a{registry_a, registry_a.current, {}};
+        HistoryProfile profile_b{registry_b, registry_b.current, {}};
         QList<const HistoryProfile *> profiles{&profile_a};
         AdmittedHandoff admitted{change, {side_a.request}, {legacy ? QByteArray{} : k10}};
         QList<CutObservation> echoes{side_a};
@@ -828,8 +994,6 @@ class HistoryTests : public QObject {
             if (variant != "denied-omitted")
                 echoes.append(side_b);
         }
-        if (variant == "swapped")
-            echoes.swapItemsAt(0, 1);
         if (variant == "contradictory")
             echoes[0].cut.position = QByteArray("11");
         QSet<QByteArray> authorized;
@@ -842,24 +1006,49 @@ class HistoryTests : public QObject {
                           adapter_a,
                           {},
                           {}};
-        bool vetoed = false;
-        const auto outcome = commit_history_handoff(
-            db.writer(), owner, profiles, admitted, echoes,
-            [&](const QList<ObservedCut> &actual) -> std::optional<QByteArray> {
-                if (actual.size() != (legacy ? 1 : 2) || variant == "legacy-missing" ||
-                    variant == "through-11" || variant == "before-fence")
+        const QByteArray eligible_upper = variant == "through-11" ? "11" : "14";
+        auto through = prior;
+        if (variant == "before-fence")
+            --through.revision;
+        const std::optional<QByteArray> old_upper =
+            variant == "legacy-missing" ? std::nullopt : std::optional{eligible_upper};
+        const quint64 new_attempt = variant == "different-attempt" ? 2 : 1;
+        const auto matches = [](const ObservedCut &got, const Adapter &adapter,
+                                const CutObservation &want) {
+            return got.adapter == &adapter && got.invocation == 1 && adapter.cut_calls == 1 &&
+                   exact_cut(got.observation, want);
+        };
+        const HandoffValidators validators{
+            [&](const ObservedCut &got) -> std::optional<OldEnvelope> {
+                if (!old_upper || !matches(got, adapter_a, side_a))
                     return {};
-                const auto matches = [](const ObservedCut &got, const Adapter &adapter,
-                                        const CutObservation &want) {
-                    return got.adapter == &adapter && got.invocation == 1 &&
-                           adapter.cut_calls == 1 && exact_cut(got.observation, want);
-                };
-                return matches(actual[0], adapter_a, side_a) &&
-                               (legacy || matches(actual[1], adapter_b, side_b))
-                           ? std::optional{proof}
-                           : std::nullopt;
+                return OldEnvelope{
+                    got,  *old_upper, through,
+                    true, 1,          legacy ? std::optional{QByteArray("15")} : std::nullopt};
             },
-            [&] {
+            [&](const ObservedCut &got) -> std::optional<NewSide> {
+                if (!matches(got, adapter_b, side_b))
+                    return {};
+                return NewSide{got, "14", "15", new_attempt};
+            },
+            [&](const OldEnvelope &old,
+                const std::optional<NewSide> &incoming) -> std::optional<QByteArray> {
+                if (!matches(old.source, adapter_a, side_a) || old.eligible_upper != "14" ||
+                    old.through != prior || !old.includes_pending_and_outstanding)
+                    return {};
+                if (legacy)
+                    return !incoming && old.legacy_eligible_first == QByteArray("15")
+                               ? std::optional{proof}
+                               : std::nullopt;
+                if (!incoming || !matches(incoming->source, adapter_b, side_b) ||
+                    incoming->attempt != old.attempt ||
+                    incoming->exclusive_lower != old.eligible_upper || incoming->first != "15")
+                    return {};
+                return proof;
+            }};
+        bool vetoed = false;
+        const auto outcome =
+            commit_history_handoff(db.writer(), owner, profiles, admitted, echoes, validators, [&] {
                 vetoed = variant == "veto";
                 return !vetoed;
             });
@@ -962,11 +1151,15 @@ class HistoryTests : public QObject {
         QVERIFY(
             db.rows("SELECT phase,disposition,quarantine_bytes FROM main.subathon_intake_entries "
                     "WHERE intake_ref=X'51303031'") == resolved);
+        QCOMPARE(db.rows("SELECT count(*) FROM main.subathon_intake_entries "
+                         "WHERE quarantine_bytes IS NOT NULL"),
+                 (SqlRows{{255}}));
         Attempt retry(db, observation);
         retry.quarantine = {slot};
         const auto qualified = retry.qualified();
         QCOMPARE(retry.bind(*qualified).status, IntakeStatus::committed);
         page_row(db, 1, p, "T", 1, 0, 0);
+        operation_row(db, 1, 1, "T", 1, 0);
         db.work([&](const auto &work) -> QVariant {
             require(stage_quarantine(work, slot) == QuarantineStatus::staged,
                     "The identical slot can now use the freed capacity");
@@ -1005,24 +1198,30 @@ class HistoryTests : public QObject {
         QVERIFY(db.image() == before);
     }
 
+    void authenticUnboundPageStalesOnReconnect_data() {
+        QTest::addColumn<bool>("replace_registry");
+        QTest::newRow("reconnect") << false;
+        QTest::newRow("registry-replacement") << true;
+    }
+
     void authenticUnboundPageStalesOnReconnect() {
+        QFETCH(bool, replace_registry);
         HistoryFixture fixture;
         fixture.open_catch_up();
         auto &db = fixture.startup.store;
         Attempt attempt(db, audit_page_echo());
         const auto handle = attempt.qualified();
-        db.work([](const auto &work) -> QVariant {
-            require(stage_reconnect(
-                        work,
-                        {a, {2, 4, 2, "g3"}, "g4", cursor, "R3", "actor/decision", "connected"}) ==
-                        HistoryStatus::staged,
-                    "Reconnect authentic selection before any page exists");
-            return true;
-        });
+        if (replace_registry)
+            attempt.registry.install(attempt.adapter, attempt.binding.request.source,
+                                     "registry-new");
+        else
+            reconnect_source(db, {2, 4, 2, "g3"}, "g4", "R3");
         const auto after = db.image();
         QCOMPARE(attempt.bind(*handle).status, IntakeStatus::stale);
         QVERIFY(after.value(pages_table).isEmpty());
-        operation_row(db, 2, 1, "T", 0, 0);
+        QCOMPARE(attempt.qualify().status, IntakeStatus::stale);
+        QCOMPARE(attempt.adapter.calls, 1u);
+        operation_row(db, replace_registry ? 1 : 2, 1, "T", 0, 0);
         QVERIFY(db.image() == after);
     }
 
@@ -1150,17 +1349,35 @@ class HistoryTests : public QObject {
                 replacement);
     }
 
+    void unprovedOrderAndInventedUnknownAdvancement() {
+        HistoryFixture fixture;
+        fixture.open_catch_up();
+        auto &db = fixture.startup.store;
+        const auto before = db.image();
+        auto tied = audit_page_echo();
+        tied.items[1].position = tied.items[0].position;
+        Attempt unordered(db, tied);
+        unordered.order_proved = false;
+        QCOMPARE(unordered.qualify().status, IntakeStatus::unproved);
+        Attempt unknown(db, {catch_up(), {}, {}, {}});
+        auto candidate = unknown.transcript;
+        candidate.coverage = tied.coverage;
+        QCOMPARE(unknown.qualify(candidate).status, IntakeStatus::invalid_input);
+        QVERIFY(db.image() == before);
+    }
+
     void emptyPageRequiresWitness_data() {
         QTest::addColumn<int>("failure");
         QTest::addColumn<int>("status");
-        QTest::newRow("missing-witness") << -1 << int(IntakeStatus::unproved);
-        QTest::newRow("unknown-capability")
-            << int(HistoryFailure::unknown_capability) << int(IntakeStatus::unproved);
-        QTest::newRow("unproved") << int(HistoryFailure::unproved) << int(IntakeStatus::unproved);
-        QTest::newRow("unsupported")
-            << int(HistoryFailure::unsupported) << int(IntakeStatus::unsupported);
-        QTest::newRow("temporary")
-            << int(HistoryFailure::temporarily_unavailable) << int(IntakeStatus::unavailable);
+        for (const auto &[name, failure, status] :
+             {std::tuple{"missing-witness", -1, IntakeStatus::unproved},
+              {"unknown-capability", int(HistoryFailure::unknown_capability),
+               IntakeStatus::unproved},
+              {"unproved", int(HistoryFailure::unproved), IntakeStatus::unproved},
+              {"unsupported", int(HistoryFailure::unsupported), IntakeStatus::unsupported},
+              {"temporary", int(HistoryFailure::temporarily_unavailable),
+               IntakeStatus::unavailable}})
+            QTest::newRow(name) << failure << int(status);
     }
 
     void emptyPageRequiresWitness() {
@@ -1211,6 +1428,7 @@ class HistoryTests : public QObject {
         QCOMPARE(attempt.bind(*qualified).status, IntakeStatus::committed);
         page_row(db, 1, frame, "T", 0, 0, 0);
         if (present) {
+            QCOMPARE(frame, page_frame({}, std::nullopt, proof));
             db.reopen();
             const auto before = db.image();
             const RetainedPageRequest retained{attempt.binding, attempt.binding, frame, {}};
@@ -1220,13 +1438,23 @@ class HistoryTests : public QObject {
             };
             QCOMPARE(reconstruct().status, IntakeStatus::unproved);
             QVERIFY(db.image() == before);
-            attempt.registered.reconstruct =
-                [&](const RetainedPageRequest &selected) -> std::optional<Page> {
-                if (selected.page != frame ||
-                    !same_request(selected.original.request, attempt.transcript.request))
-                    return {};
-                return attempt.transcript;
+            attempt.retain(frame);
+            const auto original = attempt.registered.reconstruct;
+            attempt.registered.reconstruct = [original](const RetainedPageRequest &request) {
+                const auto real = original(request);
+                if (!real)
+                    return real;
+                auto alternative = *real;
+                alternative.page.next.reset();
+                const QList matches{*real, alternative};
+                const auto same_bytes = [&](const RetainedHistoryPage &candidate) {
+                    return page_frame({}, candidate.page.next, {}) == request.page;
+                };
+                return std::ranges::count_if(matches, same_bytes) == 1 ? real : std::nullopt;
             };
+            QCOMPARE(reconstruct().status, IntakeStatus::unproved);
+            QVERIFY(db.image() == before);
+            attempt.registered.reconstruct = original;
             const auto exact = reconstruct();
             QCOMPARE(exact.status, IntakeStatus::committed);
             QVERIFY(exact.qualified);
@@ -1246,10 +1474,8 @@ class HistoryTests : public QObject {
         const SqlRows source{{recovered ? 5 : 4, QByteArray(recovered ? "14" : "11")}};
         const SqlRows gap{{recovered ? 2 : 1, recovered ? 2 : 0}};
         QVERIFY(db.rows("SELECT revision,frontier FROM main.subathon_intake_sources") == source);
-        QVERIFY(db.rows("SELECT revision,status FROM main.subathon_intake_gaps") == gap);
         const SqlRows segments = recovered ? SqlRows{{2, 1, 0, recovered_11_14}} : SqlRows{};
-        QVERIFY(db.rows("SELECT revision,ordinal,coverage,document "
-                        "FROM main.subathon_intake_segments") == segments);
+        coverage_rows(db, gap, segments);
     }
 };
 } // namespace
