@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "candidate.hpp"
-
 #include "../storage_026/receipt_fixture.hpp"
 #include "../storage_026/transition_fixture.hpp"
-
 #include <subathon/server/modifier_capture.hpp>
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 namespace {
@@ -18,7 +16,7 @@ constexpr candidate::Reservation allowance{1, 11, 1, 8};
 // clang-format off
 constexpr StorageLimits minimum{
     64, 26 + 2 * allowance.statements, 65536, 172528 + 2 * allowance.bound_bytes,
-    26 + 2 * allowance.result_rows, 6771084 + 2 * allowance.result_bytes};
+    26 + 2 * allowance.result_rows, 6803914 + 2 * allowance.result_bytes};
 // clang-format on
 const intake::StartupBinding binding = intake::StartupExecutionAccount{"install", "owner"};
 struct Input {
@@ -101,7 +99,6 @@ Input envelope(
              ConfigurationReference{config_key}}};
     // clang-format on
 }
-
 struct File {
     fixture::Populated fixture_data;
     fixture::CatalogFile &db = fixture_data.db;
@@ -117,6 +114,9 @@ struct File {
     void seed_page(const Input &input, Origin origin) {
         if (origin == Origin::live)
             return;
+        fixture::mutate(db, "UPDATE main.subathon_intake_policies SET document=? "
+                            "WHERE installation=X'696e7374616c6c' AND revision=1",
+                        {frame_fields({"automatic", "policy", "decision"})});
         fixture::catchup(db, 1, 1);
         const auto page = fixture::page_admission(1, {input.managed.normalized}).binding;
         if (origin == Origin::catch_up) {

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "intake_recovery_codec.hpp"
+#include "modifier_capture_codec.hpp"
 
 #include <QtEndian>
 #include <array>
@@ -16,8 +17,6 @@ constexpr std::array lanes{IntakeAdmission::creation_eligible_verified_support,
 constexpr std::array policies{core::EvidencePolicy::require_evidence_review,
                               core::EvidencePolicy::accept_provider_report,
                               core::EvidencePolicy::record_only};
-constexpr std::array catch_up_modes{CatchUpMode::review, CatchUpMode::automatic,
-                                    CatchUpMode::record_without_credit};
 constexpr std::array<std::optional<HistoryPurpose>, 3> origins{
     std::nullopt, HistoryPurpose::catch_up, HistoryPurpose::import};
 
@@ -74,7 +73,16 @@ std::optional<QByteArray> detail_reference(const QByteArray &bytes) {
     return {};
 }
 
-bool matches_detail(const Closure &closure, std::optional<HistoryPurpose> purpose) {
+bool configuration_role(const QByteArray &document) {
+    for (const auto *magic : {"MCA1", "ARC1", "ARD1", "SRA1", "SRI1", "SRX1"}) {
+        if (document.startsWith(magic))
+            return false;
+    }
+    return true;
+}
+
+bool matches_detail(const Closure &closure, std::optional<HistoryPurpose> purpose,
+                    const QByteArray &policy) {
     const auto &arrival = closure.attempt.arrival;
     const auto &detail = closure.detail;
     if (detail.key.kind != RetainedKind::arrival_context ||
@@ -87,12 +95,16 @@ bool matches_detail(const Closure &closure, std::optional<HistoryPurpose> purpos
             RetainedKey{RetainedKind::arrival_context, arrival.modifier_context_ref} ||
         closure.modifier_arrival.configuration !=
             ConfigurationReference{arrival.configuration_ref} ||
-        closure.configuration.document.startsWith("MCA1") ||
-        !closure.modifier_arrival.document.startsWith("MCA1") ||
+        !configuration_role(closure.configuration.document) ||
         !detail.document.startsWith(QByteArrayView("ARD1\1", 5)) ||
         detail.document.size() > detail_limit)
         return false;
     try {
+        core::ModifierStackLimits limits{262144, 262144, 65536};
+        const auto modifier = modifier_capture_detail::decode(closure.modifier_arrival, false, limits);
+        if (modifier.identity != closure.identity || modifier.arrival != arrival)
+            return false;
+
         Reader reader(QByteArrayView(detail.document).sliced(5));
         const Scope scope{reader.field(), reader.field(), reader.field(), reader.field()};
         if (scope != closure.scope || reader.field() != closure.intake_ref ||
@@ -123,8 +135,16 @@ bool matches_detail(const Closure &closure, std::optional<HistoryPurpose> purpos
             const auto origin = reader.selected(origins);
             if (origin != purpose)
                 return false;
-            if (origin == HistoryPurpose::catch_up)
-                (void)reader.selected(catch_up_modes);
+            if (origin == HistoryPurpose::catch_up) {
+                constexpr std::array<QByteArrayView, 3> modes{
+                    "review", "automatic", "record_without_credit"};
+                Reader admitted(policy);
+                const auto mode = admitted.field();
+                (void)admitted.field(); // Startup configuration revision.
+                (void)admitted.field(); // Startup policy permit decision.
+                if (!admitted.empty() || mode != modes[reader.tag(modes.size() - 1)])
+                    return false;
+            }
         }
         (void)reader.field(); // Historical authority decision reference.
         (void)reader.field(); // Historical authority reason.
@@ -150,6 +170,8 @@ bool matches_detail(const Closure &closure, std::optional<HistoryPurpose> purpos
         return reader.empty() && has_revision == (valuation != 0) &&
                has_resolution == (valuation == 2);
     } catch (const InvalidDocument &) {
+        return false;
+    } catch (ModifierCaptureRefusal) {
         return false;
     } catch (const ReferenceInputFailure &) {
         return false;

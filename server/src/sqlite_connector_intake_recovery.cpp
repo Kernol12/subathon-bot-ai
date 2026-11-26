@@ -12,7 +12,7 @@ namespace subathon::server::connector_intake::recovery {
 namespace {
 
 using Access = subathon::server::detail::IntakeRecoveryWriterAccess;
-constexpr Reservation packet{26, 172528, 26, 6771084};
+constexpr Reservation packet{26, 172528, 26, 6803914};
 
 std::array<qsizetype, 4> charges(auto cost) {
     return {cost.statements, cost.bound_bytes, cost.result_rows, cost.result_bytes};
@@ -227,11 +227,13 @@ Projection admitted_entry_query(const Scope &scope, const QByteArray &key) {
              "e.configuration_ref", "e.modifier_context_ref", "e.input", "e.provenance",
              "e.activity_namespace", "e.activity_id", "e.verification_ref", "e.arrival_ms",
              "e.operation_ref", "e.page_ordinal", "e.item_ordinal", "e.contribution_id", "e.phase",
-             "e.disposition"},
+             "e.disposition", "p.document"},
             " FROM main.subathon_intake_entries e "
             "LEFT JOIN main.subathon_intake_operations o "
             "ON (o.installation,o.operation_ref,o.provider,o.account,o.stream)="
             "(e.installation,e.operation_ref,e.provider,e.account,e.stream) "
+            "LEFT JOIN main.subathon_intake_policies p "
+            "ON o.purpose=0 AND p.installation=o.installation AND p.revision=o.policy_revision "
             "WHERE e.installation=? AND e.provider=? AND e.account=? "
             "AND e.stream=? AND e.intake_ref=?",
             bindings};
@@ -240,9 +242,9 @@ Projection admitted_entry_query(const Scope &scope, const QByteArray &key) {
 Closure read_closure(const SqliteWorkSession &session, const Scope &scope, const QByteArray &key,
                      std::optional<AttemptLocator> expected, bool first_basis) {
     const auto entry = admitted_entry_query(scope, key);
-    const std::array<qsizetype, 19> caps{
+    const std::array<qsizetype, 20> caps{
         0,    4096, 0,    8, 0, 4096, 4096, 32768, detail::capture_limit, 4096, 4096,
-        4096, 0,    4096, 0, 0, 8,    0,    0};
+        4096, 0,    4096, 0, 0, 8,    0,    0, 16384};
     const auto metadata = entry.metadata(session);
     if (metadata.isEmpty())
         throw Refusal{first_basis ? Status::inconsistent : Status::missing};
@@ -312,7 +314,7 @@ Closure read_closure(const SqliteWorkSession &session, const Scope &scope, const
                     document(session, RetainedKind::configuration, row[5].toByteArray(), value),
                     document(session, RetainedKind::arrival_context, row[6].toByteArray(), value),
                     stored_detail};
-    if (!detail::matches_detail(closure, purpose))
+    if (!detail::matches_detail(closure, purpose, row[19].toByteArray()))
         inconsistent();
     return closure;
 }

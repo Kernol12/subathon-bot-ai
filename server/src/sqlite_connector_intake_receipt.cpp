@@ -361,6 +361,7 @@ std::optional<Status> preflight_intake_admission(const SqliteWorkSession &sessio
                                                  const ManagedInput &input, const Fence &fence,
                                                  const RetainedDocument &intake_detail,
                                                  std::optional<HistoryPurpose> purpose,
+                                                 const QByteArray &policy,
                                                  const core::ReceiptRecord *prior,
                                                  bool creates_basis) {
     using Access = subathon::server::detail::IntakeRecoveryWriterAccess;
@@ -428,7 +429,8 @@ std::optional<Status> preflight_intake_admission(const SqliteWorkSession &sessio
         input.history ? QVariant{input.history->item} : QVariant{},
         QVariant{},
         1,
-        admission_code(input.admission)};
+        admission_code(input.admission),
+        policy.isNull() ? QVariant{} : QVariant{policy}};
     auto result_bytes = profile.result_value_bytes;
     if (!subathon::server::detail::consume_value(result_bytes, input.scope.installation))
         return Status::intake_limit;
@@ -514,6 +516,7 @@ static ManagedResult admit_managed_impl(const SqliteWorkSession &session, const 
         !valid_activity(input.receipt.identity.origin, input.activity))
         return refuse(Status::intake_limit);
     std::optional<HistoryPurpose> purpose;
+    QByteArray policy;
     if (intake_detail) {
         using namespace recovery::detail;
         const auto oversize_document = [](const std::optional<RetainedDocument> &document) {
@@ -554,9 +557,12 @@ static ManagedResult admit_managed_impl(const SqliteWorkSession &session, const 
         }
         if (input.history) {
             const auto rows =
-                session.execute({"SELECT purpose FROM main.subathon_intake_operations "
-                                 "WHERE installation=? AND operation_ref=? AND provider=? AND "
-                                 "account=? AND stream=?",
+                session.execute({"SELECT o.purpose, CASE WHEN length(p.document)<=16384 THEN "
+                                 "p.document END FROM main.subathon_intake_operations o "
+                                 "LEFT JOIN main.subathon_intake_policies p ON o.purpose=0 AND "
+                                 "p.installation=o.installation AND p.revision=o.policy_revision "
+                                 "WHERE o.installation=? AND o.operation_ref=? AND o.provider=? AND "
+                                 "o.account=? AND o.stream=?",
                                  {input.scope.installation, input.history->operation,
                                   input.scope.provider, input.scope.account, input.scope.stream}});
             if (rows.size() != 1)
@@ -565,6 +571,7 @@ static ManagedResult admit_managed_impl(const SqliteWorkSession &session, const 
             if (value != 0 && value != 1)
                 return refuse(Status::conflict);
             purpose = static_cast<HistoryPurpose>(value);
+            policy = rows.front()[1].toByteArray();
         }
         const recovery::Closure closure{
             input.scope,
@@ -580,7 +587,7 @@ static ManagedResult admit_managed_impl(const SqliteWorkSession &session, const 
             *input.configuration,
             *input.context,
             *intake_detail};
-        if (!matches_detail(closure, purpose))
+        if (!matches_detail(closure, purpose, policy))
             return refuse(Status::conflict);
     }
     const auto current = source(session, input.scope);
@@ -609,7 +616,7 @@ static ManagedResult admit_managed_impl(const SqliteWorkSession &session, const 
                 !original(owner, input.scope, *input.activity) &&
                 !basis(owner, input.scope, *input.activity);
             if (const auto refusal = preflight_intake_admission(
-                    owner, input, *current, *intake_detail, purpose, prior, *prepared_basis)) {
+                    owner, input, *current, *intake_detail, purpose, policy, prior, *prepared_basis)) {
                 stopped = *refusal;
                 return false;
             }
