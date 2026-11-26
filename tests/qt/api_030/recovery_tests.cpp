@@ -16,7 +16,7 @@ constexpr candidate::Reservation allowance{1, 11, 1, 8};
 // clang-format off
 constexpr StorageLimits minimum{
     64, 26 + 2 * allowance.statements, 65536, 172528 + 2 * allowance.bound_bytes,
-    26 + 2 * allowance.result_rows, 6771084 + 2 * allowance.result_bytes};
+    26 + 2 * allowance.result_rows, 6803914 + 2 * allowance.result_bytes};
 // clang-format on
 const intake::StartupBinding binding = intake::StartupExecutionAccount{"install", "owner"};
 struct Input {
