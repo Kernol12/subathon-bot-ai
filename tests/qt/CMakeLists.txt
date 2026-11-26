@@ -434,6 +434,22 @@ if(SUBATHON_BUILD_STORAGE_021_STAGE1)
     target_link_libraries(server_storage_021_stage1_negative PRIVATE
         subathon_sqlite_v23_rebuild_support Qt6::Sql Qt6::Test)
     subathon_target_options(server_storage_021_stage1_negative)
+    set(storage_021_donors "${CMAKE_CURRENT_BINARY_DIR}/storage-021-donors")
+    add_test(NAME storage-021.donor-setup COMMAND bash -ec
+        "mkdir -- \"\$1\" && exec \"\$2\" --assemble \"\$1\"" --
+        "${storage_021_donors}" "$<TARGET_FILE:server_storage_021_stage1_bounds>")
+    add_test(NAME storage-021.bounds COMMAND server_storage_021_stage1_bounds
+        --donors "${storage_021_donors}")
+    add_test(NAME storage-021.controls COMMAND server_storage_021_stage1_controls
+        "${storage_021_donors}/v22-1024.sqlite")
+    add_test(NAME storage-021.negative COMMAND server_storage_021_stage1_negative
+        "${storage_021_donors}/v22-1024.sqlite")
+    add_test(NAME storage-021.donor-cleanup COMMAND "${CMAKE_COMMAND}" -E rm -rf
+        "${storage_021_donors}")
+    set_tests_properties(storage-021.donor-setup PROPERTIES FIXTURES_SETUP storage_021_donor)
+    set_tests_properties(storage-021.donor-cleanup PROPERTIES FIXTURES_CLEANUP storage_021_donor)
+    set_tests_properties(storage-021.bounds storage-021.controls storage-021.negative
+        PROPERTIES FIXTURES_REQUIRED storage_021_donor LABELS "storage-021" TIMEOUT 180)
 endif()
 
 if(SUBATHON_BUILD_MILESTONE_006_STAGE1)
