@@ -320,12 +320,12 @@ if(SUBATHON_BUILD_SCHEDULED_PAUSE_TESTS)
 
     if(SUBATHON_BUILD_SCHEDULE_002_STAGE1)
         add_executable(server_schedule_command_acceptance
-            acceptance/schedule_command_tests.cpp ../server/src/schedule_command_stage1_stub.cpp)
+            acceptance/schedule_command_tests.cpp)
         target_link_libraries(server_schedule_command_acceptance PRIVATE
             subathon_scheduled_pause subathon_timer_editorial_commands GTest::gtest_main)
         subathon_target_options(server_schedule_command_acceptance)
         subathon_discover_gtests(server_schedule_command_acceptance
-            LABELS "schedule-command;intentional-red;acceptance;server" TIMEOUT 30)
+            LABELS "schedule-command;acceptance;server" TIMEOUT 30)
     endif()
 
     if(SUBATHON_BUILD_SCHEDULE_003_STAGE1)
