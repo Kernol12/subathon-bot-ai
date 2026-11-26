@@ -409,3 +409,8 @@ if(SUBATHON_BUILD_MILESTONE_006_SLICE3)
     add_subdirectory(milestone_006_slice5)
     add_subdirectory(milestone_006_slice6)
 endif()
+
+option(SUBATHON_BUILD_API_029_STAGE1 "Build the inert API-029 history acceptance baseline" OFF)
+if(SUBATHON_BUILD_API_029_STAGE1)
+    add_subdirectory(api_029)
+endif()
