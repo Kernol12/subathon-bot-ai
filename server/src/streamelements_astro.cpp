@@ -142,74 +142,90 @@ Status ingest(std::string_view frame, std::uint64_t generation, const Acknowledg
               CoverageJournal &journal) {
     if (generation < route.generation)
         return gap(journal, Gap::retired_delivery);
-    if (generation != route.generation || route.canonical_room.empty() ||
-        frame.size() > wire::body_limit)
+    if (generation != route.generation || route.canonical_room.empty())
         return Status::ignored;
+    if (frame.size() > wire::body_limit)
+        return gap(journal, Gap::unclassifiable_text);
 
+    wire::JsonFields root;
     try {
-        const auto root = wire::ReplyJson{frame}.read_members();
-        if (text(root, "type") != "message" || text(root, "topic") != tips_topic)
-            return Status::ignored;
-
-        const auto data = object(root, "data");
-        if (text(root, "room") != route.canonical_room ||
-            text(data, "channel") != route.canonical_room)
-            return Status::source_binding_failure;
-
-        const auto id = text(data, "_id");
-        if (id.empty())
-            return gap(journal, Gap::missing_tip_identity);
-        const auto transaction_id = text(data, "transactionId");
-        if (transaction_id.empty())
-            return gap(journal, Gap::missing_transaction);
-        const auto donation = object(data, "donation");
-        const auto *amount = member(donation, "amount", wire::JsonKind::number);
-        if (!amount || !positive_number(amount->token))
-            return gap(journal, Gap::invalid_amount);
-        const auto currency = text(donation, "currency");
-        if (!wire::currency_code(currency))
-            return gap(journal, Gap::invalid_currency);
-
-        core::ReceiptIdentity identity{{"streamelements", std::string{route.canonical_room}},
-                                       "streamelements.tip",
-                                       std::string{id}};
-        core::ReceiptLinkReference payment{std::string{transaction_namespace},
-                                           std::string{transaction_id}};
-        try {
-            (void)core::parse_decimal(amount->token);
-        } catch (const std::length_error &) {
-            return owner.retain_overflow({std::string{route.installation},
-                                          std::string{route.stream}, arrival, std::move(identity),
-                                          std::move(payment), std::string{amount->token},
-                                          std::string{currency}});
-        }
-
-        const auto created = source_timestamp(text(data, "createdAt"));
-        const auto user = object(donation, "user");
-        const auto evidence = text(data, "status") == "success" ? core::PaymentEvidence::confirmed
-                                                                : core::PaymentEvidence::unknown;
-        core::ReceiptFacts facts{
-            "streamelements.tip.completed",
-            1,
-            created,
-            std::nullopt,
-            optional_text(user, "username"),
-            core::ReceiptMoney{std::string{amount->token}, std::string{currency}},
-            std::move(payment),
-            std::nullopt};
-        return owner.submit({std::string{route.installation},
-                             std::string{route.stream},
-                             {std::move(identity), std::move(facts), arrival},
-                             evidence,
-                             policy,
-                             moderation(text(data, "approved")),
-                             created ? SourceTimeQuality::reliable : SourceTimeQuality::absent,
-                             optional_text(data, "provider"),
-                             optional_text(root, "id")});
+        root = wire::ReplyJson{frame}.read_members();
     } catch (const exchange_rate_api::FailureKind &) {
-        // An unclassified envelope never supplies a trusted observation.
-        return Status::ignored;
+        return gap(journal, Gap::unclassifiable_text);
     }
+    const auto topic = text(root, "topic");
+    const auto type = text(root, "type");
+    const bool control = topic.empty() &&
+        (type == "welcome" || type == "response" || type == "reconnect");
+    if (control || (!topic.empty() && topic != tips_topic))
+        return Status::ignored;
+    if (type != "message" || topic != tips_topic)
+        return gap(journal, Gap::unclassifiable_text);
+
+    wire::JsonFields data;
+    wire::JsonFields donation;
+    wire::JsonFields user;
+    try {
+        data = object(root, "data");
+        donation = object(data, "donation");
+        user = object(donation, "user");
+    } catch (const exchange_rate_api::FailureKind &) {
+        return gap(journal, Gap::unclassifiable_text);
+    }
+
+    if (text(root, "room") != route.canonical_room ||
+        text(data, "channel") != route.canonical_room)
+        return Status::source_binding_failure;
+
+    const auto id = text(data, "_id");
+    if (id.empty())
+        return gap(journal, Gap::missing_tip_identity);
+    const auto transaction_id = text(data, "transactionId");
+    if (transaction_id.empty())
+        return gap(journal, Gap::missing_transaction);
+    const auto *amount = member(donation, "amount", wire::JsonKind::number);
+    if (!amount || !positive_number(amount->token))
+        return gap(journal, Gap::invalid_amount);
+    const auto currency = text(donation, "currency");
+    if (!wire::currency_code(currency))
+        return gap(journal, Gap::invalid_currency);
+
+    core::ReceiptIdentity identity{{"streamelements", std::string{route.canonical_room}},
+                                   "streamelements.tip",
+                                   std::string{id}};
+    core::ReceiptLinkReference payment{std::string{transaction_namespace},
+                                       std::string{transaction_id}};
+    try {
+        (void)core::parse_decimal(amount->token);
+    } catch (const std::length_error &) {
+        return owner.retain_overflow({std::string{route.installation},
+                                      std::string{route.stream}, arrival, std::move(identity),
+                                      std::move(payment), std::string{amount->token},
+                                      std::string{currency}});
+    }
+
+    const auto created = source_timestamp(text(data, "createdAt"));
+    const auto evidence = text(data, "status") == "success" ? core::PaymentEvidence::confirmed
+                                                            : core::PaymentEvidence::unknown;
+    core::ReceiptFacts facts{
+        "streamelements.tip.completed",
+        1,
+        created,
+        std::nullopt,
+        optional_text(user, "username"),
+        core::ReceiptMoney{std::string{amount->token}, std::string{currency}},
+        std::move(payment),
+        std::nullopt};
+    return owner.submit({std::string{route.installation},
+                         std::string{route.stream},
+                         {std::move(identity), std::move(facts), arrival},
+                         evidence,
+                         policy,
+                         moderation(text(data, "approved")),
+                         created ? SourceTimeQuality::reliable : SourceTimeQuality::absent,
+                         optional_text(data, "provider"),
+                         optional_text(root, "id")});
+
 }
 
 TransportResult advance(TransportState &state, TransportInput input, CoverageJournal &journal) {

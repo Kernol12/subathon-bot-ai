@@ -27,7 +27,8 @@ enum class Gap {
     invalid_amount,
     invalid_currency,
     retired_delivery,
-    reconnect_interruption
+    reconnect_interruption,
+    unclassifiable_text
 };
 
 struct AcknowledgedRoute {
@@ -143,6 +144,9 @@ struct TransportResult {
 };
 
 // Advance an already classified transport event. Credentials and reconnect
-// tokens remain with the transport owner.
+// tokens remain with the transport owner. Retryable and failed subscriptions
+// require the caller to establish a new connection generation. Only pre-ack
+// connection outcomes are delivered as draining or connection_rate_limit.
+// If this seam classifies a retired delivery, do not pass it on to ingest.
 TransportResult advance(TransportState &state, TransportInput input, CoverageJournal &journal);
 } // namespace subathon::server::streamelements_astro
