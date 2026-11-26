@@ -22,8 +22,10 @@ coordinator works under [AGENTS.md](../AGENTS.md) and
 
 ## Loop
 
-Run whenever the coordinator ends a turn or asks a question, and once an hour
-otherwise.
+Run whenever the coordinator ends a turn or asks a question, and every 30 minutes
+otherwise. The owner shortened this from once an hour on 26 November 2026;
+[ADR-0014](decisions/0014-plain-test-runs-and-leaner-tasks.md) point 2 gives the
+reason.
 
 1. Read the coordinator's new messages.
 2. Find every question in dialogs and numbered messages.
