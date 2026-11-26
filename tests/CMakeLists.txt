@@ -313,7 +313,7 @@ if(SUBATHON_BUILD_SCHEDULED_PAUSE_TESTS)
         subathon_scheduled_pause GTest::gtest_main)
     subathon_target_options(server_scheduled_pause_terminal_point_acceptance)
 
-    # The sealed translation unit contains staged cases for the F3 follow-up.
+    # Keep the terminal-point regression separate from the six F3 cases.
     subathon_discover_gtests(server_scheduled_pause_terminal_point_acceptance
         TEST_FILTER "ScheduledPauseForecastF3.FirstTerminalPointKeepsCauseOnLastQuery"
         LABELS "scheduled-pause;acceptance;server" TIMEOUT 30)
@@ -325,6 +325,25 @@ if(SUBATHON_BUILD_SCHEDULED_PAUSE_TESTS)
     subathon_target_options(server_schedule_command_acceptance)
     subathon_discover_gtests(server_schedule_command_acceptance
         LABELS "schedule-command;acceptance;server" TIMEOUT 30)
+
+    if(SUBATHON_BUILD_SCHEDULE_846_F3)
+        add_executable(server_scheduled_pause_f3_acceptance
+            acceptance/scheduled_pause_forecast_f3_813_1_tests.cpp)
+        target_link_libraries(server_scheduled_pause_f3_acceptance PRIVATE
+            subathon_scheduled_pause GTest::gtest_main)
+        subathon_target_options(server_scheduled_pause_f3_acceptance)
+        set(f3_selectors
+            ScheduledPauseForecastF3.CapCertificateRequiresWorkForJoinedValidation
+            ScheduledPauseForecastF3.FailedForecastDispatchUsesTheLastExpansionQuery
+            ScheduledPauseForecastF3.ResultBudgetEqualityAndOneByteOverKeepWholeUtcGroups
+            ScheduledPauseForecastF3.ForecastInputReplyEqualityAndOneByteOver
+            ScheduledPauseForecastF3.LegacyTypedErrorSurvivesAtExactRequestBudget
+            ScheduledPauseForecastF3.NativeRequestDispatchesAtExactInputBudget
+        )
+        list(JOIN f3_selectors ":" f3_filter)
+        subathon_discover_gtests(server_scheduled_pause_f3_acceptance
+            TEST_FILTER "${f3_filter}" LABELS "schedule-f3;acceptance;server" TIMEOUT 30)
+    endif()
 
     if(SUBATHON_BUILD_SCHEDULE_003_STAGE1)
         add_executable(server_scheduled_pause_forecast_acceptance
