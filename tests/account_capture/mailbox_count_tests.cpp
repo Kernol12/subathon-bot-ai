@@ -45,7 +45,8 @@ bool is(const bh::Result<bh::Post> &result, bh::Post expected) {
     return std::holds_alternative<bh::Post>(result) && std::get<bh::Post>(result) == expected;
 }
 
-// Desired-only, then desired plus ready, on one peer: one pending peer.
+// Desired, then desired plus ready, on one peer: one pending peer. IO0 may consume the
+// desired admission before the ready post, so only the peak witnesses that state.
 TEST(AccountCaptureMailbox, DesiredThenReadyOnOnePeerCountsOne) {
     Live f(false);
     f.connect();
@@ -54,6 +55,32 @@ TEST(AccountCaptureMailbox, DesiredThenReadyOnOnePeerCountsOne) {
     const auto ready = ready_snapshot(f);
     EXPECT_EQ(ready.current.pending_wakes, 1U);
     EXPECT_EQ(ready.peak.pending_wakes, 1U);
+    const auto end = drained(f);
+    EXPECT_EQ(end.current.pending_wakes, 0U);
+    EXPECT_EQ(end.peak.pending_wakes, 1U);
+}
+
+// A posts owner_ready to itself while its own intent is executing ("a post during
+// ready can leave one additional pending notification"): still one pending peer, and
+// the follow-on ready sees the same single peer.
+TEST(AccountCaptureMailbox, PostDuringOwnReadyCountsOnePeer) {
+    Live f(false);
+    connect_both(f);
+    std::optional<bh::Result<bh::Post>> again;
+    std::optional<bh::Observation> follow_on;
+    f.r.during_ready = [&](Rig &r, Context &c) {
+        again = r.foundation->post(*c.wake, bh::Intent::owner_ready);
+    };
+    const auto turns = f.r.turns.load();
+    f.post(bh::Intent::owner_ready);
+    f.r.wait([&] { return f.r.turns.load() >= turns + 2; });
+    ASSERT_TRUE(again && is(*again, bh::Post::queued));
+    {
+        std::lock_guard lock(f.r.mutex);
+        follow_on = f.r.observation;
+    }
+    EXPECT_EQ(follow_on->current.pending_wakes, 1U);
+    EXPECT_EQ(follow_on->peak.pending_wakes, 1U);
     const auto end = drained(f);
     EXPECT_EQ(end.current.pending_wakes, 0U);
     EXPECT_EQ(end.peak.pending_wakes, 1U);
@@ -96,6 +123,35 @@ TEST(AccountCaptureMailbox, CloseReplacingDesiredCountsOnceAndRemovalClears) {
     const auto after = ready_snapshot(f);
     EXPECT_EQ(after.current.pending_wakes, 1U);
     EXPECT_EQ(after.peak.pending_wakes, 2U);
+    const auto end = drained(f);
+    EXPECT_EQ(end.current.pending_wakes, 0U);
+    EXPECT_EQ(end.peak.pending_wakes, 2U);
+}
+
+// A Wake retained past its peer's removal: post refuses as revoked and records nothing,
+// so the counts stay at A alone and the peak is kept. The handle is dropped before drain.
+TEST(AccountCaptureMailbox, RetainedWakeAfterRemovalIsRevokedAndUncounted) {
+    Live f(false);
+    connect_both(f);
+    std::optional<bh::Wake> retained;
+    std::optional<bh::Result<bh::Post>> close;
+    f.r.during_ready = [&](Rig &r, Context &) {
+        retained.emplace(std::move(*r.contexts[1].wake));
+        r.contexts[1].wake.reset();
+        close = r.foundation->post(*retained, bh::Intent::close);
+    };
+    const auto ready = ready_snapshot(f);
+    ASSERT_TRUE(close && is(*close, bh::Post::queued));
+    EXPECT_EQ(ready.current.pending_wakes, 2U);
+    EXPECT_EQ(ready.peak.pending_wakes, 2U);
+    f.r.wait([&] { return f.r.removed.load() == 1; });
+    const auto refused = f.r.foundation->post(*retained, bh::Intent::owner_ready);
+    EXPECT_TRUE(std::holds_alternative<bh::Error>(refused) &&
+                std::get<bh::Error>(refused) == bh::Error::revoked);
+    const auto after = ready_snapshot(f);
+    EXPECT_EQ(after.current.pending_wakes, 1U);
+    EXPECT_EQ(after.peak.pending_wakes, 2U);
+    retained.reset();
     const auto end = drained(f);
     EXPECT_EQ(end.current.pending_wakes, 0U);
     EXPECT_EQ(end.peak.pending_wakes, 2U);
