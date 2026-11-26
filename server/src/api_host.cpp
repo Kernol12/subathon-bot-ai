@@ -18,6 +18,7 @@
 #include <subathon/server/sqlite_reference_authority.hpp>
 #include <subathon/server/testing/api_host_observers.hpp>
 #include <thread>
+#include <utility>
 
 namespace subathon::server::api_host {
 namespace {
@@ -216,16 +217,33 @@ struct Engine : std::enable_shared_from_this<Engine> {
         failed = true;
         report_fatal(*fact);
     }
-    void wake() {
-        if (!wake_pending.exchange(true)) {
-            QMetaObject::invokeMethod(
-                &context,
-                [this] {
-                    wake_pending.store(false);
-                    turn();
-                },
-                Qt::QueuedConnection);
+    // Test-only seams (testing::HostAccess); production never sets them.
+    std::atomic<unsigned> post_faults{0};
+    std::atomic<bool> post_fault_raises{false};
+    std::function<void()> before_writer_open; // owner, one-shot
+    bool registration_refused = false;        // owner
+    unsigned timer_registrations = 0;         // owner
+    // The queued owner-turn post. An injected fault refuses or throws instead.
+    bool post_turn() {
+        auto faults = post_faults.load();
+        while (faults && !post_faults.compare_exchange_weak(faults, faults - 1)) {
         }
+        if (faults) {
+            if (post_fault_raises.load())
+                throw testing::InjectedPostFault{};
+            return false;
+        }
+        return QMetaObject::invokeMethod(
+            &context,
+            [this] {
+                wake_pending.store(false);
+                turn();
+            },
+            Qt::QueuedConnection);
+    }
+    void wake() {
+        if (!wake_pending.exchange(true))
+            (void)post_turn();
     }
     void request_stop() noexcept {
         stop_requested.store(true, std::memory_order_release);
@@ -756,8 +774,12 @@ struct OwnerTimer final : QObject {
     QBasicTimer timer;
     explicit OwnerTimer(Engine &e) : engine(e) {}
     bool arm() {
-        if (!timer.isActive() && QAbstractEventDispatcher::instance())
+        if (!timer.isActive() && !engine.registration_refused &&
+            QAbstractEventDispatcher::instance()) {
             timer.start(std::chrono::milliseconds(10), this);
+            if (timer.isActive())
+                ++engine.timer_registrations;
+        }
         return timer.isActive();
     }
     void timerEvent(QTimerEvent *event) override {
@@ -878,6 +900,8 @@ Result<StartAccepted> Host::start(StartupObserver observer) {
             composition->configure(e.elapsed, l);
             composition->bind_fatal(e.fatal_relay());
         }
+        if (auto hook = std::exchange(e.before_writer_open, {}))
+            hook();
         if (e.stopping()) {
             e.wake();
             return StartAccepted{};
@@ -1297,6 +1321,38 @@ testing::HostAccess::inject_next_control_ack_loss(Host &h,
                *e.writer, f) == StorageError::none
                ? Result<Connected>{Connected{}}
                : Result<Connected>{Failure::invalid_completion};
+}
+void testing::HostAccess::inject_post_faults(Host &h, PostFault fault, unsigned count) noexcept {
+    auto &e = *h.impl_->engine;
+    e.post_fault_raises.store(fault == PostFault::raise);
+    e.post_faults.store(count);
+}
+unsigned testing::HostAccess::pending_post_faults(const Host &h) noexcept {
+    return h.impl_->engine->post_faults.load();
+}
+Result<Connected> testing::HostAccess::refuse_timer_registration(Host &h) {
+    auto &e = *h.impl_->engine;
+    if (e.owner != std::this_thread::get_id())
+        return Failure::wrong_thread;
+    if (e.started)
+        return Failure::already_started;
+    h.impl_->timer.timer.stop();
+    e.registration_refused = true;
+    return Connected{};
+}
+Result<Connected> testing::HostAccess::before_writer_open(Host &h, std::function<void()> hook) {
+    auto &e = *h.impl_->engine;
+    if (e.owner != std::this_thread::get_id())
+        return Failure::wrong_thread;
+    if (e.started)
+        return Failure::already_started;
+    if (e.before_writer_open || !hook)
+        return Failure::invalid_completion;
+    e.before_writer_open = std::move(hook);
+    return Connected{};
+}
+testing::OwnerTimerObservation testing::HostAccess::owner_timer(const Host &h) {
+    return {h.impl_->timer.timer.isActive(), h.impl_->engine->timer_registrations};
 }
 void testing::HostAccess::publish_fatal(Host &h, bh::FatalElapsed fact) noexcept {
     const auto relay = h.impl_->engine->fatal_relay();

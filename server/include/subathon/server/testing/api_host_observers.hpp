@@ -81,6 +81,16 @@ struct Hooks {
     std::shared_ptr<const native_ws::ElapsedSource> elapsed;
     std::function<void(const Event &)> observe;
 };
+// API-023 Stage 3 test seams. An injected fault replaces Engine::wake's queued
+// owner-turn post: refuse returns false, raise throws InjectedPostFault.
+enum class PostFault { refuse, raise };
+struct InjectedPostFault final : std::exception {
+    const char *what() const noexcept override { return "API-023 injected owner-turn post fault"; }
+};
+struct OwnerTimerObservation {
+    bool active = false;
+    unsigned registrations = 0;
+};
 struct ElapsedIdentity {
     const native_ws::ElapsedSource *host = nullptr, *profile = nullptr;
 };
@@ -97,5 +107,16 @@ class HostAccess final {
     // Calls the Host's private fatal relay binding, the one TransportComposition
     // receives, as an already-published Foundation fact. Any thread, store only.
     static void publish_fatal(Host &, bounded_http::FatalElapsed) noexcept;
+    // Any thread: the next `count` owner-turn posts fail as given.
+    static void inject_post_faults(Host &, PostFault, unsigned count) noexcept;
+    // Any thread: injected faults not yet met by a post.
+    static unsigned pending_post_faults(const Host &) noexcept;
+    // Owner, before start: stop the cold owner timer; later registrations fail.
+    static Result<Connected> refuse_timer_registration(Host &);
+    // Owner, before start, once: runs after startup preparation, before the
+    // early-stop check and writer open.
+    static Result<Connected> before_writer_open(Host &, std::function<void()>);
+    // Owner: whether the owner timer is registered and how often it was.
+    static OwnerTimerObservation owner_timer(const Host &);
 };
 } // namespace subathon::server::api_host::testing
