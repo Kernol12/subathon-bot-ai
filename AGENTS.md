@@ -46,9 +46,8 @@ stop/resume directive and temporary assignments belong in
 `progress/coordinator-checkpoint.md`; the latest owner instruction takes precedence.
 Use the [project board](https://github.com/users/Kernol12/projects/1) for task
 selection. Take Ready tasks without `owner-hold`, `end-phase` or
-`security-blocked`, and prefer work that unblocks other tasks. Start contract
-stages during the day where possible; at night, prefer tasks whose contract is
-settled. Decide routine run mechanics yourself; send other questions to the advisor under
+`security-blocked`, and prefer work that unblocks other tasks. Selection and
+limits are the same by day and at night. Decide routine run mechanics yourself; send other questions to the advisor under
 [docs/ADVISOR.md](docs/ADVISOR.md), which decides them or escalates them to the owner.
 Keep permanent rules here, task status and prerequisites on GitHub and review
 receipts in the PR.
@@ -58,16 +57,26 @@ only Ready tasks labelled `mvp`. The MVP is the server on Linux, the Twitch API 
 chat and StreamElements integrations, the browser overlay for OBS, the desktop
 management application on Linux, English, and Frankfurter as the rate provider. The
 release scope is unchanged: everything else in the specification follows after the
-MVP and is not dropped. The rule applies by day and at night to picking Ready work.
+MVP and is not dropped. The rule applies to every pick of Ready work.
 Tasks that were already In progress or Parked on that day may be finished.
 
-Keep at most two In progress in different modules, including work waiting for CI
-or merge, and at most one migration at a time. During the day, In progress plus
-Parked may total at most five. Park a task when it waits on an escalated owner
-answer, and start another only within both limits. Wait for the owner if all five
-are stuck. Blocked tasks name the prerequisite issue and use neither limit. At night
-the combined limit is lifted. Update the board at every start, park, block and
-merge. Process or tooling work needs an owner decision per task.
+Keep at most three In progress in different modules, including work waiting for CI
+or merge, and at most one migration at a time. Keep at most eight Parked, counted
+separately from In progress. Park a task when it waits on an escalated owner
+answer, and start another only within both limits. When the Parked limit is
+reached, a task that would park for any reason stays In progress instead, with the
+reason recorded on its issue, and keeps its slot. Wait for the owner only when no
+In progress task can continue and no eligible Ready task can start. Blocked tasks name the
+prerequisite issue and use neither limit. Update the board at every start, park,
+block and merge. Process or tooling work needs an owner decision per task.
+
+Until the evening of 30 November 2026 the owner allows five In progress and fifteen
+Parked in place of three and eight
+([ADR-0014](docs/decisions/0014-plain-test-runs-and-leaner-tasks.md) point 2). Every
+other rule in the paragraph above applies unchanged. When the limits drop, nothing
+is interrupted and no task is moved back: tasks above a limit finish, wait or stay
+Parked as they are, and no task starts, resumes or parks into a count that is at or
+above its limit.
 
 After parking a task, start the next eligible Ready task in the same turn when
 the active limits allow it. A Parked task without an open question resumes when

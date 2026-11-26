@@ -1,0 +1,54 @@
+{
+  "task": "RENDER-001",
+  "base": "1597aaf4dcc3513c78fcf0ae6d4c3fb8289b6b0c",
+  "purpose": "Logical fixture draft for independent native and browser consumers",
+  "progress": [
+    {
+      "case": "empty",
+      "input": {"score": "23", "targets": []},
+      "expect": {"position": "empty", "layout": "empty", "deficit": "0", "remaining": null, "fraction": null}
+    },
+    {
+      "case": "before-first",
+      "input": {"score": "45", "next": "90"},
+      "expect": {"position": "before_first", "layout": "no-origin", "deficit": "0", "remaining": "45", "fraction": null}
+    },
+    {
+      "case": "normal-interval",
+      "input": {"score": "130", "previous": "90", "next": "210", "capturedTarget": "90", "capturedScore": "103"},
+      "expect": {"position": "between_targets", "layout": "interval", "deficit": "0", "remaining": "80", "fraction": {"numerator": "1", "denominator": "3"}, "percentEn2": "33.33%"}
+    },
+    {
+      "case": "deficit-after-reversal",
+      "input": {"score": "72", "previous": "90", "next": "210", "capturedTarget": "90", "capturedScore": "103"},
+      "expect": {"position": "between_targets", "layout": "interval", "deficit": "18", "remaining": "138", "fraction": {"numerator": "0", "denominator": "1"}, "percentEn2": "0.00%", "capturedTarget": "90", "capturedScore": "103"}
+    },
+    {
+      "case": "final-with-deficit",
+      "input": {"score": "200", "previous": "210", "capturedTarget": "210", "capturedScore": "221"},
+      "expect": {"position": "all_completed", "layout": "final", "deficit": "10", "remaining": null, "fraction": null, "capturedTarget": "210", "capturedScore": "221"}
+    }
+  ],
+  "phaseAndModifiers": [
+    {
+      "case": "main-progress",
+      "input": {"lifecycle": "Active", "phase": "Main", "paused": false, "initialModifierMs": "900", "qualifiedCountdownProgressMs": "250", "qualifiedRealElapsedMs": "250"},
+      "expect": {"visiblePhase": "Main", "activeSubathon": {"remainingMs": "650", "active": true}, "realElapsed": {"remainingMs": "650", "active": true}}
+    },
+    {
+      "case": "paused-grace",
+      "input": {"lifecycle": "Active", "phase": "Grace", "pauseReasons": ["Manual"], "graceMs": "2300", "initialModifierMs": "900", "qualifiedCountdownProgressMs": "0", "qualifiedRealElapsedMs": "900"},
+      "expect": {"visiblePhase": "Grace", "paused": true, "graceEnFractional": "0:00:02.300", "activeSubathon": {"remainingMs": "900", "active": true}, "realElapsed": {"remainingMs": "0", "active": false}}
+    },
+    {
+      "case": "unqualified-modifier-clock",
+      "input": {"lifecycle": "Active", "phase": "Grace", "savedModifierRemainingMs": "600", "qualifiedRealElapsedMs": null},
+      "expect": {"visiblePhase": "Grace", "realElapsed": {"remainingMs": null, "active": null}}
+    },
+    {
+      "case": "finished-keeps-no-active-phase",
+      "input": {"lifecycle": "Finished"},
+      "expect": {"visiblePhase": null}
+    }
+  ]
+}

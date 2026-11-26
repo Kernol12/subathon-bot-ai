@@ -1,0 +1,21 @@
+{
+  "sourceCases": "tests/schema_validation/fixtures/scene/v1/cases.json",
+  "scenes": {
+    "binding": {"sceneCase": "sd15-all-families", "bindingsCase": "bt07-authored-bindings"},
+    "geometry": {"sceneCase": "sd01-shape"},
+    "unsupported": {"sceneCase": "sd18-unknown-feature"}
+  },
+  "cases": [
+    {"id":"normal-fill","scene":"binding","observation":"normal-interval","assertions":[{"nodeId":"50","visible":true,"fill":{"state":"available","originX":"12","length":"76/3"}},{"nodeId":"47","baseOpacity":"1/3"},{"nodeId":"41","baseOpacity":"1/3"}]},
+    {"id":"deficit-fill","scene":"binding","observation":"deficit-after-reversal","assertions":[{"nodeId":"50","visible":true,"fill":{"state":"available","originX":"12","length":"0"}},{"nodeId":"47","baseOpacity":"0"}]},
+    {"id":"unknown-fill","scene":"binding","observation":{"position":"between_targets","track.progress":null,"progressAvailability":"unknown"},"assertions":[{"nodeId":"50","visible":true,"fill":{"state":"unavailable","swatch":[142,144,160,255]}},{"nodeId":"47","baseOpacity":"1"}]},
+    {"id":"paused-grace-condition","scene":"binding","observation":"paused-grace","condition":{"nodeId":"54","phase":"Grace","pauseActive":true},"assertions":[{"nodeId":"54","conditionResult":true,"visible":true}]},
+    {"id":"main-condition-control","scene":"binding","observation":"main-progress","condition":{"nodeId":"54","phase":"Grace","pauseActive":true},"assertions":[{"nodeId":"54","conditionResult":false,"visible":false}]},
+    {"id":"resize-fit","scene":"geometry","nodeId":"41","canvas":{"size":["200","100"],"align":["1/4","3/4"],"mode":"aspect-fit","clip":true},"nodeFrame":["-20","10","60","20"],"designPoint":["40","20"],"observations":[{"viewport":["150","150"],"expectPoint":["30","285/4"],"expectBounds":[["0","30"],["255/4","315/4"]]},{"viewport":["300","100"],"expectPoint":["65","20"]}]},
+    {"id":"resize-crop","scene":"geometry","nodeId":"41","canvas":{"size":["200","100"],"align":["1/4","3/4"],"mode":"crop","clip":true},"nodeFrame":["-20","10","60","20"],"designPoint":["40","20"],"observations":[{"viewport":["150","150"],"expectPoint":["45/2","30"],"expectBounds":[["0","45/2"],["15","45"]]}]},
+    {"id":"resize-stretch","scene":"geometry","nodeId":"41","canvas":{"size":["200","100"],"align":["1/4","3/4"],"mode":"stretch","clip":true},"nodeFrame":["-20","10","60","20"],"designPoint":["40","20"],"observations":[{"viewport":["150","150"],"expectPoint":["30","30"],"expectBounds":[["0","30"],["15","45"]]}]},
+    {"id":"skipped-frame","scene":"geometry","nodeId":"41","baseMove":["2","4"],"tracks":[{"startMs":"200","durationMs":"800","ease":"linear","from":["16","8"],"to":["80","40"]},{"startMs":"1000","durationMs":"400","ease":"ease-out","from":["10","20"],"to":["26","52"]}],"observations":[{"elapsedMs":"199","expectMove":["2","4"]},{"elapsedMs":"200","expectMove":["16","8"]},{"elapsedMs":"750","expectMove":["60","30"]},{"elapsedMs":"1000","expectMove":["10","20"]},{"elapsedMs":"1300","expectMove":["25","50"]},{"elapsedMs":"1400","expectMove":["26","52"]}],"histories":[["0","750","1300","1400"],["0","199","200","750","1000","1300","1400"]]},
+    {"id":"nested-clockwise","scene":"binding","nested":{"parent":"47","child":"41","parentFrame":{"x":"100","y":"50","scaleX":"2","scaleY":"1"},"childFrame":{"x":"10","y":"20","pivotX":"2","pivotY":"1","scaleX":"2","scaleY":"1","rotation":"90"},"point":["3","1"],"expectPoint":["124","73"]}},
+    {"id":"unsupported-browser","scene":"unsupported","syntheticCapability":{"example.spark.v1":{"native":true,"browser":false}},"expect":{"structural":"valid","publication":"reject"}}
+  ]
+}
