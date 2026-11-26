@@ -1327,6 +1327,9 @@ void testing::HostAccess::inject_post_faults(Host &h, PostFault fault, unsigned 
     e.post_fault_raises.store(fault == PostFault::raise);
     e.post_faults.store(count);
 }
+unsigned testing::HostAccess::pending_post_faults(const Host &h) noexcept {
+    return h.impl_->engine->post_faults.load();
+}
 Result<Connected> testing::HostAccess::refuse_timer_registration(Host &h) {
     auto &e = *h.impl_->engine;
     if (e.owner != std::this_thread::get_id())

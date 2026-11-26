@@ -146,7 +146,7 @@ void complete_network(Rig &rig, host::State terminal) {
 // inject the post fault or timer refusal; production never sets them.
 using hooks::PostFault;
 enum Site { stop_site, disconnect_site, lease_site };
-enum Bootstrap { stop_latched, arms_once, start_before_bootstrap };
+enum Bootstrap { stop_latched, stop_latched_raise, arms_once, start_before_bootstrap };
 constexpr std::string_view scan_line =
     "api_host.foundation_elapsed_fatal/sample_unavailable/scan\n";
 
@@ -212,8 +212,10 @@ void bootstrap_owner(Bootstrap mode, const std::string &path) {
         {std::make_shared<Elapsed>(), [log](const auto &e) { log->add(e); }});
     require(!hooks::HostAccess::owner_timer(*instance).active,
             "No registration without dispatcher");
-    if (mode == stop_latched) {
-        hooks::HostAccess::inject_post_faults(*instance, PostFault::refuse, 1);
+    const bool latched = mode == stop_latched || mode == stop_latched_raise;
+    if (latched) {
+        hooks::HostAccess::inject_post_faults(
+            *instance, mode == stop_latched_raise ? PostFault::raise : PostFault::refuse, 1);
         foreign_stop(*instance);
     }
     QEventLoop loop; // installs this thread's dispatcher; nothing is pumped yet
@@ -231,7 +233,7 @@ void bootstrap_owner(Bootstrap mode, const std::string &path) {
         const auto s = instance->inspect();
         return s.owner_cleanup && s.state == host::State::stopped;
     };
-    if (mode == stop_latched) {
+    if (latched) {
         require(pump(cleaned), "Deferred bootstrap consumes the latched stop");
         require(instance->inspect().stop_fences == 1 && log->count(K::stop_consumed) == 1 &&
                     !transport->startup && log->count(K::inspection_enqueued) == 0 &&
@@ -245,8 +247,6 @@ void bootstrap_owner(Bootstrap mode, const std::string &path) {
                 "Deferred bootstrap arms the owner timer");
         instance->request_stop();
         require(pump(cleaned), "Ordinary stop after bootstrap");
-        require(pump([&] { return !hooks::HostAccess::owner_timer(*instance).active; }),
-                "Owner disarms the timer after cleanup");
     } else {
         success(instance->start([](auto) {}), "Live start reaches prelaunch first");
         require(hooks::HostAccess::owner_timer(*instance).active, "Prelaunch completes setup");
@@ -255,8 +255,7 @@ void bootstrap_owner(Bootstrap mode, const std::string &path) {
         require(pump([&] { return cleaned() && instance->inspect().network_barrier; }),
                 "Real barriers and cleanup");
     }
-    require(hooks::HostAccess::owner_timer(*instance).registrations ==
-                (mode == stop_latched ? 0U : 1U),
+    require(hooks::HostAccess::owner_timer(*instance).registrations == (latched ? 0U : 1U),
             "A late bootstrap never registers twice");
     dispatch->failures.check();
     log->failures.check();
@@ -537,6 +536,9 @@ class HostFatalConsumerTests : public QObject {
         QTest::newRow("disconnect_refuse_ordinary") << int(disconnect_site) << false << false;
         QTest::newRow("lease_raise_fatal") << int(lease_site) << true << true;
         QTest::newRow("lease_refuse_ordinary") << int(lease_site) << false << false;
+        QTest::newRow("stop_raise_ordinary") << int(stop_site) << false << true;
+        QTest::newRow("disconnect_raise_ordinary") << int(disconnect_site) << false << true;
+        QTest::newRow("lease_raise_ordinary") << int(lease_site) << false << true;
     }
     void post_failure_is_contained() {
         QFETCH(int, site);
@@ -561,14 +563,23 @@ class HostFatalConsumerTests : public QObject {
                     else
                         rig.transport->replies[0].reset();
                 });
+                require(hooks::HostAccess::pending_post_faults(*rig.instance) == 0,
+                        "The injected fault met this site's own owner-turn post");
                 const auto after = rig.instance->inspect();
                 require(site != disconnect_site || after.control_charge + 1024 == control,
                         "Disconnect retires its peer charge before returning");
                 require(site != lease_site ||
                             (after.associations == 0 && after.response.copies == 0),
                         "The last lease release retires the association once");
-                if (site != stop_site)
-                    rig.instance->request_stop();
+                if (site != stop_site) {
+                    // The follow-up stop's post is refused too: only the owner
+                    // timer and the first failure's obligation can drive a turn.
+                    hooks::HostAccess::inject_post_faults(*rig.instance, PostFault::refuse, 1);
+                    foreign_stop(*rig.instance);
+                }
+                require(
+                    QTest::qWaitFor([&] { return rig.log->count(K::stop_consumed) == 1; }, wait_ms),
+                    "Owner timer consumes the stop without a delivered post");
                 if (site != lease_site)
                     rig.transport->on_io([&] { rig.transport->replies[0].reset(); });
                 await_writer_only(rig);
@@ -635,6 +646,8 @@ class HostFatalConsumerTests : public QObject {
                         "Hook after startup preparation");
                 success(rig.instance->start([&](auto) { ++startup_calls; }),
                         "Early-stop branch keeps StartAccepted");
+                require(hooks::HostAccess::pending_post_faults(*rig.instance) == 0,
+                        "The initial post and the early-branch re-wake each met a fault");
                 expect_cold_stopped(rig, sink);
                 require(startup_calls == 0, "No startup report");
             });
@@ -675,6 +688,7 @@ class HostFatalConsumerTests : public QObject {
     void deferred_bootstrap_data() {
         QTest::addColumn<int>("mode");
         QTest::newRow("stop_latched") << int(stop_latched);
+        QTest::newRow("stop_latched_raise") << int(stop_latched_raise);
         QTest::newRow("arms_once") << int(arms_once);
         QTest::newRow("start_before_bootstrap") << int(start_before_bootstrap);
     }

@@ -109,6 +109,8 @@ class HostAccess final {
     static void publish_fatal(Host &, bounded_http::FatalElapsed) noexcept;
     // Any thread: the next `count` owner-turn posts fail as given.
     static void inject_post_faults(Host &, PostFault, unsigned count) noexcept;
+    // Any thread: injected faults not yet met by a post.
+    static unsigned pending_post_faults(const Host &) noexcept;
     // Owner, before start: stop the cold owner timer; later registrations fail.
     static Result<Connected> refuse_timer_registration(Host &);
     // Owner, before start, once: runs after startup preparation, before the
