@@ -16,6 +16,12 @@ struct AdmittedHistoryRequest {
     QByteArray registry_revision;
 };
 
+struct HistoryPageCandidate {
+    Page page;
+    HistoryPurpose purpose;
+    std::optional<QByteArray> gap;
+};
+
 enum class Membership { member, outside, unknown };
 enum class Overlap { unresolved, canonical_identity, verified_activity, disjoint };
 struct SlotEvidence {
@@ -148,7 +154,8 @@ commit_history_handoff(SqliteWriter &, const OwnerInputs &, const QList<const Hi
                                                const CutWitness &);
 [[nodiscard]] PageQualification qualify_history_page(SqliteWriter &, const OwnerInputs &,
                                                      const HistoryProfile &,
-                                                     const AdmittedHistoryRequest &, const Page &);
+                                                     const AdmittedHistoryRequest &,
+                                                     const HistoryPageCandidate &);
 [[nodiscard]] PageQualification reconstruct_history_page(SqliteWriter &, const OwnerInputs &,
                                                          const HistoryProfile &,
                                                          const RetainedPageRequest &);

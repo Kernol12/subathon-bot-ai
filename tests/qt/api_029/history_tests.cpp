@@ -228,8 +228,11 @@ struct Attempt {
             return RetainedHistoryPage{transcript, retained_evidence};
         };
     }
-    PageQualification qualify(const Page &candidate) {
+    PageQualification qualify(const HistoryPageCandidate &candidate) {
         return qualify_history_page(db.writer(), owner, registered, binding, candidate);
+    }
+    PageQualification qualify(const Page &candidate) {
+        return qualify(HistoryPageCandidate{candidate, binding.purpose, binding.gap});
     }
     PageQualification qualify() { return qualify(transcript); }
     std::shared_ptr<const QualifiedPage> qualified() {
@@ -433,6 +436,7 @@ const PageEcho page_echoes[]{
     {"source-time",
      [](Page &page) { page.items.front().source_time = SourceTimeQuality::unreliable; }},
     {"evidence", [](Page &page) { page.items.front().evidence = core::PaymentEvidence::unknown; }},
+    {"kind", [](Page &page) { page.items.front().kind = ContributionObservationKind::confirmation; }},
     {"award-class", [](Page &page) { page.items.front().award_class = "other"; }},
     {"aggregate", [](Page &page) { page.items.front().aggregate_metric = "other"; }},
     {"order", [](Page &page) { page.items.swapItemsAt(0, 1); }},
@@ -512,10 +516,6 @@ class HistoryTests : public QObject {
         QCOMPARE(premature.status, IntakeStatus::unproved);
         QCOMPARE(premature.storage_status, std::optional{HistoryStatus::incomplete_prefix});
         QVERIFY(db.image() == bound);
-        QVERIFY(std::ranges::all_of(attempt.slots_evidence, [](const auto &slot) {
-            return slot.overlap == Overlap::unresolved && !slot.activity &&
-                   !slot.canonical_identity;
-        }));
         const auto first = admit_audit(db, audit_input(attempt.transcript.items[0], 1));
         page_row(db, 1, audit_page, "T", 2, 1, 0);
         auto second_input = audit_input(attempt.transcript.items[1], 2);
@@ -552,6 +552,7 @@ class HistoryTests : public QObject {
             const auto reopened = reconstruct();
             QCOMPARE(reopened.status, IntakeStatus::committed);
             QVERIFY(reopened.qualified);
+            QVERIFY(reopened.slot_evidence == attempt.slots_evidence);
             QCOMPARE(attempt.bind(*reopened.qualified).prefix, std::optional<qint64>{1});
             QCOMPARE(attempt.adapter.calls, quint64{1});
             QVERIFY(db.image() == prefix);
@@ -577,6 +578,7 @@ class HistoryTests : public QObject {
             const auto current = reconstruct();
             QCOMPARE(current.status, IntakeStatus::committed);
             QVERIFY(current.qualified);
+            QVERIFY(current.slot_evidence == attempt.slots_evidence);
             resumed = current.qualified;
             retained_request = retained;
         }
@@ -1181,6 +1183,8 @@ class HistoryTests : public QObject {
         QTest::addColumn<int>("field");
         for (int field = 0; field < int(std::size(page_echoes)); ++field)
             QTest::newRow(page_echoes[field].label) << field;
+        QTest::newRow("purpose") << -1;
+        QTest::newRow("gap") << -2;
     }
 
     void contradictoryEchoes() {
@@ -1190,8 +1194,14 @@ class HistoryTests : public QObject {
         auto &db = fixture.startup.store;
         const auto before = db.image();
         Attempt attempt(db, audit_page_echo());
-        auto candidate = attempt.transcript;
-        page_echoes[field].mutate(candidate);
+        auto candidate = HistoryPageCandidate{attempt.transcript, attempt.binding.purpose,
+                                              attempt.binding.gap};
+        if (field == -1)
+            candidate.purpose = HistoryPurpose::import;
+        else if (field == -2)
+            candidate.gap = QByteArray("different-gap");
+        else
+            page_echoes[field].mutate(candidate.page);
         const auto result = attempt.qualify(candidate);
         QCOMPARE(result.status, IntakeStatus::invalid_input);
         QVERIFY(!result.qualified);

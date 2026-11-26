@@ -27,7 +27,7 @@ IntakeStatus open_history_import(SqliteWriter &, const OwnerInputs &, const Hist
 }
 
 PageQualification qualify_history_page(SqliteWriter &, const OwnerInputs &, const HistoryProfile &,
-                                       const AdmittedHistoryRequest &, const Page &) {
+                                       const AdmittedHistoryRequest &, const HistoryPageCandidate &) {
     return {};
 }
 
