@@ -4,6 +4,7 @@
 #include "sqlite_connector_intake_private.hpp"
 #include "sqlite_receipt_read.hpp"
 
+#include <algorithm>
 #include <array>
 #include <span>
 
@@ -50,15 +51,8 @@ void authorize(const SqliteWorkSession &session, StartupAuthority &authority,
     const auto before = Access::remaining(session);
     if (!fits(before, {}, call, 1))
         throw Refusal{Status::unavailable};
-    const auto decision = [&] {
-        try {
-            return authority.resolve(session, {StartupAction::inspect, binding, scope, fresh});
-        } catch (const SqliteWorkFailure &failure) {
-            if (failure.error() == WorkError::uncertain_outcome)
-                throw;
-            throw Refusal{Status::unavailable};
-        }
-    }();
+    const auto decision =
+        authority.resolve(session, {StartupAction::inspect, binding, scope, fresh});
     const auto initial = charges(before);
     const auto current = charges(Access::remaining(session));
     const auto allowance = charges(call);
@@ -89,13 +83,20 @@ struct Projection {
             inconsistent();
         return rows.isEmpty() ? SqlRow{} : rows.front();
     }
-    SqlRow metadata(const SqliteWorkSession &session, const QString &route = {}) const {
+    QStringList metadata_fields(const QString &route = {}) const {
         QStringList expressions;
         for (const auto &field : fields)
             expressions.append({"typeof(" + field + ")", "length(" + field + ")"});
         if (!route.isEmpty())
             expressions.append(route);
-        return read(session, expressions);
+        return expressions;
+    }
+    SqlRow metadata(const SqliteWorkSession &session, const QString &route = {}) const {
+        return read(session, metadata_fields(route));
+    }
+    qsizetype metadata_width() const {
+        // The generated clauses are ASCII and the metadata SELECT also bounds payload width.
+        return 7 + metadata_fields().join(',').size() + from.size();
     }
     void validate_sizes(const SqlRow &row, std::span<const qsizetype> caps) const {
         for (qsizetype i = 0; i < fields.size(); ++i) {
@@ -137,16 +138,20 @@ AttemptLocator locator(const QVariant &id, const QVariant &ordinal) {
     return {{value}, ordinal.toLongLong()};
 }
 
+Projection retained_document_query(bool config, const QByteArray &reference) {
+    return {config ? QStringList{"reference", "document"}
+                   : QStringList{"reference", "document", "configuration_ref"},
+            config ? " FROM main.subathon_retained_configurations WHERE reference=?"
+                   : " FROM main.subathon_retained_contexts WHERE reference=?",
+            {reference}};
+}
+
 RetainedDocument document(const SqliteWorkSession &session, RetainedKind kind,
                           const QByteArray &reference, qsizetype limit) {
     if (!bounded_ref(reference))
         inconsistent();
     const bool config = kind == RetainedKind::configuration;
-    const Projection projection{
-        {"reference", "document", config ? "NULL" : "configuration_ref"},
-        config ? " FROM main.subathon_retained_configurations WHERE reference=?"
-               : " FROM main.subathon_retained_contexts WHERE reference=?",
-        {reference}};
+    const auto projection = retained_document_query(config, reference);
     const std::array<qsizetype, 3> caps{4096, limit, 4096};
     const auto metadata = projection.metadata(session);
     if (metadata.isEmpty() || metadata[0].toString() != "blob" ||
@@ -169,22 +174,37 @@ constexpr std::array<qsizetype, 20> receipt_caps{8,    4096,  4096,  4096,  4096
 constexpr std::array<qsizetype, 18> attempt_caps{
     8, 0, value, 0, 0, value, value, value, value, 4096, 4096, 4096, 4096, 0, 4096, 4096, 4096, 0};
 
+Projection original_receipt_query(const QByteArray &id) {
+    return {receipt_observation_columns(false),
+            " FROM main.subathon_receipts r WHERE receipt_id=? "
+            "AND EXISTS (SELECT 1 FROM main.subathon_retained_configurations c "
+            "WHERE c.reference=r.configuration_ref) "
+            "AND EXISTS (SELECT 1 FROM main.subathon_retained_contexts m "
+            "WHERE m.reference=r.modifier_context_ref)",
+            {id}};
+}
+
+Projection receipt_attempt_query(const QByteArray &id, qint64 ordinal) {
+    return {receipt_observation_columns(true),
+            " FROM main.subathon_receipt_attempts WHERE receipt_id=? AND ordinal=?",
+            {id, ordinal}};
+}
+
 ReceiptObservation receipt(const SqliteWorkSession &session, AttemptLocator key) {
     const auto id = encode_receipt_uint64(key.receipt.value);
-    const Projection original{receipt_observation_columns(false),
-                              " FROM main.subathon_receipts r WHERE receipt_id=? "
-                              "AND EXISTS (SELECT 1 FROM main.subathon_retained_configurations c "
-                              "WHERE c.reference=r.configuration_ref) "
-                              "AND EXISTS (SELECT 1 FROM main.subathon_retained_contexts m "
-                              "WHERE m.reference=r.modifier_context_ref)",
-                              {id}};
-    const Projection attempt{
-        receipt_observation_columns(true),
-        " FROM main.subathon_receipt_attempts WHERE receipt_id=? AND ordinal=?",
-        {id, key.ordinal}};
+    const auto original = original_receipt_query(id);
+    const auto attempt = receipt_attempt_query(id, key.ordinal);
     const auto original_row = original.receipt_payload(session, receipt_caps);
     const auto attempt_row = attempt.receipt_payload(session, attempt_caps);
-    return decode_receipt_observation(key.receipt, key.ordinal, original_row, attempt_row);
+    try {
+        return decode_receipt_observation(key.receipt, key.ordinal, original_row, attempt_row);
+    } catch (const SqliteReceiptStorageFailure &failure) {
+        if (failure.reason() == SqliteReceiptStorageReason::invalid_stored_data)
+            inconsistent();
+        if (failure.reason() == SqliteReceiptStorageReason::result_limit)
+            throw Refusal{Status::resource_limit};
+        throw;
+    }
 }
 
 IntakeAdmission lane(qint64 phase, qint64 disposition, bool contribution) {
@@ -199,24 +219,27 @@ IntakeAdmission lane(qint64 phase, qint64 disposition, bool contribution) {
     inconsistent();
 }
 
-Closure read_closure(const SqliteWorkSession &session, const Scope &scope, const QByteArray &key,
-                     std::optional<AttemptLocator> expected, bool first_basis) {
+Projection admitted_entry_query(const Scope &scope, const QByteArray &key) {
     auto bindings = connector_intake::detail::scope_bindings(scope);
     bindings.append(key);
     // The operation join gives the admitted route from the same entry read.
-    const Projection entry{{"o.purpose", "e.generation", "e.policy_revision", "e.receipt_id",
-                            "e.attempt_ordinal", "e.configuration_ref", "e.modifier_context_ref",
-                            "e.input", "e.provenance", "e.activity_namespace", "e.activity_id",
-                            "e.verification_ref", "e.arrival_ms", "e.operation_ref",
-                            "e.page_ordinal", "e.item_ordinal", "e.contribution_id", "e.phase",
-                            "e.disposition"},
-                           " FROM main.subathon_intake_entries e "
-                           "LEFT JOIN main.subathon_intake_operations o "
-                           "ON (o.installation,o.operation_ref,o.provider,o.account,o.stream)="
-                           "(e.installation,e.operation_ref,e.provider,e.account,e.stream) "
-                           "WHERE e.installation=? AND e.provider=? AND e.account=? "
-                           "AND e.stream=? AND e.intake_ref=?",
-                           bindings};
+    return {{"o.purpose", "e.generation", "e.policy_revision", "e.receipt_id", "e.attempt_ordinal",
+             "e.configuration_ref", "e.modifier_context_ref", "e.input", "e.provenance",
+             "e.activity_namespace", "e.activity_id", "e.verification_ref", "e.arrival_ms",
+             "e.operation_ref", "e.page_ordinal", "e.item_ordinal", "e.contribution_id", "e.phase",
+             "e.disposition"},
+            " FROM main.subathon_intake_entries e "
+            "LEFT JOIN main.subathon_intake_operations o "
+            "ON (o.installation,o.operation_ref,o.provider,o.account,o.stream)="
+            "(e.installation,e.operation_ref,e.provider,e.account,e.stream) "
+            "WHERE e.installation=? AND e.provider=? AND e.account=? "
+            "AND e.stream=? AND e.intake_ref=?",
+            bindings};
+}
+
+Closure read_closure(const SqliteWorkSession &session, const Scope &scope, const QByteArray &key,
+                     std::optional<AttemptLocator> expected, bool first_basis) {
+    const auto entry = admitted_entry_query(scope, key);
     const std::array<qsizetype, 19> caps{
         0,    4096, 0,    8, 0, 4096, 4096, 32768, detail::capture_limit, 4096, 4096,
         4096, 0,    4096, 0, 0, 8,    0,    0};
@@ -297,14 +320,20 @@ Closure read_closure(const SqliteWorkSession &session, const Scope &scope, const
 } // namespace
 
 Recovery detail::read_admitted_closure(const SqliteWorkSession &session, const Scope &scope,
-                                       const QByteArray &key, AttemptLocator expected) {
+                                       const QByteArray &key) {
     try {
-        return {Status::recovered, read_closure(session, scope, key, expected, false), {}};
+        return {Status::recovered, read_closure(session, scope, key, {}, false), {}};
     } catch (const Refusal &error) {
         return {error.status, {}, {}};
-    } catch (const SqliteReceiptStorageFailure &) {
-        return {Status::inconsistent, {}, {}};
     }
+}
+
+qsizetype detail::admitted_readback_statement_width() {
+    return std::max({admitted_entry_query({}, {}).metadata_width(),
+                     original_receipt_query({}).metadata_width(),
+                     receipt_attempt_query({}, 0).metadata_width(),
+                     retained_document_query(true, {}).metadata_width(),
+                     retained_document_query(false, {}).metadata_width()});
 }
 
 bool qualified(const SqliteWriter &writer, Reservation call) {
@@ -321,7 +350,7 @@ Recovery recover_intake(const SqliteWorkSession &session, StartupAuthority &auth
             !fits(Access::remaining(session), packet, call, 2))
             return {Status::unavailable, {}, {}};
         if (!bounded_ref(intake_ref) || !connector_intake::detail::valid_scope(scope))
-            return {Status::resource_limit, {}, {}};
+            return {Status::inconsistent, {}, {}};
         authorize(session, authority, binding, fresh, call, scope);
         auto selected = read_closure(session, scope, intake_ref, expected, false);
         if (!selected.activity)
@@ -366,8 +395,12 @@ Recovery recover_intake(const SqliteWorkSession &session, StartupAuthority &auth
                 same_entry ? std::optional<Closure>{} : std::move(original)};
     } catch (const Refusal &error) {
         return {error.status, {}, {}};
-    } catch (const SqliteReceiptStorageFailure &) {
-        return {Status::inconsistent, {}, {}};
+    } catch (const SqliteWorkFailure &failure) {
+        if (failure.error() == WorkError::stale_session ||
+            failure.error() == WorkError::session_closed ||
+            failure.error() == WorkError::writer_unavailable)
+            return {Status::unavailable, {}, {}};
+        throw;
     }
 }
 

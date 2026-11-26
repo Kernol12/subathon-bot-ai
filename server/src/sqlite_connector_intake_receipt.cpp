@@ -187,9 +187,8 @@ bool role_mismatch(const QByteArray &stored, RetainedKind role) {
     if (stored.startsWith("SRX1") || stored.startsWith("SRI1") || stored.startsWith("ARC1") ||
         stored.startsWith("ARD1"))
         return true;
-    return role == RetainedKind::configuration
-               ? stored.startsWith("SRA1") || stored.startsWith("MCA1")
-               : stored.startsWith("SRC1");
+    return role == RetainedKind::configuration ? stored.startsWith("SRA1")
+                                               : stored.startsWith("SRC1");
 }
 
 std::optional<Status> context_failure(const SqliteWorkSession &session,
@@ -336,31 +335,112 @@ void stage_entry(const SqliteWorkSession &session, const ManagedInput &input, co
     detail::require_changed_one(session);
 }
 
-bool preflight_intake_admission(const SqliteWorkSession &session, const ManagedInput &input,
-                                const Fence &fence, const RetainedDocument &intake_detail,
-                                bool creates_receipt, bool creates_basis) {
-    const SqliteRetainedContextStore store(session);
-    // Only reserve document INSERTs that this unit still needs. Existing
-    // immutable objects may be shared, and retaining them spends read budget.
-    QList<QVariant> documents;
-    for (const auto *doc : {&*input.configuration, &*input.context, &intake_detail}) {
-        if (store.find(doc->key))
-            continue;
-        documents.append({blob(doc->key.reference), doc->document});
-        if (doc->key.kind == RetainedKind::arrival_context)
-            documents.append(blob(doc->configuration->reference));
+bool spend_bindings(qsizetype &remaining, const SqlRow &values) {
+    return std::all_of(values.begin(), values.end(), [&](const QVariant &value) {
+        return subathon::server::detail::consume_value(remaining, value);
+    });
+}
+
+// Each row is read once for typeof/length metadata and once for its exact
+// values. The metadata cells each have an 8-byte writer charge, plus the
+// ASCII type label. Integer fields are the only fields with a 7-byte label.
+bool spend_readback_row(qsizetype &remaining, const SqlRow &values) {
+    for (const auto &value : values) {
+        const bool integer = !value.isNull() && value.metaType().id() != QMetaType::QByteArray;
+        const qsizetype metadata = 16 + (integer ? 7 : 4);
+        if (remaining < metadata)
+            return false;
+        remaining -= metadata;
+        if (!subathon::server::detail::consume_value(remaining, value))
+            return false;
     }
-    auto remaining =
-        subathon::server::detail::IntakeRecoveryWriterAccess::remaining(session).bound_bytes;
-    const auto fits = [&](const QList<QVariant> &values) {
-        return std::all_of(values.begin(), values.end(), [&](const QVariant &value) {
-            return subathon::server::detail::consume_value(remaining, value);
-        });
-    };
-    const auto id = encode_receipt_uint64(1);
-    return fits(documents) && fits(entry_values(input, fence, id, 1)) &&
-           (!creates_basis || fits(basis_values(input, id, 1))) &&
-           preflight_managed_receipt_binds(input.receipt, creates_receipt, remaining);
+    return true;
+}
+
+std::optional<Status> preflight_intake_admission(const SqliteWorkSession &session,
+                                                 const ManagedInput &input, const Fence &fence,
+                                                 const RetainedDocument &intake_detail,
+                                                 std::optional<HistoryPurpose> purpose,
+                                                 const core::ReceiptRecord *prior,
+                                                 bool creates_basis) {
+    using Access = subathon::server::detail::IntakeRecoveryWriterAccess;
+    const SqliteRetainedContextStore store(session);
+    const std::array<const RetainedDocument *, 3> requested{&*input.configuration, &*input.context,
+                                                            &intake_detail};
+    std::array<SqlRow, 3> documents;
+    SqlRow inserts;
+    for (size_t i = 0; i < requested.size(); ++i) {
+        const auto &proposed = *requested[i];
+        const auto stored = store.find(proposed.key);
+        if (stored && *stored != proposed)
+            return Status::conflict;
+        const auto &exact = stored ? *stored : proposed;
+        auto &row = documents[i];
+        row.append({blob(exact.key.reference), exact.document});
+        if (exact.configuration)
+            row.append(blob(exact.configuration->reference));
+        if (!stored)
+            inserts.append(row);
+    }
+
+    const auto id = encode_receipt_uint64(prior ? prior->id.value : 1);
+    auto bind_bytes = Access::remaining(session).bound_bytes;
+    if (!spend_bindings(bind_bytes, inserts) ||
+        !spend_bindings(bind_bytes, entry_values(input, fence, id, 1)) ||
+        (creates_basis && !spend_bindings(bind_bytes, basis_values(input, id, 1))) ||
+        !preflight_managed_receipt_binds(input.receipt, !prior, bind_bytes))
+        return Status::intake_limit;
+
+    // The exact retry starts a fresh unit. Qualify its six paired reads at
+    // their actual size. A shared document still consumes readback budget.
+    const auto profile = Access::limits(session);
+    constexpr qsizetype reads = 13; // Installation ownership, then six paired projections.
+    if (profile.statements_per_batch < reads || profile.result_rows < reads ||
+        profile.statement_utf8_bytes < recovery::detail::admitted_readback_statement_width())
+        return Status::intake_limit;
+
+    SqlRow entry_key = scope_bindings(input.scope);
+    entry_key.append(input.intake_ref);
+    SqlRow readback_keys = entry_key;
+    readback_keys.append({id, id, 1, documents[0][0], documents[1][0], documents[2][0]});
+    auto readback_binds = profile.bound_value_bytes;
+    if (!spend_bindings(readback_binds, readback_keys) ||
+        !spend_bindings(readback_binds, readback_keys))
+        return Status::intake_limit;
+
+    const auto &arrival = input.receipt.arrival;
+    const SqlRow entry_projection{
+        purpose ? QVariant{static_cast<int>(*purpose)} : QVariant{},
+        fence.generation,
+        fence.policy_revision,
+        id,
+        1,
+        blob(arrival.configuration_ref),
+        blob(arrival.modifier_context_ref),
+        input.normalized,
+        input.capture,
+        input.activity ? QVariant{blob(input.activity->identity.identifier_namespace)} : QVariant{},
+        input.activity ? QVariant{blob(input.activity->identity.opaque_id)} : QVariant{},
+        input.activity ? QVariant{blob(input.activity->verification_ref)} : QVariant{},
+        qint64(arrival.server_timestamp_utc_ms),
+        input.history ? QVariant{input.history->operation} : QVariant{},
+        input.history ? QVariant{input.history->page} : QVariant{},
+        input.history ? QVariant{input.history->item} : QVariant{},
+        QVariant{},
+        1,
+        admission_code(input.admission)};
+    auto result_bytes = profile.result_value_bytes;
+    if (!subathon::server::detail::consume_value(result_bytes, input.scope.installation))
+        return Status::intake_limit;
+    const auto receipts = managed_receipt_projection(input.receipt, prior);
+    if (!spend_readback_row(result_bytes, entry_projection) ||
+        !spend_readback_row(result_bytes, receipts[0]) ||
+        !spend_readback_row(result_bytes, receipts[1]))
+        return Status::intake_limit;
+    for (const auto &document : documents)
+        if (!spend_readback_row(result_bytes, document))
+            return Status::intake_limit;
+    return {};
 }
 
 } // namespace
@@ -421,7 +501,8 @@ ManagedResult read_attempt(const SqliteWorkSession &session, const ManagedInput 
 
 static ManagedResult admit_managed_impl(const SqliteWorkSession &session, const ManagedInput &input,
                                         const RetainedDocument *intake_detail,
-                                        const std::function<bool()> &before_commit) {
+                                        const std::function<bool()> &before_commit,
+                                        bool *fresh = nullptr) {
     const auto refuse = [&](ManagedStatus status) {
         session.rollback();
         return ManagedResult{status};
@@ -432,6 +513,7 @@ static ManagedResult admit_managed_impl(const SqliteWorkSession &session, const 
         !bounded(input.capture, document_limit) ||
         !valid_activity(input.receipt.identity.origin, input.activity))
         return refuse(Status::intake_limit);
+    std::optional<HistoryPurpose> purpose;
     if (intake_detail) {
         using namespace recovery::detail;
         const auto oversize_document = [](const std::optional<RetainedDocument> &document) {
@@ -443,10 +525,34 @@ static ManagedResult admit_managed_impl(const SqliteWorkSession &session, const 
         if (!input.configuration || !input.context || input.configuration->document.isNull() ||
             input.configuration->configuration || !detail_reference(input.capture))
             return refuse(Status::conflict);
-        std::optional<HistoryPurpose> purpose;
+        if (input.history && !bounded(input.history->operation, reference_limit))
+            return refuse(Status::intake_limit);
+        const auto replay = read_admitted_closure(session, input.scope, input.intake_ref);
+        switch (replay.status) {
+        case recovery::Status::recovered: {
+            const auto &selected = *replay.selected;
+            if (selected.identity != input.receipt.identity ||
+                selected.attempt.observed_facts != input.receipt.facts ||
+                selected.attempt.arrival != input.receipt.arrival ||
+                selected.activity != input.activity || selected.history != input.history ||
+                selected.admission != input.admission || selected.normalized != input.normalized ||
+                selected.capture != input.capture ||
+                selected.configuration != input.configuration ||
+                selected.modifier_arrival != input.context || selected.detail != *intake_detail)
+                return refuse(Status::conflict);
+            session.rollback();
+            return {Status::exact_replay, selected.locator, selected.attempt};
+        }
+        case recovery::Status::resource_limit:
+            session.rollback();
+            throw SqliteWorkFailure(WorkError::result_limit);
+        case recovery::Status::missing:
+            *fresh = true;
+            break;
+        default:
+            return refuse(Status::conflict);
+        }
         if (input.history) {
-            if (!bounded(input.history->operation, reference_limit))
-                return refuse(Status::intake_limit);
             const auto rows =
                 session.execute({"SELECT purpose FROM main.subathon_intake_operations "
                                  "WHERE installation=? AND operation_ref=? AND provider=? AND "
@@ -480,31 +586,14 @@ static ManagedResult admit_managed_impl(const SqliteWorkSession &session, const 
     const auto current = source(session, input.scope);
     if (!current)
         return refuse(Status::wrong_scope);
-    if (const auto retained = entry(session, input.scope, input.intake_ref)) {
-        if (!retained->attempt || retained->input != input.normalized)
-            return refuse(Status::conflict);
-        if (intake_detail) {
-            const auto replay = recovery::detail::read_admitted_closure(
-                session, input.scope, input.intake_ref, *retained->attempt);
-            if (replay.status == recovery::Status::resource_limit)
-                return refuse(Status::intake_limit);
-            if (replay.status != recovery::Status::recovered)
+    if (!intake_detail) {
+        if (const auto retained = entry(session, input.scope, input.intake_ref)) {
+            if (!retained->attempt || retained->input != input.normalized)
                 return refuse(Status::conflict);
-            const auto &selected = *replay.selected;
-            if (selected.identity != input.receipt.identity ||
-                selected.attempt.observed_facts != input.receipt.facts ||
-                selected.attempt.arrival != input.receipt.arrival ||
-                selected.activity != input.activity || selected.history != input.history ||
-                selected.admission != input.admission || selected.capture != input.capture ||
-                selected.configuration != input.configuration ||
-                selected.modifier_arrival != input.context || selected.detail != *intake_detail)
-                return refuse(Status::conflict);
+            const auto selected = read_attempt(session, input, *retained->attempt);
             session.rollback();
-            return {Status::exact_replay, *retained->attempt, selected.attempt};
+            return selected;
         }
-        const auto selected = read_attempt(session, input, *retained->attempt);
-        session.rollback();
-        return selected;
     }
     if (!same_fence(*current, input.expected_source) ||
         !detail::qualified_page_slot(session, input, *current))
@@ -512,16 +601,16 @@ static ManagedResult admit_managed_impl(const SqliteWorkSession &session, const 
 
     auto stopped = Status::known_rollback;
     std::optional<bool> prepared_basis;
-    const auto prepare = [&](const SqliteWorkSession &owner, bool creates_receipt) {
+    const auto prepare = [&](const SqliteWorkSession &owner, const core::ReceiptRecord *prior) {
         if (intake_detail) {
             prepared_basis =
-                creates_receipt && input.activity &&
+                !prior && input.activity &&
                 input.admission == IntakeAdmission::creation_eligible_verified_support &&
                 !original(owner, input.scope, *input.activity) &&
                 !basis(owner, input.scope, *input.activity);
-            if (!preflight_intake_admission(owner, input, *current, *intake_detail, creates_receipt,
-                                            *prepared_basis)) {
-                stopped = Status::intake_limit;
+            if (const auto refusal = preflight_intake_admission(
+                    owner, input, *current, *intake_detail, purpose, prior, *prepared_basis)) {
+                stopped = *refusal;
                 return false;
             }
         }
@@ -576,18 +665,19 @@ ManagedResult admit_managed(const SqliteWorkSession &session, const ManagedInput
 ManagedResult recovery::admit(const SqliteWorkSession &session, const ManagedInput &input,
                               const RetainedDocument &intake_detail,
                               const std::function<bool()> &before_commit) {
+    bool fresh = false;
     try {
-        return admit_managed_impl(session, input, &intake_detail, before_commit);
+        return admit_managed_impl(session, input, &intake_detail, before_commit, &fresh);
     } catch (const SqliteReceiptStorageFailure &failure) {
-        if (failure.reason() != SqliteReceiptStorageReason::resource_limit &&
-            failure.reason() != SqliteReceiptStorageReason::result_limit)
+        if (!fresh || (failure.reason() != SqliteReceiptStorageReason::resource_limit &&
+                       failure.reason() != SqliteReceiptStorageReason::result_limit))
             throw;
     } catch (const SqliteWorkFailure &failure) {
         if (failure.error() != WorkError::resource_limit &&
             failure.error() != WorkError::result_limit)
             throw;
     } catch (const RetentionFailure &failure) {
-        if (failure.error() != RetentionError::result_limit)
+        if (!fresh || failure.error() != RetentionError::result_limit)
             throw;
     }
     return {ManagedStatus::intake_limit};

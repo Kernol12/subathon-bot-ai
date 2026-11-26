@@ -260,9 +260,10 @@ class SqliteReceiptTransaction final : public ReceiptTransaction {
         }
         return rows.size() + 1;
     }
-    bool prepare_extension(const ReceiptPreparation &preparation, bool creates_receipt) {
+    bool prepare_extension(const ReceiptPreparation &preparation,
+                           const core::ReceiptRecord *prior) {
         bool accepted = false;
-        mutate([&] { accepted = preparation(session_, creates_receipt); });
+        mutate([&] { accepted = preparation(session_, prior); });
         return accepted;
     }
     bool stage_extension(const ReceiptExtension &extension, core::ReceiptId receipt, qint64 ordinal,
@@ -773,6 +774,21 @@ ReceiptObservation decode_receipt_observation(core::ReceiptId receipt, qint64 or
     return decoder.decode_observation(receipt, ordinal, original, attempt);
 }
 
+std::array<SqlRow, 2> managed_receipt_projection(const core::ReceiptInput &input,
+                                                 const core::ReceiptRecord *prior) {
+    const auto id = encode_receipt_uint64(prior ? prior->id.value : 1);
+    SqlRow original{id};
+    original.append(identity_values(prior ? prior->identity : input.identity));
+    original.append(facts_values(prior ? prior->original_facts : input.facts));
+    original.append(arrival_values(prior ? prior->original_arrival : input.arrival));
+
+    SqlRow attempt{id, 1}; // The ordinal's integer value has no bearing on its charge.
+    attempt.append(facts_values(input.facts));
+    attempt.append(arrival_values(input.arrival));
+    attempt.append(0); // The disposition is likewise a fixed-width integer cell.
+    return {std::move(original), std::move(attempt)};
+}
+
 bool preflight_managed_receipt_binds(const core::ReceiptInput &input, bool creates_receipt,
                                      qsizetype &remaining) {
     try {
@@ -805,7 +821,7 @@ ManagedReceiptWrite write_managed_receipt(const SqliteWorkSession &session,
     const auto ordinal = prior ? owner.managed_ordinal(prior->id) : std::optional<qint64>{1};
     if (!ordinal)
         return {ManagedReceiptStatus::ordinal_limit};
-    if (!owner.prepare_extension(preparation, !prior))
+    if (!owner.prepare_extension(preparation, prior ? &*prior : nullptr))
         return {ManagedReceiptStatus::rolled_back};
     const auto receipt =
         prior ? prior->id : owner.create(input.identity, input.facts, input.arrival);

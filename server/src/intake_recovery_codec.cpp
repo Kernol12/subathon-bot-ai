@@ -87,6 +87,7 @@ bool matches_detail(const Closure &closure, std::optional<HistoryPurpose> purpos
             RetainedKey{RetainedKind::arrival_context, arrival.modifier_context_ref} ||
         closure.modifier_arrival.configuration !=
             ConfigurationReference{arrival.configuration_ref} ||
+        closure.configuration.document.startsWith("MCA1") ||
         !closure.modifier_arrival.document.startsWith("MCA1") ||
         !detail.document.startsWith(QByteArrayView("ARD1\1", 5)) ||
         detail.document.size() > detail_limit)
