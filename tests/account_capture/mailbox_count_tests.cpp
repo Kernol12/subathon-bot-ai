@@ -27,18 +27,35 @@ bh::Observation ready_snapshot(Live &f) {
     return f.r.observation;
 }
 
-// The observation drained_cb took at the actual drain.
+bh::U64 observed(bh::Result<bh::U64> value) {
+    if (!std::holds_alternative<bh::U64>(value))
+        throw std::runtime_error("FIXTURE: test observation");
+    return std::get<bh::U64>(value);
+}
+bh::U64 visits(Live &f) { return observed(bh::testing::Access::post_peer_visits(*f.r.foundation)); }
+
+// The observation drained_cb took at the actual drain. Before cleanup releases the
+// Foundation, the Foundation's own pending count must equal that scan (advisor 814.4).
 bh::Observation drained(Live &f) {
+    (void)f.r.foundation->stop({f.r.clock->ns.load() + 5000000000ULL});
+    f.r.wait([&] { return f.r.drained.load(); });
+    const auto count = observed(bh::testing::Access::pending_peers(*f.r.foundation));
     f.cleanup();
     std::lock_guard lock(f.r.mutex);
+    EXPECT_EQ(count, f.r.observation.current.pending_wakes) << "Count differs from the scan";
     return f.r.observation;
 }
 
-bh::U64 visits(Live &f) {
-    const auto value = bh::testing::Access::post_peer_visits(*f.r.foundation);
-    if (!std::holds_alternative<bh::U64>(value))
-        throw std::runtime_error("FIXTURE: post visit observation");
-    return std::get<bh::U64>(value);
+// A ready snapshot after a removal, with the Foundation's own count read in the same
+// IO0 callback just before inspect's scan; the two must agree (advisor 814.4).
+bh::Observation counted_ready_snapshot(Live &f) {
+    std::optional<bh::U64> count;
+    f.r.during_ready = [&](Rig &r, Context &) {
+        count = observed(bh::testing::Access::pending_peers(*r.foundation));
+    };
+    const auto ready = ready_snapshot(f);
+    EXPECT_TRUE(count && *count == ready.current.pending_wakes) << "Count differs from the scan";
+    return ready;
 }
 
 bool is(const bh::Result<bh::Post> &result, bh::Post expected) {
@@ -120,7 +137,7 @@ TEST(AccountCaptureMailbox, CloseReplacingDesiredCountsOnceAndRemovalClears) {
     EXPECT_EQ(ready.current.pending_wakes, 2U);
     EXPECT_EQ(ready.peak.pending_wakes, 2U);
     f.r.wait([&] { return f.r.removed.load() == 1; });
-    const auto after = ready_snapshot(f);
+    const auto after = counted_ready_snapshot(f);
     EXPECT_EQ(after.current.pending_wakes, 1U);
     EXPECT_EQ(after.peak.pending_wakes, 2U);
     const auto end = drained(f);
@@ -148,7 +165,7 @@ TEST(AccountCaptureMailbox, RetainedWakeAfterRemovalIsRevokedAndUncounted) {
     const auto refused = f.r.foundation->post(*retained, bh::Intent::owner_ready);
     EXPECT_TRUE(std::holds_alternative<bh::Error>(refused) &&
                 std::get<bh::Error>(refused) == bh::Error::revoked);
-    const auto after = ready_snapshot(f);
+    const auto after = counted_ready_snapshot(f);
     EXPECT_EQ(after.current.pending_wakes, 1U);
     EXPECT_EQ(after.peak.pending_wakes, 2U);
     retained.reset();

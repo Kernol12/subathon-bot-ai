@@ -17,5 +17,8 @@ struct Access {
     // A static work count for API-033, kept apart from latency; it changes no post
     // outcome or ordering and is only read here.
     static Result<U64> post_peer_visits(Foundation &) noexcept;
+    // Any thread: the Foundation's own count of peers with any pending or executing
+    // intent (API-033), for comparison with inspect's independent scan.
+    static Result<U64> pending_peers(Foundation &) noexcept;
 };
 } // namespace subathon::server::bounded_http::testing

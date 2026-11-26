@@ -1642,6 +1642,21 @@ Result<U64> testing::Access::post_peer_visits(Foundation &f) noexcept {
     }
     return c.post_peer_visits;
 }
+Result<U64> testing::Access::pending_peers(Foundation &f) noexcept {
+    auto &c = Factory::core(f);
+    std::unique_lock lock(c.mutex, std::defer_lock);
+    try {
+        lock.lock();
+    } catch (...) {
+        return Error::unavailable;
+    }
+    // No maintained count exists yet; the records are the count.
+    U64 pending = 0;
+    for (U64 i = 0; i < c.limits.peers; ++i)
+        if (c.record(i).mailbox || c.record(i).desired >= 0 || c.record(i).executing)
+            ++pending;
+    return pending;
+}
 Result<Done> testing::Access::release_wire(Foundation &f) noexcept {
     auto &c = Factory::core(f);
     if (!c.is_io())
