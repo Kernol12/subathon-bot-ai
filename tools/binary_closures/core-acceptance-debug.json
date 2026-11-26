@@ -55,6 +55,7 @@
     "build/core-acceptance-debug/tests/server_rates_004_stage1": "cxx-runtime",
     "build/core-acceptance-debug/tests/server_receipt_intake_acceptance": "cxx-runtime",
     "build/core-acceptance-debug/tests/server_rules_005_stage1": "cxx-runtime",
+    "build/core-acceptance-debug/tests/server_schedule_command_acceptance": "cxx-runtime",
     "build/core-acceptance-debug/tests/server_scheduled_pause_acceptance": "cxx-runtime",
     "build/core-acceptance-debug/tests/server_scheduled_pause_terminal_point_acceptance": "cxx-runtime"
   }

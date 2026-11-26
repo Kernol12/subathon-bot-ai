@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "task_id": "SCHEDULE-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 744
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/SCHEDULE-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/744",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/874",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/874#pullrequestreview-6070151340",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/874#pullrequestreview-6069686606",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45770893765/job/139743004318"
+  ],
+  "limitations": [
+    "The 2026-11-26 07:19 CET observation predates tests-stage closure and is historical pre-closure evidence only. Its binary SHA-256 was 96e23c206064791163f632f5864d371a3db5e3759ccc416236fedf0a42453131.",
+    "Under advisor 744.4 the independent Codex verification and fresh Claude tests closing occurred after the initial observation and implementation review. The clean, unfiltered credited red was 2026-11-26T08:37:46+01:00 at ee2b0e9f. All 35 cases failed at the inert seam (exit 1). Its binary SHA-256 5f53663177c526e0577dc01914a199959e8f4a1ac14b5426edc3cef684706aae differs from the original.",
+    "The public header and reviewed assertions are byte-identical between ee2b0e9f and 2afe20f8 (git diff --exit-code on those paths). The implementation reviews stand under 744.4.",
+    "Local CTest at 8e4d9184 passed 234/234. Local and independent CTest at 2afe20f8 passed 35/35 command tests. Hosted core at 2afe20f8 passed 1055/1055 tests including all 35 command cases. No live or platform qualification is claimed."
+  ],
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "revision": "ee2b0e9f0ccffb09948d28f0bd6d36976ce7adbb",
+        "authors": [
+          "codex:SCHEDULE-002-stage1-test-author",
+          "codex:SCHEDULE-002-coordinator"
+        ],
+        "paths": [
+          "docs/tasks/SCHEDULE-002.md",
+          "server/include/subathon/server/schedule_command.hpp",
+          "tests/acceptance/schedule_command_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:SCHEDULE-002-tests-initial",
+            "revision": "87ad12982b623dcce19ee104df6c8c13366e716b",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/874#pullrequestreview-6070151340",
+            "findings": [
+              "B1",
+              "B2"
+            ],
+            "blocking_findings": [
+              "B1",
+              "B2"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:SCHEDULE-002-tests-verification-7444",
+            "revision": "ee2b0e9f0ccffb09948d28f0bd6d36976ce7adbb",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/874#pullrequestreview-6070151340",
+            "findings": [
+              "B1",
+              "B2",
+              "R1",
+              "T03",
+              "T04"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:SCHEDULE-002-tests-closing-7444",
+            "revision": "ee2b0e9f0ccffb09948d28f0bd6d36976ce7adbb",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/874#pullrequestreview-6070151340",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "revision": "2afe20f89b4d7fe09d10037a7399e4e4cf184ab1",
+        "authors": [
+          "codex:SCHEDULE-002-stage2-implementation-author",
+          "codex:SCHEDULE-002-coordinator"
+        ],
+        "paths": [
+          ".github/workflows/ci.yml",
+          "server/CMakeLists.txt",
+          "server/src/schedule_command.cpp",
+          "tests/CMakeLists.txt",
+          "tools/binary_closures/core-acceptance-debug.json"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:SCHEDULE-002-implementation-initial",
+            "revision": "8e4d918408ebd57ad95e605f06eee5af7065e117",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/874#pullrequestreview-6069686606",
+            "findings": [
+              "F1",
+              "F2",
+              "F3"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:SCHEDULE-002-implementation-verification",
+            "revision": "2afe20f89b4d7fe09d10037a7399e4e4cf184ab1",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/874#pullrequestreview-6069686606",
+            "findings": [
+              "F1",
+              "F2",
+              "F3"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:SCHEDULE-002-implementation-closing",
+            "revision": "2afe20f89b4d7fe09d10037a7399e4e4cf184ab1",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/874#pullrequestreview-6069686606",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  }
+}
