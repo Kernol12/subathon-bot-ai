@@ -18,6 +18,7 @@
 #include <subathon/server/sqlite_reference_authority.hpp>
 #include <subathon/server/testing/api_host_observers.hpp>
 #include <thread>
+#include <utility>
 
 namespace subathon::server::api_host {
 namespace {
@@ -109,7 +110,10 @@ struct Engine : std::enable_shared_from_this<Engine> {
     std::shared_ptr<session_clock::detail::BindingState> clock_state;
     bool clock_claimed = false;
     U64 clock_unit = 0;
-    std::atomic<bool> stop_requested{false}, wake_pending{false};
+    std::atomic<bool> stop_requested{false};
+    // Owner-turn wake bookkeeping; see wake() for the claim/obligation scheme.
+    std::atomic<U64> wake_claim{0}, wake_tokens{0};
+    std::atomic<bool> wake_owed{false};
     std::atomic<U64> ordinal{0};
     U64 next_id = 0;
     std::optional<U64> owner_time, io_time;
@@ -216,15 +220,76 @@ struct Engine : std::enable_shared_from_this<Engine> {
         failed = true;
         report_fatal(*fact);
     }
-    void wake() {
-        if (!wake_pending.exchange(true)) {
-            QMetaObject::invokeMethod(
-                &context,
-                [this] {
-                    wake_pending.store(false);
-                    turn();
-                },
-                Qt::QueuedConnection);
+    // Test-only seams (testing::HostAccess); production never sets them.
+    std::atomic<unsigned> post_faults{0};
+    std::atomic<bool> post_fault_raises{false};
+    std::function<void()> before_writer_open; // owner, one-shot
+    bool registration_refused = false;        // owner
+    unsigned timer_registrations = 0;         // owner
+    // The queued owner-turn post for claim `token`. An injected fault refuses or
+    // throws instead; production always takes the real post below.
+    bool post_turn(U64 token) {
+        auto faults = post_faults.load();
+        while (faults && !post_faults.compare_exchange_weak(faults, faults - 1)) {
+        }
+        if (faults) {
+            if (post_fault_raises.load())
+                throw testing::InjectedPostFault{};
+            return false;
+        }
+        return QMetaObject::invokeMethod(
+            &context,
+            [this, token] {
+                release_claim(token);
+                turn();
+            },
+            Qt::QueuedConnection);
+    }
+    // Clears the pending claim only if it is still `token`; a newer claim stays.
+    void release_claim(U64 token) noexcept {
+        wake_claim.compare_exchange_strong(token, 0, std::memory_order_acq_rel,
+                                           std::memory_order_relaxed);
+    }
+    // Any thread. Asks the Qt owner for one turn after the caller's fact; never
+    // throws, never retries (r4 "Delivery and wake").
+    //
+    // Claims (W5): `wake_claim` is 0 when no owner-turn post is pending, else the
+    // unique nonzero token of the one pending post (tokens never repeat). Every
+    // wake() is an acq_rel RMW on it: the claimer swaps 0 for a fresh token and
+    // posts; a coalescing waker rewrites the held token to itself. The RMW that
+    // later clears that token (its delivery or its failure cleanup) therefore
+    // reads from every coalesced waker through the release sequence, so their
+    // facts precede the turn or obligation that follows the clear. Delivery and
+    // failure clear only their own token, so a stale or uncertain delivery can at
+    // most nudge the same idempotent turn and cannot erase a newer claim.
+    //
+    // Obligation: a refused or throwing post releases its own claim first, then
+    // stores `wake_owed` (release). Only owner-side OwnerTimer::drive or a tick consumes it,
+    // by exchange before its turn, so a concurrent new obligation survives. A
+    // failed post changes only this bookkeeping; no fact is rolled back or invented.
+    void wake() noexcept {
+        auto held = wake_claim.load(std::memory_order_acquire);
+        for (;;) {
+            if (held) {
+                if (wake_claim.compare_exchange_weak(held, held, std::memory_order_acq_rel,
+                                                     std::memory_order_acquire))
+                    return; // coalesced into the pending claim
+                continue;
+            }
+            const auto token = wake_tokens.fetch_add(1, std::memory_order_relaxed) + 1;
+            if (wake_claim.compare_exchange_weak(held, token, std::memory_order_acq_rel,
+                                                 std::memory_order_acquire)) {
+                bool posted = false;
+                try {
+                    posted = post_turn(token);
+                } catch (...) {
+                }
+                if (!posted) {
+                    release_claim(token);
+                    wake_owed.store(true, std::memory_order_release);
+                }
+                return;
+            }
         }
     }
     void request_stop() noexcept {
@@ -747,30 +812,70 @@ struct ResponseLease::Impl {
             }
     }
 };
-// Qt owner timer (r4 §2 "Delivery and wake"). The fatal relay never posts, so one
-// repeating 10 ms tick drives the existing owner turn while a published fatal
-// persists; other ticks do no lifecycle work. Host::Impl owns it so it is armed,
+// Qt owner timer (r4 §2 "Delivery and wake"). The fatal relay never posts and a
+// failed wake post leaves only an obligation, so one repeating 10 ms tick drives
+// the existing owner turn for a pending obligation or while a published fatal
+// persists; idle ticks do no lifecycle work. Host::Impl owns it so it is armed,
 // stopped and destroyed on the owner, before the Engine it borrows.
+//
+// Cold setup arms it when the owner's dispatcher exists. Otherwise setup()
+// queues one bootstrap event to this receiver on the owner's posted-event queue
+// (Qt drops it if the receiver dies first). Its delivery consumes a pending stop
+// first, else arms once if still unarmed and not cleaned up. start() arms at
+// prelaunch if it gets there first; arm() never registers twice.
 struct OwnerTimer final : QObject {
     Engine &engine;
     QBasicTimer timer;
+    bool bootstrap_pending = false; // owner
     explicit OwnerTimer(Engine &e) : engine(e) {}
+    static QEvent::Type bootstrap_type() {
+        static const auto type = QEvent::Type(QEvent::registerEventType());
+        return type;
+    }
+    void setup() {
+        if (QAbstractEventDispatcher::instance()) {
+            (void)arm(); // start() refuses if it is still unarmed
+            return;
+        }
+        QCoreApplication::postEvent(this, new QEvent(bootstrap_type()));
+        bootstrap_pending = true;
+    }
     bool arm() {
-        if (!timer.isActive() && QAbstractEventDispatcher::instance())
+        if (!timer.isActive() && !engine.registration_refused &&
+            QAbstractEventDispatcher::instance()) {
             timer.start(std::chrono::milliseconds(10), this);
+            if (timer.isActive())
+                ++engine.timer_registrations;
+        }
         return timer.isActive();
+    }
+    // Whether a failed wake post would still reach an owner turn.
+    bool backs_wake() const { return timer.isActive() || bootstrap_pending; }
+    bool cleaned() const {
+        std::lock_guard lock(engine.mutex);
+        return engine.snapshot.owner_cleanup;
+    }
+    // Consume the obligation before the turn; one set during the turn survives.
+    void drive() {
+        engine.wake_owed.exchange(false, std::memory_order_acq_rel);
+        engine.turn();
+    }
+    void customEvent(QEvent *event) override {
+        if (event->type() != bootstrap_type())
+            return QObject::customEvent(event);
+        bootstrap_pending = false;
+        if (engine.stopping())
+            drive();
+        else if (!cleaned())
+            (void)arm();
     }
     void timerEvent(QTimerEvent *event) override {
         if (event->id() != timer.id())
             return QObject::timerEvent(event);
-        bool cleaned;
-        {
-            std::lock_guard lock(engine.mutex);
-            cleaned = engine.snapshot.owner_cleanup;
-        }
-        if (cleaned)
+        if (cleaned())
             timer.stop();
-        else if (engine.published_fatal())
+        else if (engine.wake_owed.exchange(false, std::memory_order_acq_rel) ||
+                 engine.published_fatal())
             engine.turn();
     }
 };
@@ -781,7 +886,7 @@ struct Host::Impl {
     Impl(Options o, std::unique_ptr<Transport> t, std::unique_ptr<CommandDispatcher> d)
         : engine(std::make_shared<Engine>(std::move(o), std::move(t), std::move(d))),
           ingress(std::make_unique<Ingress::Impl>(Ingress::Impl{engine})) {
-        timer.arm(); // cold setup; start() refuses if it is still unarmed
+        timer.setup(); // cold setup: arm now, or queue the one bootstrap event
         engine->execute = [this](auto r) {
             auto h = std::make_unique<CommandHandle::Impl>();
             h->engine = engine;
@@ -878,8 +983,21 @@ Result<StartAccepted> Host::start(StartupObserver observer) {
             composition->configure(e.elapsed, l);
             composition->bind_fatal(e.fatal_relay());
         }
+        if (auto hook = std::exchange(e.before_writer_open, {}))
+            hook();
+        // Early stop before writer open or transport start: keep StartAccepted.
+        // Re-wake only when the timer or a pending bootstrap backs a failed post;
+        // otherwise this owner consumes the stop itself after releasing the
+        // unstarted profile, without a post. With today's prelaunch refusal on a
+        // failed arm the timer is always active here, so the direct path is
+        // unreachable and untested; keep it if the prelaunch arm ever moves.
         if (e.stopping()) {
-            e.wake();
+            if (impl_->timer.backs_wake())
+                e.wake();
+            else {
+                std::get<std::unique_ptr<native_ws::Profile>>(profile).reset();
+                impl_->timer.drive();
+            }
             return StartAccepted{};
         }
         e.writer = std::make_unique<SqliteWriter>();
@@ -1197,6 +1315,10 @@ Result<CommandView> ResponseLease::take() {
         return Failure::unavailable;
     if (r.consumed)
         return Failure::invalid_completion;
+    // Correction 3: under a published fatal the lease refuses and changes nothing;
+    // its normal owner still releases it. Ordinary stop keeps the output window.
+    if (e->published_fatal())
+        return Failure::stopping;
     if (!r.record->peer->live.load())
         return Failure::disconnected;
     auto now = e->sample(true);
@@ -1210,6 +1332,8 @@ Result<CommandView> ResponseLease::take() {
         std::lock_guard lock(e->mutex);
         if (r.consumed)
             return Failure::invalid_completion;
+        if (e->published_fatal())
+            return Failure::stopping;
         if (!r.record->peer->live.load())
             return Failure::disconnected;
         r.consumed = true;
@@ -1228,6 +1352,8 @@ Result<ResponseLease> ResponseLease::try_copy() const {
         return Failure::wrong_thread;
     if (!e || r.consumed)
         return Failure::invalid_completion;
+    if (e->published_fatal()) // Correction 3, as in take()
+        return Failure::stopping;
     if (!r.record->peer->live.load())
         return Failure::disconnected;
     auto now = e->sample(true);
@@ -1242,6 +1368,8 @@ Result<ResponseLease> ResponseLease::try_copy() const {
     {
         std::lock_guard lock(e->mutex);
         auto &pool = e->snapshot.response;
+        if (e->published_fatal())
+            return Failure::stopping;
         if (!r.record->peer->live.load())
             return Failure::disconnected;
         if (r.consumed)
@@ -1297,6 +1425,38 @@ testing::HostAccess::inject_next_control_ack_loss(Host &h,
                *e.writer, f) == StorageError::none
                ? Result<Connected>{Connected{}}
                : Result<Connected>{Failure::invalid_completion};
+}
+void testing::HostAccess::inject_post_faults(Host &h, PostFault fault, unsigned count) noexcept {
+    auto &e = *h.impl_->engine;
+    e.post_fault_raises.store(fault == PostFault::raise);
+    e.post_faults.store(count);
+}
+unsigned testing::HostAccess::pending_post_faults(const Host &h) noexcept {
+    return h.impl_->engine->post_faults.load();
+}
+Result<Connected> testing::HostAccess::refuse_timer_registration(Host &h) {
+    auto &e = *h.impl_->engine;
+    if (e.owner != std::this_thread::get_id())
+        return Failure::wrong_thread;
+    if (e.started)
+        return Failure::already_started;
+    h.impl_->timer.timer.stop();
+    e.registration_refused = true;
+    return Connected{};
+}
+Result<Connected> testing::HostAccess::before_writer_open(Host &h, std::function<void()> hook) {
+    auto &e = *h.impl_->engine;
+    if (e.owner != std::this_thread::get_id())
+        return Failure::wrong_thread;
+    if (e.started)
+        return Failure::already_started;
+    if (e.before_writer_open || !hook)
+        return Failure::invalid_completion;
+    e.before_writer_open = std::move(hook);
+    return Connected{};
+}
+testing::OwnerTimerObservation testing::HostAccess::owner_timer(const Host &h) {
+    return {h.impl_->timer.timer.isActive(), h.impl_->engine->timer_registrations};
 }
 void testing::HostAccess::publish_fatal(Host &h, bh::FatalElapsed fact) noexcept {
     const auto relay = h.impl_->engine->fatal_relay();
