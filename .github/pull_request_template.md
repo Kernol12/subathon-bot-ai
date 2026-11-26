@@ -9,8 +9,9 @@ Behavior changed and specification or contract sections:
 
 Reviewed test baseline and intended-red evidence (implementation stage, or both stages of a tier B task):
 Commands actually run, environment and results:
-Proof level (authored / observed red / implemented / simulated / live-verified):
-Remaining live, provider or platform gates:
+Proof level (authored / observed red / implemented / implemented, local run only / simulated / live-verified):
+Only for a suite that no hosted runner can run (`docs/AGENT_WORKFLOW.md`): the commit, command and result of its one plain local run on the reviewed head, and why CI cannot run it:
+Remaining gates (live, provider or platform; the missing CI run of a local-run-only suite):
 
 ## Review
 
