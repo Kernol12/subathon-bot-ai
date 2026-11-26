@@ -510,3 +510,7 @@ if(SUBATHON_BUILD_SESSION_INSTALLATION_EPOCH_TESTS)
         LIBRARIES subathon_sqlite_rate_overrides subathon_session_resolution
         LABELS "session-installation-epoch;acceptance;qt;server" TIMEOUT 180)
 endif()
+
+if(SUBATHON_BUILD_STREAMELEMENTS_001_STAGE1)
+    add_subdirectory(streamelements_001)
+endif()
