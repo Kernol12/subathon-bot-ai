@@ -5,10 +5,10 @@ a new coordinator session reads less at its start. The text of each section is
 unchanged. Every record, pin, decision and authorization here keeps its recorded
 meaning, and moving it changed no rule. This file grants no new authorization.
 
-The checkpoint lists the open tasks that still have an entry here. Three general
+The checkpoint lists the open tasks that still have an entry here. Four general
 rules from "Bounded owner authorizations (2026-11-17)" are also kept in the
 checkpoint. Where a section names a procedure that was retired later, such as the
-night order or the test-binary admission, the current rules in
+night order or the local test-binary admission, the current rules in
 [AGENTS.md](../AGENTS.md) and [the workflow](../docs/AGENT_WORKFLOW.md) apply.
 
 ## Historical continuation after ACCT-007 (2026-11-21)

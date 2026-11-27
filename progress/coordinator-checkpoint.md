@@ -82,6 +82,11 @@ there together with the issue:
   [#318 STORAGE-003](https://github.com/Kernol12/subathon-bot-ai/issues/318) and
   [#272 SESSION-007](https://github.com/Kernol12/subathon-bot-ai/issues/272):
   frozen contracts, pins and resume conditions in "Handover (2026-11-21)".
+- [#509 DEPLOYMENT-001](https://github.com/Kernol12/subathon-bot-ai/issues/509): the
+  [deployment gate](https://github.com/Kernol12/subathon-bot-ai/issues/509#issuecomment-7061016580)
+  that the #272 row of "Handover (2026-11-21)" links. Under owner decision 110C the
+  deployment owner supplies the evidence that the server and the rotation console use
+  the same lock and database and exclude concurrent access.
 - [#320 STORAGE-004](https://github.com/Kernol12/subathon-bot-ai/issues/320),
   [#221](https://github.com/Kernol12/subathon-bot-ai/issues/221),
   [#774](https://github.com/Kernol12/subathon-bot-ai/issues/774),
@@ -98,10 +103,10 @@ there together with the issue:
 - [#292 API-008](https://github.com/Kernol12/subathon-bot-ai/issues/292) and #560:
   "API-011 capability map".
 - Kept worktrees, backups and local evidence of 2026-11-21: "Local evidence" in
-  "Handover (2026-11-21)". Read it before removing an old worktree or build folder.
+  "Handover (2026-11-21)".
 
 Where the archive names a procedure that was retired later, such as the night order
-or the test-binary admission, the current rules in [AGENTS.md](../AGENTS.md) and
+or the local test-binary admission, the current rules in [AGENTS.md](../AGENTS.md) and
 [the workflow](../docs/AGENT_WORKFLOW.md) apply.
 
 ## Parallel work and standing CI rerun rule
@@ -226,6 +231,9 @@ task and stay here unchanged:
   authoring. The one exception is adding a suite to its existing CI job with
   its library-list entry, which is routine task work.
 - Batch checkpoint updates into one documentation PR per stage, not per decision.
+- From the first item of that section, which made the coordinator the sole writer of
+  `.github/workflows/ci.yml` for APITEST-017 and APITEST-015: "Other shared-file
+  conflicts still stop for owner."
 
 Coordinator owns any future shared CI/proof/checkpoint integration only within
 new owner authorization. Build/scratch remain on disk under owned ignored task
