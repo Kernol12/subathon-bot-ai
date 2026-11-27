@@ -39,8 +39,11 @@ bool field_value(View value) {
         value, [](unsigned char c) { return c == '\t' || (c >= ' ' && c != 0x7f); });
 }
 
-bool canonical_origin(View origin) {
-    constexpr View prefix = "https://";
+} // namespace
+
+namespace session_transport_detail {
+bool canonical_origin(std::string_view origin) {
+    constexpr std::string_view prefix = "https://";
     if (!origin.starts_with(prefix))
         return false;
     origin.remove_prefix(prefix.size());
@@ -55,7 +58,7 @@ bool canonical_origin(View origin) {
                 return (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-';
             }))
             return false;
-        if (dot == View::npos)
+        if (dot == std::string_view::npos)
             return true;
         origin.remove_prefix(dot + 1);
     }
@@ -71,6 +74,12 @@ bool valid_limits(const AccountTransportLimits &limits) {
            limits.policy_reference_bytes <= std::string{}.max_size() &&
            limits.result_bytes <= std::string{}.max_size();
 }
+
+} // namespace session_transport_detail
+
+namespace {
+using session_transport_detail::canonical_origin;
+using session_transport_detail::valid_limits;
 
 bool spend(std::uint64_t &remaining, std::uint64_t size) {
     if (size > remaining)
