@@ -55,8 +55,31 @@ removes the row without an indexed hole, count, identity or existence signal.
 | `achievement.target`, `achievement.score` | M exact signed64 micro-points of the selected immutable completion, qualified by its capture. They are absent if a complete authorized selection has no such capture. |
 | `track.deficit`, `target.deficit`, `track.remaining`, `track.progress` | M unsigned64 micro-point differences (track deficit, selected completed target deficit, remaining to next) and exact rational fraction in `[0,1)`. Optional result slots stay absent. |
 | `support.rows` | S ordered, bounded, already-selected recent support rows. Kind is the closed presentation classification Subscription/Gift/Bits/Donation, only for a source fact known to belong to it. Name is literal UTF-8 from a source-permitted display name or authorized anonymization. Original money is exact source decimal plus currency. Gift count and Bits quantity are separately typed unsigned64 counts (E) only on their matching row kind and only when supplied. Apply source privacy and configured hiding to every applicable slot. A source-anonymous name or hidden amount cannot be recovered through another field, valuation, format or comparison. |
-| `announcement.current` | P optional current milestone presentation with selected milestone identity and elapsed/duration in ms. Event announcements use the exact E presentation version only when an authorized current event presentation is supplied. Presentation content is the bound authored literal for that selected identity/version. A job, trigger, queued group or old snapshot alone cannot select a current announcement. |
+| `announcement.current` | P optional current presentation of the area’s declared kind under the typed announcement binding profile. Event uses the exact authorized E presentation version and producer elapsed/duration. Milestone uses the selected authorized milestone identity and its elapsed/duration. Presentation content is the bound authored literal for that selected identity/version. A job, trigger, queued group or old snapshot alone cannot select a current announcement. |
 | Authored text and layout | D literal labels, including milestone descriptions and announcement text, can be bound explicitly to the selected typed milestone identity or presentation version. A missing label has no ID-derived fallback. Authored strings remain literal. |
+
+### Typed announcement binding (#831)
+
+The announcement-only wire version `subathon.scene-announcement-binding.v2`
+is a closed alternative to the legacy untyped reference and definition
+shapes. Both typed objects carry the version, exact resource and definition
+identities, and required top-level `contentKind` (`event` or `milestone`).
+The definition also carries `operand.field = "announcement.current"`.
+The reference and resolved definition must agree on identity and kind.
+Opaque definition ID bytes do not designate a version. A missing or
+unknown kind in a typed variant is invalid, not legacy. See scene-document-v1
+§5 for required-feature admission and retention of untyped drafts.
+
+Select only a matching, currently qualified and authorized projection.
+A missing occurrence is absent, an unqualified clock is unavailable,
+and absent disclosure reveals neither payload nor identity. An
+other-kind projection supplies no current content for the area.
+Use inert authored `unavailableText` where applicable or omit the slot.
+Labels authored for the other kind may be retained but are inert in
+that area. Reconnect uses the current qualified snapshot. After a
+restart the interrupted on-screen event does not resume locally.
+Only the producer may activate another event. Stuck or waiting queue
+state does not select current content. Playback remains with #804.
 
 The families below admit only the listed content destinations, in addition to
 common visibility, animation and the optional common opacity attachment.

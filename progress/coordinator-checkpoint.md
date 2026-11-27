@@ -11,6 +11,17 @@ for the queue, status and owner holds. [AGENTS.md](../AGENTS.md) defines task
 selection and slot limits. Issue comments retain task-specific
 decisions and review chronology. The handoff below records historical pins.
 
+## Current coordinator and advisor threads
+
+Sessions check the sender of a publication request against this list
+([AGENTS.md](../AGENTS.md), "Work protocol"). Update it when either thread is
+replaced.
+
+- Coordinator: `mcp:launch:f1ee79a5e11251893a2b1f1f060365f119d97d329a08fe8d349d0102b7fcfb52`
+  ("Subathon Bot Coordinator 2026-11-24")
+- Advisor: `mcp:launch:12ffde70f0dff8951bf9974306820d3a8fe79bfb5e86718338325d950115fa03`
+  ("Coordinator Auto-Advisor 2026-11-23")
+
 ## Standing authorization — continuous coordination (2026-11-18)
 
 The owner replaced the former “merge, then STOP” instruction. Continue through

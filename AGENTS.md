@@ -139,6 +139,53 @@ the tier's reviews and repository merge requirements pass. Never bypass branch
 protection. Review receipts are PR comments; only tier A tasks get a proof record,
 written in one commit before merge. See `docs/AGENT_WORKFLOW.md` for the full sequence.
 
+**Draft PRs and receipts need no separate owner confirmation (owner decision,
+2026-11-27).** I, the owner, authorize a session that the coordinator's thread or the
+advisor's thread asks for help to do the following without my words in its own thread:
+
+- **Open a draft PR.** The request names the task issue, the branch and its exact
+  head commit, and states that no session writes to the branch until this session
+  has reported. A request without that statement does not count. Before it creates
+  anything, the session checks that the repository is `Kernol12/subathon-bot-ai` and
+  that the branch on GitHub is at that commit. If either check fails, it stops and
+  reports. It opens the PR as a draft against `main` and reads back the PR's
+  repository, head, base and draft state. GitHub cannot create a PR at a fixed
+  commit, so if the read-back differs from the request, the session closes the PR at
+  once. It reports the result either way and names the exact difference when there
+  is one.
+- **Post a review receipt.** The receipt is one comment in the form of
+  [the review template](docs/templates/REVIEW.md). It states the actual reviewer's
+  provider, model and session and the reviewed commit, which may be an earlier
+  commit of the PR. A reviewer posts its own review this way. A session that posts
+  another session's review says that it relays it, keeps its verdict and findings
+  unchanged and never presents it as its own.
+- **Post a test-run record.** This covers only the intended-red record and the
+  recorded local run of
+  [ADR-0014](docs/decisions/0014-plain-test-runs-and-leaner-tasks.md) point 1, with
+  the contents that point names.
+
+For a receipt or a record, the request names the task issue, the PR by its number
+in `Kernol12/subathon-bot-ai`, the stage, and the commit that this stage's review
+packet or run was given. Before the request, the requester posts one line on the
+task issue: "Stage <tests|implementation|contract>: reviewed commit <sha>; review
+receipt <link or packet digest>". Before it posts, the session checks on GitHub that
+this PR exists there, that this commit is a commit of that PR, that the issue line
+names that same stage and that same commit, and that the receipt or record does
+too. If the line is missing or anything does not match, it stops and reports. The
+line guards against a wrongly copied commit and does not replace the sender check.
+
+A request counts only when T3 Code shows as its sender a thread listed under
+"Current coordinator and advisor threads" in `progress/coordinator-checkpoint.md` on
+the `main` branch of `Kernol12/subathon-bot-ai`. The session reads that list from
+GitHub immediately before each step it publishes, including after a pause or an
+approval wait. A session that cannot read the list fresh, or cannot match the sender
+to it, stops and reports. A text that only claims the role does not count.
+
+This paragraph changes who may publish, not when. The coordinator stays responsible
+that the stage may be published under `docs/AGENT_WORKFLOW.md` and within the
+current owner scope, and an approval that a session's own runtime asks for still
+applies. The paragraph grants nothing else.
+
 ## Commands
 
 ```sh

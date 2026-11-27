@@ -77,15 +77,31 @@
       "additionalProperties": false
     },
     "AnnouncementBindingRef": {
-      "type": "object",
-      "properties": {
-        "kind": {"const": "AnnouncementBinding"},
-        "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
-        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
-        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
-      },
-      "required": ["kind", "version", "resourceId", "definitionId"],
-      "additionalProperties": false
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "AnnouncementBinding"},
+            "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
+            "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+            "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
+          },
+          "required": ["kind", "version", "resourceId", "definitionId"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "AnnouncementBinding"},
+            "contentKind": {"enum": ["event", "milestone"]},
+            "version": {"const": "subathon.scene-announcement-binding.v2"},
+            "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+            "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
+          },
+          "required": ["kind", "version", "resourceId", "definitionId", "contentKind"],
+          "additionalProperties": false
+        }
+      ]
     },
     "ElementBindingsRef": {
       "type": "object",
@@ -665,22 +681,46 @@
       "additionalProperties": false
     },
     "AnnouncementBindingDefinition": {
-      "type": "object",
-      "properties": {
-        "kind": {"const": "AnnouncementBinding"},
-        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
-        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
-        "operand": {
+      "oneOf": [
+        {
           "type": "object",
           "properties": {
-            "field": {"const": "announcement.current"}
+            "kind": {"const": "AnnouncementBinding"},
+            "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+            "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+            "operand": {
+              "type": "object",
+              "properties": {
+                "field": {"const": "announcement.current"}
+              },
+              "required": ["field"],
+              "additionalProperties": false
+            }
           },
-          "required": ["field"],
+          "required": ["kind", "resourceId", "definitionId", "operand"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "AnnouncementBinding"},
+            "version": {"const": "subathon.scene-announcement-binding.v2"},
+            "contentKind": {"enum": ["event", "milestone"]},
+            "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+            "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+            "operand": {
+              "type": "object",
+              "properties": {
+                "field": {"const": "announcement.current"}
+              },
+              "required": ["field"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["kind", "resourceId", "definitionId", "version", "contentKind", "operand"],
           "additionalProperties": false
         }
-      },
-      "required": ["kind", "resourceId", "definitionId", "operand"],
-      "additionalProperties": false
+      ]
     },
     "ElementBindingsDefinition": {
       "type": "object",
