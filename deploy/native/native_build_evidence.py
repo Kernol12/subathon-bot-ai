@@ -4,6 +4,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from hashlib import sha256
 import re
+from urllib.parse import urlsplit
 
 from tools import release_manifest_shape as manifest
 
@@ -36,7 +37,9 @@ _PLATFORMS = {
 }
 _TOOLS = {"compiler", "linker", "cmake", "ninja"}
 _ROLES = manifest.CARRIED | {"external", "build-only"}
-_BUILD_FIELDS = ("profile", "revision", "scope", "platform", "recipe", "presets", "environment")
+_BUILD_FIELDS = ("profile", "revision", "project_material", "scope", "platform", "recipe",
+                 "recipe_material", "presets", "environment")
+_QT_DYNAMIC = {"qt-platform", "qt-qml-controls"}
 _LICENSE_UNKNOWN = {"value": None, "source": None}
 
 
@@ -58,23 +61,37 @@ def _identity_map(value):
     )
 
 
+def _material_locator(value):
+    if not manifest.token(value) or any(char.isspace() for char in value):
+        return False
+    try:
+        parsed = urlsplit(value)
+        return (parsed.scheme in {"http", "https"} and bool(parsed.hostname)
+                and parsed.path not in ("", "/") and parsed.username is None
+                and parsed.password is None)
+    except ValueError:
+        return False
+
+
 def _input_pin(name, item, windows):
     if not manifest.mapping(item):
         return False
-    origin = [field for field in ("source", "vendor") if manifest.token(item.get(field))]
+    origin = [field for field in ("source", "vendor") if field in item]
+    role = item.get("role")
+    archives = item.get("archives")
     license_info = item.get("license", _LICENSE_UNKNOWN)
     return (
         _exact_revision(item.get("revision"))
         and manifest.identity(item.get("material"))
-        and len(origin) == 1
+        and len(origin) == 1 and _material_locator(item[origin[0]])
         and ("patches" not in item or origin == ["source"] and _identity_map(item["patches"]))
-        and ("archives" not in item or item.get("role") == "embedded"
-             and _identity_map(item["archives"]) and bool(item["archives"]))
+        and (role != "embedded" or (_identity_map(archives) and bool(archives)))
+        and (role == "embedded" or "archives" not in item)
         and manifest.record(license_info, {"value": lambda value: value is None or manifest.token(value),
                                            "source": lambda value: value is None or manifest.token(value)})
         and (license_info["value"] is None or license_info["source"] is not None)
-        and manifest.choice(_ROLES)(item.get("role"))
-        and (name not in _TOOLS or item["role"] == "build-only")
+        and manifest.choice(_ROLES)(role)
+        and (name not in _TOOLS or role == "build-only")
         and (not windows or name not in {"compiler", "linker", "msvc-runtime"}
              or origin == ["vendor"] and _matches(r"14\.[34][0-9](?:\.[0-9]+)+", item["revision"]))
     )
@@ -163,9 +180,10 @@ def qualify_native_build(selected, observed, repeated):
     The three records bind one recipe, input set and member inventory. Recipes
     can declare explicit member paths (executable, runtime names to paths, and
     notice paths to owners) and declare runtime names requiring load inspection.
-    Embedded inputs may include inspected static archive identities. A separate
+    Embedded inputs require inspected static archive identities. A separate
     final_artifact identity describes post-processing after the compared output.
-    Recorded locations and commands are data only.
+    The recipe label and release input locators are descriptions of sealed
+    materials. This function does not resolve locators or execute commands.
     """
     if not all(manifest.mapping(row) for row in (selected, observed, repeated)):
         return Unqualified((("invalid_input", "artifact"),))
@@ -182,9 +200,13 @@ def qualify_native_build(selected, observed, repeated):
 
     if not _matches(_PLATFORMS[profile], selected.get("platform")):
         findings.add(("platform_pin", profile))
-    for field in ("revision", "scope", "recipe"):
-        if not manifest.token(selected.get(field)):
-            findings.add(("invalid_input", field))
+    if (not _matches(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", selected.get("revision"))
+            or not manifest.identity(selected.get("project_material"))):
+        findings.add(("project_pin", "revision"))
+    if not manifest.token(selected.get("recipe")) or not manifest.identity(selected.get("recipe_material")):
+        findings.add(("recipe_pin", "recipe"))
+    if not manifest.token(selected.get("scope")):
+        findings.add(("invalid_input", "scope"))
     presets = selected.get("presets")
     if not _token_sequence(presets) or len(presets) != 3:
         findings.add(("invalid_input", "presets"))
@@ -196,7 +218,7 @@ def qualify_native_build(selected, observed, repeated):
         compare(code, profile if code == "profile_mismatch" else field, field,
                 selected.get(field), observed.get(field))
         compare("rebuild_input_mismatch", field, field, observed.get(field), repeated.get(field))
-    for field in ("member_paths", "settings"):
+    for field in ("member_paths", "settings", "dynamic_runtime"):
         compare("selected_build_mismatch", field, field, selected.get(field), observed.get(field))
         compare("rebuild_input_mismatch", field, field, observed.get(field), repeated.get(field))
     if "settings" in selected and not _token_map(selected["settings"]):
@@ -267,11 +289,13 @@ def _check_runtime(selected, observed, repeated, findings, compare):
     if not all(_token_map(value) for value in (required, linked, loaded)):
         findings.add(("invalid_input", "runtime"))
         return
-    dynamic = selected.get("dynamic_runtime")
-    if dynamic is None:
-        dynamic = tuple(name for name in ("qt-platform", "qt-qml-controls") if name in required)
-    if (type(dynamic) not in (list, tuple) or not all(manifest.token(name) and name in required for name in dynamic)
-            or selected["profile"].startswith("desktop-") and not dynamic):
+    declared_dynamic = selected.get("dynamic_runtime", ())
+    if (type(declared_dynamic) not in (list, tuple)
+            or not all(manifest.token(name) and name in required for name in declared_dynamic)):
+        findings.add(("invalid_input", "dynamic_runtime"))
+        return
+    dynamic = set(declared_dynamic) | (_QT_DYNAMIC & required.keys())
+    if selected["profile"].startswith("desktop-") and not dynamic:
         findings.add(("invalid_input", "dynamic_runtime"))
         return
 
@@ -319,6 +343,7 @@ def _release_rows(selected, observed, repeated, layout, notice_paths):
     recipe = add("observed-build-recipe", "artifact", {
         "recipe_identity": selected["recipe"], "presets": list(selected["presets"]),
         "environment": selected["environment"], "patches": patches,
+        "project_material": selected["project_material"], "recipe_material": selected["recipe_material"],
         "release_qt": selected["release_qt"], "settings": selected.get("settings", {}),
     })
     add("observed-build", "artifact", {
@@ -360,6 +385,10 @@ def _release_rows(selected, observed, repeated, layout, notice_paths):
             facts["vendor"] = row["vendor"]
         add("selected-identity", subject, facts,
             pin=role if role in ("external", "build-only") else "source", at=row["revision"])
+        if role == "embedded":
+            add("selected-identity", subject, {
+                **row["material"], "build": member_build, "archives": row["archives"],
+            }, pin="build", at=row["revision"], suffix="/static")
 
     artifact = dict(
         id=scope, format=selected["recipe"], **observed.get("final_artifact", observed["output"]),
