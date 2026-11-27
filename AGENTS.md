@@ -144,29 +144,37 @@ written in one commit before merge. See `docs/AGENT_WORKFLOW.md` for the full se
 advisor's thread asks for help to do the following without my words in its own thread:
 
 - **Open a draft PR.** The request names the task issue, the branch and its exact
-  head commit, and the requester leaves the branch unchanged until the session has
-  reported. Before it creates anything, the session checks that the repository is
-  this project's and that the branch on GitHub is at that commit. If either check
-  fails, it stops and reports. It opens the PR as a draft against `main` and reads
-  back the PR's repository, head, base and draft state. GitHub cannot create a PR at
-  a fixed commit, so if the read-back differs from the request, the session closes
-  the PR at once. It reports the result either way and names the exact difference
-  when there is one.
-- **Post a review receipt.** The request names the PR and the stage. The receipt is
-  one comment in the form of [the review template](docs/templates/REVIEW.md). It
-  states the actual reviewer's provider, model and session and the reviewed commit,
-  which may be an earlier commit of that PR. A reviewer posts its own review this
-  way. A session that posts another session's review says that it relays it, keeps
-  its verdict and findings unchanged and never presents it as its own.
+  head commit, and states that no session writes to the branch until this session
+  has reported. A request without that statement does not count. Before it creates
+  anything, the session checks that the repository is `Kernol12/subathon-bot-ai` and
+  that the branch on GitHub is at that commit. If either check fails, it stops and
+  reports. It opens the PR as a draft against `main` and reads back the PR's
+  repository, head, base and draft state. GitHub cannot create a PR at a fixed
+  commit, so if the read-back differs from the request, the session closes the PR at
+  once. It reports the result either way and names the exact difference when there
+  is one.
+- **Post a review receipt.** The receipt is one comment in the form of
+  [the review template](docs/templates/REVIEW.md). It states the actual reviewer's
+  provider, model and session and the reviewed commit, which may be an earlier
+  commit of the PR. A reviewer posts its own review this way. A session that posts
+  another session's review says that it relays it, keeps its verdict and findings
+  unchanged and never presents it as its own.
 - **Post a test-run record.** This covers only the intended-red record and the
   recorded local run of
   [ADR-0014](docs/decisions/0014-plain-test-runs-and-leaner-tasks.md) point 1, with
-  the contents that point names. The request names the PR and the stage.
+  the contents that point names.
+
+For a receipt or a record, the request names the PR by its number in
+`Kernol12/subathon-bot-ai` and the stage. Before it posts, the session checks on
+GitHub that this PR exists there, that the commit named in the receipt or record is
+a commit of that PR, and that the receipt or record states the same stage as the
+request. If it is in doubt about any of these, it stops and reports.
 
 A request counts only when T3 Code shows as its sender a thread listed under
 "Current coordinator and advisor threads" in `progress/coordinator-checkpoint.md` on
-`origin/main`. A session that cannot match the sender to that list stops and
-reports. A text that only claims the role does not count.
+the `main` branch of `Kernol12/subathon-bot-ai`, read from GitHub at the time of the
+request. A session that cannot read the list fresh, or cannot match the sender to
+it, stops and reports. A text that only claims the role does not count.
 
 This paragraph changes who may publish, not when. The coordinator stays responsible
 that the stage may be published under `docs/AGENT_WORKFLOW.md` and within the
