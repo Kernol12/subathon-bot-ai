@@ -155,6 +155,18 @@ bool Policy::live_attempt(Attempt attempt) const {
 
 std::optional<Candidate> Policy::validate(Attempt attempt, const Facts &facts,
                                           std::span<const Identity> affected) {
+    if (affected.empty())
+        return validate_affected(attempt, facts, std::nullopt);
+    return validate_affected(attempt, facts, affected);
+}
+
+std::optional<Candidate> Policy::validate_exact(Attempt attempt, const Facts &facts,
+                                                ExactAffectedChannels affected) {
+    return validate_affected(attempt, facts, affected.channels);
+}
+
+std::optional<Candidate> Policy::validate_affected(
+    Attempt attempt, const Facts &facts, std::optional<std::span<const Identity>> affected) {
     if (!live_attempt(attempt) || validated_)
         return {};
     if (!valid_facts(facts, installation_, budgets_)) {
@@ -164,16 +176,19 @@ std::optional<Candidate> Policy::validate(Attempt attempt, const Facts &facts,
 
     const bool drain_required = snapshot_ && requires_drain(snapshot_->facts, facts);
     // The lifecycle owner supplies and bounds the affected native channels.
-    if (drain_required == affected.empty()) {
+    if (drain_required != affected.has_value()) {
         latch_failure();
         return {};
     }
-    std::vector<Identity> channels(affected.begin(), affected.end());
-    std::ranges::sort(channels);
-    if (!channels.empty() &&
-        (!channels.front() || std::ranges::adjacent_find(channels) != channels.end())) {
-        latch_failure();
-        return {};
+    std::optional<std::vector<Identity>> channels;
+    if (affected) {
+        channels.emplace(affected->begin(), affected->end());
+        std::ranges::sort(*channels);
+        if (!channels->empty() &&
+            (!channels->front() || std::ranges::adjacent_find(*channels) != channels->end())) {
+            latch_failure();
+            return {};
+        }
     }
 
     const bool differs = !snapshot_ || snapshot_->facts != facts;
@@ -248,9 +263,9 @@ Pin Policy::publish(Attempt attempt, const Readiness &ack, std::optional<Drain> 
         return {};
 
     const auto &expected = validated_->channels;
-    if (drain ? (expected.empty() || drain->candidate != validated_->candidate ||
-                 !std::ranges::is_permutation(drain->channels, expected))
-              : !expected.empty())
+    if (drain ? (!expected || drain->candidate != validated_->candidate ||
+                 !std::ranges::is_permutation(drain->channels, *expected))
+              : expected.has_value())
         return {};
 
     auto next_readiness = ack;

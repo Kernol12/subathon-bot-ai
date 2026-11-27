@@ -58,6 +58,11 @@ struct Readiness {
     std::string configuration, address;
     bool operator==(const Readiness &) const = default;
 };
+// An exact lifecycle set, including a supplied set with no affected channels.
+struct ExactAffectedChannels {
+    std::span<const Identity> channels;
+};
+
 struct Drain {
     Candidate candidate;
     std::vector<Identity> channels;
@@ -88,6 +93,7 @@ class Policy {
 
     std::optional<Attempt> suspend();
     std::optional<Candidate> validate(Attempt, const Facts &, std::span<const Identity> = {});
+    std::optional<Candidate> validate_exact(Attempt, const Facts &, ExactAffectedChannels);
     bool abandon(Attempt);
     void invalidate_readiness(const Readiness &);
     Pin publish(Attempt, const Readiness &, std::optional<Drain> = {});
@@ -103,10 +109,12 @@ class Policy {
         Candidate candidate;
         Facts facts;
         bool differs;
-        std::vector<Identity> channels;
+        std::optional<std::vector<Identity>> channels;
     };
 
     Policy(Identity, Identity, Budgets, std::weak_ptr<ReadinessProducer>);
+    std::optional<Candidate> validate_affected(Attempt, const Facts &,
+                                               std::optional<std::span<const Identity>>);
     bool live_attempt(Attempt) const;
     bool confirm_active_readiness();
     bool readiness_is_live(const Readiness &) const;
