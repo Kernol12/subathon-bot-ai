@@ -47,7 +47,7 @@ struct Refusal {
 [[noreturn]] void inconsistent() { throw Refusal{Status::inconsistent}; }
 
 void authorize(const SqliteWorkSession &session, StartupAuthority &authority,
-               const StartupBinding &binding, bool fresh, Reservation call, const Scope &scope) {
+               const StartupBinding &binding, bool fresh, Reservation call, const Scope &scope) try {
     const auto before = Access::remaining(session);
     if (!fits(before, {}, call, 1))
         throw Refusal{Status::unavailable};
@@ -68,6 +68,10 @@ void authorize(const SqliteWorkSession &session, StartupAuthority &authority,
         !bounded_ref(permit->permission_snapshot) || !bounded_ref(permit->actor) ||
         !bounded_ref(permit->decision))
         throw Refusal{Status::unavailable};
+} catch (const SqliteWorkFailure &failure) {
+    if (failure.error() == WorkError::resource_limit || failure.error() == WorkError::result_limit)
+        throw Refusal{Status::unavailable};
+    throw;
 }
 
 // Query specs take only owner-specified expressions and predicates. Variable

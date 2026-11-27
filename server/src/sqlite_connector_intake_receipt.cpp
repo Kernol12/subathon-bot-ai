@@ -393,7 +393,7 @@ std::optional<Status> preflight_intake_admission(const SqliteWorkSession &sessio
         return Status::intake_limit;
 
     // The exact retry starts a fresh unit. Qualify its six paired reads at
-    // their actual size. A shared document still consumes readback budget.
+    // their maximum size. Shared documents and a later contribution ID count.
     const auto profile = Access::limits(session);
     constexpr qsizetype reads = 13; // Installation ownership, then six paired projections.
     if (profile.statements_per_batch < reads || profile.result_rows < reads ||
@@ -427,7 +427,7 @@ std::optional<Status> preflight_intake_admission(const SqliteWorkSession &sessio
         input.history ? QVariant{input.history->operation} : QVariant{},
         input.history ? QVariant{input.history->page} : QVariant{},
         input.history ? QVariant{input.history->item} : QVariant{},
-        QVariant{},
+        id,
         1,
         admission_code(input.admission),
         policy.isNull() ? QVariant{} : QVariant{policy}};
@@ -680,8 +680,8 @@ ManagedResult recovery::admit(const SqliteWorkSession &session, const ManagedInp
                        failure.reason() != SqliteReceiptStorageReason::result_limit))
             throw;
     } catch (const SqliteWorkFailure &failure) {
-        if (failure.error() != WorkError::resource_limit &&
-            failure.error() != WorkError::result_limit)
+        if (!fresh || (failure.error() != WorkError::resource_limit &&
+                       failure.error() != WorkError::result_limit))
             throw;
     } catch (const RetentionFailure &failure) {
         if (!fresh || failure.error() != RetentionError::result_limit)
