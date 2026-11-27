@@ -165,10 +165,11 @@ advisor's thread asks for help to do the following without my words in its own t
   the contents that point names.
 
 For a receipt or a record, the request names the PR by its number in
-`Kernol12/subathon-bot-ai` and the stage. Before it posts, the session checks on
-GitHub that this PR exists there, that the commit named in the receipt or record is
-a commit of that PR, and that the receipt or record states the same stage as the
-request. If it is in doubt about any of these, it stops and reports.
+`Kernol12/subathon-bot-ai`, the stage, and the commit that this stage's review
+packet or run was given. Before it posts, the session checks on GitHub that this PR
+exists there, that this commit is a commit of that PR, and that the receipt or
+record names that same stage and that same commit. If it cannot establish these
+from the request and the PR, it stops and reports.
 
 A request counts only when T3 Code shows as its sender a thread listed under
 "Current coordinator and advisor threads" in `progress/coordinator-checkpoint.md` on
