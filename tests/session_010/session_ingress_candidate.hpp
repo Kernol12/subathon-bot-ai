@@ -37,6 +37,7 @@ struct Provenance {
 // Trusted admitted registry from host composition (#894; synthetic in tests): S2's
 // opaque Facts::native_artifact/profile ids -> the SHA-256 the running artifact and
 // profile must carry (reading 893.3). Unknown or mismatched: unavailable, no handoff.
+// Duplicate ids with different hashes are refused (unavailable), fail-closed (893.3).
 using Sha256 = std::array<std::byte, 32>;
 struct AdmittedRegistry {
     std::vector<std::pair<session_policy::Identity, Sha256>> artifacts, profiles;

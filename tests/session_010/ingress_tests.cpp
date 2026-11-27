@@ -329,6 +329,8 @@ TEST_P(AdmittedIdentity, UnavailableUntilRegistryMatches) {
     ASSERT_TRUE(delivered(f));
     EXPECT_TRUE(f.handoffs.empty());
     EXPECT_EQ(crypto_calls.load(), 0U);
+    // Trace Q14; follow-up S2 empty affected set with zero open channels:
+    // https://github.com/Kernol12/subathon-bot-ai/issues/916
     f.binding().publish(f.next(reference_facts(), {1})); // S2: identity change drains
     live_control(f, "g2");
 }

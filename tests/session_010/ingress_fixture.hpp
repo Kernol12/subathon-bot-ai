@@ -174,7 +174,9 @@ class Ingress {
     ~Ingress() { stop(); }
 
     // Owner thread (this test thread): one real S2 publication; returns its pin. A
-    // drain-requiring change names the synthetic lifecycle owner's channels (trace Q14).
+    // drain-requiring change names the synthetic lifecycle owner's channels (trace Q14;
+    // follow-up S2 empty affected set with zero open channels:
+    // https://github.com/Kernol12/subathon-bot-ai/issues/916).
     sp::Pin next(const sp::Facts &facts, std::vector<sp::Identity> drained = {}) {
         const auto attempt = policy_->suspend();
         const auto candidate = attempt ? policy_->validate(*attempt, facts, drained) : std::nullopt;
