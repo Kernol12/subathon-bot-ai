@@ -1,43 +1,43 @@
 # Later connector source enrollment
 
-Draft for [API-034](https://github.com/Kernol12/subathon-bot-ai/issues/815). This boundary connects the startup policy writer, current authorization, and durable connector intake. It lets API-006 S10 obtain its target source from the shipped producer.
+Draft for [API-034](https://github.com/Kernol12/subathon-bot-ai/issues/815). This boundary connects the startup policy writer, current authorization, and durable connector intake so API-006 S10 can obtain B from a shipped producer.
 
-## Starting state and request
+## Admission and authority
 
-Start with the shipped API-031 registration, activation and live checkpoint for A alone. Registration creates policy 1 and a pending A. Activation appends policy 2 and makes A live. Enrollment requires a live A with a proved cut and frontier on the current policy N (N = 2 for S10). A pending A receives a typed refusal with zero writes. Read the current installation policy document and membership, A's scoped source row and fence, and the absence of B. A and B are distinct full source scopes in the same installation. The requested enrollment names B's exact scope, intended member metadata, configuration revision, profile and cursor contract, and the expected current policy and A fence. The retry carries the same exact intent and expected before-image.
+Start from API-031's shipped A-only registration, activation, and live checkpoint. Registration writes policy 1 with pending A. Activation writes policy 2 and opens A's live cut. Enrollment requires live A on the current policy N, with its qualified cut and committed frontier (N = 2 for S10). A pending source or missing qualified cut or frontier returns `IntakeStatus::unproved` with zero writes.
 
-Resolve authority inside the writer scope for the enrollment action and exact affected scopes. Caller-supplied revisions, registry names and permission references are claims. Compare them with current owner records before accepting them. Treat a denied, unavailable, stale or contradictory proof as a refusal with zero writes. Reject a policy document that does not decode as the exact framed immutable policy selected by the startup policy writer. An unframed policy also fails closed at catch-up.
+The request binds the installation, exact distinct A and B scopes, expected installation head N, A's current fence and source facts, and B's exact configured enrollment intent. Add the C++ authority action `StartupAction::enroll_source`. Resolve current authority inside the writer for B and for the installation policy append, on both initial execution and readback. Denied and unavailable authority return their respective typed outcomes with no writes or disclosure. Validate claims against current owner configuration and registry. A mismatched head, A fence or profile/configuration reference is `stale`. Invalid scope or unframed policy input is `invalid_input`. Catch-up also fails closed for an unframed policy. Use the existing writer and document limits and refuse exhausted revisions or oversized input with `limit_exceeded`.
 
-B is enrolled only when its configuration and profile binding are current and its generation is eligible for new enrollment. No provider fetch, import, cut, frontier advance, automatic credit, or handoff occurs in this operation.
+## Atomic write and byte identity
 
-## Atomic readback
-
-| Case | Durable result |
-| --- | --- |
-| A-only live startup and current, authorized B intent | Commit the exact projection below in one writer unit. |
-| Exact retry after a committed transition or lost acknowledgment | Re-read and establish the exact committed projection under current authority. Return the original outcome, with no second enrollment or effects. |
-| Same expected transition with changed intent | Refuse as a conflict. |
-| B already exists without evidence for this exact enrollment | Refuse. B's mere presence does not prove the operation committed. |
-| Stale policy, A fence, registry binding or configuration | Refuse. Leave the full before-image intact. |
-| Check fails or the SQLite work rolls back | No partial membership, source row or enrollment evidence becomes visible. |
-| Later work supersedes the committed projection | Return scoped superseded evidence, or unavailable if current proof is insufficient. Do not relabel a proved commit as refused. |
-
-For API-006 integration, establish the exact A-only setup through the shipped API-031 operation first. Enroll B through this producer, then read the exact durable B head through its owning read path. Keep the existing S10 single-source setup, handoff and accounting assertions. API-029 continues to own handoff qualification and API-030 continues to own original-receipt recovery.
-
-## Before and after rows
-
-Read the policy head and A fence inside the writer unit. Require policy head N and A's exact current scope, epoch, generation, source revision R and policy revision N. Check the next policy and source revision fit before writing. Apply A's CAS and B's absence check in that unit.
+In one writer unit, verify the installation head and exact A before-image and check B's absence by its full installation/provider/account/stream key. Append the new policy and complete membership, then insert B. Existing B without exact replay evidence is `conflict`. Concurrent admissions serialize through the writer. There is no A CAS write, schema migration, or new durable operation purpose.
 
 | Rows | Before | After |
 | --- | --- | --- |
-| Policy history and members through N | Immutable reviewed rows | Identical bytes and membership |
-| Policy N+1 | Absent | One framed immutable policy from the startup policy writer. Preserve A's authority policy, catch-up mode and references. |
-| Members at N+1 | Absent | Copy every member from N byte for byte apart from its policy key. Add B with the reviewed scope and metadata, no eligible primary slot and no award authority. A remains the sole eligible primary for the affected overlap set and effect scope. |
-| A current source | Live, source revision R, policy N | Live, source revision R+1, policy N+1. Preserve its scope, epoch, generation, captured capability, cut and frontier. |
-| B current source | Absent | Pending with initial epoch and source revision 1, bound to N+1 and its exact enrolled generation and cursor contract. Cut and frontier are null. |
-| A's committed history, gaps, intake and accounting | Existing immutable inputs and effects | Unchanged, including each row's recorded authority-policy revision. |
-| Operations | Existing rows | Unchanged. Enrollment uses the shipped projection readback pattern. |
+| Policy history and members through N | Existing immutable rows | Byte-identical. |
+| Policy N+1 | Absent | Existing framed representation `frame(mode from N) + frame(enrollment configuration revision) + frame(enrollment permit decision)`. Use the startup policy writer's canonical framing. |
+| Members at N+1 | Absent | Copy every N member unchanged except its revision key. Insert B's exact scope, award class, effect scope and overlap set from the validated enrollment intent. For S10 those values are `individual/main/overlap`. B's `primary_slot` is SQL NULL. Its document is `frame(lane_ref) + frame(execution_principal) + frame(profile_revision) + frame(cursor_contract)`, the shipped `configured_member_document` encoding. |
+| A current source | Live on N | Byte-identical, including epoch, generation, source revision, policy pointer, capability document, cut and frontier. |
+| B current source | Absent | Pending, fence `{1,1,N+1,gen_B}` in epoch/revision/policy/generation order. Store the exact enrolled cursor contract in the source document. Cut and frontier are SQL NULL. |
+| A history, open gap G, active catch-up O, intake and accounting | Existing rows | Byte-identical, including their recorded revisions. No operations are inserted or updated. |
 
-New A work uses the advanced fence. Work carrying R or N is stale under the existing CAS rules. The later S10 handoff alone may transfer award authority. Enrollment has no schema or operation-purpose change.
+The immutable enrollment evidence consists of the installation and N+1 key, inherited mode, enrollment configuration revision and permit decision, complete copied membership, and B's scope, award class, effect scope, overlap set, primary eligibility, lane, principal, profile and configured cursor contract. A's exact fence and source facts are checked from A's current row. B's enrollment generation, current fence, pending state, cut/frontier and actual source document are proved by B's mutable row. A later handoff can replace B's generation and source document. Do not infer lost enrollment values from B's later state.
 
-For an ambiguous commit, resolve current authority again and compare the immutable N+1 policy and complete membership, exact pending B source, and exact A after-image including the advanced fence. If all match, return the committed projection. If N+1 and B are absent and the complete original projection still matches, report absence at the original before-image so only the same intent can retry. Partial or divergent evidence cannot establish either result. Report a typed conflict for a proved incompatible transition and unavailable when the evidence is insufficient. If subsequent work has advanced the sources, report superseded only when immutable evidence proves this exact transition and the current fence no longer equals its after-image. Otherwise report unavailable and do not reapply the operation.
+A remains the sole eligible primary for the affected overlap set and effect scope. A's authority keeps resolving against its installed revision N. Since B does not appear in N, B has no effect on A's live admissions, overlap or disjointness checks before handoff. No cut or prior authority is superseded on A, so r3 row 175's historical preservation requirement is met with the retained N records.
+
+## Readback and retry
+
+| Case | Result |
+| --- | --- |
+| First complete authorized write | `IntakeStatus::committed` with the exact projection. |
+| Acknowledgment lost or exact retry | Re-resolve current authority. Compare the exact intent bytes, including the newly resolved permit decision, all immutable N+1 evidence, A's unchanged before-image, and B's exact pending row. A match returns `IntakeStatus::exact_replay` with the projection and zero writes. |
+| Same expected transition with differing intent bytes | `IntakeStatus::conflict`. A newly resolved decision with different bytes cannot establish exact replay. |
+| N+1 and B absent and the complete before-image still matches | Report absence at the expected before-image. A complete retry may proceed through normal admission. |
+| Partial, incompatible or superseded state | Return `conflict` for proved incompatible evidence. Report superseded only if the immutable evidence establishes the exact intent and the current rows establish that a later transition replaced its projection. If required intent bytes are no longer provable, return `unavailable`. Never apply the enrollment again on incomplete evidence. |
+| Retry of A's already committed API-031 checkpoint after N+1 is appended | The shipped write retry returns `Status::stale`. Inspection returns `Status::stale` with `StartupReadback::superseded` because the installation head moved. A's source, frontier and operation remain unchanged. Read A's current source state to recover the committed frontier. Do not retry the checkpoint write. |
+
+## S10 setup and handoff
+
+In #288's tests stage, establish the live A-only setup using shipped API-031 with the existing single-source and setup assertions intact. Commit and inspect original H under live A first. Then enroll B with `gen_B = "g4"`, re-read `previous` from A and read the target from the exact durable B head, replacing the synthetic target fence literal in setup. Keep every assertion and assertion literal. Any required assertion change needs a separately approved revised baseline. #815 does not edit S10's fixture or assertions.
+
+For the handoff, use the installation head N+1 and each source's own readback fence. A's open G and O still match A's fence at N, while B's pending fence points to N+1. The shipped writer checks the installation head separately and validates each active operation against its own source fence. With the existing qualified new-only proof and all other handoff preconditions met, #288 can transition both sources and award memberships together to N+2. API-029 owns handoff qualification, API-030 owns original-receipt recovery, and API-031 remains unchanged.
