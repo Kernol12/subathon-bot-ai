@@ -110,6 +110,7 @@ jobs:
           cmake --preset core-acceptance-debug -DSUBATHON_FETCH_GOOGLETEST=ON
           -DSUBATHON_BUILD_SCHEDULE_846_F3=ON
           -DSUBATHON_BUILD_STREAMELEMENTS_001_STAGE1=ON
+          -DSUBATHON_BUILD_ANNOUNCEMENT_MANAGEMENT_STAGE1=ON
           -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
@@ -211,6 +212,7 @@ jobs:
               "scheduled-pause": ({"acceptance", "server"}, 30),
               "schedule-f3": ({"acceptance", "server"}, 30),
               "schedule-command": ({"acceptance", "server"}, 30),
+              "announcement-management": ({"acceptance", "server"}, 30),
               "downtime-recovery": ({"acceptance", "core"}, 30),
               "finished-timer": ({"acceptance", "core"}, 30),
               "application-plan": ({"acceptance", "core"}, None),
@@ -282,6 +284,8 @@ jobs:
               raise SystemExit(f"Expected 6 reviewed Schedule F3 cases, got {found['schedule-f3']}")
           if found["schedule-command"] != 35:
               raise SystemExit(f"Expected 35 schedule command cases, got {found['schedule-command']}")
+          if found["announcement-management"] != 18:
+              raise SystemExit(f"Expected 18 announcement management cases, got {found['announcement-management']}")
           if found["downtime-recovery"] != 49:
               raise SystemExit(f"Expected 49 downtime recovery cases, got {found['downtime-recovery']}")
           if found["finished-timer"] != 22:

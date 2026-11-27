@@ -46,7 +46,7 @@ if(SUBATHON_BUILD_ANNOUNCEMENT_MANAGEMENT_STAGE1)
     target_link_libraries(server_announcement_management_stage1 PRIVATE subathon_core GTest::gtest_main)
     subathon_target_options(server_announcement_management_stage1)
     subathon_discover_gtests(server_announcement_management_stage1
-        LABELS "announcement-management;acceptance;intentional-red;server" TIMEOUT 30)
+        LABELS "announcement-management;acceptance;server" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE OR SUBATHON_BUILD_MODIFIER_CLOCK_TESTS)

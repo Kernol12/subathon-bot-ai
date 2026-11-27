@@ -50,6 +50,7 @@
     "build/core-acceptance-debug/tests/modifier_clock_baseline": "cxx-runtime",
     "build/core-acceptance-debug/tests/modifier_stacking_baseline": "cxx-runtime",
     "build/core-acceptance-debug/tests/scaffold_contract_smoke": "c-runtime",
+    "build/core-acceptance-debug/tests/server_announcement_management_stage1": "cxx-runtime",
     "build/core-acceptance-debug/tests/server_contribution_evidence_acceptance": "cxx-runtime",
     "build/core-acceptance-debug/tests/server_rates_003_stage1": "cxx-runtime",
     "build/core-acceptance-debug/tests/server_rates_004_stage1": "cxx-runtime",
