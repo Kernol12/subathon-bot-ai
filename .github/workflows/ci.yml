@@ -109,6 +109,7 @@ jobs:
         run: >-
           cmake --preset core-acceptance-debug -DSUBATHON_FETCH_GOOGLETEST=ON
           -DSUBATHON_BUILD_SCHEDULE_846_F3=ON
+          -DSUBATHON_BUILD_STREAMELEMENTS_001_STAGE1=ON
           -DSUBATHON_BUILD_ANNOUNCEMENT_MANAGEMENT_STAGE1=ON
           -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
@@ -225,6 +226,7 @@ jobs:
               "timer-editorial": ({"acceptance", "core"}, 30),
               "rate-snapshot": ({"acceptance", "core"}, None),
               "exchange-rate-api": ({"acceptance", "simulation", "server"}, 10),
+              "streamelements-001": ({"acceptance"}, None),
               "open-exchange-rates": ({"acceptance", "simulation", "server"}, 10),
               "rate-override": ({"acceptance", "core"}, 30),
               "valuation-snapshot-codec": ({"acceptance", "core"}, 30),
@@ -290,6 +292,8 @@ jobs:
               raise SystemExit(f"Expected 22 finished timer cases, got {found['finished-timer']}")
           if found["valuation-snapshot-codec"] != 25:
               raise SystemExit(f"Expected 25 valuation snapshot codec cases, got {found['valuation-snapshot-codec']}")
+          if found["streamelements-001"] != 47:
+              raise SystemExit(f"Expected 47 StreamElements cases, got {found['streamelements-001']}")
           if found["exchange-rate-api"] != 28:
               raise SystemExit(f"Expected 28 ExchangeRate-API cases, got {found['exchange-rate-api']}")
           if found["open-exchange-rates"] != 53:
@@ -439,7 +443,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;rate-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;modifier-capture;frankfurter-rates;api-031;api-029"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;rate-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;modifier-capture;frankfurter-rates;api-031;api-029;api-030"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE=ON
           -DSUBATHON_BUILD_STORAGE_003_STAGE1=ON
@@ -562,6 +566,8 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^api-031$' --output-on-failure --no-tests=error
       - name: Run trusted connector history profile acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^api-029$' --output-on-failure --no-tests=error
+      - name: Run authoritative intake recovery acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^api-030$' --output-on-failure --no-tests=error
       - name: Run all reviewed milestone interruption storage suites
         run: |
           ctest --preset sqlite-reference-capture-debug -L '^storage-027$' \
@@ -909,7 +915,7 @@ jobs:
           ctest --preset password-hashing-debug -L '^password-hashing$' --no-tests=error --verbose
       - name: Build the reviewed session supplier acceptance
         run: |
-          cmake --preset session-resolution-debug -DSUBATHON_FETCH_GOOGLETEST=ON \
+          cmake --preset session-resolution-debug -DSUBATHON_FETCH_GOOGLETEST=ON -DSUBATHON_BUILD_SESSION_TRANSPORT_STAGE1=ON \
             -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           cmake --build --preset session-resolution-debug
       - name: Check session-resolution-debug test programs against their closure list
@@ -928,6 +934,8 @@ jobs:
                       if "session-resolution" in next((p["value"] for p in test["properties"] if p["name"] == "LABELS"), [])]
           if not selected:
               raise SystemExit("No enabled session-resolution tests were discovered")
+          if sum(test["name"].startswith("SessionTransportS1.") for test in selected) != 11:
+              raise SystemExit("Expected exactly 11 SESSION-010 S1 tests")
           for test in selected:
               props = {p["name"]: p["value"] for p in test["properties"]}
               if not {'session-resolution', 'acceptance', 'server'}.issubset(props.get("LABELS", [])):

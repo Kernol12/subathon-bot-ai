@@ -413,3 +413,7 @@ endif()
 if(SUBATHON_BUILD_API_029_TESTS)
     add_subdirectory(api_029)
 endif()
+
+if(SUBATHON_BUILD_API_030_TESTS OR SUBATHON_BUILD_API_030_STAGE1)
+    add_subdirectory(api_030)
+endif()
