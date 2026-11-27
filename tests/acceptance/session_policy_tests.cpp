@@ -208,6 +208,20 @@ TEST_F(SessionPolicyS2, ColdExtraDrainRefusesAndFirstSuccessStillUsesG1) {
     EXPECT_EQ(good->reference, "g1");
 }
 
+TEST_F(SessionPolicyS2, WarmExtraDrainLatchesAndIdenticalSuccessAdvances) {
+    const auto old = publish(facts, 21);
+    ASSERT_NE(old, nullptr);
+    ASSERT_EQ(old->reference, "g1");
+    const auto attempt = policy->suspend();
+    ASSERT_TRUE(attempt);
+    constexpr std::array<Identity, 1> extra{31};
+    EXPECT_FALSE(policy->validate(*attempt, facts, extra));
+    EXPECT_FALSE(policy->is_current(old));
+    const auto restored = publish(facts, 22);
+    ASSERT_NE(restored, nullptr);
+    EXPECT_EQ(restored->reference, "g2");
+}
+
 TEST_F(SessionPolicyS2, AbandonChangedCandidateFencesOldPinAndRestorationAdvances) {
     ASSERT_NE(policy, nullptr);
     const auto old = publish(facts, 21);
@@ -345,7 +359,27 @@ TEST_F(SessionPolicyS2, LastGenerationIsRetainableButCannotWrap) {
     changed.limits.result_bytes = 1;
     EXPECT_FALSE(publish(changed, 23));
     EXPECT_FALSE(policy->is_current(pin));
-    EXPECT_FALSE(policy->suspend());
+    if (const auto attempt = policy->suspend()) {
+        if (const auto candidate = policy->validate(*attempt, facts)) {
+            EXPECT_FALSE(policy->publish(*attempt, evidence(*candidate, 24, facts)));
+        }
+    }
+    EXPECT_FALSE(policy->acquire());
+}
+
+TEST_F(SessionPolicyS2, LatchedIdenticalRestoreCannotReuseLastGeneration) {
+    constexpr auto last = std::numeric_limits<std::uint64_t>::max();
+    policy = Policy::seed_for_test(installation, budgets, readiness, last, facts,
+                                   evidence({{installation.identity, 41}, 42}, 21, facts));
+    ASSERT_NE(policy, nullptr);
+    const auto pin = policy->acquire();
+    ASSERT_NE(pin, nullptr);
+    const auto attempt = policy->suspend();
+    ASSERT_TRUE(attempt);
+    ASSERT_TRUE(policy->abandon(*attempt));
+    EXPECT_FALSE(publish(facts, 22));
+    EXPECT_FALSE(policy->is_current(pin));
+    EXPECT_FALSE(policy->acquire());
 }
 
 TEST_F(SessionPolicyS2, ReadinessMustMatchEveryCandidateBinding) {
@@ -436,8 +470,6 @@ TEST_F(SessionPolicyS2, UnexpectedDrainAtPublishDoesNotConsumeAttempt) {
 }
 
 TEST_F(SessionPolicyS2, TrustedLimitAndFactValidationRefusesWithoutRepair) {
-    const auto old = publish(facts, 21);
-    ASSERT_NE(old, nullptr);
     using Change = void (*)(Facts &);
     const std::array<Change, 10> invalid{
         +[](Facts &f) { f.limits.result_bytes = 0; },
@@ -455,6 +487,10 @@ TEST_F(SessionPolicyS2, TrustedLimitAndFactValidationRefusesWithoutRepair) {
     };
     for (std::size_t i = 0; i < invalid.size(); ++i) {
         SCOPED_TRACE(i);
+        policy = Policy::construct(installation, budgets, readiness);
+        ASSERT_NE(policy, nullptr);
+        const auto old = publish(facts, 21);
+        ASSERT_NE(old, nullptr);
         auto next = facts;
         invalid[i](next);
         const auto attempt = policy->suspend();
@@ -462,6 +498,45 @@ TEST_F(SessionPolicyS2, TrustedLimitAndFactValidationRefusesWithoutRepair) {
         EXPECT_FALSE(policy->validate(*attempt, next));
         EXPECT_FALSE(policy->is_current(old));
         EXPECT_FALSE(policy->acquire());
+    }
+}
+
+TEST_F(SessionPolicyS2, DirectModesAndNumericNonFinalDnsLabelsPublish) {
+    for (const auto mode : {Facts::Mode::direct_plain, Facts::Mode::direct_tls}) {
+        SCOPED_TRACE(static_cast<int>(mode));
+        policy = Policy::construct(installation, budgets, readiness);
+        ASSERT_NE(policy, nullptr);
+        auto next = facts;
+        next.mode = mode;
+        next.forwarded_metadata = false;
+        next.admitted_tls = mode == Facts::Mode::direct_tls;
+        next.origin = "https://1.example";
+        const auto pin = publish(next, 21);
+        ASSERT_NE(pin, nullptr);
+        EXPECT_EQ(pin->reference, "g1");
+    }
+}
+
+TEST_F(SessionPolicyS2, CompatibleEffectiveFactChangesAdvanceWithoutDrain) {
+    using Change = void (*)(Facts &);
+    const std::array<Change, 5> changes{
+        +[](Facts &f) { ++f.logging; },
+        +[](Facts &f) { ++f.isolation; },
+        +[](Facts &f) { ++f.forwarding_grammar; },
+        +[](Facts &f) { ++f.normalization; },
+        +[](Facts &f) { f.configuration = "next configuration"; },
+    };
+    for (std::size_t i = 0; i < changes.size(); ++i) {
+        SCOPED_TRACE(i);
+        policy = Policy::construct(installation, budgets, readiness);
+        ASSERT_NE(policy, nullptr);
+        const auto old = publish(facts, 21);
+        ASSERT_NE(old, nullptr);
+        auto next = facts;
+        changes[i](next);
+        const auto current = publish(next, 22);
+        ASSERT_NE(current, nullptr);
+        EXPECT_EQ(current->reference, "g2");
     }
 }
 
@@ -513,8 +588,7 @@ TEST_F(SessionPolicyS2, IdenticalAbandonAndPendingRefreshDoNotLatch) {
     readiness->states[22] = ReadinessState::unavailable;
     EXPECT_FALSE(policy->publish(pending.attempt, ack));
     EXPECT_TRUE(policy->is_current(old));
-    readiness->states[22] = ReadinessState::live;
-    EXPECT_EQ(policy->publish(pending.attempt, ack), old);
+    EXPECT_EQ(policy->publish(pending.attempt, evidence(pending, 23, facts)), old);
 }
 
 TEST_F(SessionPolicyS2, UnvalidatedAbandonLatchesAndOverCapRestoreConsumesHandle) {
@@ -534,6 +608,35 @@ TEST_F(SessionPolicyS2, UnvalidatedAbandonLatchesAndOverCapRestoreConsumesHandle
     const auto next = publish(facts, 23);
     ASSERT_NE(next, nullptr);
     EXPECT_EQ(next->reference, "g2");
+}
+
+TEST_F(SessionPolicyS2, ExpiredReadinessOverCapConsumesRestoreAttempt) {
+    policy = Policy::construct(installation, {4, 4, 1}, readiness);
+    ASSERT_NE(policy, nullptr);
+    auto old = publish(facts, 21);
+    ASSERT_NE(old, nullptr);
+    readiness->states[21] = ReadinessState::expired;
+    EXPECT_FALSE(policy->is_current(old));
+    const auto restore = validate(facts);
+    const auto ack = evidence(restore, 22, facts);
+    EXPECT_FALSE(policy->publish(restore.attempt, ack));
+    release(old);
+    EXPECT_FALSE(policy->publish(restore.attempt, ack));
+    const auto next = publish(facts, 23);
+    ASSERT_NE(next, nullptr);
+    EXPECT_EQ(next->reference, "g2");
+}
+
+TEST_F(SessionPolicyS2, DuplicateExpectedDrainChannelsRefuseAndLatch) {
+    const auto old = publish(facts, 21);
+    ASSERT_NE(old, nullptr);
+    auto next = facts;
+    ++next.foundation;
+    const auto attempt = policy->suspend();
+    ASSERT_TRUE(attempt);
+    constexpr std::array<Identity, 2> duplicates{31, 31};
+    EXPECT_FALSE(policy->validate(*attempt, next, duplicates));
+    EXPECT_FALSE(policy->is_current(old));
 }
 
 } // namespace
