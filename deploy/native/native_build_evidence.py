@@ -391,8 +391,10 @@ def _release_rows(selected, observed, repeated, layout, notice_paths):
                 **row["material"], "build": member_build, "archives": row["archives"],
             }, pin="build", at=row["revision"], suffix="/static")
 
+    # The inventory describes the reproducible output. A post-processed identity
+    # stays in the build record until its own member identities are available.
     artifact = dict(
-        id=scope, format=selected["recipe"], **observed.get("final_artifact", observed["output"]),
+        id=scope, format=selected["recipe"], **observed["output"],
         inventory_sha256=sha256(manifest.canonical(manifest.ordered_rows(members, "path"))).hexdigest(),
     )
     composition = [dict(path=row["path"], components=row["components"]) for row in members]
