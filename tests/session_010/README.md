@@ -75,3 +75,16 @@ This endpoint supplies a diagnostic response. It has no live API host or
 installation, 94A readiness acknowledgment, digest preparation, policy pin,
 session lookup or authenticated route. These two positives do not qualify refusal,
 logging, resource, reload or later scope-to-queue gates.
+
+## S3 ingress binding (#893, opt-in intentional red)
+
+`SUBATHON_BUILD_SESSION_INGRESS_S3_TESTS` (default OFF, account-capture build only)
+adds `session_010_ingress` and `session_010_ingress_upstream` under the
+`session-010-s3` label, outside required CI. They test the candidate binding in
+`session_ingress_candidate.hpp` (inert bodies) against the actual #591 capture lane,
+the shipped S2 policy owner and the unchanged S1 supplier, with BLAKE2b calls counted
+through a linker wrap. Direct cases send synthetic loopback literals through
+`ingress_fixture.hpp`. The upstream positive reuses this driver with
+`--suite ingress`. That producer reports `prepared=1` only after its binding handed
+off digestZ under its own `g1`. The driver still matches the reported peer to Caddy's
+upstream socket in `/proc`.
