@@ -150,7 +150,8 @@ advisor's thread asks for help to do the following without my words in its own t
   fails, it stops and reports. It opens the PR as a draft against `main` and reads
   back the PR's repository, head, base and draft state. GitHub cannot create a PR at
   a fixed commit, so if the read-back differs from the request, the session closes
-  the PR at once. It reports the result either way.
+  the PR at once. It reports the result either way and names the exact difference
+  when there is one.
 - **Post a review receipt.** The request names the PR and the stage. The receipt is
   one comment in the form of [the review template](docs/templates/REVIEW.md). It
   states the actual reviewer's provider, model and session and the reviewed commit,
