@@ -161,6 +161,16 @@ TEST_F(StartupCustodyTest, StopClosesPublicationBeforeAndAfterFrameworkOffer) {
     }
 }
 
+TEST_F(StartupCustodyTest, ClosedFenceRefusesCurrentSocketTurnBeforeDescriptorAccess) {
+    owner.stop(current);
+    EXPECT_FALSE(owner.observations().admission_open);
+    const BorrowedSocket unused{8, {address, 43100}};
+    EXPECT_EQ(owner.socket_options(current, Acceptor::first, app, unused), Turn::stale);
+    EXPECT_EQ(unused.accesses(), 0U);
+    EXPECT_EQ(owner.observations().io_outstanding, 0U);
+    EXPECT_EQ(owner.observations().publications, 0U);
+}
+
 TEST_F(StartupCustodyTest, StopDropsQueuedQtObserverBeforeRecordRead) {
     ready(owner);
     owner.stop(current);
@@ -179,6 +189,7 @@ TEST_F(StartupCustodyTest, AdmittedSnapshotSurvivesStopAndDelaysRecordRelease) {
     EXPECT_FALSE(owner.admit_observer(current));
     EXPECT_FALSE(owner.observations().record_released);
     owner.release_observer(current);
+    EXPECT_EQ(owner.observations().admitted_readers, 0U);
     EXPECT_TRUE(owner.observations().record_released);
 }
 
@@ -214,6 +225,7 @@ TEST_F(StartupCustodyTest, AcceptedIoWorkCannotBeTreatedAsCold) {
 }
 
 TEST_F(StartupCustodyTest, StaleColdCancelCannotReleaseFreshCurrentRecord) {
+    EXPECT_TRUE(owner.observations().admission_open);
     expect_stale_effect_free(owner, [&] { owner.cancel_cold(former); });
     EXPECT_FALSE(owner.observations().record_released);
     EXPECT_EQ(owner.observations().io_outstanding, 0U);
@@ -323,12 +335,14 @@ TEST_F(StartupCustodyTest, StaleStopAndReleaseCannotRetireCurrentReader) {
     expect_stale_effect_free(owner, [&] { owner.stop(former); });
     expect_stale_effect_free(owner, [&] { owner.cancel_cold(former); });
     ASSERT_EQ(owner.admit_observer(current), expected);
+    EXPECT_EQ(owner.observations().admitted_readers, 1U);
     owner.stop(current);
     expect_stale_effect_free(owner, [&] { owner.release_observer(former); });
     owner.acknowledge(current, Party::framework);
     owner.acknowledge(current, Party::io);
     EXPECT_FALSE(owner.observations().record_released);
     owner.release_observer(current);
+    EXPECT_EQ(owner.observations().admitted_readers, 0U);
     EXPECT_TRUE(owner.observations().record_released);
 }
 
@@ -344,6 +358,38 @@ TEST_F(StartupCustodyTest, EarlyExceptionNeedsProofOfIoAbsence) {
         EXPECT_EQ(state.record_released, !queued);
         EXPECT_FALSE(subject.admit_observer(current));
     }
+}
+
+TEST_F(StartupCustodyTest, DrainedIoWorkStillRequiresRetirementAfterEarlyException) {
+    EXPECT_EQ(owner.socket_options(current, Acceptor::first, app, app_socket), Turn::accepted);
+    EXPECT_EQ(owner.observations().io_outstanding, 1U);
+    EXPECT_EQ(owner.listen_return(current, app), Turn::accepted);
+    EXPECT_EQ(owner.observations().io_outstanding, 0U);
+    EXPECT_EQ(owner.observations().publications, 0U);
+
+    owner.framework_exception(current);
+    const auto pending = owner.observations();
+    EXPECT_TRUE(pending.unavailable);
+    EXPECT_TRUE(pending.framework_retired);
+    EXPECT_FALSE(pending.io_retired);
+    EXPECT_FALSE(pending.record_released);
+    owner.acknowledge(current, Party::io);
+    EXPECT_TRUE(owner.observations().record_released);
+}
+
+TEST_F(StartupCustodyTest, LateExceptionRefusesFirstObserverWithoutReadingRecord) {
+    ready(owner);
+    EXPECT_TRUE(owner.observations().admission_open);
+    EXPECT_EQ(owner.observations().admitted_readers, 0U);
+    const auto reads = owner.observations().record_reads;
+
+    owner.framework_exception(current);
+    EXPECT_TRUE(owner.observations().unavailable);
+    EXPECT_FALSE(owner.observations().admission_open);
+    EXPECT_FALSE(owner.admit_observer(current));
+    EXPECT_EQ(owner.observations().record_reads, reads);
+    EXPECT_EQ(owner.observations().admitted_readers, 0U);
+    EXPECT_FALSE(owner.observations().record_released);
 }
 
 TEST_F(StartupCustodyTest, LateExceptionKeepsAdmittedReaderAndRequiresIoRetirement) {

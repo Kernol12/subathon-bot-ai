@@ -111,7 +111,9 @@ inline void PrintTo(const Snapshot &value, std::ostream *out) {
 
 struct Observations {
     unsigned publications{};
-    unsigned record_reads{};   // Reads of the immutable record, excluding its construction.
+    unsigned record_reads{}; // Reads of the immutable record, excluding its construction.
+    unsigned admitted_readers{};
+    bool admission_open{};
     unsigned io_outstanding{}; // Accepted IO0 work that has yet to complete or be discarded.
     bool framework_retired{};
     bool io_retired{};
