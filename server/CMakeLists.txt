@@ -14,6 +14,13 @@ target_include_directories(subathon_connector_lifecycle PUBLIC "${CMAKE_CURRENT_
 target_link_libraries(subathon_connector_lifecycle PUBLIC subathon_contribution)
 subathon_target_options(subathon_connector_lifecycle)
 
+if(TARGET subathon_exact_numeric)
+    add_library(subathon_streamelements_astro STATIC EXCLUDE_FROM_ALL src/streamelements_astro.cpp)
+    target_include_directories(subathon_streamelements_astro PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_streamelements_astro PUBLIC subathon_core PRIVATE subathon_exact_numeric)
+    subathon_target_options(subathon_streamelements_astro)
+endif()
+
 # The explicit acceptance suite requires dependencies that ordinary builds may omit.
 if(BUILD_TESTING AND SUBATHON_BUILD_FRANKFURTER_RATES_TESTS)
     if(NOT TARGET subathon_rate_overrides)
@@ -78,7 +85,8 @@ if(BUILD_TESTING AND SUBATHON_BUILD_RULE_SIMULATOR_TESTS)
 endif()
 
 if(TARGET Sodium::Sodium)
-    add_library(subathon_session_resolution STATIC src/session_resolution.cpp)
+    add_library(subathon_session_resolution STATIC
+        src/session_resolution.cpp src/session_transport.cpp src/session_policy.cpp)
     target_include_directories(subathon_session_resolution PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_session_resolution PRIVATE Sodium::Sodium)
     subathon_target_options(subathon_session_resolution)
@@ -271,8 +279,11 @@ if(TARGET subathon_sqlite_credential_catalog AND TARGET subathon_sqlite_permissi
         src/sqlite_connector_intake_read.cpp
         src/sqlite_connector_intake_history.cpp
         src/sqlite_connector_intake_page.cpp
-        src/sqlite_connector_intake_receipt.cpp)
-    target_link_libraries(subathon_contribution_review PUBLIC subathon_sqlite_milestone_target_edits)
+        src/sqlite_connector_intake_receipt.cpp
+        src/sqlite_connector_intake_recovery.cpp
+        src/intake_recovery_codec.cpp)
+    target_link_libraries(subathon_contribution_review PUBLIC subathon_sqlite_milestone_target_edits
+        PRIVATE subathon_reference_capture_values subathon_modifier_capture)
     subathon_target_options(subathon_contribution_review)
 endif()
 

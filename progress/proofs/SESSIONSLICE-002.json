@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "task_id": "SESSIONSLICE-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 892
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/SESSION-010-S2.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/892",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/892#issuecomment-7211097526",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/892#issuecomment-7213752638",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/913",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/914",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/913#issuecomment-7220668278",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/892#issuecomment-7211551297",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/913#issuecomment-7220660680",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/913#issuecomment-7220664023",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/914#issuecomment-7223348193",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/914#issuecomment-7223350134",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/914#issuecomment-7223352068",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/46039500407"
+  ],
+  "limitations": [
+    "Credited intended red at 2b0d725a ran all 32 selected tests with 32 behavioral failures and zero skips. Log SHA-256 aa683974e5ab773f2b8690de99c3501d160f103d6720257089e758e69551d152. The separate pre-review invocation, with identical output, is history only.",
+    "The test packet binds the unchanged assertion file and canonical brief at 71e34c8b. The candidate header is bound in the implementation packet because it changed from the reviewed inert stub to the reviewed production binding.",
+    "Advisor decision 892.41 resolved the Codex verification condition without changes at 62a635d3 and counts that result as approval. Trusted host pairing is acceptance work for #894. seed_for_test stays accessible for the frozen test suite.",
+    "Main integrations retain the exact task code and candidate blobs. Reviewed CI and server CMake hunks are retained alongside changes from main in those shared files. The structured implementation packet binds the surviving identical blobs.",
+    "Hosted CI passed on integrated implementation d0544f97. Integrating fee869b2 brings in only the API-034 contract. The proof commit requires current CI. The synthetic policy tests do not establish native or live host behavior."
+  ],
+  "verification": {
+    "intended_red": "observed_red",
+    "hosted_ci_d0544f97": "passed"
+  },
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "authors": [
+          "git:Kernol12"
+        ],
+        "revision": "71e34c8b4d94c25750dfbe81cd4c03ee7c4e4332",
+        "paths": [
+          "docs/tasks/SESSION-010-S2.md",
+          "tests/acceptance/session_policy_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:track:001f702b91ec564d21758375950a735d8dcc45aebec1d600ac4b5e51675f8fb8",
+            "revision": "96b338d290c5f9175e3fbe5e886312e21771dc2b",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/892#issuecomment-7211551297",
+            "findings": [
+              "B1",
+              "B2",
+              "B3",
+              "B4",
+              "B5",
+              "B6",
+              "N1",
+              "N2",
+              "N3",
+              "N4",
+              "N5",
+              "N6"
+            ],
+            "blocking_findings": [
+              "B1",
+              "B2",
+              "B3",
+              "B4",
+              "B5",
+              "B6"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/verify892brief:activity-9062",
+            "revision": "71e34c8b4d94c25750dfbe81cd4c03ee7c4e4332",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/913#issuecomment-7220660680",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:track:001f702b91ec564d21758375950a735d8dcc45aebec1d600ac4b5e51675f8fb8:run-56",
+            "revision": "71e34c8b4d94c25750dfbe81cd4c03ee7c4e4332",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/913#issuecomment-7220664023",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "authors": [
+          "git:Kernol12"
+        ],
+        "revision": "62a635d3409b1225769242a01126b1640326cc0a",
+        "paths": [
+          "server/src/session_policy.cpp",
+          "server/src/session_policy.hpp",
+          "server/src/session_transport.cpp",
+          "server/src/session_transport.hpp",
+          "tests/acceptance/session_policy_candidate.hpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:track:001f702b91ec564d21758375950a735d8dcc45aebec1d600ac4b5e51675f8fb8:run-57",
+            "revision": "b7dc64f666c8fa174f27cff81ce876e53ec62bf4",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/914#issuecomment-7223348193",
+            "findings": [
+              "B1",
+              "B2",
+              "N3",
+              "N4",
+              "N5",
+              "N6"
+            ],
+            "blocking_findings": [
+              "B1",
+              "B2"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/verify892impl:activity-9193",
+            "revision": "62a635d3409b1225769242a01126b1640326cc0a",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/914#issuecomment-7223350134",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:track:001f702b91ec564d21758375950a735d8dcc45aebec1d600ac4b5e51675f8fb8:run-58",
+            "revision": "62a635d3409b1225769242a01126b1640326cc0a",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/914#issuecomment-7223352068",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  }
+}

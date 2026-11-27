@@ -116,4 +116,38 @@ if(SUBATHON_BUILD_ACCOUNT_CAPTURE_TESTS)
                 ENVIRONMENT "LD_LIBRARY_PATH=${sbt_drogon_root}/lib")
         endforeach()
     endif()
+
+    # SESSION-010 S3 (#893): opt-in intentional red, outside required CI until the
+    # implementation enrols it. Direct loopback cases, plus the Caddy positive.
+    if(SUBATHON_BUILD_SESSION_INGRESS_S3_TESTS)
+        foreach(sbt_s3 IN ITEMS session_010_ingress session_010_ingress_upstream)
+            set(sbt_s3_source ingress_tests.cpp)
+            if(sbt_s3 STREQUAL "session_010_ingress_upstream")
+                set(sbt_s3_source ingress_upstream.cpp)
+            endif()
+            add_executable(${sbt_s3} "${PROJECT_SOURCE_DIR}/tests/session_010/${sbt_s3_source}")
+            target_include_directories(${sbt_s3} PRIVATE "${sbt_account_private}"
+                "${PROJECT_SOURCE_DIR}/server/src")
+            target_link_libraries(${sbt_s3} PRIVATE ${sbt_bounded_http_producer}
+                subathon_session_resolution subathon_native_websocket_profile Sodium::Sodium
+                Drogon::Drogon Threads::Threads GTest::gtest_main)
+            target_link_options(${sbt_s3} PRIVATE "LINKER:--wrap=crypto_generichash")
+            subathon_target_options(${sbt_s3})
+            set_target_properties(${sbt_s3} PROPERTIES BUILD_RPATH "${sbt_drogon_root}/lib")
+        endforeach()
+        subathon_discover_gtests(session_010_ingress
+            LABELS "session-010-s3;intentional-red;server;loopback" TIMEOUT 40)
+        if(SUBATHON_SESSION010_CADDY)
+            foreach(selector IN ITEMS Desktop252 Browser282)
+                add_test(NAME "session-010-s3.upstream.${selector}"
+                    COMMAND "${Python3_EXECUTABLE}"
+                        "${PROJECT_SOURCE_DIR}/tests/session_010/edge_capture_driver.py"
+                        --producer "$<TARGET_FILE:session_010_ingress_upstream>"
+                        --caddy "${SUBATHON_SESSION010_CADDY}" --selector "${selector}" --suite ingress)
+                set_tests_properties("session-010-s3.upstream.${selector}" PROPERTIES
+                    LABELS "session-010-s3;intentional-red;server;loopback" TIMEOUT 60
+                    ENVIRONMENT "LD_LIBRARY_PATH=${sbt_drogon_root}/lib")
+            endforeach()
+        endif()
+    endif()
 endif()

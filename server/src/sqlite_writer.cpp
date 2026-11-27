@@ -2,6 +2,7 @@
 #include <subathon/server/sqlite_writer.hpp>
 
 #include "contribution_review_writer_access.hpp"
+#include "intake_recovery_writer_access.hpp"
 #include "sqlite_connection.hpp"
 #include "sqlite_migration_inspection.hpp"
 #include "sqlite_v22_catalog.hpp"
@@ -631,6 +632,15 @@ class SqliteWorkState final {
         review_.emplace(ReviewSqlAllowance{ceiling * 32, ceiling * 104});
     }
 
+    StorageLimits intake_recovery_limits() {
+        require_active();
+        return limits_;
+    }
+    detail::IntakeRecoveryRemaining intake_recovery_remaining() {
+        require_active();
+        return {statements_left_, bindings_left_, rows_left_, values_left_};
+    }
+
     detail::ReviewReadCost review_remaining() {
         require_active();
         return {statements_left_, rows_left_, review_->result_documents};
@@ -899,6 +909,7 @@ WorkError SqliteWorkSession::cleanup() const noexcept {
 
 class SqliteWriter::Impl {
     friend class detail::ContributionReviewWriterAccess;
+    friend class detail::IntakeRecoveryWriterAccess;
     friend class detail::CatalogWriterAccess;
     bool review_active_ = false;
 
@@ -1208,6 +1219,22 @@ bool detail::CatalogWriterAccess::verified_v22(const SqliteWorkSession &session)
 SqliteWriter::SqliteWriter(QObject *parent)
     : QObject(parent), impl_(std::make_unique<Impl>(this)) {}
 SqliteWriter::~SqliteWriter() = default;
+
+std::optional<StorageLimits>
+detail::IntakeRecoveryWriterAccess::limits(const SqliteWriter &writer) {
+    if (!writer.impl_->on_owner() || !writer.impl_->connection_.is_open())
+        return {};
+    return writer.impl_->limits_;
+}
+
+StorageLimits detail::IntakeRecoveryWriterAccess::limits(const SqliteWorkSession &session) {
+    return live_work_state(session.state_)->intake_recovery_limits();
+}
+
+detail::IntakeRecoveryRemaining
+detail::IntakeRecoveryWriterAccess::remaining(const SqliteWorkSession &session) {
+    return live_work_state(session.state_)->intake_recovery_remaining();
+}
 
 StorageLimits detail::ContributionReviewWriterAccess::limits(const SqliteWriter &writer) {
     return writer.impl_->on_owner() ? writer.impl_->limits_ : StorageLimits{};
