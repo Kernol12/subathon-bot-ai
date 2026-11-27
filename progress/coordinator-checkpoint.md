@@ -220,7 +220,7 @@ running sessions, completed reviews and receipts retain their original models.
 
 The task-specific authorizations of that date are in the
 [checkpoint archive](coordinator-checkpoint-archive.md). These parts apply to every
-task and stay here unchanged:
+task:
 
 - Since ADR-0014 a run script for one task needs no approval when it
   is routine run mechanics as [the advisor page](../docs/ADVISOR.md) defines
@@ -233,12 +233,14 @@ task and stay here unchanged:
 - Batch checkpoint updates into one documentation PR per stage, not per decision.
 - From the first item of that section, which made the coordinator the sole writer of
   `.github/workflows/ci.yml` for APITEST-017 and APITEST-015: "Other shared-file
-  conflicts still stop for owner." The owner limited this sentence on 2026-11-27.
-  When a merge conflict in a shared file can be resolved by keeping both sides'
-  lines exactly and changing nothing else, the coordinator resolves it as routine
-  run mechanics under the conditions in [the workflow](../docs/AGENT_WORKFLOW.md).
-  A conflict in a shared file stops for the owner only when both sides' lines
-  cannot all be kept.
+  conflicts still stop for owner." The owner made one exception on 2026-11-27. When
+  the two sides of a merge have each added entries to the same shared list, such as
+  a suite list, the coordinator resolves that conflict as routine run mechanics
+  under the conditions in [the workflow](../docs/AGENT_WORKFLOW.md). The resolution
+  keeps every added entry of both sides verbatim and adds no other edit of its own
+  to the file. The coordinator shows the combined diff, so that a reviewer can
+  verify that it contains only the additions from `main` and from the reviewed
+  branch. Every other shared-file conflict still stops for the owner.
 
 Coordinator owns any future shared CI/proof/checkpoint integration only within
 new owner authorization. Build/scratch remain on disk under owned ignored task
