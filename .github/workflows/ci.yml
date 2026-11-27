@@ -905,7 +905,7 @@ jobs:
           ctest --preset password-hashing-debug -L '^password-hashing$' --no-tests=error --verbose
       - name: Build the reviewed session supplier acceptance
         run: |
-          cmake --preset session-resolution-debug -DSUBATHON_FETCH_GOOGLETEST=ON \
+          cmake --preset session-resolution-debug -DSUBATHON_FETCH_GOOGLETEST=ON -DSUBATHON_BUILD_SESSION_TRANSPORT_STAGE1=ON \
             -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           cmake --build --preset session-resolution-debug
       - name: Check session-resolution-debug test programs against their closure list
@@ -924,6 +924,8 @@ jobs:
                       if "session-resolution" in next((p["value"] for p in test["properties"] if p["name"] == "LABELS"), [])]
           if not selected:
               raise SystemExit("No enabled session-resolution tests were discovered")
+          if sum(test["name"].startswith("SessionTransportS1.") for test in selected) != 11:
+              raise SystemExit("Expected exactly 11 SESSION-010 S1 tests")
           for test in selected:
               props = {p["name"]: p["value"] for p in test["properties"]}
               if not {'session-resolution', 'acceptance', 'server'}.issubset(props.get("LABELS", [])):

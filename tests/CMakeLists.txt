@@ -96,6 +96,7 @@ if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS)
     add_executable(server_session_resolution_acceptance acceptance/session_resolution_tests.cpp)
     if(SUBATHON_BUILD_SESSION_TRANSPORT_STAGE1)
         target_sources(server_session_resolution_acceptance PRIVATE acceptance/session_transport_tests.cpp)
+        target_include_directories(server_session_resolution_acceptance PRIVATE "${CMAKE_SOURCE_DIR}/server/src")
     endif()
     target_link_libraries(server_session_resolution_acceptance PRIVATE
         subathon_session_resolution Sodium::Sodium GTest::gtest_main)
