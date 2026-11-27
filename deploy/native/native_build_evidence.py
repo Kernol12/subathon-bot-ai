@@ -66,9 +66,10 @@ def _material_locator(value):
         return False
     try:
         parsed = urlsplit(value)
+        port = parsed.port  # Access validates the syntax and range.
         return (parsed.scheme in {"http", "https"} and bool(parsed.hostname)
                 and parsed.path not in ("", "/") and parsed.username is None
-                and parsed.password is None)
+                and parsed.password is None and port != 0)
     except ValueError:
         return False
 
