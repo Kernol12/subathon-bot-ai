@@ -31,6 +31,7 @@ struct Facts {
     std::vector<std::string> peers{"127.0.0.1"};
     AccountTransportLimits limits;
     Identity foundation = 1, native_abi = 1, native_artifact = 1, profile = 1;
+    // 892.2's edge artifact or configuration refers to edge_artifact and edge_config.
     Identity listener = 1, edge_artifact = 1, edge_config = 1, logging = 1;
     Identity isolation = 1, forwarding_grammar = 1, normalization = 1;
     std::string configuration = "configuration", address = "127.0.0.1";

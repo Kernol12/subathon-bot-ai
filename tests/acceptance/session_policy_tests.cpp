@@ -35,6 +35,8 @@ class SessionPolicyS2 : public ::testing::Test {
     std::unique_ptr<Policy> policy = Policy::construct(installation, budgets, readiness);
     Facts facts;
 
+    void SetUp() override { ASSERT_NE(policy, nullptr); }
+
     Candidate validate(const Facts &next, std::span<const Identity> affected = {}) {
         const auto attempt = policy->suspend();
         if (!attempt) {
@@ -426,7 +428,7 @@ TEST_F(SessionPolicyS2, ActiveExpiryKeepsPendingAttemptAndLateExpiryCannotTouchG
 
 TEST_F(SessionPolicyS2, EveryInvalidatingChangeRequiresAValidatedDrainSet) {
     using Change = void (*)(Facts &);
-    const std::array<Change, 9> changes{
+    const std::array<Change, 10> changes{
         +[](Facts &f) { f.address = "127.0.0.2"; },
         +[](Facts &f) { ++f.listener; },
         +[](Facts &f) { std::swap(f.routes[0], f.routes[1]); },
@@ -436,6 +438,7 @@ TEST_F(SessionPolicyS2, EveryInvalidatingChangeRequiresAValidatedDrainSet) {
         +[](Facts &f) { ++f.edge_artifact; },
         +[](Facts &f) { ++f.edge_config; },
         +[](Facts &f) { ++f.foundation; },
+        +[](Facts &f) { ++f.isolation; },
     };
     facts.routes.push_back({"/other", "POST", AccountTransportPurpose::protected_access});
     constexpr std::array<Identity, 2> channels{31, 32};
@@ -502,13 +505,14 @@ TEST_F(SessionPolicyS2, TrustedLimitAndFactValidationRefusesWithoutRepair) {
 }
 
 TEST_F(SessionPolicyS2, DirectModesAndNumericNonFinalDnsLabelsPublish) {
-    for (const auto mode : {Facts::Mode::direct_plain, Facts::Mode::direct_tls}) {
+    for (const auto mode : {Facts::Mode::direct_plain, Facts::Mode::direct_tls,
+                            Facts::Mode::proxied}) {
         SCOPED_TRACE(static_cast<int>(mode));
         policy = Policy::construct(installation, budgets, readiness);
         ASSERT_NE(policy, nullptr);
         auto next = facts;
         next.mode = mode;
-        next.forwarded_metadata = false;
+        next.forwarded_metadata = mode == Facts::Mode::proxied;
         next.admitted_tls = mode == Facts::Mode::direct_tls;
         next.origin = "https://1.example";
         const auto pin = publish(next, 21);
@@ -519,12 +523,10 @@ TEST_F(SessionPolicyS2, DirectModesAndNumericNonFinalDnsLabelsPublish) {
 
 TEST_F(SessionPolicyS2, CompatibleEffectiveFactChangesAdvanceWithoutDrain) {
     using Change = void (*)(Facts &);
-    const std::array<Change, 5> changes{
+    const std::array<Change, 3> changes{
         +[](Facts &f) { ++f.logging; },
-        +[](Facts &f) { ++f.isolation; },
         +[](Facts &f) { ++f.forwarding_grammar; },
         +[](Facts &f) { ++f.normalization; },
-        +[](Facts &f) { f.configuration = "next configuration"; },
     };
     for (std::size_t i = 0; i < changes.size(); ++i) {
         SCOPED_TRACE(i);
@@ -538,6 +540,19 @@ TEST_F(SessionPolicyS2, CompatibleEffectiveFactChangesAdvanceWithoutDrain) {
         ASSERT_NE(current, nullptr);
         EXPECT_EQ(current->reference, "g2");
     }
+}
+
+TEST_F(SessionPolicyS2, ChangedReadinessConfigurationCannotKeepOldPinCurrent) {
+    const auto old = publish(facts, 21);
+    ASSERT_NE(old, nullptr);
+    auto next = facts;
+    next.configuration = "next configuration";
+    const auto attempt = policy->suspend();
+    ASSERT_TRUE(attempt);
+    if (policy->validate(*attempt, next)) {
+        EXPECT_TRUE(policy->abandon(*attempt));
+    }
+    EXPECT_FALSE(policy->is_current(old));
 }
 
 TEST_F(SessionPolicyS2, PositiveUndersizedLimitsPublishAtG1) {
