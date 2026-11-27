@@ -154,17 +154,19 @@ class Producer {
     std::list<Waiting> waiting_;
     std::optional<Window> active_;
     std::optional<std::string> hold_;
-    std::optional<EventAnnouncementManagement> management_capture_;
+    std::optional<ObservedAnnouncementManagement> management_capture_;
     std::uint64_t reference_sequence_{0};
 };
 
 // The owner constructs this component with its admitted opaque reference.
-// Its capture is valid only for the producer's serialized observation cut.
+// Use only on the serialized owner thread, and keep the producer alive for
+// the binding's lifetime. Its capture represents that owner's observation cut.
 class AnnouncementManagement {
   public:
     AnnouncementManagement(Producer &producer, std::string_view owner_reference)
         : producer_(producer), owner_reference_(owner_reference) {}
 
+    // An empty owner reference invalidates the capture without advancing.
     void advance_and_capture(OwnerTurn);
     void invalidate_capture();
     [[nodiscard]] ObservedAnnouncementManagement read(CommandAuthority) const;

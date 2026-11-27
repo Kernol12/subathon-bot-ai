@@ -329,7 +329,8 @@ void AnnouncementManagement::advance_and_capture(OwnerTurn turn) {
         return;
     }
     producer_.advance(turn);
-    producer_.management_capture_ = producer_.management(Disclosure::allowed);
+    producer_.management_capture_ =
+        ObservedAnnouncementManagement{owner_reference_, producer_.management(Disclosure::allowed)};
 }
 
 void AnnouncementManagement::invalidate_capture() { producer_.management_capture_.reset(); }
@@ -338,10 +339,11 @@ ObservedAnnouncementManagement AnnouncementManagement::read(CommandAuthority dis
     if (disclosure != CommandAuthority::current) {
         return {{}, EventAnnouncementUndisclosed{}};
     }
-    if (owner_reference_.empty() || !producer_.management_capture_) {
+    const auto &capture = producer_.management_capture_;
+    if (owner_reference_.empty() || !capture || capture->owner_reference != owner_reference_) {
         return {{}, EventAnnouncementUnavailable{}};
     }
-    return {owner_reference_, *producer_.management_capture_};
+    return *capture;
 }
 
 std::optional<CheckedManagementOutcome>
@@ -372,6 +374,7 @@ CheckedManagementOutcome AnnouncementManagement::cancel(std::string_view observe
                                    choice != EventAnnouncementAfterCancel::continue_queue)) {
         return Outcome::refused;
     }
+    // Keep the head and authority checks in step with Producer::cancel.
     if (observed_owner != owner_reference_ || producer_.waiting_.empty() ||
         producer_.waiting_.front().action != request.expected_head) {
         return Outcome::stale;
@@ -407,6 +410,7 @@ CheckedManagementOutcome AnnouncementManagement::resume(std::string_view observe
         return Outcome::stale;
     }
     producer_.hold_.reset();
+    invalidate_capture();
     producer_.advance(admission.turn);
     return Outcome::applied;
 }
