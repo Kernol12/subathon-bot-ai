@@ -14,7 +14,7 @@ option(SUBATHON_BUILD_RATES_004_STAGE1 "Build the reviewed RATES-004 acceptance 
 option(SUBATHON_BUILD_MILESTONE_006_SLICE3 "Build MILESTONE-006 Stage 1 application and recovery fixtures" OFF)
 option(SUBATHON_BUILD_MILESTONE_006_SLICE2 "Build the remaining MILESTONE-006 Stage 1 fixtures" OFF)
 option(SUBATHON_BUILD_MILESTONE_006_STAGE1 "Build the opt-in MILESTONE-006 Stage 1 fixtures" OFF)
-option(SUBATHON_BUILD_STREAMELEMENTS_001_STAGE1 "Build the inert StreamElements tests baseline" OFF)
+option(SUBATHON_BUILD_STREAMELEMENTS_001_STAGE1 "Build offline StreamElements adapter acceptance tests" OFF)
 option(SUBATHON_BUILD_STORAGE_003_STAGE1 "Build the reviewed STORAGE-003 structural baseline" OFF)
 option(SUBATHON_BUILD_STORAGE_027_STAGE1 "Build the STORAGE-027 reviewed acceptance suites" OFF)
 option(SUBATHON_BUILD_RATES_012_STAGE1 "Build the reviewed RATES-012 acceptance suite" OFF)
@@ -23,6 +23,7 @@ option(SUBATHON_BUILD_RULES_005_STAGE1 "Build the reviewed RULES-005 acceptance 
 option(SUBATHON_BUILD_EVENT_ANNOUNCEMENT_STAGE1 "Build the event announcement intentional-red suite" OFF)
 option(SUBATHON_BUILD_API_024_STAGE1 "Build the API-024 listener intentional-red suite" OFF)
 option(SUBATHON_BUILD_SESSION_TRANSPORT_STAGE1 "Build the SESSION-010 S1 intentional-red tests" OFF)
+option(SUBATHON_BUILD_SESSION_POLICY_S2_TESTS "Build the opt-in SESSION-010 S2 policy tests (requires session-resolution suite)" OFF)
 option(SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE "Build the ACCT-007 Qt acceptance suite explicitly" OFF)
 option(SUBATHON_BUILD_MODIFIER_005_STAGE1 "Build the reviewed MODIFIER-005 acceptance suite" OFF)
 option(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE "Build the modifier-clock acceptance suite explicitly" OFF)
@@ -92,7 +93,8 @@ if(BUILD_TESTING AND (SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_APPLI
         OR SUBATHON_BUILD_RULE_CHAIN_TESTS
         OR SUBATHON_BUILD_RATE_CREDENTIALS_TESTS OR SUBATHON_BUILD_RULE_SIMULATOR_TESTS
         OR SUBATHON_BUILD_MODIFIER_CAPTURE_TESTS OR SUBATHON_BUILD_API_031_TESTS OR SUBATHON_BUILD_API_029_TESTS
-        OR SUBATHON_BUILD_API_030_TESTS OR SUBATHON_BUILD_API_030_STAGE1))
+        OR SUBATHON_BUILD_API_030_TESTS OR SUBATHON_BUILD_API_030_STAGE1
+        OR SUBATHON_BUILD_STREAMELEMENTS_001_STAGE1))
     find_package(Boost 1.83 CONFIG REQUIRED)
 else()
     find_package(Boost 1.83 CONFIG QUIET)
