@@ -14,6 +14,13 @@ target_include_directories(subathon_connector_lifecycle PUBLIC "${CMAKE_CURRENT_
 target_link_libraries(subathon_connector_lifecycle PUBLIC subathon_contribution)
 subathon_target_options(subathon_connector_lifecycle)
 
+if(TARGET subathon_exact_numeric)
+    add_library(subathon_streamelements_astro STATIC EXCLUDE_FROM_ALL src/streamelements_astro.cpp)
+    target_include_directories(subathon_streamelements_astro PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_streamelements_astro PUBLIC subathon_core PRIVATE subathon_exact_numeric)
+    subathon_target_options(subathon_streamelements_astro)
+endif()
+
 # The explicit acceptance suite requires dependencies that ordinary builds may omit.
 if(BUILD_TESTING AND SUBATHON_BUILD_FRANKFURTER_RATES_TESTS)
     if(NOT TARGET subathon_rate_overrides)
