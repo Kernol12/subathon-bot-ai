@@ -94,6 +94,9 @@ endif()
 if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS)
 
     add_executable(server_session_resolution_acceptance acceptance/session_resolution_tests.cpp)
+    if(SUBATHON_BUILD_SESSION_TRANSPORT_STAGE1)
+        target_sources(server_session_resolution_acceptance PRIVATE acceptance/session_transport_tests.cpp)
+    endif()
     target_link_libraries(server_session_resolution_acceptance PRIVATE
         subathon_session_resolution Sodium::Sodium GTest::gtest_main)
     subathon_target_options(server_session_resolution_acceptance)
