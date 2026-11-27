@@ -191,7 +191,7 @@ TEST(SessionTransportS1, GuardAndCredentialForms) {
     control.source.fields = {{"Cookie", cookie}, {"X-Subathon-CSRF", "1\x01"}, {"Origin", "null"}};
     control.refuse(Failure::invalid_syntax);
     Case bad_name;
-    bad_name.source.fields = {{"Authorization", bearer}, {"bad name", "x"}};
+    bad_name.source.fields = {{"Authorization", bearer}, {"bad name", "x"}, origin_field};
     bad_name.refuse(Failure::invalid_syntax);
     Case desktop;
     desktop.source.fields = {{"authorization", mixed}};
