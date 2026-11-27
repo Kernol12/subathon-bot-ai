@@ -97,10 +97,16 @@ struct Snapshot {
 };
 
 inline void PrintTo(const Snapshot &value, std::ostream *out) {
-    *out << "application " << value.application.binding.address << ':'
-         << value.application.binding.port << " options " << value.application.options_verified
-         << ", overlay " << value.overlay.binding.address << ':' << value.overlay.binding.port
-         << " options " << value.overlay.options_verified << ", scratch " << value.scratch_root;
+    const auto print = [out](const Endpoint &endpoint) {
+        *out << (endpoint.binding.role == Role::application ? "application" : "overlay") << ' '
+             << endpoint.binding.address << ':' << endpoint.binding.port << " options "
+             << endpoint.options_verified;
+    };
+    *out << "application slot ";
+    print(value.application);
+    *out << ", overlay slot ";
+    print(value.overlay);
+    *out << ", scratch " << value.scratch_root;
 }
 
 struct Observations {

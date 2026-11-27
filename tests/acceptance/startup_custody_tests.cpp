@@ -3,6 +3,17 @@
 
 #include <gtest/gtest.h>
 
+// Stale entry point      Cut where its current counterpart could take effect
+// socket_options         StaleSocketCannotClaimTheMissingCurrentRole
+// listen_return, offer   StaleOfferAndLastListenReturnCannotEnablePublication
+// publish                StalePublishCannotConsumeEligibleCurrentHandoff
+// admit_observer         StaleIdentityCannotTouchReusedSocketOrRecord
+// release_observer, stop StaleStopAndReleaseCannotRetireCurrentReader
+// route                  StaleIdentityCannotTouchReusedSocketOrRecord
+// acknowledge            StaleAcknowledgmentsCannotRetireClosedCurrentRecord
+// cancel_cold            StaleColdCancelCannotReleaseFreshCurrentRecord
+// framework_exception    StaleIdentityCannotTouchReusedSocketOrRecord
+
 namespace {
 using namespace subathon::server::startup_custody_candidate;
 
@@ -184,6 +195,39 @@ TEST_F(StartupCustodyTest, AcceptedIoWorkCannotBeTreatedAsCold) {
     EXPECT_FALSE(owner.observations().io_retired);
     EXPECT_FALSE(owner.observations().record_released);
     EXPECT_EQ(owner.observations().io_outstanding, 1U);
+}
+
+TEST_F(StartupCustodyTest, StaleColdCancelCannotReleaseFreshCurrentRecord) {
+    owner.cancel_cold(former);
+    EXPECT_FALSE(owner.observations().record_released);
+    EXPECT_EQ(owner.observations().io_outstanding, 0U);
+    owner.cancel_cold(current);
+    EXPECT_TRUE(owner.observations().record_released);
+}
+
+TEST_F(StartupCustodyTest, StaleSocketCannotClaimTheMissingCurrentRole) {
+    EXPECT_EQ(owner.socket_options(current, Acceptor::first, app, app_socket), Turn::accepted);
+    EXPECT_EQ(owner.listen_return(current, app), Turn::accepted);
+    const BorrowedSocket reused{9, {address, 43101}};
+    EXPECT_EQ(owner.socket_options(former, Acceptor::second, overlay, reused), Turn::stale);
+    EXPECT_EQ(reused.accesses(), 0U);
+    owner.offer(current);
+    EXPECT_EQ(owner.publish(current), Turn::pending);
+    EXPECT_EQ(owner.socket_options(current, Acceptor::second, overlay, reused), Turn::accepted);
+    EXPECT_GT(reused.accesses(), 0U);
+    EXPECT_EQ(owner.listen_return(current, overlay), Turn::accepted);
+    EXPECT_EQ(owner.publish(current), Turn::accepted);
+    EXPECT_EQ(owner.admit_observer(current), expected);
+}
+
+TEST_F(StartupCustodyTest, StalePublishCannotConsumeEligibleCurrentHandoff) {
+    roles(owner);
+    owner.offer(current);
+    EXPECT_EQ(owner.publish(former), Turn::stale);
+    EXPECT_EQ(owner.observations().publications, 0U);
+    EXPECT_FALSE(owner.admit_observer(current));
+    EXPECT_EQ(owner.publish(current), Turn::accepted);
+    EXPECT_EQ(owner.admit_observer(current), expected);
 }
 
 TEST_F(StartupCustodyTest, StaleIdentityCannotTouchReusedSocketOrRecord) {
