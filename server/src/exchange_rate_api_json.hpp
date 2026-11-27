@@ -50,6 +50,16 @@ class ReplyJson {
         return document;
     }
 
+    // Read direct members of an arbitrary object. Leave nested members available
+    // as raw tokens without applying a provider-specific rate-map projection.
+    JsonFields read_members() {
+        JsonFields fields;
+        object(1, &fields, nullptr, true);
+        skip_space();
+        require(remaining_.empty());
+        return fields;
+    }
+
   private:
     std::string_view remaining_;
 
@@ -219,7 +229,8 @@ class ReplyJson {
         }
     }
 
-    void object(unsigned depth, JsonFields *fields = nullptr, Document *root = nullptr) {
+    void object(unsigned depth, JsonFields *fields = nullptr, Document *root = nullptr,
+                bool plain_members = false) {
         check_depth(depth);
         require(take('{'));
         if (take('}'))
@@ -234,7 +245,7 @@ class ReplyJson {
                 continue;
             }
             require(!fields->contains(name));
-            if (!root) {
+            if (!root && !plain_members) {
                 require(currency_code(name));
                 if (fields->size() == rate_map_limit)
                     throw FailureKind::resource_limit;
@@ -244,7 +255,7 @@ class ReplyJson {
                 rate_map = &root->rates;
             else if (root && name == "conversion_rates")
                 rate_map = &root->conversion_rates;
-            auto field = value(depth, root != nullptr, rate_map);
+            auto field = value(depth, root != nullptr || plain_members, rate_map);
             fields->emplace(std::move(name), std::move(field));
         } while (take(','));
         require(take('}'));

@@ -1,6 +1,6 @@
-add_executable(astro_contract_tests astro_contract_tests.cpp inert.cpp)
+add_executable(astro_contract_tests astro_contract_tests.cpp)
 subathon_target_options(astro_contract_tests)
-target_link_libraries(astro_contract_tests PRIVATE subathon_core)
+target_link_libraries(astro_contract_tests PRIVATE subathon_streamelements_astro)
 
 foreach(row IN ITEMS completed-tip unknown-accept unknown-review unknown-record-only
         same-tip-redelivery cross-tip-payment-hold exact-decimal-spelling-conflict
@@ -15,7 +15,7 @@ foreach(row IN ITEMS completed-tip unknown-accept unknown-review unknown-record-
         missing-optional-source-fields submillisecond-source-time
         mismatched-envelope-room retired-ingest-gap wrong-topic-ack-refused empty-room-ack-refused
         rejected-moderation unusual-currency exact-millisecond-trailing-zero
-        acknowledged-disconnect-reconnect)
+        acknowledged-disconnect-reconnect unclassifiable-text-gap old-disconnect-during-handoff)
     add_test(NAME astro.${row} COMMAND astro_contract_tests ${row})
-    set_tests_properties(astro.${row} PROPERTIES LABELS "streamelements-001;intentional-red")
+    set_tests_properties(astro.${row} PROPERTIES LABELS "streamelements-001;acceptance")
 endforeach()

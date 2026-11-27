@@ -281,6 +281,17 @@ void valid_field_variants(std::string_view row) {
             "A trailing fractional zero preserves the exact millisecond instant");
 }
 
+void unclassifiable_text_gap() {
+    RecordingOwner calls(Status::admitted);
+    constexpr std::string_view frame = R"({"type":"message","topic":"channel.tips","data":)";
+    require(ingest(frame, route.generation, route, arrival, core::EvidencePolicy::accept_provider_report,
+                   calls, calls) == Status::coverage_gap,
+            "Unclassifiable text on an acknowledged route reports unknown coverage");
+    require(calls.gaps == std::vector{Gap::unclassifiable_text} &&
+                calls.calls.empty() && calls.overflows.empty(),
+            "Unclassifiable text records only a typed gap, with no credit or owner handoff");
+}
+
 void transport_case(std::string_view row) {
     RecordingOwner calls(Status::admitted);
     constexpr std::string_view topic = "channel.tips";
@@ -412,6 +423,18 @@ void transport_case(std::string_view row) {
         require(advance(state, {TransportEvent::delivery, 1}, calls).status ==
                     TransportStatus::current_delivery && calls.gaps.empty(),
                 "A delivery on the old active route remains current until replacement welcome");
+    } else if (row == "old-disconnect-during-handoff") {
+        state.replacement_generation = 2;
+        require(advance(state, {TransportEvent::unexpected_disconnect, 1}, calls).status ==
+                    TransportStatus::ordinary_reconnect,
+                "Old socket loss before replacement welcome requires ordinary reconnect");
+        require(!state.active_generation && !state.replacement_generation && !state.tips_read &&
+                    state.interruption_open && calls.gaps == std::vector{Gap::reconnect_interruption},
+                "Old socket loss abandons the pending replacement and records one gap");
+        const auto late = advance(state, {TransportEvent::replacement_welcome, 2}, calls);
+        require(late.status == TransportStatus::ignored && !state.tips_read &&
+                    !state.active_generation && state.interruption_open && calls.gaps.size() == 1,
+                "Late welcome on an abandoned replacement cannot restore coverage");
     } else if (row == "replacement-welcome-handoff") {
         state.replacement_generation = 2;
         const auto result = advance(state, {TransportEvent::replacement_welcome, 2}, calls);
@@ -452,6 +475,8 @@ int main(int argc, char **argv) {
     const std::string_view test(argv[1]);
     if (test == "completed-tip")
         projection();
+    else if (test == "unclassifiable-text-gap")
+        unclassifiable_text_gap();
     else if (test == "missing-optional-source-fields" || test == "submillisecond-source-time")
         optional_source_fields(test);
     else if (test == "same-tip-redelivery" || test == "cross-tip-payment-hold" ||
