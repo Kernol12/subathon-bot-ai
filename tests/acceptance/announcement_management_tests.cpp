@@ -39,6 +39,21 @@ class AnnouncementManagementTest : public testing::Test {
         return {true, Grant::current, Grant::current, {{lifetime, elapsed}, facts}};
     }
 
+    void expect_undisclosed() const {
+        for (const auto grant : {Grant::withdrawn, Grant::unavailable}) {
+            const auto observation = binding.read(grant);
+            EXPECT_TRUE(std::holds_alternative<EventAnnouncementUndisclosed>(observation.view));
+            EXPECT_TRUE(observation.owner_reference.empty());
+        }
+    }
+
+    void expect_hold(std::string_view expected) const {
+        const auto view = owner.management(Disclosure::allowed);
+        const auto *hold = std::get_if<HeldEventAnnouncementQueue>(&view);
+        ASSERT_NE(hold, nullptr);
+        EXPECT_EQ(hold->hold_ref, expected);
+    }
+
     std::string create_hold() {
         admit(first);
         const std::array facts{StartFact{first, ActionAuthority::grant_withdrawn}};
@@ -58,6 +73,25 @@ TEST_F(AnnouncementManagementTest, DisclosurePrecedesObservationAndNeverEchoesOw
     const auto unknown = binding.read(Grant::unavailable);
     EXPECT_TRUE(std::holds_alternative<EventAnnouncementUndisclosed>(unknown.view));
     EXPECT_TRUE(unknown.owner_reference.empty());
+}
+
+TEST_F(AnnouncementManagementTest, DisclosureConcealsCapturedEmptyStuckAndHoldStates) {
+    binding.advance_and_capture(turn({}, 10ms).turn);
+    EXPECT_TRUE(
+        std::holds_alternative<NoStuckEventAnnouncement>(binding.read(Grant::current).view));
+    expect_undisclosed();
+
+    admit(first);
+    const std::array facts{StartFact{first, ActionAuthority::grant_withdrawn}};
+    binding.advance_and_capture(turn(facts, 20ms).turn);
+    EXPECT_TRUE(std::holds_alternative<StuckEventAnnouncement>(binding.read(Grant::current).view));
+    expect_undisclosed();
+
+    owner.cancel({first}, {Grant::current, ApplicationCompletion::committed, turn(facts).turn});
+    binding.advance_and_capture(turn({}, 30ms).turn);
+    EXPECT_TRUE(
+        std::holds_alternative<HeldEventAnnouncementQueue>(binding.read(Grant::current).view));
+    expect_undisclosed();
 }
 
 TEST_F(AnnouncementManagementTest, AuthorizedCaptureUsesExactOwnerAndInvalidates) {
@@ -80,6 +114,9 @@ TEST_F(AnnouncementManagementTest, EligibleHeadIsNotReportedStuckAfterProgressio
     admit(first);
     const std::array facts{StartFact{first, ActionAuthority::current}};
     binding.advance_and_capture(turn(facts, 30ms).turn);
+    admit(second);
+    const std::array waiting{StartFact{second, ActionAuthority::current}};
+    binding.advance_and_capture(turn(waiting, 40ms).turn);
     const auto capture = binding.read(Grant::current);
     EXPECT_EQ(capture.owner_reference, owner_ref);
     EXPECT_TRUE(std::holds_alternative<NoStuckEventAnnouncement>(capture.view));
@@ -105,6 +142,21 @@ TEST_F(AnnouncementManagementTest, CancelDisclosureGrantGatesMalformedShape) {
     EXPECT_EQ(stuck->head, first);
 }
 
+TEST_F(AnnouncementManagementTest, CancelRequiresItsOwnGrantAndValidChoice) {
+    admit(first);
+    const std::array facts{StartFact{first, ActionAuthority::grant_withdrawn}};
+    auto denied = turn(facts);
+    denied.command = Grant::withdrawn;
+    EXPECT_EQ(binding.cancel(owner_ref, {first}, denied), Outcome::refused);
+    const CancelStuckEventAnnouncement malformed{first,
+                                                 static_cast<EventAnnouncementAfterCancel>(99)};
+    EXPECT_EQ(binding.cancel(owner_ref, malformed, turn(facts)), Outcome::refused);
+    const auto view = owner.management(Disclosure::allowed);
+    const auto *stuck = std::get_if<StuckEventAnnouncement>(&view);
+    ASSERT_NE(stuck, nullptr);
+    EXPECT_EQ(stuck->head, first);
+}
+
 TEST_F(AnnouncementManagementTest, ReplacedOwnerReferenceAndChangedHeadAreStaleBeforeFacts) {
     admit(first);
     EXPECT_EQ(binding.cancel("former owner", {first}, turn()), Outcome::stale);
@@ -119,7 +171,11 @@ TEST_F(AnnouncementManagementTest, ReplacedOwnerReferenceAndChangedHeadAreStaleB
 TEST_F(AnnouncementManagementTest, CurrentEligibleHeadIsStaleForCancel) {
     admit(first);
     const std::array facts{StartFact{first, ActionAuthority::current}};
-    EXPECT_EQ(binding.cancel(owner_ref, {first}, turn(facts)), Outcome::stale);
+    EXPECT_EQ(binding.cancel(owner_ref, {first, EventAnnouncementAfterCancel::continue_queue},
+                             turn(facts, 30ms)),
+              Outcome::stale);
+    EXPECT_TRUE(std::holds_alternative<NoCurrentEventAnnouncement>(
+        owner.current({lifetime, 30ms}, Disclosure::allowed)));
     owner.advance(turn(facts, 30ms).turn);
     const auto active = owner.current({lifetime, 30ms}, Disclosure::allowed);
     const auto *window = std::get_if<ActiveEventAnnouncement>(&active);
@@ -197,6 +253,35 @@ TEST_F(AnnouncementManagementTest, ResumeChecksBothGrantsBeforeObservationBasis)
         std::holds_alternative<HeldEventAnnouncementQueue>(owner.management(Disclosure::allowed)));
 }
 
+TEST_F(AnnouncementManagementTest, ResumeExactEmptyHoldRequiresCommandGrantAndExactReference) {
+    const auto hold = create_hold();
+    ASSERT_FALSE(hold.empty());
+    auto denied = turn();
+    denied.command = Grant::withdrawn;
+    EXPECT_EQ(binding.resume(owner_ref, {hold, std::nullopt}, denied), Outcome::refused);
+    expect_hold(hold);
+    EXPECT_EQ(binding.resume(owner_ref, {"other Hold", std::nullopt}, turn()), Outcome::stale);
+    expect_hold(hold);
+    EXPECT_EQ(binding.resume(owner_ref, {hold, std::nullopt}, turn()), Outcome::applied);
+    EXPECT_TRUE(
+        std::holds_alternative<NoStuckEventAnnouncement>(owner.management(Disclosure::allowed)));
+    EXPECT_TRUE(std::holds_alternative<NoCurrentEventAnnouncement>(
+        owner.current({lifetime, 30ms}, Disclosure::allowed)));
+}
+
+TEST_F(AnnouncementManagementTest, CurrentFactDoesNotResolveUncertainRetainedDisposition) {
+    const std::array retained{RetainedAnnouncement{first, 100ms, RecoveryDisposition::uncertain}};
+    owner.restart("new producer lifetime", retained);
+    const std::array facts{StartFact{first, ActionAuthority::current}};
+    auto current = turn(facts);
+    current.turn.clock.lifetime = "new producer lifetime";
+    EXPECT_EQ(binding.cancel(owner_ref, {first}, current), Outcome::applied);
+    const auto view = owner.management(Disclosure::allowed);
+    const auto *held = std::get_if<HeldEventAnnouncementQueue>(&view);
+    ASSERT_NE(held, nullptr);
+    EXPECT_FALSE(held->next_head);
+}
+
 TEST_F(AnnouncementManagementTest, RetainedHeadAfterInPlaceRestartKeepsOwnerReference) {
     const auto hold = create_hold();
     ASSERT_FALSE(hold.empty());
@@ -208,9 +293,17 @@ TEST_F(AnnouncementManagementTest, RetainedHeadAfterInPlaceRestartKeepsOwnerRefe
     current.turn.clock.lifetime = "new producer lifetime";
     EXPECT_TRUE(
         std::holds_alternative<EventAnnouncementUnavailable>(binding.read(Grant::current).view));
+    auto withdrawn = current;
+    withdrawn.command = Grant::withdrawn;
+    EXPECT_EQ(binding.resume(owner_ref, {hold, second}, withdrawn), Outcome::refused);
+    expect_hold(hold);
+    EXPECT_EQ(binding.resume(owner_ref, {hold, third}, current), Outcome::stale);
+    expect_hold(hold);
     EXPECT_EQ(binding.resume(owner_ref, {hold, second}, current), Outcome::applied);
-    EXPECT_TRUE(
-        std::holds_alternative<StuckEventAnnouncement>(owner.management(Disclosure::allowed)));
+    EXPECT_FALSE(
+        std::holds_alternative<HeldEventAnnouncementQueue>(owner.management(Disclosure::allowed)));
+    EXPECT_TRUE(std::holds_alternative<NoCurrentEventAnnouncement>(
+        owner.current({current.turn.clock.lifetime, 30ms}, Disclosure::allowed)));
 }
 
 TEST_F(AnnouncementManagementTest, CancelUsesCurrentStartFactsAndInvalidatesEarlierCapture) {
@@ -231,6 +324,7 @@ TEST_F(AnnouncementManagementTest, ResumeExactHeadIgnoresSuffixAndDoesNotNeedEla
     admit(third);
     EXPECT_EQ(binding.resume("former owner", {hold, second}, turn()), Outcome::stale);
     EXPECT_EQ(binding.resume(owner_ref, {hold, std::nullopt}, turn()), Outcome::stale);
+    expect_hold(hold);
     EXPECT_EQ(binding.resume(owner_ref, {hold, second}, turn()), Outcome::applied);
     EXPECT_FALSE(
         std::holds_alternative<HeldEventAnnouncementQueue>(owner.management(Disclosure::allowed)));
