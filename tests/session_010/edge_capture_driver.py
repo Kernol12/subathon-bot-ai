@@ -35,6 +35,10 @@ HEX_LOOPBACK = '0100007F'
 HOST = 'timer.example'
 # Frozen external request bytes, native leased field count, native projection.
 PROJECTION = {'Desktop252': (149, 6, 252), 'Browser282': (179, 7, 282)}
+# Suite -> (selector prefix, capture marker, publishes on 'P' after the edge is observed).
+# The S3 ingress producer reports prepared=1 after its binding handed off digestZ (#893).
+SUITES = {'edge': ('Session010EdgeCapture.', 'ordered=1', False),
+          'ingress': ('Session010IngressUpstream.', 'prepared=1', True)}
 LINE_LIMIT = 4096  # producer stdout lines kept for matching; never printed
 
 
@@ -242,8 +246,9 @@ def exchange(work, case, edge_port):
     return peer
 
 
-def drive(producer_path, caddy_path, case, work):
-    selector = 'Session010EdgeCapture.' + case
+def drive(producer_path, caddy_path, case, work, suite='edge'):
+    prefix, marker, publish = SUITES[suite]
+    selector = prefix + case
     with open(caddy_path, 'rb') as binary:
         require(hashlib.sha256(binary.read()).hexdigest() == CADDY_SHA256, 'pinned Caddy 2.10.2')
     private_pki(work)
@@ -271,11 +276,16 @@ def drive(producer_path, caddy_path, case, work):
         run([caddy_path, 'validate', '--config', str(config)], profile, work, 'validate')
         caddy = Child([caddy_path, 'run', '--config', str(config)], profile, work, 'caddy')
         observe(caddy, '0A', edge_port, seconds=5)
+        if publish:  # r2 l.126: readiness only after the admitted conditions are observed
+            producer.proc.stdin.write(b'P')
+            producer.proc.stdin.flush()
+            require(producer.until('SESSION010_PUBLISHED', 5).split()[1:] == [selector],
+                    'readiness acknowledgment')
 
         client = exchange(work, case, edge_port)
         capture = re.fullmatch(r'SESSION010_CAPTURE (\S+) listener=(\d+) connection=(\d+) '
                                r'sequence=(\d+) peer=127\.0\.0\.1:(\d+) fields=(\d+) '
-                               r'projection=(\d+) ordered=1', producer.until('SESSION010_CAPTURE', 12))
+                               r'projection=(\d+) ' + re.escape(marker), producer.until('SESSION010_CAPTURE', 12))
         require(capture and capture[1] == selector, 'capture report')
         listener, connection, _, peer_port, fields, projection = map(int, capture.groups()[1:])
         require(listener > 0 and connection > 0, 'lease identities')
@@ -310,12 +320,13 @@ def main():
     parser.add_argument('--producer', required=True)
     parser.add_argument('--caddy', required=True)
     parser.add_argument('--selector', required=True, choices=sorted(PROJECTION))
+    parser.add_argument('--suite', default='edge', choices=sorted(SUITES))
     args = parser.parse_args()
     with tempfile.TemporaryDirectory(prefix='session010-edge-') as directory:
         work = Path(directory)
         work.chmod(0o700)
         try:
-            fields, projection = drive(args.producer, args.caddy, args.selector, work)
+            fields, projection = drive(args.producer, args.caddy, args.selector, work, args.suite)
         except Exception as error:  # one line only: no values, traceback or child output
             reason = str(error) if isinstance(error, Failure) else type(error).__name__
             print(f'SESSION010_DRIVER FAIL {args.selector}: {reason}')
