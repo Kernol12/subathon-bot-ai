@@ -32,33 +32,47 @@ class StartupCustodyTest : public testing::Test {
     const BorrowedSocket app_socket{8, {address, 43100}};
     const BorrowedSocket overlay_socket{9, {address, 43101}};
 
-    void roles(Candidate &subject, Role fixed = app) {
-        const auto app_acceptor = fixed == app ? Acceptor::first : Acceptor::second;
-        const auto overlay_acceptor = fixed == overlay ? Acceptor::first : Acceptor::second;
-        EXPECT_EQ(subject.socket_options(current, app_acceptor, app, app_socket), Turn::accepted);
-        EXPECT_EQ(subject.socket_options(current, overlay_acceptor, overlay, overlay_socket),
+    std::array<unsigned, 2> roles(Candidate &subject, Role fixed = app) {
+        const auto ephemeral = fixed == app ? overlay : app;
+        const auto &fixed_socket = fixed == app ? app_socket : overlay_socket;
+        const auto &ephemeral_socket = fixed == app ? overlay_socket : app_socket;
+        EXPECT_EQ(subject.socket_options(current, Acceptor::first, fixed, fixed_socket),
                   Turn::accepted);
-        EXPECT_EQ(subject.listen_return(current, app), Turn::accepted);
-        EXPECT_EQ(subject.listen_return(current, overlay), Turn::accepted);
+        const auto fixed_accesses = fixed_socket.accesses();
+        EXPECT_EQ(subject.socket_options(current, Acceptor::second, ephemeral, ephemeral_socket),
+                  Turn::accepted);
+        const auto ephemeral_accesses = ephemeral_socket.accesses();
+        EXPECT_EQ(subject.listen_return(current, fixed), Turn::accepted);
+        EXPECT_EQ(subject.listen_return(current, ephemeral), Turn::accepted);
+        return fixed == app ? std::array{fixed_accesses, ephemeral_accesses}
+                            : std::array{ephemeral_accesses, fixed_accesses};
     }
 
-    void ready(Candidate &subject, Role fixed = app) {
-        roles(subject, fixed);
+    std::array<unsigned, 2> ready(Candidate &subject, Role fixed = app) {
+        const auto accesses = roles(subject, fixed);
         subject.offer(current);
         EXPECT_EQ(subject.publish(current), Turn::accepted);
+        return accesses;
     }
 };
 
 TEST_F(StartupCustodyTest, MapsFixedAndEphemeralPortsInBothRegistrationOrders) {
     for (const auto fixed : {app, overlay}) {
         Candidate subject{current, registrations(fixed), scratch};
-        ready(subject, fixed);
+        const std::array before{app_socket.accesses(), overlay_socket.accesses()};
+        const auto accesses = ready(subject, fixed);
+        EXPECT_GT(accesses[0], before[0]);
+        EXPECT_GT(accesses[1], before[1]);
         EXPECT_NE(subject.publish(current), Turn::accepted);
         const auto reads = subject.observations().record_reads;
         EXPECT_EQ(subject.admit_observer(current), expected);
         EXPECT_GT(subject.observations().record_reads, reads);
         EXPECT_FALSE(subject.admit_observer(current));
         EXPECT_EQ(subject.observations().publications, 1U);
+        EXPECT_EQ(subject.route(current, app, 43100), Route::use_existing_predicates);
+        EXPECT_EQ(subject.route(current, overlay, 43101), Route::use_existing_predicates);
+        EXPECT_EQ(app_socket.accesses(), accesses[0]);
+        EXPECT_EQ(overlay_socket.accesses(), accesses[1]);
     }
 }
 
@@ -180,6 +194,8 @@ TEST_F(StartupCustodyTest, StaleIdentityCannotTouchReusedSocketOrRecord) {
     EXPECT_EQ(owner.listen_return(former, app), Turn::stale);
     EXPECT_EQ(owner.publish(former), Turn::stale);
     EXPECT_FALSE(owner.admit_observer(former));
+    EXPECT_EQ(owner.route(former, app, 43100), Route::closing_400);
+    owner.framework_exception(former);
     owner.acknowledge(former, Party::io);
     owner.acknowledge(former, Party::framework);
     const auto after = owner.observations();
@@ -187,7 +203,24 @@ TEST_F(StartupCustodyTest, StaleIdentityCannotTouchReusedSocketOrRecord) {
     EXPECT_EQ(after.record_reads, before.record_reads);
     EXPECT_FALSE(after.framework_retired);
     EXPECT_FALSE(after.io_retired);
+    EXPECT_FALSE(after.unavailable);
     EXPECT_EQ(owner.admit_observer(current), expected);
+}
+
+TEST_F(StartupCustodyTest, StaleAcknowledgmentsCannotRetireClosedCurrentRecord) {
+    for (const auto missing : {Party::framework, Party::io}) {
+        Candidate subject{current, registrations(app), scratch};
+        ready(subject);
+        subject.stop(current);
+        subject.acknowledge(current, missing == Party::io ? Party::framework : Party::io);
+        subject.acknowledge(former, missing);
+        const auto partial = subject.observations();
+        EXPECT_EQ(partial.framework_retired, missing == Party::io);
+        EXPECT_EQ(partial.io_retired, missing == Party::framework);
+        EXPECT_FALSE(partial.record_released);
+        subject.acknowledge(current, missing);
+        EXPECT_TRUE(subject.observations().record_released);
+    }
 }
 
 TEST_F(StartupCustodyTest, StaleOfferAndLastListenReturnCannotEnablePublication) {
@@ -329,9 +362,11 @@ TEST_F(StartupCustodyTest, BothListenReturnsAndFrameworkOfferAreIndependentlyReq
 
 TEST_F(StartupCustodyTest, StopBetweenRoleTurnAndListenReturnAccountsForQueuedWork) {
     EXPECT_EQ(owner.socket_options(current, Acceptor::first, app, app_socket), Turn::accepted);
+    const auto app_accesses = app_socket.accesses();
     EXPECT_EQ(owner.listen_return(current, app), Turn::accepted);
     EXPECT_EQ(owner.socket_options(current, Acceptor::second, overlay, overlay_socket),
               Turn::accepted);
+    const auto overlay_accesses = overlay_socket.accesses();
     owner.offer(current);
     EXPECT_EQ(owner.publish(current), Turn::pending);
     EXPECT_EQ(owner.observations().io_outstanding, 1U);
@@ -344,6 +379,8 @@ TEST_F(StartupCustodyTest, StopBetweenRoleTurnAndListenReturnAccountsForQueuedWo
     owner.acknowledge(current, Party::io);
     EXPECT_EQ(owner.observations().io_outstanding, 0U);
     EXPECT_TRUE(owner.observations().io_retired);
+    EXPECT_EQ(app_socket.accesses(), app_accesses);
+    EXPECT_EQ(overlay_socket.accesses(), overlay_accesses);
 }
 
 } // namespace

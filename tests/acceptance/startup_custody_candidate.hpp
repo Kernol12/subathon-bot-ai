@@ -15,6 +15,9 @@ enum class Role { application, overlay };
 enum class Acceptor { first, second };
 enum class Party { framework, io };
 enum class Route { closing_400, use_existing_predicates };
+inline void PrintTo(Route route, std::ostream *out) {
+    *out << (route == Route::closing_400 ? "closing 400" : "existing route predicates");
+}
 enum class Turn { pending, accepted, stale, terminal };
 inline void PrintTo(Turn turn, std::ostream *out) {
     switch (turn) {
@@ -93,10 +96,17 @@ struct Snapshot {
     bool operator==(const Snapshot &) const = default;
 };
 
+inline void PrintTo(const Snapshot &value, std::ostream *out) {
+    *out << "application " << value.application.binding.address << ':'
+         << value.application.binding.port << " options " << value.application.options_verified
+         << ", overlay " << value.overlay.binding.address << ':' << value.overlay.binding.port
+         << " options " << value.overlay.options_verified << ", scratch " << value.scratch_root;
+}
+
 struct Observations {
     unsigned publications{};
-    unsigned record_reads{};
-    unsigned io_outstanding{};
+    unsigned record_reads{};   // Reads of the immutable record, excluding its construction.
+    unsigned io_outstanding{}; // Accepted IO0 work that has yet to complete or be discarded.
     bool framework_retired{};
     bool io_retired{};
     bool record_released{};
@@ -112,6 +122,8 @@ class Candidate {
         return Turn::pending;
     }
     Turn listen_return(Startup, Role) { return Turn::pending; }
+    // A current offer queues one IO0 handoff. The first matching publication turn
+    // consumes that handoff even if role evidence still leaves publication pending.
     void offer(Startup) {}
     Turn publish(Startup) { return Turn::pending; }
     std::optional<Snapshot> admit_observer(Startup) { return std::nullopt; }
