@@ -20,6 +20,7 @@ option(SUBATHON_BUILD_STORAGE_027_STAGE1 "Build the STORAGE-027 reviewed accepta
 option(SUBATHON_BUILD_RATES_012_STAGE1 "Build the reviewed RATES-012 acceptance suite" OFF)
 option(SUBATHON_BUILD_RULES_004_STAGE1 "Build the reviewed RULES-004 acceptance suite" OFF)
 option(SUBATHON_BUILD_RULES_005_STAGE1 "Build the reviewed RULES-005 acceptance suite" OFF)
+option(SUBATHON_BUILD_STARTUP_CUSTODY_TESTS "Build synthetic startup custody tests" OFF)
 option(SUBATHON_BUILD_EVENT_ANNOUNCEMENT_STAGE1 "Build the event announcement intentional-red suite" OFF)
 option(SUBATHON_BUILD_ANNOUNCEMENT_MANAGEMENT_STAGE1 "Build the opt-in #832 checked management tests" OFF)
 option(SUBATHON_BUILD_API_024_STAGE1 "Build the API-024 listener intentional-red suite" OFF)
