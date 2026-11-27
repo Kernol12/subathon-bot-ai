@@ -113,6 +113,7 @@ struct Observations {
     unsigned publications{};
     unsigned record_reads{}; // Reads of the immutable record, excluding its construction.
     unsigned admitted_readers{};
+    // The common fence for new socket work, publication and observation.
     bool admission_open{};
     unsigned io_outstanding{}; // Accepted IO0 work that has yet to complete or be discarded.
     bool framework_retired{};

@@ -351,11 +351,17 @@ TEST_F(StartupCustodyTest, EarlyExceptionNeedsProofOfIoAbsence) {
         Candidate subject{current, registrations(app), scratch};
         if (queued)
             subject.offer(current);
+        EXPECT_TRUE(subject.observations().admission_open);
         subject.framework_exception(current);
         const auto state = subject.observations();
+        EXPECT_FALSE(state.admission_open);
         EXPECT_TRUE(state.unavailable);
         EXPECT_TRUE(state.framework_retired);
         EXPECT_EQ(state.record_released, !queued);
+        const BorrowedSocket late{9, {address, 43101}};
+        expect_stale_effect_free(subject, [&] {
+            EXPECT_EQ(subject.socket_options(current, Acceptor::second, overlay, late), Turn::stale);
+        }, &late);
         EXPECT_FALSE(subject.admit_observer(current));
     }
 }
@@ -367,8 +373,14 @@ TEST_F(StartupCustodyTest, DrainedIoWorkStillRequiresRetirementAfterEarlyExcepti
     EXPECT_EQ(owner.observations().io_outstanding, 0U);
     EXPECT_EQ(owner.observations().publications, 0U);
 
+    EXPECT_TRUE(owner.observations().admission_open);
     owner.framework_exception(current);
     const auto pending = owner.observations();
+    EXPECT_FALSE(pending.admission_open);
+    const BorrowedSocket late{9, {address, 43101}};
+    expect_stale_effect_free(owner, [&] {
+        EXPECT_EQ(owner.socket_options(current, Acceptor::second, overlay, late), Turn::stale);
+    }, &late);
     EXPECT_TRUE(pending.unavailable);
     EXPECT_TRUE(pending.framework_retired);
     EXPECT_FALSE(pending.io_retired);
