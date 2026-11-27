@@ -7,7 +7,9 @@ meaning, and moving it changed no rule. This file grants no new authorization.
 
 The checkpoint lists the open tasks that still have an entry here. Four general
 rules from "Bounded owner authorizations (2026-11-17)" are also kept in the
-checkpoint. Where a section names a procedure that was retired later, such as the
+checkpoint. The owner made one exception to one of them, the sentence on
+shared-file conflicts, on 2026-11-27, and the checkpoint holds the current rule.
+Where a section names a procedure that was retired later, such as the
 night order or the local test-binary admission, the current rules in
 [AGENTS.md](../AGENTS.md) and [the workflow](../docs/AGENT_WORKFLOW.md) apply.
 
