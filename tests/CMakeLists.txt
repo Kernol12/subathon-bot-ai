@@ -11,7 +11,7 @@ set_tests_properties(scaffold.python_tools PROPERTIES WORKING_DIRECTORY "${PROJE
 add_test(NAME scaffold.project_consistency
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py")
 set_tests_properties(scaffold.project_consistency PROPERTIES LABELS "scaffold")
-if(SUBATHON_BUILD_EVENT_ANNOUNCEMENT_STAGE1
+if(SUBATHON_BUILD_EVENT_ANNOUNCEMENT_STAGE1 OR SUBATHON_BUILD_ANNOUNCEMENT_MANAGEMENT_STAGE1
         OR SUBATHON_BUILD_EXCHANGE_RATE_API_TESTS OR SUBATHON_BUILD_OPEN_EXCHANGE_RATES_TESTS
         OR SUBATHON_BUILD_RULE_CHAIN_TESTS OR SUBATHON_BUILD_RULE_SIMULATOR_TESTS
         OR SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE OR SUBATHON_BUILD_MODIFIER_CLOCK_TESTS OR SUBATHON_BUILD_MODIFIER_STACKING_TESTS OR SUBATHON_BUILD_FRANKFURTER_RATES_TESTS OR SUBATHON_BUILD_RULE_ACTIONS_TESTS OR SUBATHON_BUILD_CREDENTIAL_RECORD_TESTS OR SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_TIMER_EDITORIAL_TESTS OR SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_RECURRING_SCHEDULE_TESTS OR SUBATHON_BUILD_TIME_CREDIT_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
@@ -29,6 +29,18 @@ if(SUBATHON_BUILD_EVENT_ANNOUNCEMENT_STAGE1)
     subathon_target_options(server_event_announcement_stage1)
     subathon_discover_gtests(server_event_announcement_stage1
         LABELS "event-announcement;acceptance;intentional-red;server" TIMEOUT 30)
+endif()
+
+if(SUBATHON_BUILD_ANNOUNCEMENT_MANAGEMENT_STAGE1)
+    add_executable(server_announcement_management_stage1
+        acceptance/announcement_management_tests.cpp
+        "${PROJECT_SOURCE_DIR}/server/src/event_announcement_producer.cpp")
+    target_include_directories(server_announcement_management_stage1 PRIVATE
+        "${PROJECT_SOURCE_DIR}/server/include" "${PROJECT_SOURCE_DIR}/server/src")
+    target_link_libraries(server_announcement_management_stage1 PRIVATE subathon_core GTest::gtest_main)
+    subathon_target_options(server_announcement_management_stage1)
+    subathon_discover_gtests(server_announcement_management_stage1
+        LABELS "announcement-management;acceptance;intentional-red;server" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE OR SUBATHON_BUILD_MODIFIER_CLOCK_TESTS)
