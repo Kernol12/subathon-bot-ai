@@ -1,10 +1,16 @@
 """PACKAGE-001 synthetic examples. No native toolchain or runtime is invoked."""
 
 from copy import deepcopy
+import sys
 import unittest
 
-from fixture import identity as bytes_identity
-from native_build_evidence_candidate import Qualified, Unqualified, qualify_native_build
+from fixture import ROOT, identity as bytes_identity
+from native_build_evidence_candidate import (
+    InputDifference, Qualified, Unqualified, qualify_native_build,
+)
+
+sys.path.insert(0, str(ROOT))
+from tools.release_manifest_shape import shape
 
 
 def identity(data):
@@ -79,6 +85,8 @@ def fixture(profile="desktop-linux-archive"):
     observed = {
         "profile": profile,
         "run": "first-clean-build",
+        "command": ("cmake", "--build", "first-release-build"),
+        "exit_status": 0,
         "revision": selected["revision"],
         "scope": selected["scope"],
         "platform": platform,
@@ -93,6 +101,7 @@ def fixture(profile="desktop-linux-archive"):
     }
     repeated = deepcopy(observed)
     repeated["run"] = "second-clean-build"
+    repeated["command"] = ("cmake", "--build", "second-release-build")
     return selected, observed, repeated
 
 
@@ -100,26 +109,69 @@ class PackageNativeEvidenceTest(unittest.TestCase):
     def qualified(self, selected, observed, repeated):
         result = qualify_native_build(selected, observed, repeated)
         self.assertIsInstance(result, Qualified)
-        return result.evidence
+        return result
 
     def refused(self, selected, observed, repeated, code, subject):
         result = qualify_native_build(selected, observed, repeated)
         self.assertIsInstance(result, Unqualified)
         self.assertIn((code, subject), result.findings)
+        return result
 
     def test_matching_linux_profile_emits_owned_build_evidence(self):
         for profile in ("server-native", "desktop-linux-archive"):
             with self.subTest(profile=profile):
                 selected, observed, repeated = fixture(profile)
-                evidence = self.qualified(selected, observed, repeated)
-                build = next(row for row in evidence if row["kind"] == "observed-build")
+                result = self.qualified(selected, observed, repeated)
+                inputs = result.release_inputs
+                indexes, invalid = shape(inputs)
+                self.assertEqual(invalid, set())
+                self.assertEqual(inputs["selection"]["profile"], profile)
+                self.assertEqual(inputs["selection"]["revision"], selected["revision"])
+                self.assertEqual(inputs["selection"]["scope"], selected["scope"])
+                evidence = indexes["evidence"]
+                build = next(row for row in evidence.values() if row["kind"] == "observed-build")
                 self.assertEqual(build["facts"]["output"], observed["output"])
-                self.assertEqual(build["facts"]["recipe"], selected["recipe"])
+                recipe = evidence[build["facts"]["recipe"]]
+                self.assertEqual(recipe["kind"], "observed-build-recipe")
                 self.assertEqual(build["scope"], selected["scope"])
-                self.assertTrue(any(row["kind"] == "observed-build-recipe" for row in evidence))
-                self.assertFalse(
-                    any(row["kind"] in {"rights-review", "source-review"} for row in evidence)
-                )
+                self.assertEqual(recipe["scope"], selected["scope"])
+                self.assertEqual(build["revision"], selected["revision"])
+                for row in (build, recipe):
+                    self.assertTrue(row["owner"])
+
+                components = indexes["components"]
+                for name, selected_input in selected["inputs"].items():
+                    self.assertEqual(components[name]["role"], selected_input["role"])
+                    self.assertEqual(components[name]["revision"], selected_input["revision"])
+                    pins = [row for (subject, _), row in indexes["selected_pins"].items()
+                            if subject == "component:" + name]
+                    self.assertTrue(pins, name)
+                    for pin in pins:
+                        row = evidence[pin["evidence"]]
+                        self.assertEqual(row["subject"], "component:" + name)
+                        self.assertEqual(row["scope"], selected["scope"])
+                        self.assertEqual(row["revision"], selected_input["revision"])
+
+                for path, expected in observed["members"].items():
+                    self.assertEqual(
+                        {key: indexes["members"][path][key] for key in ("bytes", "sha256")},
+                        expected,
+                    )
+                    expected_owners = {"project", "parser"} if path.startswith("bin/") else {"qt"}
+                    self.assertEqual(set(indexes["members"][path]["components"]), expected_owners)
+                    pin = indexes["selected_pins"]["member:" + path, "acquisition"]
+                    self.assertEqual(evidence[pin["evidence"]]["kind"], "acquisition")
+                notice = indexes["members"]["notices/Qt.txt"]
+                self.assertEqual(notice["kind"], "notice")
+                self.assertIn("qt", notice["components"])
+                self.assertEqual(inputs["rights"], [])
+                self.assertFalse(any(row["kind"] in {"rights-review", "source-review"}
+                                     for row in evidence.values()))
+
+                for documented, actual in zip(result.build_runs, (observed, repeated), strict=True):
+                    for key in ("run", "command", "exit_status", "revision", "environment",
+                                "inputs", "output"):
+                        self.assertEqual(documented[key], actual[key])
 
     def test_missing_or_pre_minimum_qt_patch_refuses(self):
         for version in (None, "6.12", "6.11.9"):
@@ -149,7 +201,11 @@ class PackageNativeEvidenceTest(unittest.TestCase):
             with self.subTest(name=name, field=field):
                 selected, observed, repeated = fixture()
                 observed["inputs"][name][field] = value
-                self.refused(selected, observed, repeated, "selected_input_mismatch", name)
+                result = self.refused(selected, observed, repeated, "selected_input_mismatch", name)
+                self.assertIn(
+                    InputDifference(name, field, selected["inputs"][name][field], value),
+                    result.differences,
+                )
 
     def test_mutable_environment_name_is_not_an_exact_pin(self):
         selected, observed, repeated = fixture()
@@ -165,15 +221,28 @@ class PackageNativeEvidenceTest(unittest.TestCase):
         for missing in ("qt-platform", "qt-qml-controls"):
             with self.subTest(missing=missing):
                 selected, observed, repeated = fixture()
-                del observed["runtime_loaded"][missing]
+                observed["linked"][missing] = observed["runtime_loaded"].pop(missing)
                 self.refused(selected, observed, repeated, "runtime_missing", missing)
+
+    def test_missing_transitive_qt_runtime_dependency_blocks_profile(self):
+        selected, observed, repeated = fixture()
+        selected["runtime"]["qt-helper"] = "qt"
+        repeated["linked"]["qt-helper"] = "qt"
+        self.refused(selected, observed, repeated, "runtime_missing", "qt-helper")
+
+    def test_known_runtime_name_resolving_to_substitute_blocks_profile(self):
+        selected, observed, repeated = fixture()
+        observed["runtime_loaded"]["qt-platform"] = "parser"
+        self.refused(selected, observed, repeated, "runtime_mismatch", "qt-platform")
 
     def test_arch_recipe_keeps_resolved_distribution_qt_external(self):
         selected, observed, repeated = fixture("desktop-arch-recipe")
-        evidence = self.qualified(selected, observed, repeated)
-        qt = next(row for row in evidence if row["subject"] == "component:qt")
-        self.assertEqual(qt["facts"]["role"], "external")
-        self.assertFalse(any(name.startswith("runtime/") for name in observed["members"]))
+        result = self.qualified(selected, observed, repeated)
+        indexes, invalid = shape(result.release_inputs)
+        self.assertEqual(invalid, set())
+        self.assertEqual(indexes["components"]["qt"]["role"], "external")
+        self.assertIn(("component:qt", "external"), indexes["selected_pins"])
+        self.assertFalse(any(path.startswith("runtime/") for path in indexes["members"]))
 
     def test_linux_observation_cannot_qualify_windows_profile(self):
         selected, _, _ = fixture("desktop-win-zip")
@@ -200,13 +269,31 @@ class PackageNativeEvidenceTest(unittest.TestCase):
         repeated["output"] = identity("different build output")
         self.refused(selected, observed, repeated, "rebuild_mismatch", selected["profile"])
 
+    def test_equal_output_cannot_hide_changed_rebuild_inputs(self):
+        for field in ("revision", "environment", "inputs"):
+            with self.subTest(field=field):
+                selected, observed, repeated = fixture()
+                if field == "revision":
+                    repeated[field] = "different source revision"
+                elif field == "environment":
+                    repeated[field]["material"] = identity("different build environment")
+                else:
+                    repeated[field]["compiler"]["material"] = identity("different compiler")
+                self.assertEqual(observed["output"], repeated["output"])
+                self.refused(selected, observed, repeated, "rebuild_input_mismatch", field)
+
     def test_unavailable_upstream_license_stays_unresolved(self):
         selected, observed, repeated = fixture()
         for row in (selected, observed, repeated):
             row["inputs"]["parser"]["license"] = {"value": None, "source": None}
-        evidence = self.qualified(selected, observed, repeated)
-        parser = next(row for row in evidence if row["subject"] == "component:parser")
-        self.assertEqual(parser["facts"]["license"], {"value": None, "source": None})
+        result = self.qualified(selected, observed, repeated)
+        evidence = result.release_inputs["evidence"]
+        licenses = {
+            row["subject"]: row["facts"]["license"]
+            for row in evidence if "license" in row["facts"]
+        }
+        self.assertEqual(licenses["component:parser"], {"value": None, "source": None})
+        self.assertEqual(licenses["component:qt"], selected["inputs"]["qt"]["license"])
 
 
 if __name__ == "__main__":
