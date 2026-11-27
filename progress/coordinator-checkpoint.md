@@ -233,7 +233,12 @@ task and stay here unchanged:
 - Batch checkpoint updates into one documentation PR per stage, not per decision.
 - From the first item of that section, which made the coordinator the sole writer of
   `.github/workflows/ci.yml` for APITEST-017 and APITEST-015: "Other shared-file
-  conflicts still stop for owner."
+  conflicts still stop for owner." The owner limited this sentence on 2026-11-27.
+  When a merge conflict in a shared file can be resolved by keeping both sides'
+  lines exactly and changing nothing else, the coordinator resolves it as routine
+  run mechanics under the conditions in [the workflow](../docs/AGENT_WORKFLOW.md).
+  A conflict in a shared file stops for the owner only when both sides' lines
+  cannot all be kept.
 
 Coordinator owns any future shared CI/proof/checkpoint integration only within
 new owner authorization. Build/scratch remain on disk under owned ignored task
