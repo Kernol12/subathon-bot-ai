@@ -58,11 +58,13 @@ class ClockAdvanceExecution final {
 
 class CatalogWriterAccess final {
   public:
-    // Private queue policy runs before the migration body, with the live mode.
+    // Private queue policy runs before the migration body, with the live
+    // recognized protected head (22 or 23), or 0 outside governing mode.
     // False skips the body and delivers the default not-started work result.
     // The migration completion adapter supplies the request's refusal reason.
-    using DequeueCheck = std::function<bool(bool governing)>;
+    using DequeueCheck = std::function<bool(qint32 governing_head)>;
     [[nodiscard]] static bool verified_v22(const SqliteWorkSession &);
+    [[nodiscard]] static bool verified_v23(const SqliteWorkSession &);
 
   private:
     friend class MigrationExecution;

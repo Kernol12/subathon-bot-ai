@@ -395,6 +395,63 @@ if(SUBATHON_BUILD_MODIFIER_CAPTURE_TESTS)
         LABELS "modifier-capture;acceptance;qt;server" TIMEOUT 180)
 endif()
 
+if(SUBATHON_BUILD_STORAGE_021_STAGE1)
+    add_executable(server_storage_021_stage1_link
+        storage_021/link_baseline.cpp storage_021/fake_ops02_update_hold.cpp)
+    target_include_directories(server_storage_021_stage1_link PRIVATE
+        "${PROJECT_SOURCE_DIR}/server/src")
+    target_link_libraries(server_storage_021_stage1_link PRIVATE
+        subathon_sqlite_v23_rebuild subathon_sqlite_writer)
+    subathon_target_options(server_storage_021_stage1_link)
+
+    add_executable(server_storage_021_stage1_bounds
+        storage_021/bounds_tests.cpp storage_021/fake_ops02_update_hold.cpp)
+    target_include_directories(server_storage_021_stage1_bounds PRIVATE
+        "${PROJECT_SOURCE_DIR}/server/src")
+    target_link_libraries(server_storage_021_stage1_bounds PRIVATE
+        subathon_sqlite_v23_rebuild subathon_contribution_review Qt6::Sql Qt6::Test)
+    subathon_target_options(server_storage_021_stage1_bounds)
+
+    add_executable(server_storage_021_stage1_controls
+        storage_021/control_tests.cpp storage_021/fake_ops02_update_hold.cpp
+        storage_021/v23_inspection_fixture.cpp)
+    target_include_directories(server_storage_021_stage1_controls PRIVATE
+        "${PROJECT_SOURCE_DIR}/server/src")
+    target_compile_definitions(server_storage_021_stage1_controls PRIVATE
+        STORAGE_021_CAPTURE_VECTOR="${PROJECT_SOURCE_DIR}/tests/fixtures/sqlite_reference_capture_vectors.json")
+    target_link_libraries(server_storage_021_stage1_controls PRIVATE
+        subathon_sqlite_v23_rebuild subathon_contribution_review subathon_sqlite_rate_overrides Qt6::Sql Qt6::Test)
+    subathon_target_options(server_storage_021_stage1_controls)
+
+    add_executable(server_storage_021_stage1_negative
+        storage_021/negative_tests.cpp storage_021/v23_negative_fixture.cpp
+        storage_021/fake_ops02_update_hold.cpp
+        "${PROJECT_SOURCE_DIR}/server/src/sqlite_v23_rebuild.cpp")
+    target_compile_definitions(server_storage_021_stage1_negative PRIVATE
+        SUBATHON_V23_NEGATIVE_FIXTURE)
+    target_include_directories(server_storage_021_stage1_negative PRIVATE
+        "${PROJECT_SOURCE_DIR}/server/src" storage_021)
+    target_link_libraries(server_storage_021_stage1_negative PRIVATE
+        subathon_sqlite_v23_rebuild_support Qt6::Sql Qt6::Test)
+    subathon_target_options(server_storage_021_stage1_negative)
+    set(storage_021_donors "${CMAKE_CURRENT_BINARY_DIR}/storage-021-donors")
+    add_test(NAME storage-021.donor-setup COMMAND bash -ec
+        "mkdir -- \"\$1\" && exec \"\$2\" --assemble \"\$1\"" --
+        "${storage_021_donors}" "$<TARGET_FILE:server_storage_021_stage1_bounds>")
+    add_test(NAME storage-021.bounds COMMAND server_storage_021_stage1_bounds
+        --donors "${storage_021_donors}")
+    add_test(NAME storage-021.controls COMMAND server_storage_021_stage1_controls
+        "${storage_021_donors}/v22-1024.sqlite")
+    add_test(NAME storage-021.negative COMMAND server_storage_021_stage1_negative
+        "${storage_021_donors}/v22-1024.sqlite")
+    add_test(NAME storage-021.donor-cleanup COMMAND "${CMAKE_COMMAND}" -E rm -rf
+        "${storage_021_donors}")
+    set_tests_properties(storage-021.donor-setup PROPERTIES FIXTURES_SETUP storage_021_donor)
+    set_tests_properties(storage-021.donor-cleanup PROPERTIES FIXTURES_CLEANUP storage_021_donor)
+    set_tests_properties(storage-021.bounds storage-021.controls storage-021.negative
+        PROPERTIES FIXTURES_REQUIRED storage_021_donor LABELS "storage-021" TIMEOUT 180)
+endif()
+
 if(SUBATHON_BUILD_MILESTONE_006_STAGE1)
     add_subdirectory(milestone_006)
 endif()

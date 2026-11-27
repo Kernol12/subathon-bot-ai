@@ -360,6 +360,8 @@ class SqliteApplicationBundleStore final {
     // absence; present full structural metadata is checked before stale_plan.
     // Ready owns selected full head capture/current state/current contribution.
     // Actual role/CID mismatch is source_mismatch, not post-SQL input validation.
+    // At authenticated v23, exact ancestors supply lineage only. A required
+    // exact plan body causes invalid_stored_data.
     [[nodiscard]] ApplicationBundleInputResult
     read_inputs(const ApplicationPlanKey &plan, ApplicationSubjectKind subject_kind) const;
     // Options/key first; missing key -> absent, no global orphan audit. Present

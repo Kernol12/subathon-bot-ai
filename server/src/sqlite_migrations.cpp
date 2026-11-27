@@ -210,11 +210,17 @@ class MigrationExecution final {
         const bool governing_allowed = !generic_advance || canonical_v22(request.manifest, hashes);
         CatalogWriterAccess::DequeueCheck check;
         if (generic_advance) {
-            check = [state, governing_allowed](bool governing) noexcept {
-                if (!governing)
+            // A generic advance on a protected head only inspects that head.
+            // Its target is at most v22, so the v23 head refuses before SQL.
+            check = [state, governing_allowed](qint32 head) noexcept {
+                if (head == 0)
                     return true;
                 if (!governing_allowed) {
                     state->remember(MigrationReason::invalid_manifest);
+                    return false;
+                }
+                if (head != static_cast<qint32>(detail::sqlite_v22_catalog().steps.size())) {
+                    state->remember(MigrationReason::unsupported_version);
                     return false;
                 }
                 state->inspect_current_only = true;
@@ -502,6 +508,11 @@ MigrationAdmission enqueue_migration(SqliteWriter &writer, MigrationRequest requ
 
 MigrationAdmission SqliteMigrationRunner::enqueue(SqliteWriter &writer, MigrationRequest request,
                                                   Completion completion) {
+    // Versions beyond the protected v22 prefix are reserved for the private
+    // compiled v23 owner. Refuse caller manifests before validation or SQL.
+    if (request.manifest.steps.size() >
+        static_cast<qsizetype>(detail::sqlite_v22_catalog().steps.size()))
+        return {StorageError::invalid_options, MigrationReason::invalid_manifest};
     return enqueue_migration(writer, std::move(request), std::move(completion));
 }
 

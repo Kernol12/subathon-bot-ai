@@ -47,7 +47,10 @@ enum class MigrationReason {
     resource_limit,
     callback_failure,
     uncertain_outcome,
-    writer_unavailable
+    writer_unavailable,
+    // Appended under 607.6: a confirmed v23 commit whose owned connection
+    // settings could not be restored. The connection is retired.
+    committed_restore_failed
 };
 
 class MigrationFailure final : public std::runtime_error {

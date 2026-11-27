@@ -4,6 +4,8 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QUrl>
+#include <QUrlQuery>
 #include <QUuid>
 #include <subathon/server/sqlite_writer.hpp>
 #include <utility>
@@ -26,19 +28,35 @@ class Connection final {
     Connection &operator=(const Connection &) = delete;
     ~Connection() { close(); }
     bool open(const QString &path, bool read_only) {
+        return open_with_options(path, read_only ? "QSQLITE_OPEN_READONLY;QSQLITE_BUSY_TIMEOUT=0"
+                                                : "QSQLITE_BUSY_TIMEOUT=0");
+    }
+    // Only for a stopped store with no journal or WAL frames to recover.
+    bool open_immutable(const QString &path) {
+        auto uri = QUrl::fromLocalFile(path);
+        QUrlQuery parameters;
+        parameters.addQueryItem("immutable", "1");
+        uri.setQuery(parameters);
+        return open_with_options(uri.toString(QUrl::FullyEncoded),
+                                 "QSQLITE_OPEN_READONLY;QSQLITE_OPEN_URI;QSQLITE_BUSY_TIMEOUT=0");
+    }
+
+  private:
+    bool open_with_options(const QString &path, const QString &options) {
         if (!QSqlDatabase::isDriverAvailable("QSQLITE"))
             return false;
         name_ = "subathon-" + QUuid::createUuid().toString(QUuid::WithoutBraces);
         database_ = QSqlDatabase::addDatabase("QSQLITE", name_);
         database_.setDatabaseName(path);
-        database_.setConnectOptions(read_only ? "QSQLITE_OPEN_READONLY;QSQLITE_BUSY_TIMEOUT=0"
-                                              : "QSQLITE_BUSY_TIMEOUT=0");
+        database_.setConnectOptions(options);
         if (!database_.open()) {
             close();
             return false;
         }
         return true;
     }
+
+  public:
     void close() {
         if (name_.isEmpty())
             return;

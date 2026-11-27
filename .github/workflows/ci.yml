@@ -439,6 +439,7 @@ jobs:
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE=ON
           -DSUBATHON_BUILD_STORAGE_003_STAGE1=ON
+          -DSUBATHON_BUILD_STORAGE_021_STAGE1=ON
           -DSUBATHON_BUILD_STORAGE_033_STAGE1=ON
           -DSUBATHON_BUILD_STORAGE_026_STAGE1=ON
           -DSUBATHON_BUILD_STORAGE_027_STAGE1=ON
@@ -552,6 +553,8 @@ jobs:
               if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
                   raise SystemExit(f"Unexpected Qt warning in {name}")
           PYTHON
+      - name: Run STORAGE-021 fixture acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^storage-021$' --output-on-failure --no-tests=error
       - name: Run durable connector intake storage acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^storage-026$' --output-on-failure --no-tests=error
       - name: Run connector intake startup and first checkpoint acceptance
