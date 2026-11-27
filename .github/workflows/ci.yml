@@ -110,6 +110,7 @@ jobs:
           cmake --preset core-acceptance-debug -DSUBATHON_FETCH_GOOGLETEST=ON
           -DSUBATHON_BUILD_SCHEDULE_846_F3=ON
           -DSUBATHON_BUILD_STREAMELEMENTS_001_STAGE1=ON
+          -DSUBATHON_BUILD_ANNOUNCEMENT_MANAGEMENT_STAGE1=ON
           -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
@@ -211,6 +212,7 @@ jobs:
               "scheduled-pause": ({"acceptance", "server"}, 30),
               "schedule-f3": ({"acceptance", "server"}, 30),
               "schedule-command": ({"acceptance", "server"}, 30),
+              "announcement-management": ({"acceptance", "server"}, 30),
               "downtime-recovery": ({"acceptance", "core"}, 30),
               "finished-timer": ({"acceptance", "core"}, 30),
               "application-plan": ({"acceptance", "core"}, None),
@@ -282,6 +284,8 @@ jobs:
               raise SystemExit(f"Expected 6 reviewed Schedule F3 cases, got {found['schedule-f3']}")
           if found["schedule-command"] != 35:
               raise SystemExit(f"Expected 35 schedule command cases, got {found['schedule-command']}")
+          if found["announcement-management"] != 18:
+              raise SystemExit(f"Expected 18 announcement management cases, got {found['announcement-management']}")
           if found["downtime-recovery"] != 49:
               raise SystemExit(f"Expected 49 downtime recovery cases, got {found['downtime-recovery']}")
           if found["finished-timer"] != 22:
@@ -439,7 +443,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;rate-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;modifier-capture;frankfurter-rates;api-031;api-029"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;rate-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;modifier-capture;frankfurter-rates;api-031;api-029;api-030"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE=ON
           -DSUBATHON_BUILD_STORAGE_003_STAGE1=ON
@@ -562,6 +566,8 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^api-031$' --output-on-failure --no-tests=error
       - name: Run trusted connector history profile acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^api-029$' --output-on-failure --no-tests=error
+      - name: Run authoritative intake recovery acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^api-030$' --output-on-failure --no-tests=error
       - name: Run all reviewed milestone interruption storage suites
         run: |
           ctest --preset sqlite-reference-capture-debug -L '^storage-027$' \

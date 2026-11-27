@@ -279,8 +279,11 @@ if(TARGET subathon_sqlite_credential_catalog AND TARGET subathon_sqlite_permissi
         src/sqlite_connector_intake_read.cpp
         src/sqlite_connector_intake_history.cpp
         src/sqlite_connector_intake_page.cpp
-        src/sqlite_connector_intake_receipt.cpp)
-    target_link_libraries(subathon_contribution_review PUBLIC subathon_sqlite_milestone_target_edits)
+        src/sqlite_connector_intake_receipt.cpp
+        src/sqlite_connector_intake_recovery.cpp
+        src/intake_recovery_codec.cpp)
+    target_link_libraries(subathon_contribution_review PUBLIC subathon_sqlite_milestone_target_edits
+        PRIVATE subathon_reference_capture_values subathon_modifier_capture)
     subathon_target_options(subathon_contribution_review)
 endif()
 

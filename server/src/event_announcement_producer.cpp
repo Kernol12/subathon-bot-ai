@@ -80,10 +80,12 @@ void Producer::admit(std::span<const Admission> arrivals) {
         admitted.push_back({arrival.action, *duration, RecoveryDisposition::never_shown});
         submissions_.insert(arrival.action);
         waiting_.splice(waiting_.end(), admitted);
+        management_capture_.reset();
     }
 }
 
 void Producer::refresh_authority(std::span<const StartFact> facts) {
+    management_capture_.reset();
     for (auto &item : waiting_) {
         item.start_authorized = false;
         for (const auto &fact : facts) {
@@ -219,6 +221,7 @@ void Producer::restart(std::string_view new_lifetime,
     waiting_.swap(waiting);
     last_sample_.reset();
     active_.reset();
+    management_capture_.reset();
 }
 
 void Producer::resolve(const EventAnnouncementAction &action, RecoveryDisposition evidence) {
@@ -227,8 +230,10 @@ void Producer::resolve(const EventAnnouncementAction &action, RecoveryDispositio
         return;
     }
     if (evidence == RecoveryDisposition::shown) {
+        management_capture_.reset();
         waiting_.erase(item);
-    } else if (evidence == RecoveryDisposition::never_shown) {
+    } else if (evidence == RecoveryDisposition::never_shown && item->disposition != evidence) {
+        management_capture_.reset();
         item->disposition = evidence;
     }
 }
@@ -244,24 +249,32 @@ void Producer::cancel(CancelStuckEventAnnouncement request, ManagementCommit com
         return;
     }
 
-    if (request.after_cancel == EventAnnouncementAfterCancel::continue_queue) {
+    (void)cancel_waiting_head(request.after_cancel);
+}
+
+bool Producer::cancel_waiting_head(EventAnnouncementAfterCancel choice) {
+    if (choice == EventAnnouncementAfterCancel::continue_queue) {
         hold_.reset();
     } else if (!hold_) {
         auto reference = issue_reference();
         if (!reference) {
-            return;
+            return false;
         }
         hold_ = std::move(reference);
     }
     waiting_.pop_front();
+    management_capture_.reset();
+    return true;
+}
+
+bool Producer::matches_resume(const ResumeEventAnnouncementQueue &request) const {
+    return hold_ == request.expected_hold_ref &&
+           request.expected_next_head.has_value() != waiting_.empty() &&
+           (!request.expected_next_head || *request.expected_next_head == waiting_.front().action);
 }
 
 void Producer::resume(ResumeEventAnnouncementQueue request, ManagementCommit commit) {
-    if (!authorized(commit) || !owns(commit.turn.clock) || hold_ != request.expected_hold_ref) {
-        return;
-    }
-    if (request.expected_next_head.has_value() == waiting_.empty() ||
-        (request.expected_next_head && *request.expected_next_head != waiting_.front().action)) {
+    if (!authorized(commit) || !owns(commit.turn.clock) || !matches_resume(request)) {
         return;
     }
     hold_.reset();
@@ -308,6 +321,98 @@ EventAnnouncementManagement Producer::management(Disclosure disclosure) const {
         return StuckEventAnnouncement{head->action};
     }
     return NoStuckEventAnnouncement{};
+}
+
+void AnnouncementManagement::advance_and_capture(OwnerTurn turn) {
+    invalidate_capture();
+    if (owner_reference_.empty() || !producer_.owns(turn.clock)) {
+        return;
+    }
+    producer_.advance(turn);
+    producer_.management_capture_ =
+        ObservedAnnouncementManagement{owner_reference_, producer_.management(Disclosure::allowed)};
+}
+
+void AnnouncementManagement::invalidate_capture() { producer_.management_capture_.reset(); }
+
+ObservedAnnouncementManagement AnnouncementManagement::read(CommandAuthority disclosure) const {
+    if (disclosure != CommandAuthority::current) {
+        return {{}, EventAnnouncementUndisclosed{}};
+    }
+    const auto &capture = producer_.management_capture_;
+    if (owner_reference_.empty() || !capture || capture->owner_reference != owner_reference_) {
+        return {{}, EventAnnouncementUnavailable{}};
+    }
+    return *capture;
+}
+
+std::optional<CheckedManagementOutcome>
+AnnouncementManagement::refuse(CheckedManagementTurn admission) const {
+    using Outcome = CheckedManagementOutcome;
+    if (!admission.owner_admitted || owner_reference_.empty() ||
+        !producer_.owns(admission.turn.clock) ||
+        admission.command == CommandAuthority::unavailable ||
+        admission.disclosure == CommandAuthority::unavailable) {
+        return Outcome::unavailable;
+    }
+    if (admission.command != CommandAuthority::current ||
+        admission.disclosure != CommandAuthority::current) {
+        return Outcome::refused;
+    }
+    return std::nullopt;
+}
+
+CheckedManagementOutcome AnnouncementManagement::cancel(std::string_view observed_owner,
+                                                        CancelStuckEventAnnouncement request,
+                                                        CheckedManagementTurn admission) {
+    using Outcome = CheckedManagementOutcome;
+    if (const auto refusal = refuse(admission)) {
+        return *refusal;
+    }
+    const auto choice = request.after_cancel;
+    if (observed_owner.empty() || (choice != EventAnnouncementAfterCancel::hold &&
+                                   choice != EventAnnouncementAfterCancel::continue_queue)) {
+        return Outcome::refused;
+    }
+    // Keep the head and authority checks in step with Producer::cancel.
+    if (observed_owner != owner_reference_ || producer_.waiting_.empty() ||
+        producer_.waiting_.front().action != request.expected_head) {
+        return Outcome::stale;
+    }
+    if (std::ranges::find(admission.turn.start_facts, request.expected_head, &StartFact::action) ==
+        admission.turn.start_facts.end()) {
+        return Outcome::unavailable;
+    }
+    producer_.refresh_authority(admission.turn.start_facts);
+    if (!producer_.waiting_.front().stuck()) {
+        return Outcome::stale;
+    }
+    if (!producer_.cancel_waiting_head(choice)) {
+        return Outcome::unavailable;
+    }
+    if (choice == EventAnnouncementAfterCancel::continue_queue) {
+        producer_.advance(admission.turn);
+    }
+    return Outcome::applied;
+}
+
+CheckedManagementOutcome AnnouncementManagement::resume(std::string_view observed_owner,
+                                                        ResumeEventAnnouncementQueue request,
+                                                        CheckedManagementTurn admission) {
+    using Outcome = CheckedManagementOutcome;
+    if (const auto refusal = refuse(admission)) {
+        return *refusal;
+    }
+    if (observed_owner.empty() || request.expected_hold_ref.empty()) {
+        return Outcome::refused;
+    }
+    if (observed_owner != owner_reference_ || !producer_.matches_resume(request)) {
+        return Outcome::stale;
+    }
+    producer_.hold_.reset();
+    invalidate_capture();
+    producer_.advance(admission.turn);
+    return Outcome::applied;
 }
 
 } // namespace subathon::server::event_announcement_owner
