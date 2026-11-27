@@ -10,6 +10,7 @@ from native_build_evidence_candidate import (
 )
 
 sys.path.insert(0, str(ROOT))
+from tools.release_manifest import Blocked, assemble
 from tools.release_manifest_shape import shape
 
 
@@ -42,10 +43,12 @@ def fixture(profile="desktop-linux-archive"):
         platform = "arch-linux-x86_64"
     selected = {
         "profile": profile,
-        "revision": "synthetic-release-r1",
+        "revision": "0c0447d3ff21496e2465fe203f7d2b621fe382c1",
+        "project_material": identity("selected source tree"),
         "scope": "synthetic-release-r1/" + profile,
         "platform": platform,
         "recipe": "native-release",
+        "recipe_material": identity("selected release recipe content"),
         "presets": ("release-configure", "release-build", "release-acceptance"),
         "release_qt": "6.12.3",
         "environment": {"name": platform, "material": identity("clean-" + platform)},
@@ -67,6 +70,8 @@ def fixture(profile="desktop-linux-archive"):
         },
     }
     selected["inputs"]["parser"]["patches"] = {"portability.patch": identity("public patch")}
+    archive = "parser.lib" if windows else "libparser.a"
+    selected["inputs"]["parser"]["archives"] = {archive: identity("selected parser archive")}
     linked = {"qt-core": "qt", "parser": "parser"}
     runtime_loaded = {} if server else {"qt-platform": "qt", "qt-qml-controls": "qt"}
     files = {executable: identity("application bytes"), "notices/Qt.txt": identity("Qt notice")}
@@ -88,9 +93,11 @@ def fixture(profile="desktop-linux-archive"):
         "command": ("cmake", "--build", "first-release-build"),
         "exit_status": 0,
         "revision": selected["revision"],
+        "project_material": deepcopy(selected["project_material"]),
         "scope": selected["scope"],
         "platform": platform,
         "recipe": selected["recipe"],
+        "recipe_material": deepcopy(selected["recipe_material"]),
         "presets": selected["presets"],
         "environment": deepcopy(selected["environment"]),
         "inputs": deepcopy(selected["inputs"]),
@@ -99,6 +106,7 @@ def fixture(profile="desktop-linux-archive"):
         "members": deepcopy(files),
         "output": identity("reproducible synthetic artifact"),
     }
+    observed["inputs"]["parser"]["archives"] = {archive: identity("selected parser archive")}
     repeated = deepcopy(observed)
     repeated["run"] = "second-clean-build"
     repeated["command"] = ("cmake", "--build", "second-release-build")
@@ -138,6 +146,8 @@ class PackageNativeEvidenceTest(unittest.TestCase):
                 self.assertEqual(build["revision"], selected["revision"])
                 for row in (build, recipe):
                     self.assertTrue(row["owner"])
+                self.assertEqual(recipe["facts"]["recipe_material"], selected["recipe_material"])
+                self.assertEqual(recipe["facts"]["project_material"], selected["project_material"])
 
                 components = indexes["components"]
                 for name, selected_input in selected["inputs"].items():
@@ -182,8 +192,75 @@ class PackageNativeEvidenceTest(unittest.TestCase):
 
                 for documented, actual in zip(result.build_runs, (observed, repeated), strict=True):
                     for key in ("run", "command", "exit_status", "revision", "environment",
-                                "inputs", "output"):
+                                "inputs", "output", "project_material", "recipe_material"):
                         self.assertEqual(documented[key], actual[key])
+
+    def test_exact_technical_evidence_reaches_the_separate_assembler_rights_gate(self):
+        selected, observed, repeated = fixture()
+        result = self.qualified(selected, observed, repeated)
+        inputs = result.release_inputs
+        indexes, invalid = shape(inputs)
+        self.assertEqual(invalid, set())
+        evidence = indexes["evidence"]
+        pin = indexes["selected_pins"]["component:parser", "build"]
+        self.assertEqual(
+            evidence[pin["evidence"]]["facts"]["archives"],
+            selected["inputs"]["parser"]["archives"],
+        )
+        parser = indexes["components"]["parser"]
+        self.assertEqual(
+            evidence[parser["build"]]["facts"]["static"]["parser"],
+            observed["inputs"]["parser"]["archives"],
+        )
+        assembled = assemble(inputs)
+        self.assertIsInstance(assembled, Blocked)
+        self.assertTrue(assembled.findings)
+        self.assertEqual({finding.code for finding in assembled.findings}, {"rights_unknown"})
+
+    def test_missing_embedded_archive_identity_refuses(self):
+        selected, observed, repeated = fixture()
+        for row in (selected, observed, repeated):
+            del row["inputs"]["parser"]["archives"]
+        self.refused(selected, observed, repeated, "input_pin", "parser")
+
+    def test_substituted_observed_archive_identity_refuses(self):
+        selected, observed, repeated = fixture()
+        observed["inputs"]["parser"]["archives"]["libparser.a"] = identity("different parser archive")
+        self.refused(selected, observed, repeated, "selected_input_mismatch", "parser")
+
+    def test_observed_source_or_recipe_material_must_match_selection(self):
+        for field in ("project_material", "recipe_material"):
+            with self.subTest(field=field):
+                selected, observed, repeated = fixture()
+                observed[field] = identity("different material")
+                self.refused(selected, observed, repeated, "selected_build_mismatch", field)
+
+    def test_mutable_revision_or_unbound_recipe_label_refuses(self):
+        with self.subTest(field="revision"):
+            selected, observed, repeated = fixture()
+            for row in (selected, observed, repeated):
+                row["revision"] = "main"
+            self.refused(selected, observed, repeated, "project_pin", "revision")
+        with self.subTest(field="recipe"):
+            selected, observed, repeated = fixture()
+            for row in (selected, observed, repeated):
+                row["recipe"] = "latest"
+                del row["recipe_material"]
+            self.refused(selected, observed, repeated, "recipe_pin", "recipe")
+
+    def test_unknown_source_locator_cannot_qualify(self):
+        selected, observed, repeated = fixture()
+        for row in (selected, observed, repeated):
+            row["inputs"]["compiler"]["source"] = "unknown"
+        self.refused(selected, observed, repeated, "input_pin", "compiler")
+
+    def test_explicit_runtime_list_cannot_hide_required_qml_smoke_evidence(self):
+        selected, observed, repeated = fixture()
+        selected["dynamic_runtime"] = ("qt-platform",)
+        for row in (observed, repeated):
+            row["dynamic_runtime"] = selected["dynamic_runtime"]
+            row["linked"]["qt-qml-controls"] = row["runtime_loaded"].pop("qt-qml-controls")
+        self.refused(selected, observed, repeated, "runtime_missing", "qt-qml-controls")
 
     def test_missing_or_pre_minimum_qt_patch_refuses(self):
         for version in (None, "6.12", "6.11.9"):
