@@ -60,3 +60,16 @@ checked_operation_document(const OperationIntent &);
 void advance_page_prefix(const SqliteWorkSession &, const Scope &, const PageSlot &);
 
 } // namespace subathon::server::connector_intake::detail
+
+namespace subathon::server::connector_intake::recovery {
+struct Recovery;
+}
+
+namespace subathon::server::connector_intake::recovery::detail {
+
+bool matches_scope(const Scope &, const core::ReceiptIdentity &);
+// Admission owns the authorized scope and replays only its own entry.
+Recovery read_admitted_closure(const SqliteWorkSession &, const Scope &, const QByteArray &);
+qsizetype admitted_readback_statement_width();
+
+} // namespace subathon::server::connector_intake::recovery::detail
