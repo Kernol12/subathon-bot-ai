@@ -28,7 +28,8 @@
     "Offline synthetic adapter only. Live credential and room verification, hold ownership (#882), storage binding and activation are separate.",
     "The initial tests review examined an uncommitted tests delta over recorded base 1597aaf4. Its receipt records the reviewed file digests. Original and focused intended red ran on 9c368d7d and 7b5906d1 respectively, with 45 and 2 behavioral failures.",
     "At 48258a2f the reviewed implementation files are identical to aef4abd4 except the shared root CMake file, which carries unrelated main options and preserves the reviewed StreamElements predicate. The bound tests assertion file remains identical to 7b5906d1. The removed inert implementation is recorded in the implementation review rather than a surviving path binding.",
-    "Hosted CI cited here is on 48258a2f. The proof commit receives required CI before merge."
+    "Hosted CI cited here is on 48258a2f. The proof commit receives required CI before merge.",
+    "The current-main integration at base 252299f3 combines two shared files. Relative to the prior branch, workflow and server CMake changes are exactly the merged SESSION-010 S1 enrollment and source registration. Relative to current main, those files carry exactly the previously reviewed StreamElements hunks. Review receipts bind those hunks at aef4abd4. The proof path list binds surviving identical blobs."
   ],
   "verification": {},
   "workflow": {
@@ -123,8 +124,6 @@
         ],
         "revision": "aef4abd4e879ed1a248e9d44c9575d71c9fb31cb",
         "paths": [
-          ".github/workflows/ci.yml",
-          "server/CMakeLists.txt",
           "server/include/subathon/server/streamelements_astro.hpp",
           "server/src/exchange_rate_api_json.hpp",
           "server/src/streamelements_astro.cpp",

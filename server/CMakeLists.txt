@@ -85,7 +85,7 @@ if(BUILD_TESTING AND SUBATHON_BUILD_RULE_SIMULATOR_TESTS)
 endif()
 
 if(TARGET Sodium::Sodium)
-    add_library(subathon_session_resolution STATIC src/session_resolution.cpp)
+    add_library(subathon_session_resolution STATIC src/session_resolution.cpp src/session_transport.cpp)
     target_include_directories(subathon_session_resolution PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_session_resolution PRIVATE Sodium::Sodium)
     subathon_target_options(subathon_session_resolution)
