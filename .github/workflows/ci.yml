@@ -917,6 +917,7 @@ jobs:
         run: |
           cmake --preset session-resolution-debug -DSUBATHON_FETCH_GOOGLETEST=ON -DSUBATHON_BUILD_SESSION_TRANSPORT_STAGE1=ON \
             -DSUBATHON_BUILD_SESSION_POLICY_S2_TESTS=ON \
+            -DSUBATHON_BUILD_SESSION_POLICY_ZERO_CHANNEL_TESTS=ON \
             -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           cmake --build --preset session-resolution-debug
       - name: Check session-resolution-debug test programs against their closure list
@@ -939,6 +940,8 @@ jobs:
               raise SystemExit("Expected exactly 11 SESSION-010 S1 tests")
           if sum(test["name"].startswith("SessionPolicyS2.") for test in selected) != 32:
               raise SystemExit("Expected exactly 32 SESSION-010 S2 tests")
+          if sum(test["name"].startswith("SessionPolicyZeroChannels.") for test in selected) != 4:
+              raise SystemExit("Expected exactly 4 SESSION-010 S2 zero-channel tests")
           for test in selected:
               props = {p["name"]: p["value"] for p in test["properties"]}
               if not {'session-resolution', 'acceptance', 'server'}.issubset(props.get("LABELS", [])):
