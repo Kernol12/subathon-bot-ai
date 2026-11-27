@@ -38,6 +38,9 @@ struct Facts {
     bool admitted_tls = false;
     bool forwarded_metadata = true;
 };
+// Test-only aggregate evidence enables negative binding tests. The owner
+// issues production evidence privately after validation. The lifecycle
+// owner supplies the finite affected-channel bound.
 struct Attempt {
     Identity owner, value;
 };
