@@ -117,6 +117,7 @@ struct Observations {
     bool io_retired{};
     bool record_released{};
     bool unavailable{};
+    bool operator==(const Observations &) const = default;
 };
 
 // Synthetic entry points mirror the framework, IO0 and Qt turns. Each queued

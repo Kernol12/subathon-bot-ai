@@ -3,16 +3,16 @@
 
 #include <gtest/gtest.h>
 
-// Stale entry point      Cut where its current counterpart could take effect
-// socket_options         StaleSocketCannotClaimTheMissingCurrentRole
-// listen_return, offer   StaleOfferAndLastListenReturnCannotEnablePublication
-// publish                StalePublishCannotConsumeEligibleCurrentHandoff
-// admit_observer         StaleIdentityCannotTouchReusedSocketOrRecord
-// release_observer, stop StaleStopAndReleaseCannotRetireCurrentReader
-// route                  StaleIdentityCannotTouchReusedSocketOrRecord
-// acknowledge            StaleAcknowledgmentsCannotRetireClosedCurrentRecord
-// cancel_cold            StaleColdCancelCannotReleaseFreshCurrentRecord
-// framework_exception    StaleIdentityCannotTouchReusedSocketOrRecord
+// Stale entry point      Cut where current could take effect                      All observations
+// unchanged socket_options         StaleSocketCannotClaimTheMissingCurrentRole             yes
+// listen_return, offer   StaleOfferAndLastListenReturnCannotEnablePublication     yes
+// publish                StalePublishCannotConsumeEligibleCurrentHandoff         yes
+// admit_observer         StaleIdentityCannotTouchReusedSocketOrRecord            yes
+// release_observer, stop StaleStopAndReleaseCannotRetireCurrentReader             yes
+// route                  StaleIdentityCannotTouchReusedSocketOrRecord            yes
+// acknowledge            StaleAcknowledgmentsCannotRetireClosedCurrentRecord     yes
+// cancel_cold            StaleColdCancelCannotReleaseFreshCurrentRecord          yes
+// framework_exception    StaleIdentityCannotTouchReusedSocketOrRecord            yes
 
 namespace {
 using namespace subathon::server::startup_custody_candidate;
@@ -42,6 +42,22 @@ class StartupCustodyTest : public testing::Test {
     Candidate owner{current, registrations(app), scratch};
     const BorrowedSocket app_socket{8, {address, 43100}};
     const BorrowedSocket overlay_socket{9, {address, 43101}};
+
+    template <typename Call>
+    void expect_stale_effect_free(Candidate &subject, Call call,
+                                  const BorrowedSocket *borrowed = nullptr) {
+        const auto before = subject.observations();
+        const auto app_accesses = app_socket.accesses();
+        const auto overlay_accesses = overlay_socket.accesses();
+        const auto extra_accesses = borrowed ? borrowed->accesses() : 0U;
+        call();
+        EXPECT_EQ(subject.observations(), before);
+        EXPECT_EQ(app_socket.accesses(), app_accesses);
+        EXPECT_EQ(overlay_socket.accesses(), overlay_accesses);
+        if (borrowed) {
+            EXPECT_EQ(borrowed->accesses(), extra_accesses);
+        }
+    }
 
     std::array<unsigned, 2> roles(Candidate &subject, Role fixed = app) {
         const auto ephemeral = fixed == app ? overlay : app;
@@ -198,7 +214,7 @@ TEST_F(StartupCustodyTest, AcceptedIoWorkCannotBeTreatedAsCold) {
 }
 
 TEST_F(StartupCustodyTest, StaleColdCancelCannotReleaseFreshCurrentRecord) {
-    owner.cancel_cold(former);
+    expect_stale_effect_free(owner, [&] { owner.cancel_cold(former); });
     EXPECT_FALSE(owner.observations().record_released);
     EXPECT_EQ(owner.observations().io_outstanding, 0U);
     owner.cancel_cold(current);
@@ -209,7 +225,12 @@ TEST_F(StartupCustodyTest, StaleSocketCannotClaimTheMissingCurrentRole) {
     EXPECT_EQ(owner.socket_options(current, Acceptor::first, app, app_socket), Turn::accepted);
     EXPECT_EQ(owner.listen_return(current, app), Turn::accepted);
     const BorrowedSocket reused{9, {address, 43101}};
-    EXPECT_EQ(owner.socket_options(former, Acceptor::second, overlay, reused), Turn::stale);
+    expect_stale_effect_free(
+        owner,
+        [&] {
+            EXPECT_EQ(owner.socket_options(former, Acceptor::second, overlay, reused), Turn::stale);
+        },
+        &reused);
     EXPECT_EQ(reused.accesses(), 0U);
     owner.offer(current);
     EXPECT_EQ(owner.publish(current), Turn::pending);
@@ -223,10 +244,12 @@ TEST_F(StartupCustodyTest, StaleSocketCannotClaimTheMissingCurrentRole) {
 TEST_F(StartupCustodyTest, StalePublishCannotConsumeEligibleCurrentHandoff) {
     roles(owner);
     owner.offer(current);
-    EXPECT_EQ(owner.publish(former), Turn::stale);
+    EXPECT_EQ(owner.observations().io_outstanding, 1U);
+    expect_stale_effect_free(owner, [&] { EXPECT_EQ(owner.publish(former), Turn::stale); });
     EXPECT_EQ(owner.observations().publications, 0U);
     EXPECT_FALSE(owner.admit_observer(current));
     EXPECT_EQ(owner.publish(current), Turn::accepted);
+    EXPECT_EQ(owner.observations().io_outstanding, 0U);
     EXPECT_EQ(owner.admit_observer(current), expected);
 }
 
@@ -234,14 +257,19 @@ TEST_F(StartupCustodyTest, StaleIdentityCannotTouchReusedSocketOrRecord) {
     ready(owner);
     const auto before = owner.observations();
     const BorrowedSocket reused{8, {address, 43100}};
-    EXPECT_EQ(owner.socket_options(former, Acceptor::first, app, reused), Turn::stale);
-    EXPECT_EQ(owner.listen_return(former, app), Turn::stale);
-    EXPECT_EQ(owner.publish(former), Turn::stale);
-    EXPECT_FALSE(owner.admit_observer(former));
-    EXPECT_EQ(owner.route(former, app, 43100), Route::closing_400);
-    owner.framework_exception(former);
-    owner.acknowledge(former, Party::io);
-    owner.acknowledge(former, Party::framework);
+    expect_stale_effect_free(
+        owner,
+        [&] { EXPECT_EQ(owner.socket_options(former, Acceptor::first, app, reused), Turn::stale); },
+        &reused);
+    expect_stale_effect_free(owner,
+                             [&] { EXPECT_EQ(owner.listen_return(former, app), Turn::stale); });
+    expect_stale_effect_free(owner, [&] { EXPECT_EQ(owner.publish(former), Turn::stale); });
+    expect_stale_effect_free(owner, [&] { EXPECT_FALSE(owner.admit_observer(former)); });
+    expect_stale_effect_free(
+        owner, [&] { EXPECT_EQ(owner.route(former, app, 43100), Route::closing_400); });
+    expect_stale_effect_free(owner, [&] { owner.framework_exception(former); });
+    expect_stale_effect_free(owner, [&] { owner.acknowledge(former, Party::io); });
+    expect_stale_effect_free(owner, [&] { owner.acknowledge(former, Party::framework); });
     const auto after = owner.observations();
     EXPECT_EQ(reused.accesses(), 0U);
     EXPECT_EQ(after.record_reads, before.record_reads);
@@ -257,7 +285,7 @@ TEST_F(StartupCustodyTest, StaleAcknowledgmentsCannotRetireClosedCurrentRecord) 
         ready(subject);
         subject.stop(current);
         subject.acknowledge(current, missing == Party::io ? Party::framework : Party::io);
-        subject.acknowledge(former, missing);
+        expect_stale_effect_free(subject, [&] { subject.acknowledge(former, missing); });
         const auto partial = subject.observations();
         EXPECT_EQ(partial.framework_retired, missing == Party::io);
         EXPECT_EQ(partial.io_retired, missing == Party::framework);
@@ -273,14 +301,18 @@ TEST_F(StartupCustodyTest, StaleOfferAndLastListenReturnCannotEnablePublication)
               Turn::accepted);
     EXPECT_EQ(owner.listen_return(current, app), Turn::accepted);
     owner.offer(current);
-    EXPECT_EQ(owner.listen_return(former, overlay), Turn::stale);
+    EXPECT_EQ(owner.observations().io_outstanding, 2U);
+    expect_stale_effect_free(owner,
+                             [&] { EXPECT_EQ(owner.listen_return(former, overlay), Turn::stale); });
     EXPECT_EQ(owner.publish(current), Turn::pending);
+    EXPECT_EQ(owner.observations().io_outstanding, 1U);
     EXPECT_EQ(owner.listen_return(current, overlay), Turn::accepted);
+    EXPECT_EQ(owner.observations().io_outstanding, 0U);
     EXPECT_EQ(owner.publish(current), Turn::accepted);
 
     Candidate without_offer{current, registrations(app), scratch};
     roles(without_offer);
-    without_offer.offer(former);
+    expect_stale_effect_free(without_offer, [&] { without_offer.offer(former); });
     EXPECT_EQ(without_offer.publish(current), Turn::pending);
     without_offer.offer(current);
     EXPECT_EQ(without_offer.publish(current), Turn::accepted);
@@ -288,11 +320,11 @@ TEST_F(StartupCustodyTest, StaleOfferAndLastListenReturnCannotEnablePublication)
 
 TEST_F(StartupCustodyTest, StaleStopAndReleaseCannotRetireCurrentReader) {
     ready(owner);
-    owner.stop(former);
-    owner.cancel_cold(former);
+    expect_stale_effect_free(owner, [&] { owner.stop(former); });
+    expect_stale_effect_free(owner, [&] { owner.cancel_cold(former); });
     ASSERT_EQ(owner.admit_observer(current), expected);
     owner.stop(current);
-    owner.release_observer(former);
+    expect_stale_effect_free(owner, [&] { owner.release_observer(former); });
     owner.acknowledge(current, Party::framework);
     owner.acknowledge(current, Party::io);
     EXPECT_FALSE(owner.observations().record_released);
