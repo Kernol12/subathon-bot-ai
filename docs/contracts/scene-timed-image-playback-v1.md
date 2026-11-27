@@ -60,6 +60,24 @@ concrete schema, decoder, codec expansion or platform support.
    only admits silent playback may render the visual if it can establish
    audio suppression and admits the complete exact source profile.
 
+## v1.1 corrections (#908)
+
+1. **Rest state (owner decision 825 B, recorded in 825.10).** On each desktop
+   and browser output, a visible GIF or video Image with an admitted exact
+   asset and profile shows presentation frame zero as a still before start,
+   after one-pass completion, or while qualified playback evidence is missing.
+   GIF uses the composited canvas of its first frame. This still emits no
+   sound and does not start, seek, resume or advance playback. When qualified
+   evidence returns for an existing instance, use its current owner position.
+   Visibility still gates all output. An unavailable first frame or unproved
+   exact profile supplies no Image visual, and an unsupported profile is
+   refused under the existing admission rule. The still supplies no decoder,
+   poster or substitute asset fallback.
+2. **Sound enablement (825.9 and #804 M10).** The scene's explicit sound
+   enablement applies to embedded Image video audio. It defaults off, and
+   there is no separate Image sound flag. The admitted track, output permission,
+   local mute and current timed position still govern sound eligibility.
+
 ## Instance and observations
 
 Bind instance identity to installation/scene scope, exact scene content
@@ -112,17 +130,20 @@ verified inputs. Audio rows additionally require evidence for the named output.
 
 | Input | Expected logical observation |
 | --- | --- |
-| Two-frame GIF delays 2 and 3 cs; authored loop off; file says forever | 0 and 19 ms select frame 0; 20 and 49 ms select frame 1; 50 ms is terminal. No sound. |
+| Two-frame GIF delays 2 and 3 cs; authored loop off; file says forever | 0 and 19 ms select frame 0; 20 and 49 ms select frame 1; at 50 ms the pass ends and frame 0 is shown as a still. No sound. |
 | Same GIF, no source repeat extension, authored loop on | 50 ms selects frame 0 of a fresh pass; 70 ms selects frame 1. |
-| Four video frames at exact rate 2 fps, loop off | 499 ms selects frame 0; 500 ms selects frame 1; 1999 ms selects frame 3; 2000 ms is terminal. |
+| Four video frames at exact rate 2 fps, loop off | 499 ms selects frame 0; 500 ms selects frame 1; 1999 ms selects frame 3; at 2000 ms the pass ends and frame 0 is shown as a silent still. |
 | Three frames at rate 30000/1001, loop on | At 33 ms select frame 0; 34 ms selects frame 1. Duration is 1001/10000 s; 100 ms selects frame 2 and 101 ms wraps to frame 0. |
-| Loaded GIF or video, no admitted start; visibility becomes true | No playback. Explicit autoplay plus owner activation starts once at zero. A duplicate activation leaves the position unchanged. |
-| Four-frame video above hidden at 499 ms, visible at 1000 ms | No output while hidden; show frame 2 from the same instance. If first shown again at 2000 ms, the pass has ended. |
+| Admitted GIF or video, no admitted start; visibility becomes true | Show frame 0 as a silent still. Explicit autoplay plus owner activation starts once at zero. A duplicate activation leaves the position unchanged. |
+| Four-frame video above hidden at 499 ms, visible at 1000 ms | No output while hidden; show frame 2 from the same instance. If first shown again at 2000 ms, show frame 0 as a silent still. |
 | Same GIF referenced by Image A and Image B; new admitted trigger for A | A gets a new exact instance at zero. B stays on its prior timeline or remains inactive. Queued-only trigger changes neither. |
-| Active video reconnect at qualified 1500 ms | Frame 3. A reconnect without qualified elapsed emits neither timed frame nor sound. |
+| Active video reconnect at qualified 1500 ms | Frame 3. A reconnect without qualified elapsed shows frame 0 as a silent still when admitted. If elapsed becomes qualified at 1500 ms, show frame 3. |
 | Replace scene revision, node binding or asset; observation still names old one | No timed output from that observation even if the asset digest is equal. |
-| Verified video audio, authored sound and permission present, local mute on | Visual keeps the same frame; silence. Missing permission is also silent. Unsupported video profile refuses the visual. |
+| Verified video audio, scene sound enabled and permission present, local mute on | Visual keeps the same frame; silence. Missing permission is also silent. Unsupported video profile refuses the visual. |
 | Admitted one-second MD06 video with audio extent 368/375 s, loop on, scene sound enabled and output permission present | At 981 ms audio is eligible. At 982 ms video continues silently. At 1000 ms the frame and audio both return to phase zero. A muted reconnect at 1050 ms selects visual phase 50 ms in silence. |
 | Video source track evidence is incomplete; compare complete exact profile with an admitted silent-only output | Incomplete evidence suppresses both visual and audio. The silent-only output with complete evidence may show the visual if it establishes audio suppression. |
 | Presentation-bound GIF is looping; owner window ends while the scene stays active | Stop timed output immediately. A late occurrence from the old window and a reconnect during the gap cannot revive it. |
 | GIF delay outside 011, or only a declared MP4 container without verified track facts | Refuse timed playback; do not clamp GIF delays or infer a codec. |
+| Visible non-playing Image; the exact asset's first frame cannot be decoded or is unavailable | No Image visual or sound. A cached later frame or alternate asset supplies no still. |
+| Visible non-playing Image with a known unsupported exact profile, even if a renderer could extract a thumbnail | Refuse the profile. No Image visual or sound. |
+| Timed video is admitted with verified audio, default Image settings, output permission and local mute off | Scene sound enabled makes audio eligible during its admitted extent. Omitting scene sound enablement keeps playback silent. |
