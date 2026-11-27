@@ -11,6 +11,12 @@ set_tests_properties(scaffold.python_tools PROPERTIES WORKING_DIRECTORY "${PROJE
 add_test(NAME scaffold.project_consistency
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py")
 set_tests_properties(scaffold.project_consistency PROPERTIES LABELS "scaffold")
+add_test(NAME scaffold.native_build_evidence
+    COMMAND "${Python3_EXECUTABLE}" -m unittest discover -s tests/release_manifest
+            -p test_native_build_evidence.py -v)
+set_tests_properties(scaffold.native_build_evidence PROPERTIES
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}" LABELS "scaffold"
+    ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")
 if(SUBATHON_BUILD_EVENT_ANNOUNCEMENT_STAGE1
         OR SUBATHON_BUILD_EXCHANGE_RATE_API_TESTS OR SUBATHON_BUILD_OPEN_EXCHANGE_RATES_TESTS
         OR SUBATHON_BUILD_RULE_CHAIN_TESTS OR SUBATHON_BUILD_RULE_SIMULATOR_TESTS
