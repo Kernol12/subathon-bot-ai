@@ -269,6 +269,16 @@ class PackageNativeEvidenceTest(unittest.TestCase):
                 selected["release_qt"] = version
                 self.refused(selected, observed, repeated, "qt_release_pin", "qt")
 
+    def test_matching_qt_pins_below_the_release_minimum_refuse(self):
+        for version in ("6.11.9", "6.9.9"):
+            with self.subTest(version=version):
+                selected, observed, repeated = fixture()
+                selected["release_qt"] = version
+                for row in (selected, observed, repeated):
+                    row["inputs"]["qt"]["revision"] = version
+                    row["inputs"]["qt"]["material"] = identity("Qt " + version)
+                self.refused(selected, observed, repeated, "qt_release_pin", "qt")
+
     def test_locally_matching_windows_patch_must_match_release_pin(self):
         selected, observed, repeated = fixture("desktop-win-zip")
         for row in (selected, observed, repeated):
@@ -280,6 +290,21 @@ class PackageNativeEvidenceTest(unittest.TestCase):
         selected, observed, repeated = fixture("desktop-win-zip")
         self.assertNotIn("source", selected["inputs"]["compiler"])
         self.qualified(selected, observed, repeated)
+
+    def test_post_processed_zip_identity_stays_separate_from_reproducible_members(self):
+        selected, observed, repeated = fixture("desktop-win-zip")
+        final_zip = identity("separately signed Windows ZIP with changed executable bytes")
+        selected["final_artifact"] = final_zip
+        observed["final_artifact"] = deepcopy(final_zip)
+
+        result = self.qualified(selected, observed, repeated)
+        inputs = result.release_inputs
+        for artifact in (inputs["expected"], inputs["observed"]["artifact"]):
+            self.assertEqual({key: artifact[key] for key in observed["output"]}, observed["output"])
+        for member in inputs["observed"]["members"]:
+            expected = observed["members"][member["path"]]
+            self.assertEqual({key: member[key] for key in expected}, expected)
+        self.assertEqual(result.build_runs[0]["final_artifact"], final_zip)
 
     def test_selected_input_identity_cannot_be_replaced_by_observed_material(self):
         for name, field, value in (
