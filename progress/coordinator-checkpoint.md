@@ -239,8 +239,10 @@ task:
   under the conditions in [the workflow](../docs/AGENT_WORKFLOW.md). The resolution
   keeps every added entry of both sides verbatim and adds no other edit of its own
   to the file. The coordinator shows the combined diff, so that a reviewer can
-  verify that it contains only the additions from `main` and from the reviewed
-  branch. Every other shared-file conflict still stops for the owner.
+  verify that the conflict resolution keeps only the added entries from `main` and
+  the reviewed branch at the conflict, carries through non-conflicting changes from
+  both sides, and introduces no other edits. Every other shared-file conflict still
+  stops for the owner.
 
 Coordinator owns any future shared CI/proof/checkpoint integration only within
 new owner authorization. Build/scratch remain on disk under owned ignored task
