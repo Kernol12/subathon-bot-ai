@@ -40,6 +40,8 @@ bool valid_mode(const Facts &facts) {
         return facts.admitted_tls && !facts.forwarded_metadata;
     case Facts::Mode::direct_plain:
         return !facts.admitted_tls && !facts.forwarded_metadata;
+    case Facts::Mode::unspecified:
+        return false;
     }
     return false;
 }
@@ -161,9 +163,8 @@ std::optional<Candidate> Policy::validate(Attempt attempt, const Facts &facts,
     }
 
     const bool drain_required = snapshot_ && requires_drain(snapshot_->facts, facts);
-    // The lifecycle owner supplies the inventory of affected native channels.
-    // Its admission bound is the policy's peer-entry ceiling.
-    if (drain_required == affected.empty() || affected.size() > budgets_.peer_entries) {
+    // The lifecycle owner supplies and bounds the affected native channels.
+    if (drain_required == affected.empty()) {
         latch_failure();
         return {};
     }

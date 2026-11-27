@@ -26,19 +26,19 @@ struct Route {
     bool operator==(const Route &) const = default;
 };
 struct Facts {
-    Identity installation = 1;
-    std::string origin = "https://timer.example";
-    std::vector<Route> routes{{"/account", "POST", AccountTransportPurpose::protected_access}};
-    std::vector<std::string> peers{"127.0.0.1"};
-    AccountTransportLimits limits;
-    Identity foundation = 1, native_abi = 1, native_artifact = 1, profile = 1;
+    Identity installation{};
+    std::string origin;
+    std::vector<Route> routes;
+    std::vector<std::string> peers;
+    AccountTransportLimits limits{0, 0, 0, 0, 0, 0, 0};
+    Identity foundation{}, native_abi{}, native_artifact{}, profile{};
     // 892.2's edge artifact or configuration refers to edge_artifact and edge_config.
-    Identity listener = 1, edge_artifact = 1, edge_config = 1, logging = 1;
-    Identity isolation = 1, forwarding_grammar = 1, normalization = 1;
-    std::string configuration = "configuration", address = "127.0.0.1";
-    enum class Mode { proxied, direct_tls, direct_plain } mode = Mode::proxied;
+    Identity listener{}, edge_artifact{}, edge_config{}, logging{};
+    Identity isolation{}, forwarding_grammar{}, normalization{};
+    std::string configuration, address;
+    enum class Mode { proxied, direct_tls, direct_plain, unspecified } mode = Mode::unspecified;
     bool admitted_tls = false;
-    bool forwarded_metadata = true;
+    bool forwarded_metadata = false;
     bool operator==(const Facts &) const = default;
 };
 // The bound readiness producer and lifecycle owner supply these records.
