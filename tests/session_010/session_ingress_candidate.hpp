@@ -11,6 +11,7 @@
 #include <span>
 #include <subathon/server/account_capture.hpp>
 #include <variant>
+#include <vector>
 
 namespace subathon::server::session_ingress_candidate {
 namespace bh = bounded_http;
@@ -33,6 +34,13 @@ struct Provenance {
     std::uint16_t peer_port;
     bh::U64 fields, projection;
 };
+// Trusted admitted registry from host composition (#894; synthetic in tests): S2's
+// opaque Facts::native_artifact/profile ids -> the SHA-256 the running artifact and
+// profile must carry (reading 893.3). Unknown or mismatched: unavailable, no handoff.
+using Sha256 = std::array<std::byte, 32>;
+struct AdmittedRegistry {
+    std::vector<std::pair<session_policy::Identity, Sha256>> artifacts, profiles;
+};
 struct Handoff {
     Outcome outcome;
     Provenance provenance;
@@ -43,10 +51,13 @@ class Binding {
     // Cold only, on the creator thread before bh::register_listeners. Installs the
     // #591 account capture and a private request-start fence on the same Foundation.
     // `routes` is the exact table given to bh::create; the native route index is
-    // interpreted only in it. Returns null if either installation is refused.
+    // interpreted only in it. `registry` is retained for every request-start check.
+    // Returns null if either installation is refused.
     static std::unique_ptr<Binding> install(bh::Foundation &foundation,
-                                            std::span<const bh::Route> routes) {
-        (void)routes; // INERT: capture installed with a callback that visits nothing
+                                            std::span<const bh::Route> routes,
+                                            AdmittedRegistry registry) {
+        // INERT: capture installed with a callback that visits nothing
+        (void)routes, (void)registry;
         std::unique_ptr<Binding> binding(new Binding);
         if (!std::holds_alternative<ac::Done>(
                 ac::install(foundation, {binding.get(), [](void *, ac::CaptureLease) {}})))

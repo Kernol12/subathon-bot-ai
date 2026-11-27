@@ -14,6 +14,7 @@ namespace fx = account_capture_test;
 namespace bh = subathon::server::bounded_http;
 namespace ws = subathon::server::native_ws;
 namespace sp = subathon::server::session_policy;
+namespace eo = subathon::server::account_capture::testing;
 namespace si = subathon::server::session_ingress_candidate;
 using namespace std::literals;
 using subathon::server::AccountTransportFailure;
@@ -77,6 +78,13 @@ inline sp::Facts reference_facts() {
     return f;
 }
 
+// Synthetic admitted registry (reading 893.3): identity 1 resolves to the running
+// artifact/profile SHA-256, 3 to a hash nothing runs; 2 is unknown.
+inline si::AdmittedRegistry admitted() {
+    return {{{1, fx::selected_identity::artifact}, {3, si::Sha256{}}},
+            {{1, fx::selected_identity::profile}, {3, si::Sha256{}}}};
+}
+
 class Readiness final : public sp::ReadinessProducer {
   public:
     sp::ReadinessState query(const sp::Readiness &) noexcept override {
@@ -86,7 +94,10 @@ class Readiness final : public sp::ReadinessProducer {
 
 class Ingress {
   public:
-    explicit Ingress(const sp::Facts &facts = reference_facts(), bool publish_first = true) {
+    // `fail_target_wipe`: #591's observer refuses the target wipe (release_raw only).
+    explicit Ingress(const sp::Facts &facts = reference_facts(), bool publish_first = true,
+                     bool fail_target_wipe = false)
+        : expect_wipe_failure_(fail_target_wipe) {
         static auto *const logs = new fx::LogObservation; // process-retained sink target
         logs_ = logs;
         fx::bind_checked_log(*logs);
@@ -101,9 +112,11 @@ class Ingress {
                                   {"/foundation/ws", nullptr, nullptr, nullptr}, clock_,
                                   {this, connected, request, ready, ended, removed, drained, read});
         foundation_ = take<std::unique_ptr<bh::Foundation>>(created);
-        binding_ = si::Binding::install(*foundation_, routes_);
+        binding_ = si::Binding::install(*foundation_, routes_, admitted());
         if (!binding_)
             throw std::runtime_error("FIXTURE: binding installation refused");
+        if (fail_target_wipe)
+            require(eo::install_erasure_observer(*foundation_, {this, refuse_target}));
         if (publish_first)
             binding_->publish(next(facts));
         auto &app = drogon::app();
@@ -160,13 +173,17 @@ class Ingress {
     }
     ~Ingress() { stop(); }
 
-    // Owner thread (this test thread): one real S2 publication; returns its pin.
-    sp::Pin next(const sp::Facts &facts) {
+    // Owner thread (this test thread): one real S2 publication; returns its pin. A
+    // drain-requiring change names the synthetic lifecycle owner's channels (trace Q14).
+    sp::Pin next(const sp::Facts &facts, std::vector<sp::Identity> drained = {}) {
         const auto attempt = policy_->suspend();
-        const auto candidate = attempt ? policy_->validate(*attempt, facts) : std::nullopt;
+        const auto candidate = attempt ? policy_->validate(*attempt, facts, drained) : std::nullopt;
         auto pin = candidate ? policy_->publish(candidate->attempt,
                                                 {*candidate, ++ack_, facts.profile, facts.listener,
-                                                 facts.configuration, facts.address})
+                                                 facts.configuration, facts.address},
+                                                drained.empty()
+                                                    ? std::nullopt
+                                                    : std::optional(sp::Drain{*candidate, drained}))
                              : nullptr;
         if (!pin)
             throw std::runtime_error("FIXTURE: S2 policy publication");
@@ -204,7 +221,14 @@ class Ingress {
         framework_.join();
         for (auto &peer : peers_)
             peer.reset();
-        if (!std::holds_alternative<bh::Done>(foundation_->finish()))
+        const auto finished = foundation_->finish();
+        if (expect_wipe_failure_) {
+            const auto *error = std::get_if<bh::Error>(&finished);
+            quarantined = error && *error == bh::Error::wipe_failed;
+            // #591 precedent: the quarantined core stays charged until process exit.
+            (void)binding_.release();
+            (void)foundation_.release();
+        } else if (!std::holds_alternative<bh::Done>(finished))
             fx::terminal_fixture();
         binding_.reset();
         foundation_.reset();
@@ -227,7 +251,9 @@ class Ingress {
     std::uint64_t read_bytes = 0;
     std::uint16_t http_port = 0, native_port = 0;
     std::function<void()> during_request; // IO0, once, before the first reply
-    bool wire_clean = true, logs_clean = false;
+    bool wire_clean = true, logs_clean = false, quarantined = false;
+    // How the request callback ends: commit its reply, cancel it, or stop first (I20).
+    enum class Ending { commit, cancel, stop } ending = Ending::commit;
 
   private:
     fx::Deadline watchdog_;
@@ -248,6 +274,7 @@ class Ingress {
     std::mutex mutex_;
     std::condition_variable changed_;
     bool failed_ = false, returned_ = false, drained_ = false;
+    bool expect_wipe_failure_;
 
     template <class T, class Result> static T take(Result &result) {
         if (auto *value = std::get_if<T>(&result))
@@ -269,9 +296,16 @@ class Ingress {
         auto &s = self(owner);
         if (auto action = std::exchange(s.during_request, {}))
             action();
+        if (s.ending == Ending::stop) // from an ordinary thread, as the host issues it
+            std::thread([&s] {
+                (void)s.foundation_->stop({s.clock_->ns.load() + 5'000'000'000ULL});
+            }).join();
         auto reserved = request.reserve_reply({200, 4, false});
         bool replied = false;
-        if (auto *reply = std::get_if<bh::Reply>(&reserved)) {
+        if (auto *reply = std::get_if<bh::Reply>(&reserved); reply && s.ending == Ending::cancel) {
+            reply->cancel();
+            replied = true;
+        } else if (reply) {
             replied = std::holds_alternative<bh::Done>(
                           reply->fill(nullptr,
                                       [](void *, std::span<std::byte> bytes) -> bh::U64 {
@@ -284,11 +318,14 @@ class Ingress {
         }
         auto handoff = s.binding_->release(request);
         s.update([&] {
-            s.failed_ |= !replied;
+            s.failed_ |= !replied && s.ending != Ending::stop;
             if (handoff)
                 s.handoffs.push_back(std::move(*handoff));
             ++s.requests;
         });
+    }
+    static bool refuse_target(void *, eo::ErasureEvent event, std::span<const std::byte>) noexcept {
+        return event.region != eo::Region::target || event.phase != eo::Phase::before_sodium;
     }
     static void ready(void *, void *) {}
     static void ended(void *, void *, bh::End) {}

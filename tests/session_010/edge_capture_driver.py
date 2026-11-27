@@ -35,10 +35,10 @@ HEX_LOOPBACK = '0100007F'
 HOST = 'timer.example'
 # Frozen external request bytes, native leased field count, native projection.
 PROJECTION = {'Desktop252': (149, 6, 252), 'Browser282': (179, 7, 282)}
-# Producer suite -> (selector prefix, capture marker). The S3 ingress producer
-# reports prepared=1 only after its binding handed off digestZ under g1 (#893).
-SUITES = {'edge': ('Session010EdgeCapture.', 'ordered=1'),
-          'ingress': ('Session010IngressUpstream.', 'prepared=1')}
+# Suite -> (selector prefix, capture marker, publishes on 'P' after the edge is observed).
+# The S3 ingress producer reports prepared=1 after its binding handed off digestZ (#893).
+SUITES = {'edge': ('Session010EdgeCapture.', 'ordered=1', False),
+          'ingress': ('Session010IngressUpstream.', 'prepared=1', True)}
 LINE_LIMIT = 4096  # producer stdout lines kept for matching; never printed
 
 
@@ -247,7 +247,7 @@ def exchange(work, case, edge_port):
 
 
 def drive(producer_path, caddy_path, case, work, suite='edge'):
-    prefix, marker = SUITES[suite]
+    prefix, marker, publish = SUITES[suite]
     selector = prefix + case
     with open(caddy_path, 'rb') as binary:
         require(hashlib.sha256(binary.read()).hexdigest() == CADDY_SHA256, 'pinned Caddy 2.10.2')
@@ -276,6 +276,11 @@ def drive(producer_path, caddy_path, case, work, suite='edge'):
         run([caddy_path, 'validate', '--config', str(config)], profile, work, 'validate')
         caddy = Child([caddy_path, 'run', '--config', str(config)], profile, work, 'caddy')
         observe(caddy, '0A', edge_port, seconds=5)
+        if publish:  # r2 l.126: readiness only after the admitted conditions are observed
+            producer.proc.stdin.write(b'P')
+            producer.proc.stdin.flush()
+            require(producer.until('SESSION010_PUBLISHED', 5).split()[1:] == [selector],
+                    'readiness acknowledgment')
 
         client = exchange(work, case, edge_port)
         capture = re.fullmatch(r'SESSION010_CAPTURE (\S+) listener=(\d+) connection=(\d+) '

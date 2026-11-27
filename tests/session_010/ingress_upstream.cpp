@@ -9,21 +9,26 @@
 
 namespace session_ingress_test {
 namespace {
-bool completion() {
+// One driver byte on stdin: 'P' after it observed the edge, 'S' to complete.
+bool command(char expected) {
     pollfd input{STDIN_FILENO, POLLIN, 0};
     char command = 0;
-    return ::poll(&input, 1, 5000) == 1 && (input.revents & POLLIN) &&
-           ::read(STDIN_FILENO, &command, 1) == 1 && command == 'S';
+    return ::poll(&input, 1, 10000) == 1 && (input.revents & POLLIN) &&
+           ::read(STDIN_FILENO, &command, 1) == 1 && command == expected;
 }
 
 void run(const char *selector, AccountTransportKind kind, std::size_t fields,
          std::size_t projection) {
     ASSERT_TRUE(GTEST_FLAG_GET(filter) == selector && GTEST_FLAG_GET(repeat) == 1);
-    // Readiness: the fixture's acknowledgment is published at start (trace Q5).
-    Ingress f;
+    // r2 line 126: g1 and its acknowledgment follow the driver's edge observation.
+    Ingress f(reference_facts(), false);
     ASSERT_GT(std::printf("SESSION010_READY %s http=127.0.0.1:%u native=127.0.0.1:%u\n", selector,
                           unsigned(f.http_port), unsigned(f.native_port)),
               0);
+    ASSERT_EQ(std::fflush(stdout), 0);
+    ASSERT_TRUE(command('P')) << "FIXTURE: readiness byte missing";
+    f.binding().publish(f.next(reference_facts()));
+    ASSERT_GT(std::printf("SESSION010_PUBLISHED %s\n", selector), 0);
     ASSERT_EQ(std::fflush(stdout), 0);
     // The driver allows 12 s for the capture report; two bounded waits cover it.
     ASSERT_TRUE(f.wait([&] { return f.requests > 0; }) || f.wait([&] { return f.requests > 0; }))
@@ -47,7 +52,7 @@ void run(const char *selector, AccountTransportKind kind, std::size_t fields,
                           h.provenance.fields, h.provenance.projection),
               0);
     ASSERT_EQ(std::fflush(stdout), 0);
-    ASSERT_TRUE(completion()) << "FIXTURE: completion byte missing";
+    ASSERT_TRUE(command('S')) << "FIXTURE: completion byte missing";
     f.stop();
     EXPECT_EQ(f.requests, 1U);
     EXPECT_TRUE(f.logs_clean);

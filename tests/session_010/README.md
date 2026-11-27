@@ -85,6 +85,7 @@ adds `session_010_ingress` and `session_010_ingress_upstream` under the
 the shipped S2 policy owner and the unchanged S1 supplier, with BLAKE2b calls counted
 through a linker wrap. Direct cases send synthetic loopback literals through
 `ingress_fixture.hpp`. The upstream positive reuses this driver with
-`--suite ingress`. That producer reports `prepared=1` only after its binding handed
-off digestZ under its own `g1`. The driver still matches the reported peer to Caddy's
+`--suite ingress`. That producer publishes `g1` only after the driver observed the
+edge listener and sent `P`, and reports `prepared=1` only after its binding handed
+off digestZ under that `g1`. The driver still matches the reported peer to Caddy's
 upstream socket in `/proc`.

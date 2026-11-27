@@ -52,7 +52,8 @@ bool unavailable_or_closed(Ingress &f) {
     return (f.handoffs.size() == 1 && failure(f.handoffs[0]) == Failure::ingress_unavailable) ||
            (f.requests == 0 && f.removed_count > 0);
 }
-// After client 0 ends: a fresh admitted request on client 1 must still prepare.
+// After client 0 ends: a fresh admitted request on client 1 must still prepare. Cases
+// whose first half only asserts absence (#591 guards) share its handoff red below.
 void live_control(Ingress &f, std::string_view ref = "g1") {
     (void)::shutdown(f.client(0).get(), SHUT_WR);
     (void)f.through_eof(0);
@@ -240,6 +241,8 @@ TEST(Session010IngressS3, CoalescedSuccessorPinsItsOwnGeneration) {
     Ingress f;
     auto changed = reference_facts();
     changed.logging = 2;
+    // The S2 owner makes g2 current here, but the binding only learns it from the
+    // publish inside request 1, so request 1 pins g1 and request 2 must pin g2.
     const auto g2 = f.next(changed);
     ASSERT_EQ(g2->reference, "g2");
     f.during_request = [&f, g2] { f.binding().publish(g2); };
@@ -309,6 +312,58 @@ TEST_P(Mismatch, UnavailableWithoutCrypto) {
 INSTANTIATE_TEST_SUITE_P(I18, Mismatch, ::testing::Values(0, 1), [](const auto &param) {
     return std::string(param.param == 0 ? "Listener" : "RouteMethod");
 });
+
+// I18, reading 893.3: S2's artifact/profile ids resolve via the admitted registry (1
+// running, 3 mismatched, 2 unknown); unavailable with no handoff until 1 is published.
+struct Admitted {
+    const char *name;
+    bool profile;
+    sp::Identity id;
+};
+class AdmittedIdentity : public ::testing::TestWithParam<Admitted> {};
+TEST_P(AdmittedIdentity, UnavailableUntilRegistryMatches) {
+    auto facts = reference_facts();
+    (GetParam().profile ? facts.profile : facts.native_artifact) = GetParam().id;
+    Ingress f(facts);
+    send(f, upstream(fx::desktop));
+    ASSERT_TRUE(delivered(f));
+    EXPECT_TRUE(f.handoffs.empty());
+    EXPECT_EQ(crypto_calls.load(), 0U);
+    f.binding().publish(f.next(reference_facts(), {1})); // S2: identity change drains
+    live_control(f, "g2");
+}
+INSTANTIATE_TEST_SUITE_P(I18, AdmittedIdentity,
+                         ::testing::Values(Admitted{"ArtifactUnknown", false, 2},
+                                           Admitted{"ArtifactMismatch", false, 3},
+                                           Admitted{"ProfileUnknown", true, 2},
+                                           Admitted{"ProfileMismatch", true, 3}),
+                         by_name);
+
+// r2 line 60 and I20: the synchronous cleanup disposition decides. A prepared request
+// whose target wipe fails, or that is cancelled or stopped in its callback, is dropped.
+struct Cleanup {
+    const char *name;
+    bool wipe;
+    Ingress::Ending ending;
+};
+class CleanupDrop : public ::testing::TestWithParam<Cleanup> {};
+TEST_P(CleanupDrop, PreparedThenDroppedWithoutHandoff) {
+    Ingress f(reference_facts(), true, GetParam().wipe);
+    f.ending = GetParam().ending;
+    send(f, upstream(fx::desktop));
+    ASSERT_TRUE(delivered(f));
+    EXPECT_EQ(crypto_calls.load(), 1U) << "the dropped request was never prepared";
+    EXPECT_TRUE(f.handoffs.empty());
+    EXPECT_TRUE(f.wait([&] { return f.removed_count > 0; })) << "peer not removed";
+    f.stop();
+    EXPECT_EQ(f.quarantined, GetParam().wipe);
+}
+INSTANTIATE_TEST_SUITE_P(I20, CleanupDrop,
+                         ::testing::Values(Cleanup{"FailedTargetWipe", true,
+                                                   Ingress::Ending::commit},
+                                           Cleanup{"Cancelled", false, Ingress::Ending::cancel},
+                                           Cleanup{"Stopped", false, Ingress::Ending::stop}),
+                         by_name);
 
 // I19: a canary in an arbitrary field never reaches the bound logger or the wire,
 // while the same request still prepares (real positive for the observed channels).
