@@ -22,6 +22,7 @@ option(SUBATHON_BUILD_RULES_004_STAGE1 "Build the reviewed RULES-004 acceptance 
 option(SUBATHON_BUILD_RULES_005_STAGE1 "Build the reviewed RULES-005 acceptance suite" OFF)
 option(SUBATHON_BUILD_EVENT_ANNOUNCEMENT_STAGE1 "Build the event announcement intentional-red suite" OFF)
 option(SUBATHON_BUILD_API_024_STAGE1 "Build the API-024 listener intentional-red suite" OFF)
+option(SUBATHON_BUILD_SESSION_TRANSPORT_STAGE1 "Build the SESSION-010 S1 intentional-red tests" OFF)
 option(SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE "Build the ACCT-007 Qt acceptance suite explicitly" OFF)
 option(SUBATHON_BUILD_MODIFIER_005_STAGE1 "Build the reviewed MODIFIER-005 acceptance suite" OFF)
 option(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE "Build the modifier-clock acceptance suite explicitly" OFF)
