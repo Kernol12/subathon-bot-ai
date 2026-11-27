@@ -34,7 +34,13 @@ struct AccountTransportLimits {
     std::uint64_t header_bytes = 32768, cookie_pairs = 64;
     std::uint64_t origin_bytes = 1024, policy_reference_bytes = 4096;
     std::uint64_t result_bytes = 4096;
+    bool operator==(const AccountTransportLimits &) const = default;
 };
+namespace session_transport_detail {
+bool canonical_origin(std::string_view);
+bool valid_limits(const AccountTransportLimits &);
+} // namespace session_transport_detail
+
 class AccountIngressSource {
   public:
     virtual ~AccountIngressSource() = default;
