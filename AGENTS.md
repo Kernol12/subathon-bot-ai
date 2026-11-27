@@ -189,13 +189,16 @@ applies. The paragraph grants nothing else.
 **The coordinator opens helper sessions for these steps without asking (owner
 decision, 2026-11-27).** I, the owner, ask the coordinator in advance to open a new
 session whenever it needs one to open a draft PR or to post a review receipt under
-the rule above ("Draft PRs and receipts need no separate owner confirmation"). Treat
-this as my request for each such session. It applies only to the thread listed as
-coordinator under "Current coordinator and advisor threads" in
-`progress/coordinator-checkpoint.md` on `main`. The new session is bound to one
-task's branch and gets no work other than the steps of that rule for that task.
-Every request the coordinator sends to it follows that rule unchanged. Any other
-new thread still needs my own request, and this grants nothing else.
+the rule above ("Draft PRs and receipts need no separate owner confirmation") and no
+live helper session can perform that step. Treat this as my request for each such
+session. It applies only to the thread listed as coordinator under "Current
+coordinator and advisor threads" in `progress/coordinator-checkpoint.md` on the
+`main` branch of `Kernol12/subathon-bot-ai`. Before it opens the session, the
+coordinator verifies that the session will be bound to one task's branch in
+`Kernol12/subathon-bot-ai`. The session gets no work other than the steps of that
+rule for that task. Every request the coordinator sends to it follows that rule
+unchanged. Any other new thread still needs my own request, and this grants nothing
+else.
 
 ## Commands
 
