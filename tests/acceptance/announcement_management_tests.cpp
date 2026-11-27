@@ -110,6 +110,20 @@ TEST_F(AnnouncementManagementTest, AuthorizedCaptureUsesExactOwnerAndInvalidates
         std::holds_alternative<EventAnnouncementUnavailable>(binding.read(Grant::current).view));
 }
 
+TEST_F(AnnouncementManagementTest, ReplacementOwnerCannotReadEarlierOwnersCapture) {
+    admit(first);
+    const std::array facts{StartFact{first, ActionAuthority::grant_withdrawn}};
+    binding.advance_and_capture(turn(facts, 30ms).turn);
+    const auto original = binding.read(Grant::current);
+    ASSERT_EQ(original.owner_reference, owner_ref);
+    ASSERT_TRUE(std::holds_alternative<StuckEventAnnouncement>(original.view));
+
+    AnnouncementManagementCandidate replacement{owner, "replacement owner"};
+    const auto observation = replacement.read(Grant::current);
+    EXPECT_TRUE(std::holds_alternative<EventAnnouncementUnavailable>(observation.view));
+    EXPECT_TRUE(observation.owner_reference.empty());
+}
+
 TEST_F(AnnouncementManagementTest, EligibleHeadIsNotReportedStuckAfterProgression) {
     admit(first);
     const std::array facts{StartFact{first, ActionAuthority::current}};
