@@ -14,7 +14,7 @@ const Fence after_page{2, 5, 2, "g3"};
 
 EnrollmentRequest request(Fence fence = before_page) {
     return {a, std::move(fence), 2,
-            {member(b), "mirror-lane", "g4", "g5", profile, cursor, true}, "enroll-cfg"};
+            {member(b), "mirror-lane", "g4", "gB", profile, cursor, true}, "enroll-cfg"};
 }
 
 class EnrollmentFixture {
@@ -26,6 +26,8 @@ class EnrollmentFixture {
 
     EnrollmentFixture() {
         history.open_catch_up();
+        history.startup.configuration.revision = "enroll-cfg";
+        history.startup.configuration.lanes.append(request().incoming);
         require(store().rows("SELECT account FROM main.subathon_intake_sources") ==
                     SqlRows{{a.account}}, "A is the only source before enrollment");
     }
@@ -42,6 +44,11 @@ class EnrollmentFixture {
                               return StartupDenied{};
                           return EnrollmentPermit{permit};
                       });
+    }
+
+    bool resolved_both(EnrollmentAction action) const {
+        return calls.size() == 2 && calls.contains({action, b, 3}) &&
+               calls.contains({action, installation_scope, 3});
     }
 
     void advance_page() {
@@ -90,8 +97,17 @@ class LaterEnrollmentTest final : public QObject {
         EnrollmentFixture fixture;
         const auto before = fixture.store().image();
         const auto exact = request();
+        fixture.allowed = false;
+        const auto denied_write = fixture.submit(exact, EnrollmentAction::enroll_source);
+        QCOMPARE(denied_write.status, IntakeStatus::denied);
+        QVERIFY(!denied_write.projection);
+        QVERIFY(fixture.store().image() == before);
+
+        fixture.allowed = true;
         const auto written = fixture.submit(exact, EnrollmentAction::enroll_source);
         QCOMPARE(written.status, IntakeStatus::committed);
+        QVERIFY(fixture.resolved_both(EnrollmentAction::enroll_source));
+        QVERIFY(written.projection);
         exact_enrollment_image(fixture, before);
         const auto enrolled = fixture.store().image();
 
@@ -99,9 +115,8 @@ class LaterEnrollmentTest final : public QObject {
         const auto replay = fixture.submit(exact, EnrollmentAction::inspect);
         QCOMPARE(replay.status, IntakeStatus::exact_replay);
         QCOMPARE(replay.readback, std::optional{StartupReadback::applied});
-        QCOMPARE(fixture.calls.size(), qsizetype(2));
-        QVERIFY(fixture.calls.contains({EnrollmentAction::inspect, b, 3}));
-        QVERIFY(fixture.calls.contains({EnrollmentAction::inspect, installation_scope, 3}));
+        QVERIFY(fixture.resolved_both(EnrollmentAction::inspect));
+        QVERIFY(replay.projection == written.projection);
         QVERIFY(fixture.store().image() == enrolled);
         fixture.allowed = false;
         const auto denied = fixture.submit(exact, EnrollmentAction::inspect);
@@ -123,10 +138,13 @@ class LaterEnrollmentTest final : public QObject {
         QVERIFY(page_first.store().image() == converged);
         QCOMPARE(enroll_first.submit(request(after_page), EnrollmentAction::enroll_source).status,
                  IntakeStatus::exact_replay);
+        QVERIFY(enroll_first.resolved_both(EnrollmentAction::enroll_source));
         QCOMPARE(page_first.submit(request(), EnrollmentAction::enroll_source).status,
                  IntakeStatus::exact_replay);
+        QVERIFY(page_first.resolved_both(EnrollmentAction::enroll_source));
         auto changed = request();
         changed.incoming.enrollment_generation = "another-generation";
+        enroll_first.history.startup.configuration.lanes.last() = changed.incoming;
         QCOMPARE(enroll_first.submit(changed, EnrollmentAction::enroll_source).status,
                  IntakeStatus::conflict);
         QVERIFY(enroll_first.store().image() == converged);

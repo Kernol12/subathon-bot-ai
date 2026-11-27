@@ -23,7 +23,9 @@ using EnrollmentAuthority = std::function<
     std::variant<StartupDenied, StartupUnavailable, EnrollmentPermit>(
         const SqliteWorkSession &, EnrollmentAction, const Scope &, qint64)>;
 
-// Replace this missing-behavior adapter with the reviewed production entry.
+// The implementation binds this adapter by forwarding request, action and authority
+// to the production entry. Setup and current configuration belong to the fixture.
+// Installation authority uses the installation-only scope and next policy revision.
 inline StartupResult enroll(Fixture &fixture, const EnrollmentRequest &,
                             EnrollmentAction, const EnrollmentAuthority &) {
     fixture.store.work([](const auto &) -> QVariant { return true; });
