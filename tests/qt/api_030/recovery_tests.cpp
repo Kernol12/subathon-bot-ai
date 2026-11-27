@@ -160,6 +160,7 @@ struct File {
 class Authority final : public intake::StartupAuthority {
   public:
     QByteArray denied_stream, overrun_stream;
+    bool exhaust_writer_statements = false;
     bool unavailable = false;
     enum class Fault { none, action = 4, scope, empty, oversized };
     Fault fault = Fault::none;
@@ -174,6 +175,9 @@ class Authority final : public intake::StartupAuthority {
                 "Recovery preserves the exact supplied authority binding");
         seen.append(request.scope.stream);
         (void)session.execute({"SELECT length(?)", {QByteArray("abc")}});
+        if (exhaust_writer_statements)
+            for (qsizetype i = 0; i < minimum.statements_per_batch; ++i)
+                (void)session.execute({"SELECT 2", {}});
         if (request.scope.stream == overrun_stream)
             (void)session.execute({"SELECT 2", {}});
         if (request.scope.stream == denied_stream) {
@@ -591,6 +595,57 @@ class Api030RecoveryTests final : public QObject {
                 require(authority.seen.isEmpty(), "Unqualified recovery never enters authority");
             } else
                 require(result.status == candidate::Status::recovered, "Exact minimum recovers");
+        });
+    }
+    void authorityWriterLimitReturnsUnavailable() {
+        fixture::check([&] {
+            File file;
+            const auto item = envelope("S", "authority-limit", 8000, "VL");
+            const auto locator = file.seed(item);
+            file.db.reopen(minimum);
+            Authority authority;
+            authority.exhaust_writer_statements = true;
+            std::optional<candidate::Recovery> result;
+            qt_test_support::run_work(
+                file.db.writer(),
+                [&](auto context) {
+                    result = candidate::recover_intake(
+                        context.begin(), authority, binding, true, allowance, item.managed.scope,
+                        item.managed.intake_ref, locator);
+                    return QVariant{1};
+                },
+                10000);
+            require(result.has_value(), "Writer exhaustion returns a typed recovery result");
+            expect_refusal(*result, candidate::Status::unavailable);
+            require(authority.seen == QList<QByteArray>{"S"},
+                    "Actual writer exhaustion stops at the first authority call");
+        });
+    }
+    void committedReplayUnderReducedWriterBudgetIsUnavailable() {
+        fixture::check([&] {
+            File file;
+            const auto item = envelope("S", "replay-limit", 8000, "VL");
+            const auto locator = file.seed(item);
+            auto reduced = minimum;
+            reduced.result_value_bytes = 256;
+            file.db.reopen(reduced);
+            std::optional<intake::ManagedResult> result;
+            const auto work = qt_test_support::run_work(
+                file.db.writer(),
+                [&](auto context) {
+                    result = candidate::admit(context.begin(), item.managed, item.detail);
+                    return QVariant{1};
+                },
+                10000);
+            require(!result && work.error == WorkError::result_limit &&
+                        work.transaction == TransactionOutcome::rolled_back,
+                    "Replay read exhaustion reports a writer limit, never a refused admission");
+            file.db.reopen(minimum);
+            Authority authority;
+            const auto recovered = read(file, item, authority, locator);
+            require(recovered.status == candidate::Status::recovered && recovered.selected,
+                    "The committed closure remains readable at a qualified profile");
+            expect_closure(*recovered.selected, item, locator);
         });
     }
     void admissionClosure_data() {
