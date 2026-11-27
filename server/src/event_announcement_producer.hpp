@@ -77,6 +77,22 @@ struct RetainedAnnouncement {
     RecoveryDisposition disposition;
 };
 
+enum class CheckedManagementOutcome { applied, stale, refused, unavailable };
+
+struct CheckedManagementTurn {
+    bool owner_admitted;
+    CommandAuthority command;
+    CommandAuthority disclosure;
+    OwnerTurn turn;
+};
+
+struct ObservedAnnouncementManagement {
+    std::string owner_reference;
+    EventAnnouncementManagement view;
+};
+
+class AnnouncementManagement;
+
 class Producer {
   public:
     explicit Producer(std::string_view lifetime);
@@ -100,6 +116,8 @@ class Producer {
     [[nodiscard]] EventAnnouncementManagement management(Disclosure disclosure) const;
 
   private:
+    friend class AnnouncementManagement;
+
     // The first successful exact admission binds version and lineage to this
     // key. A version or duration that cannot be resolved consumes no key.
     struct SubmissionLess {
@@ -122,6 +140,8 @@ class Producer {
         std::chrono::milliseconds duration;
     };
 
+    [[nodiscard]] bool cancel_waiting_head(EventAnnouncementAfterCancel);
+    [[nodiscard]] bool matches_resume(const ResumeEventAnnouncementQueue &) const;
     void refresh_authority(std::span<const StartFact> facts);
     [[nodiscard]] bool owns(ClockCut cut) const;
     [[nodiscard]] std::optional<std::chrono::milliseconds> qualified_sample(ClockCut cut) const;
@@ -134,7 +154,30 @@ class Producer {
     std::list<Waiting> waiting_;
     std::optional<Window> active_;
     std::optional<std::string> hold_;
+    std::optional<EventAnnouncementManagement> management_capture_;
     std::uint64_t reference_sequence_{0};
+};
+
+// The owner constructs this component with its admitted opaque reference.
+// Its capture is valid only for the producer's serialized observation cut.
+class AnnouncementManagement {
+  public:
+    AnnouncementManagement(Producer &producer, std::string_view owner_reference)
+        : producer_(producer), owner_reference_(owner_reference) {}
+
+    void advance_and_capture(OwnerTurn);
+    void invalidate_capture();
+    [[nodiscard]] ObservedAnnouncementManagement read(CommandAuthority) const;
+    [[nodiscard]] CheckedManagementOutcome cancel(std::string_view, CancelStuckEventAnnouncement,
+                                                  CheckedManagementTurn);
+    [[nodiscard]] CheckedManagementOutcome resume(std::string_view, ResumeEventAnnouncementQueue,
+                                                  CheckedManagementTurn);
+
+  private:
+    [[nodiscard]] std::optional<CheckedManagementOutcome> refuse(CheckedManagementTurn) const;
+
+    Producer &producer_;
+    std::string owner_reference_;
 };
 
 } // namespace subathon::server::event_announcement_owner
