@@ -301,6 +301,9 @@ class PackageNativeEvidenceTest(unittest.TestCase):
         inputs = result.release_inputs
         for artifact in (inputs["expected"], inputs["observed"]["artifact"]):
             self.assertEqual({key: artifact[key] for key in observed["output"]}, observed["output"])
+        self.assertCountEqual(
+            [member["path"] for member in inputs["observed"]["members"]], observed["members"],
+        )
         for member in inputs["observed"]["members"]:
             expected = observed["members"][member["path"]]
             self.assertEqual({key: member[key] for key in expected}, expected)
