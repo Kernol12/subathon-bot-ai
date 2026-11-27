@@ -148,9 +148,14 @@ class PackageNativeEvidenceTest(unittest.TestCase):
                     self.assertTrue(pins, name)
                     for pin in pins:
                         row = evidence[pin["evidence"]]
+                        self.assertEqual(row["kind"], "selected-identity")
                         self.assertEqual(row["subject"], "component:" + name)
                         self.assertEqual(row["scope"], selected["scope"])
                         self.assertEqual(row["revision"], selected_input["revision"])
+                        self.assertEqual(
+                            {key: row["facts"][key] for key in ("bytes", "sha256")},
+                            selected_input["material"],
+                        )
 
                 for path, expected in observed["members"].items():
                     self.assertEqual(
@@ -160,7 +165,14 @@ class PackageNativeEvidenceTest(unittest.TestCase):
                     expected_owners = {"project", "parser"} if path.startswith("bin/") else {"qt"}
                     self.assertEqual(set(indexes["members"][path]["components"]), expected_owners)
                     pin = indexes["selected_pins"]["member:" + path, "acquisition"]
-                    self.assertEqual(evidence[pin["evidence"]]["kind"], "acquisition")
+                    acquisition = evidence[pin["evidence"]]
+                    self.assertEqual(acquisition["kind"], "acquisition")
+                    self.assertEqual(acquisition["subject"], "member:" + path)
+                    self.assertEqual(acquisition["scope"], selected["scope"])
+                    self.assertEqual(
+                        {key: acquisition["facts"][key] for key in ("bytes", "sha256")},
+                        expected,
+                    )
                 notice = indexes["members"]["notices/Qt.txt"]
                 self.assertEqual(notice["kind"], "notice")
                 self.assertIn("qt", notice["components"])
