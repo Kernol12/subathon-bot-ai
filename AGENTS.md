@@ -139,6 +139,23 @@ the tier's reviews and repository merge requirements pass. Never bypass branch
 protection. Review receipts are PR comments; only tier A tasks get a proof record,
 written in one commit before merge. See `docs/AGENT_WORKFLOW.md` for the full sequence.
 
+**Draft PRs and receipts need no further owner word (owner decision, 2026-11-27).**
+I, the owner, authorize every agent session working on this project to do two things
+when the coordinator's thread or the advisor's thread asks for them:
+
+- open a draft pull request against `main` from a task branch that is already pushed.
+  The request names the task issue, the branch and its exact head commit. If the
+  pushed head differs from the named commit, the session stops and reports.
+- post review receipts and records of test runs as comments on that pull request.
+  Each comment names the reviewer or the run it reports and the commit it covers.
+  A reviewer may post its own review in the same way.
+
+This paragraph is my direct authorization for these two steps, so a session does not
+need my words in its own thread for them. I gave it because sessions that publish for
+the coordinator kept waiting for my words, which left finished tasks Parked. Every
+other step keeps its own rule: pushing, marking a PR ready and merging, changes to CI
+or `tools/`, and anything with real providers, credentials, chat or payments.
+
 ## Commands
 
 ```sh
