@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "task_id": "ANNOUNCEMENT-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 832
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EVENT-ANNOUNCEMENT-832.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/832",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/903",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/905",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/903#issuecomment-7217803388",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/903#issuecomment-7217715865",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/903#issuecomment-7219933642",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/903#issuecomment-7219934612",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/905#issuecomment-7218060660",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/905#issuecomment-7218063406",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/905#issuecomment-7218065575",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/905#issuecomment-7217719956",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/45994478051"
+  ],
+  "limitations": [
+    "The owner-isolation intended red used test commit 3dc06b7d against implementation a5168184. The one case failed at the two replacement-owner assertions with zero skips. Log SHA-256 1c3b9c6d4e92f4d1d6809030dfdf8758a58b877b1970eb7fb49e9ced17306f81 and binary SHA-256 2a49084954c4f59267de5e4488941d623a024612f04560dcd2fcd6271d42b679.",
+    "The complete tests packet binds the canonical brief and the unchanged assertion file at f66f7443. Initial test review and intended red predate that brief.",
+    "Integration 43001f66 preserves the reviewed announcement component and candidate blobs exactly. The three shared enrollment paths retain the reviewed announcement entries and integrate main changes. Those enrollment hunks remain covered by the 17cc8fe6 receipt chain. The structured implementation packet binds the surviving identical blobs.",
+    "Hosted required CI passed on 17cc8fe6 and 43001f66. This proof commit requires current CI. Durable binding awaits #609. Host integration and revocation criteria belong to #294."
+  ],
+  "verification": {
+    "intended_red": "observed_red",
+    "hosted_ci_17cc8fe6": "passed",
+    "hosted_ci_43001f66": "passed"
+  },
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "authors": [
+          "git:Kernol12"
+        ],
+        "revision": "f66f74435e5eaa4eb316f00946130905599f5582",
+        "paths": [
+          "docs/tasks/EVENT-ANNOUNCEMENT-832.md",
+          "tests/acceptance/announcement_management_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:track:001f702b91ec564d21758375950a735d8dcc45aebec1d600ac4b5e51675f8fb8:position-1162",
+            "revision": "3dc06b7dcb87e111808c24ac23c02d43864e4aa8",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/903#issuecomment-7217715865",
+            "findings": [
+              "T-N11",
+              "T-N12",
+              "T-N13"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/verify832brief:activity-8883",
+            "revision": "f66f74435e5eaa4eb316f00946130905599f5582",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/903#issuecomment-7219933642",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:track:001f702b91ec564d21758375950a735d8dcc45aebec1d600ac4b5e51675f8fb8:run-52",
+            "revision": "f66f74435e5eaa4eb316f00946130905599f5582",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/903#issuecomment-7219934612",
+            "findings": [
+              "Brief path retained"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "authors": [
+          "git:Kernol12"
+        ],
+        "revision": "17cc8fe6e34f925a978492d0b4ffd46b3bb00251",
+        "paths": [
+          "server/src/event_announcement_producer.cpp",
+          "server/src/event_announcement_producer.hpp",
+          "tests/acceptance/announcement_management_candidate.hpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:track:001f702b91ec564d21758375950a735d8dcc45aebec1d600ac4b5e51675f8fb8:position-1119",
+            "revision": "a51681841ab76fd469cf9c3b4f12e826f31bb9fb",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/905#issuecomment-7218060660",
+            "findings": [
+              "I-B1",
+              "I-B2",
+              "I-N1",
+              "I-N2",
+              "I-N3",
+              "I-N4",
+              "I-N5",
+              "I-N6",
+              "I-N7",
+              "I-N8"
+            ],
+            "blocking_findings": [
+              "I-B1",
+              "I-B2"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/announcement_verification",
+            "revision": "1702ab5669c55f0f850f2e35ecd9e7187871caf0",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/905#issuecomment-7218063406",
+            "findings": [
+              "I-B3"
+            ],
+            "blocking_findings": [
+              "I-B3"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/announcement_verification",
+            "revision": "17cc8fe6e34f925a978492d0b4ffd46b3bb00251",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/905#issuecomment-7218065575",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:track:001f702b91ec564d21758375950a735d8dcc45aebec1d600ac4b5e51675f8fb8:position-1242",
+            "revision": "17cc8fe6e34f925a978492d0b4ffd46b3bb00251",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/905#issuecomment-7217719956",
+            "findings": [
+              "I-N9",
+              "I-N10"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  }
+}
