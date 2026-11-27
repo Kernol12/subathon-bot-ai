@@ -187,6 +187,12 @@ TEST(SessionTransportS1, GuardAndCredentialForms) {
     Case quote;
     quote.source.fields = {{"Cookie", quoted}, marker};
     quote.refuse(Failure::authentication_required);
+    Case control;
+    control.source.fields = {{"Cookie", cookie}, {"X-Subathon-CSRF", "1\x01"}, {"Origin", "null"}};
+    control.refuse(Failure::invalid_syntax);
+    Case bad_name;
+    bad_name.source.fields = {{"Authorization", bearer}, {"bad name", "x"}};
+    bad_name.refuse(Failure::invalid_syntax);
     Case desktop;
     desktop.source.fields = {{"authorization", mixed}};
     desktop.success(Kind::desktop_bearer);
@@ -229,6 +235,9 @@ TEST(SessionTransportS1, SyntacticCookiePairsAndLimits) {
     Case excess;
     excess.source.fields = {{"Cookie", extra}, marker};
     excess.refuse(Failure::resource_limit);
+    Case across_fields;
+    across_fields.source.fields = {{"Cookie", pairs}, {"Cookie", "unrelated=1"}, marker};
+    across_fields.refuse(Failure::resource_limit);
     const std::string malformed_first = "a=1;;" + extra;
     Case syntax_first;
     syntax_first.source.fields = {{"Cookie", malformed_first}, marker};
@@ -401,6 +410,9 @@ TEST(SessionTransportS1, CredentialAndProjectionOrder) {
     Case basic;
     basic.source.fields = {{"Cookie", cookie}, marker, {"Authorization", "Basic example"}};
     basic.refuse(Failure::authentication_required);
+    Case bearer_and_cookie;
+    bearer_and_cookie.source.fields = {{"Cookie", cookie}, marker, {"Authorization", bearer}};
+    bearer_and_cookie.refuse(Failure::authentication_required);
     Case source_limit;
     source_limit.source.policy = "g1";
     source_limit.source.fields = {{"Cookie", "a=1;;b=2"}};
